@@ -2,9 +2,9 @@
 Github Client For Android, support for the login, personal information , repository information. Hope other developer join this project if you are interested. thinks.
  
 
-[main](introduce/main.png)[nav](introduce/nav.png)  
+[!main](introduce/main.png)[!nav](introduce/nav.png)  
 
-[repository](introduce/repository.png)[user](introduce/user.png) 
+[!repository](introduce/repository.png)[!user](introduce/user.png) 
 
 ###Thinks
 [CodeHub](https://github.com/thedillonb/CodeHub)  
