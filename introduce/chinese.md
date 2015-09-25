@@ -1,9 +1,9 @@
 # CodeHub  
 这是一个Github Android平台第三方客户端，暂时支持登录、个人信息浏览，仓库信息浏览等部分功能。希望有兴趣的同鞋加入这个项目，如果你有兴趣可以联系我。  
 
-![main](main.png)![nav](nav.png)  
+![main](main.png)  ![nav](nav.png)  
 
-![repository](repository.png)![user](user.png) 
+![repository](repository.png)  ![user](user.png) 
 
 ###感谢  
 [CodeHub](https://github.com/thedillonb/CodeHub)  
