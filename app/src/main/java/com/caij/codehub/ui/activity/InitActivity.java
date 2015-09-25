@@ -12,12 +12,15 @@ import com.caij.lib.utils.SPUtils;
 
 public class InitActivity extends BaseActivity {
 
+    private Handler mHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
         setFullScreen();
-        new Handler().postDelayed(new Runnable() {
+        mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent;
@@ -30,5 +33,11 @@ public class InitActivity extends BaseActivity {
                 finish();
             }
         }, 3000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mHandler.removeCallbacksAndMessages(null);
     }
 }
