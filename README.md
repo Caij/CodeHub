@@ -11,7 +11,7 @@ Github Client For Android, support for the login, personal information , reposit
 [WeGit](https://github.com/Leaking/WeGit)  
 
 ###Libs 
-[butterknife](https://github.com/JakeWharton/butterknife  
+[butterknife](https://github.com/JakeWharton/butterknife) 
 
 [glide](https://github.com/bumptech/glide)  
 
