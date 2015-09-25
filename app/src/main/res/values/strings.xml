@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">CodeHub</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="action_login">Login</string>
+
+    <string name="server_error_hint">server error, please try again later</string>
+    <string name="data_load_error_hint">request error, please try again later</string>
+    <string name="network_error_hint">request error, please check the network</string>
+    <string name="account_error_hint">account authentication failed, please log in again</string>
+
+
+    <string name="icon_star" translatable="false">\uf02a</string>
+    <string name="icon_email" translatable="false">\uf03b</string>
+    <string name="icon_locate" translatable="false">\uf060</string>
+    <string name="icon_company" translatable="false">\uf037</string>
+    <string name="icon_blog" translatable="false">\uf05c</string>
+    <string name="icon_join" translatable="false">\uf046</string>
+    <string name="icon_repo" translatable="false">\uf001</string>
+    <string name="icon_push" translatable="false">\uf01f</string>
+    <string name="icon_pullRequest" translatable="false">\uf009</string>
+    <string name="icon_commit" translatable="false">\uf07e</string>
+    <string name="icon_fork" translatable="false">\uf002</string>
+    <string name="icon_branch" translatable="false">\uf020</string>
+    <string name="icon_organization" translatable="false">\uf037</string>
+    <string name="icon_code" translatable="false">\uf05f</string>
+    <string name="icon_issue" translatable="false">\uf026</string>
+    <string name="icon_tag" translatable="false">\uf015</string>
+    <string name="icon_language" translatable="false">\uf0b6</string>
+    <string name="icon_add" translatable="false">\uf06b</string>
+    <string name="icon_owner" translatable="false">\uf017</string>
+    <string name="icon_chevron_right" translatable="false">\uf078</string>
+    <string name="icon_readme" translatable="false">\uf011</string>
+    <string name="icon_website" translatable="false">\uf007</string>
+    <string name="refresh">Refresh</string>
+    <string name="data_load_error">error</string>
+
+</resources>

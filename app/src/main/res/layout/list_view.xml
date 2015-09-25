@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.caij.codehub.widgets.LoadMoreListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/root_view_bg"
+        android:footerDividersEnabled="false"
+        android:listSelector="#00000000"
+        android:paddingTop="@dimen/small_small_margin">
+
+    </com.caij.codehub.widgets.LoadMoreListView>
+</android.support.v4.widget.SwipeRefreshLayout>
+

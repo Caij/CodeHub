@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/small_small_margin"
+    android:layout_marginBottom="@dimen/small_small_margin"
+    android:layout_marginLeft="@dimen/small_margin"
+    android:layout_marginRight="@dimen/small_margin"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/standard_margin">
+
+        <TextView
+            android:id="@+id/tv_repository_icon"
+            style="@style/TvRepositoryIcon"
+            android:textSize="@dimen/repository_icon_size"
+            android:layout_centerVertical="true"/>
+
+        <LinearLayout
+            android:layout_toRightOf="@id/tv_repository_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/standard_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_repository_name"
+                style="@style/TvRepositoryName"/>
+
+            <TextView
+                android:id="@+id/tv_repository_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_small_margin"
+                android:maxLines="2"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/small_margin">
+
+                <TextView
+                    android:id="@+id/tv_star_icon"
+                    style="@style/TvRepositoryIcon"
+                    android:textSize="@dimen/big_body_text_size"
+                    android:text="@string/icon_star"/>
+
+                <TextView
+                    android:id="@+id/tv_star_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"/>
+
+
+                <TextView
+                    android:id="@+id/tv_fork_icon"
+                    style="@style/TvRepositoryIcon"
+                    android:textSize="@dimen/body_text_size"
+                    android:text="@string/icon_fork"
+                    android:layout_marginLeft="@dimen/standard_margin"/>
+
+                <TextView
+                    android:id="@+id/tv_fork_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_small_margin"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+</RelativeLayout>

@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/root_view_bg"
+    android:padding="@dimen/small_small_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_small_margin">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="@dimen/standard_margin">
+
+                <TextView
+                    android:id="@+id/tv_repository_icon"
+                    style="@style/TvRepositoryIcon"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/repository_icon_size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_repository_icon"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_repository_name"
+                        style="@style/TvRepositoryName"
+                        android:text="Caij" />
+
+                    <TextView
+                        android:id="@+id/tv_repository_update_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/small_small_margin"
+                        android:text="Update 17 hour ago" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_small_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/standard_margin">
+
+                <TextView
+                    android:id="@+id/tv_repository_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/standard_margin"
+                    android:maxLines="2"
+                    android:textSize="@dimen/body_text_size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/root_view_bg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/small_margin"
+                    android:paddingTop="@dimen/small_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_repository_language_icon"
+                            style="@style/TvRepositoryIcon"
+                            android:text="@string/icon_language"
+                            android:textSize="@dimen/caption_text_size" />
+
+                        <TextView
+                            android:id="@+id/tv_repository_language"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/small_margin" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_repository_create_time_icon"
+                            style="@style/TvRepositoryIcon"
+                            android:singleLine="true"
+                            android:text="@string/icon_add"
+                            android:textSize="@dimen/caption_text_size" />
+
+                        <TextView
+                            android:id="@+id/tv_repository_create_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/small_margin" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/root_view_bg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/small_margin"
+                    android:paddingTop="@dimen/small_margin">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_repository_star_icon"
+                            style="@style/TvRepositoryIcon"
+                            android:text="@string/icon_star"
+                            android:textSize="@dimen/caption_text_size" />
+
+                        <TextView
+                            android:id="@+id/tv_repository_star"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/small_margin" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_repository_create_fork_icon"
+                            style="@style/TvRepositoryIcon"
+                            android:text="@string/icon_fork"
+                            android:textSize="@dimen/caption_text_size" />
+
+                        <TextView
+                            android:id="@+id/tv_repository_fork"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/small_margin" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/root_view_bg" />
+
+                <LinearLayout
+                    android:id="@+id/ll_create"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/standard_margin"
+                    android:paddingTop="@dimen/standard_margin">
+
+                    <TextView
+                        android:id="@+id/tv_repository_owner_icon"
+                        style="@style/TvRepositoryIcon"
+                        android:text="@string/icon_owner"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:text="Owner"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <TextView
+                        android:id="@+id/tv_repository_create"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Caij"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <TextView
+                        android:id="@+id/tv_repository_next_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:singleLine="true"
+                        android:text="@string/icon_chevron_right"
+                        android:textSize="@dimen/big_body_text_size" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/root_view_bg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/standard_margin"
+                    android:paddingTop="@dimen/standard_margin">
+
+                    <TextView
+                        android:id="@+id/tv_repository_issues_icon"
+                        style="@style/TvRepositoryIcon"
+                        android:text="@string/icon_issue"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:layout_weight="1"
+                        android:text="Issues"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/body_text_size" />
+
+
+                    <TextView
+                        android:id="@+id/tv_repository_next2_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:singleLine="true"
+                        android:text="@string/icon_chevron_right"
+                        android:textSize="@dimen/big_body_text_size" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_small_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/standard_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/standard_margin"
+                    android:paddingTop="@dimen/standard_margin">
+
+                    <TextView
+                        android:id="@+id/tv_repository_readme_icon"
+                        style="@style/TvRepositoryIcon"
+                        android:text="@string/icon_readme"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:layout_weight="1"
+                        android:text="Readme"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/body_text_size" />
+
+
+                    <TextView
+                        android:id="@+id/tv_repository_next3_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:singleLine="true"
+                        android:text="@string/icon_chevron_right"
+                        android:textSize="@dimen/big_body_text_size" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/root_view_bg" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/standard_margin"
+                    android:paddingTop="@dimen/standard_margin">
+
+                    <TextView
+                        android:id="@+id/tv_repository_website_icon"
+                        style="@style/TvRepositoryIcon"
+                        android:text="@string/icon_website"
+                        android:textSize="@dimen/body_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:layout_weight="1"
+                        android:text="Website"
+                        android:textColor="@color/color_black"
+                        android:textSize="@dimen/body_text_size" />
+
+
+                    <TextView
+                        android:id="@+id/tv_repository_next4_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/standard_margin"
+                        android:singleLine="true"
+                        android:text="@string/icon_chevron_right"
+                        android:textSize="@dimen/big_body_text_size" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

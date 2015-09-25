@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme">
+        <!-- Customize your theme here. -->
+    </style>
+
+
+    <style name="Base.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/theme_color</item>
+        <item name="colorPrimaryDark">@color/color_black</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <!--<item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>-->
+        <!--<item name="android:windowBackground">@color/window_background</item>-->
+    </style>
+
+    <style name="MenuItemText">
+        <item name="android:textSize">@dimen/big_body_text_size</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">@dimen/standard_margin</item>
+        <item name="android:drawablePadding">@dimen/standard_margin</item>
+        <item name="android:textColor">@color/theme_color</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TvRepositoryIcon">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+    </style>
+
+    <style name="TvRepositoryName">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textSize">@dimen/big_body_text_size</item>
+    </style>
+
+</resources>

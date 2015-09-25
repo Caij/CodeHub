@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="theme_color">#333</color>
+    <color name="color_black">#000000</color>
+    <color name="color_accent">#2196f3</color>
+
+    <color name="white">#ffffff</color>
+    <color name="gray_white">#eeeeee</color>
+
+    <color name="root_view_bg">#EBEBEB</color>
+
+
+    <color name="gplus_color_1">#3e802f</color>
+    <color name="gplus_color_2">#f4b400</color>
+    <color name="gplus_color_3">#427fed</color>
+    <color name="gplus_color_4">#b23424</color>
+</resources>
