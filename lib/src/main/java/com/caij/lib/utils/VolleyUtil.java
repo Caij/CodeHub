@@ -18,7 +18,7 @@ public class VolleyUtil {
         if (mQueue == null) {
             synchronized (VolleyUtil.class) {
                 if (mQueue == null) {
-                    mQueue = Volley.newRequestQueue(context, diskCacheSize);
+                    mQueue = Volley.newRequestQueue(context, stack, diskCacheSize);
                 }
             }
         }
