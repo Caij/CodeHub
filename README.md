@@ -6,7 +6,7 @@ Github Client For Android, support for the login, personal information , reposit
 
 ![repository](introduce/repository.png)   ![user](introduce/user.png) 
 
-###Thinks
+###Thanks
 [CodeHub](https://github.com/thedillonb/CodeHub)  
 [WeGit](https://github.com/Leaking/WeGit)  
 

@@ -20,13 +20,18 @@ public class InitActivity extends BaseActivity {
         setContentView(R.layout.activity_init);
         setFullScreen();
         mHandler = new Handler();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent;
                 if (TextUtils.isEmpty(SPUtils.get(Constant.USER_TOKEN, ""))) {
                     intent = new Intent(InitActivity.this, LoginActivity.class);
-                }else {
+                } else {
                     intent = new Intent(InitActivity.this, MainActivity.class);
                 }
                 startActivity(intent);
