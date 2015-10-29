@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -137,5 +138,14 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
     public void onRepositoryClick() {
         Intent intent = UserRepositoriesActivity.newIntent(this, mUser.getLogin());
         startActivity(intent);
+    }
+
+    @OnClick(R.id.ll_blog)
+    public void onBlogClick() {
+        String blogUrl = mUser.getBlog();
+        if (!TextUtils.isEmpty(blogUrl)) {
+            Intent intent = WebActivity.newInstance(this, blogUrl);
+            startActivity(intent);
+        }
     }
 }

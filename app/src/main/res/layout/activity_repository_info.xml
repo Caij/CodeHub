@@ -21,7 +21,7 @@
                 android:background="@color/white"
                 android:padding="@dimen/standard_margin">
 
-                <TextView
+                <com.caij.codehub.widgets.GithubTypeFaceTextView
                     android:id="@+id/tv_repository_icon"
                     style="@style/TvRepositoryIcon"
                     android:layout_alignParentRight="true"

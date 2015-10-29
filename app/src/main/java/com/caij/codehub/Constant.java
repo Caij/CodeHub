@@ -18,4 +18,5 @@ public interface Constant {
     public static final String REPO_SORT= "repo_sort";
 
     public static final String ORDER = "order";
+    String URL = "url";
 }

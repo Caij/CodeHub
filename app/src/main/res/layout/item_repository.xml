@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:padding="@dimen/standard_margin">
 
-        <TextView
+        <com.caij.codehub.widgets.GithubTypeFaceTextView
             android:id="@+id/tv_repository_icon"
             style="@style/TvRepositoryIcon"
             android:textSize="@dimen/repository_icon_size"
@@ -32,7 +32,7 @@
             android:layout_marginLeft="@dimen/standard_margin"
             android:orientation="vertical">
 
-            <TextView
+            <com.caij.codehub.widgets.GithubTypeFaceTextView
                 android:id="@+id/tv_repository_name"
                 style="@style/TvRepositoryName"/>
 

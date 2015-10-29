@@ -120,6 +120,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity<RepositoryInfoPr
             tvRepositoryIcon.setText(getString(R.string.icon_repo));
         }
         tvRepositoryLanguage.setText(repository.getLanguage());
+        //this is bad
         tvRepositoryCreateTime.setText(repository.getCreated_at().substring(0, 10));
         tvRepositoryUpdateTime.setText("Update " + repository.getUpdated_at().substring(0, 10));
         tvRepositoryCreate.setText(repository.getOwner().getLogin());
