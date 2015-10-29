@@ -38,8 +38,6 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
         return intent;
     }
 
-    public static final Typeface GITHUB_TYPE_FACE = TextTypeFaceUtils.getGithubTypeFace();
-
     @Bind(R.id.img_user_avatar)
     ImageView imgUserAvatar;
     @Bind(R.id.tv_user_followers)
@@ -79,7 +77,6 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         content.setVisibility(View.GONE);
-        initTextViewTypeFace();
         mToken = SPUtils.get(Constant.USER_TOKEN, "");
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
         getSupportActionBar().setTitle(mUsername);
@@ -101,14 +98,6 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
         tvUserName.setText(user.getLogin());
         tvUserNickname.setText(user.getName());
         tvUserRepository.setText(String.valueOf(user.getPublic_repos()));
-    }
-
-    private void initTextViewTypeFace() {
-        tvRepositoryLocationIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryEmailIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryBlogIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryCompanyIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryJoinIcon.setTypeface(GITHUB_TYPE_FACE);
     }
 
     @Override

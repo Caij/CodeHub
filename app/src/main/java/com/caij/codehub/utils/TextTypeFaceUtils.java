@@ -10,11 +10,10 @@ public class TextTypeFaceUtils {
 
     private static Typeface mTypeface;
 
-    public static void initGithubTextTypeFace(Context context){
-        mTypeface = Typeface.createFromAsset(context.getAssets(), "octicons.ttf");
-    }
-
-    public static Typeface getGithubTypeFace() {
+    public static Typeface getGithubTypeFace(Context context) {
+        if (mTypeface == null) {
+            mTypeface = Typeface.createFromAsset(context.getAssets(), "octicons.ttf");
+        }
         return mTypeface;
     }
 }

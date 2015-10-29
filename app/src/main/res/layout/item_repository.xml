@@ -50,7 +50,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginTop="@dimen/small_margin">
 
-                <TextView
+                <com.caij.codehub.widgets.GithubTypeFaceTextView
                     android:id="@+id/tv_star_icon"
                     style="@style/TvRepositoryIcon"
                     android:textSize="@dimen/big_body_text_size"
@@ -63,7 +63,7 @@
                     android:layout_marginLeft="4dp"/>
 
 
-                <TextView
+                <com.caij.codehub.widgets.GithubTypeFaceTextView
                     android:id="@+id/tv_fork_icon"
                     style="@style/TvRepositoryIcon"
                     android:textSize="@dimen/body_text_size"

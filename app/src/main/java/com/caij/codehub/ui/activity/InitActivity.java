@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.presenter.BasePresent;
@@ -18,6 +20,8 @@ public class InitActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
+        ImageView imageView = (ImageView) findViewById(R.id.imageview);
+        Glide.with(this).load(R.drawable.splash).centerCrop().into(imageView);
         setFullScreen();
         mHandler = new Handler();
     }

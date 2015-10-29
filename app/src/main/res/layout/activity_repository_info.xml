@@ -91,7 +91,7 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.caij.codehub.widgets.GithubTypeFaceTextView
                             android:id="@+id/tv_repository_language_icon"
                             style="@style/TvRepositoryIcon"
                             android:text="@string/icon_language"
@@ -111,7 +111,7 @@
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.caij.codehub.widgets.GithubTypeFaceTextView
                             android:id="@+id/tv_repository_create_time_icon"
                             style="@style/TvRepositoryIcon"
                             android:singleLine="true"
@@ -147,7 +147,7 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.caij.codehub.widgets.GithubTypeFaceTextView
                             android:id="@+id/tv_repository_star_icon"
                             style="@style/TvRepositoryIcon"
                             android:text="@string/icon_star"
@@ -168,7 +168,7 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <com.caij.codehub.widgets.GithubTypeFaceTextView
                             android:id="@+id/tv_repository_create_fork_icon"
                             style="@style/TvRepositoryIcon"
                             android:text="@string/icon_fork"
@@ -197,7 +197,7 @@
                     android:paddingBottom="@dimen/standard_margin"
                     android:paddingTop="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_owner_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_owner"
@@ -220,7 +220,7 @@
                         android:text="Caij"
                         android:textSize="@dimen/body_text_size" />
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_next_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                     android:paddingBottom="@dimen/standard_margin"
                     android:paddingTop="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_issues_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_issue"
@@ -259,7 +259,7 @@
                         android:textSize="@dimen/body_text_size" />
 
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_next2_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                     android:paddingBottom="@dimen/standard_margin"
                     android:paddingTop="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_readme_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_readme"
@@ -308,7 +308,7 @@
                         android:textSize="@dimen/body_text_size" />
 
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_next3_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -331,7 +331,7 @@
                     android:paddingBottom="@dimen/standard_margin"
                     android:paddingTop="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_website_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_website"
@@ -347,7 +347,7 @@
                         android:textSize="@dimen/body_text_size" />
 
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_next4_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

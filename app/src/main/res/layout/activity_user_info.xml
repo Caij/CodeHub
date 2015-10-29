@@ -151,7 +151,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_location_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_locate"
@@ -181,7 +181,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_email_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_email"
@@ -211,7 +211,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_blog_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_blog"
@@ -242,7 +242,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_company_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_company"
@@ -272,7 +272,7 @@
                     android:gravity="center_vertical"
                     android:padding="@dimen/standard_margin">
 
-                    <TextView
+                    <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_join_icon"
                         style="@style/TvRepositoryIcon"
                         android:text="@string/icon_join"

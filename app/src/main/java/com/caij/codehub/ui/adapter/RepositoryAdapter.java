@@ -49,7 +49,7 @@ public class RepositoryAdapter extends BaseAdapter<Repository>{
         RepositoryViewHolder holder;
         if (view == null) {
             view = mInflater.inflate(R.layout.item_repository, viewGroup, false);
-            holder = new RepositoryViewHolder(view, TextTypeFaceUtils.getGithubTypeFace());
+            holder = new RepositoryViewHolder(view);
             view.setTag(holder);
         }
 

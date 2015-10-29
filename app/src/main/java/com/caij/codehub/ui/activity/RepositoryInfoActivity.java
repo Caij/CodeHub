@@ -25,7 +25,6 @@ import butterknife.OnClick;
  */
 public class RepositoryInfoActivity extends BaseCodeHubActivity<RepositoryInfoPresenter> implements RepositoryInfoUi {
 
-    public static final Typeface GITHUB_TYPE_FACE = TextTypeFaceUtils.getGithubTypeFace();
     private String owner;
     private String repo;
 
@@ -87,7 +86,6 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity<RepositoryInfoPr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         content.setVisibility(View.GONE);
-        initTextViewTypeFace();
 
         Intent intent = getIntent();
         owner = intent.getStringExtra(Constant.USER_NAME);
@@ -96,22 +94,6 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity<RepositoryInfoPr
         setToolbarTitle(repo);
 
         mPresenter.getRepositoryInfo(repo, owner, SPUtils.get(Constant.USER_TOKEN, ""));
-    }
-
-    private void initTextViewTypeFace() {
-        tvRepositoryIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryLanguageIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryStarIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryCreateForkIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryCreateTimeIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryOwnerIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryNextIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryIssuesIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryNext2Icon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryReadmeIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryNext4Icon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryWebsiteIcon.setTypeface(GITHUB_TYPE_FACE);
-        tvRepositoryNext3Icon.setTypeface(GITHUB_TYPE_FACE);
     }
 
     @Override

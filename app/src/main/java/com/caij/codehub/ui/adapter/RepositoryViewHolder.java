@@ -31,10 +31,7 @@ public class RepositoryViewHolder {
     TextView tvRepositoryDesc;
 
 
-    public RepositoryViewHolder(View itemView, Typeface typeface) {
+    public RepositoryViewHolder(View itemView) {
         ButterKnife.bind(this, itemView);
-        tvForkIcon.setTypeface(typeface);
-        tvRepositoryIcon.setTypeface(typeface);
-        tvStarIcon.setTypeface(typeface);
     }
 }

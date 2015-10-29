@@ -21,15 +21,12 @@ public class CodeHubApplication extends Application{
 
     private static final int VOLLEY_DISK_MAX_SIZE = 1024 * 1024 * 5;
 
-    private static final long PICASSO_DISK_MAX_SIZE = 1024 * 1024 * 20;
-
     @Override
     public void onCreate() {
         super.onCreate();
         DaggerUtils.initPresenterComponent(DaggerPresenterComponent.builder().presenterModel(new PresenterModel()).build());
         VolleyUtil.init(this, new OkHttpStack(), VOLLEY_DISK_MAX_SIZE);
         SPUtils.init(this, SP_FILE_NAME);
-        TextTypeFaceUtils.initGithubTextTypeFace(this);
     }
 
 }
