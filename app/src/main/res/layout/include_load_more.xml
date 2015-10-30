@@ -2,9 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/standard_margin"
-    android:paddingBottom="@dimen/standard_margin"
-    android:clickable="true">
+    >
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/standard_margin"
+        android:paddingBottom="@dimen/standard_margin"
+        android:clickable="true">
 
     <ProgressBar
         android:id="@+id/pb_loading"
@@ -17,7 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="there are no more"
+        android:text="no more"
         android:textSize="@dimen/big_body_text_size"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

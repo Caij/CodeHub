@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.presenter.BasePresent;
 import com.caij.codehub.ui.adapter.BaseAdapter;
@@ -54,7 +55,13 @@ public abstract class ListFragment<P extends BasePresent, AP extends BaseAdapter
     }
 
     @Override
-    public void onLoadMore() {
-
+    public void showError(int type, VolleyError error) {
+        super.showError(type, error);
+        if (type == BasePresent.LoadType.LOADMOER) {
+            mListView.onLoadMoreComplete();
+        }else if (type == BasePresent.LoadType.REFRESH) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
+
 }

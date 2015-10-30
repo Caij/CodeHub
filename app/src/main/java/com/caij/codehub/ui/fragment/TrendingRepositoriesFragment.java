@@ -40,4 +40,9 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment{
         super.onReFreshBtnClick(view);
         mPresenter.getTrendingRepository(BasePresent.LoadType.REFRESH, null, null);
     }
+
+    @Override
+    public void onLoadMore() {
+
+    }
 }

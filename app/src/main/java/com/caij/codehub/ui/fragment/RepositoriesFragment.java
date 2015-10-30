@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.dagger.DaggerUtils;
@@ -65,6 +66,7 @@ public abstract class RepositoriesFragment extends ListFragment<RepositoryListPr
         startActivity(intent);
     }
 
+
     @Override
     public void onLoadMoreRepositoriesSuccess(List<Repository> repositories) {
 
@@ -86,4 +88,5 @@ public abstract class RepositoriesFragment extends ListFragment<RepositoryListPr
         super.onReFreshBtnClick(view);
         mPage.reset();
     }
+
 }

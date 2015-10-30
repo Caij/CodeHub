@@ -12,8 +12,10 @@
         android:background="@color/root_view_bg"
         android:footerDividersEnabled="false"
         android:listSelector="#00000000"
+        android:paddingBottom="@dimen/small_small_margin"
         android:paddingTop="@dimen/small_small_margin">
 
     </com.caij.codehub.widgets.LoadMoreListView>
+
 </android.support.v4.widget.SwipeRefreshLayout>
 

@@ -25,6 +25,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     private boolean mIsCanLoadMore = true;
     private boolean mIsLoadingMore;
     private boolean mIsNoMore;
+    private View mFooterViewContent;
 
     public LoadMoreListView(Context context) {
         super(context);
@@ -48,6 +49,7 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
         mFooterView =  mInflater.inflate(R.layout.include_load_more, this, false);
         mhintLoadMore =  mFooterView.findViewById(R.id.tv_hint);
         mProgressBarLoadMore = mFooterView.findViewById(R.id.pb_loading);
+        mFooterViewContent = mFooterView.findViewById(R.id.content);
 
         addFooterView(mFooterView);
 
@@ -65,11 +67,12 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
 
         if(mIsCanLoadMore) {
             if (visibleItemCount == totalItemCount) {
-                mProgressBarLoadMore.setVisibility(View.GONE);
-                mhintLoadMore.setVisibility(View.GONE);
+                //这里避免数据item未超过1屏幕，如果显示加载很多  丑
+                mFooterViewContent.setVisibility(GONE);
                 return;
             }
 
+            mFooterViewContent.setVisibility(VISIBLE);
             boolean loadMore = firstVisibleItem + visibleItemCount >= totalItemCount;
 
             if (!mIsLoadingMore && loadMore && !mIsNoMore
@@ -114,11 +117,9 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
     public void setCanLoadMore(boolean canLoadMore) {
         mIsCanLoadMore = canLoadMore;
         if (!mIsCanLoadMore) {
-            mProgressBarLoadMore.setVisibility(View.GONE);
-            mhintLoadMore.setVisibility(View.GONE);
+            mFooterViewContent.setVisibility(GONE);
         } else {
-            mhintLoadMore.setVisibility(View.GONE);
-            mProgressBarLoadMore.setVisibility(VISIBLE);
+            mFooterViewContent.setVisibility(VISIBLE);
         }
     }
 

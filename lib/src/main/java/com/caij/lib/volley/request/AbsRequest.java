@@ -1,6 +1,7 @@
 package com.caij.lib.volley.request;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -65,12 +66,13 @@ public abstract class AbsRequest<T> extends Request<T>{
 
     @Override
     public String getUrl() {
+        Log.d(TAG, super.getUrl() + parameters2String(mParams, getParamsEncoding()));
         if (getMethod() == Method.GET && mParams != null && mParams.size() > 0) {
             String url = super.getUrl() + "?" + parameters2String(mParams, getParamsEncoding());
-            LogUtil.d(TAG, url);
             return url;
+        }else {
+            return super.getUrl();
         }
-        return super.getUrl();
     }
 
     @Override
@@ -111,7 +113,6 @@ public abstract class AbsRequest<T> extends Request<T>{
         }
     }
 
-
     private byte[] encodeStringParameters(String jsonString, String paramsEncoding) {
         try {
             return jsonString.getBytes(paramsEncoding);
@@ -123,11 +124,13 @@ public abstract class AbsRequest<T> extends Request<T>{
     protected String parameters2String(Map<String, String> params, String paramsEncoding) {
         StringBuilder encodedParams = new StringBuilder();
         try {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                encodedParams.append(URLEncoder.encode(entry.getKey(), paramsEncoding));
-                encodedParams.append('=');
-                encodedParams.append(URLEncoder.encode(entry.getValue(), paramsEncoding));
-                encodedParams.append('&');
+            if (params != null) {
+                for (Map.Entry<String, String> entry : params.entrySet()) {
+                    encodedParams.append(URLEncoder.encode(entry.getKey(), paramsEncoding));
+                    encodedParams.append('=');
+                    encodedParams.append(URLEncoder.encode(entry.getValue(), paramsEncoding));
+                    encodedParams.append('&');
+                }
             }
             return encodedParams.toString();
         } catch (UnsupportedEncodingException uee) {

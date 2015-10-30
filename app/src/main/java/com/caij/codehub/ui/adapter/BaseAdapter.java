@@ -24,7 +24,7 @@ public abstract class BaseAdapter<E extends Entity> extends android.widget.BaseA
     }
 
     @Override
-    public Object getItem(int i) {
+    public E getItem(int i) {
         return mEntities.get(i);
     }
 

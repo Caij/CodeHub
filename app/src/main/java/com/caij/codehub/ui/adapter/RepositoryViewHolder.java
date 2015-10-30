@@ -1,7 +1,5 @@
 package com.caij.codehub.ui.adapter;
 
-import android.graphics.Typeface;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 

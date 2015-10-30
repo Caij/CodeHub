@@ -7,12 +7,14 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.codehub.presenter.BasePresent;
 import com.caij.lib.utils.SPUtils;
 
 public class InitActivity extends BaseActivity {
+
+    public static final long SKIP_DELY_TIME = 3000;
 
     private Handler mHandler;
 
@@ -21,7 +23,7 @@ public class InitActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
         ImageView imageView = (ImageView) findViewById(R.id.imageview);
-        Glide.with(this).load(R.drawable.splash).centerCrop().into(imageView);
+        Glide.with(this).load(R.drawable.splash).centerCrop().skipMemoryCache(true).into(imageView);
         setFullScreen();
         mHandler = new Handler();
     }
@@ -41,7 +43,7 @@ public class InitActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 3000);
+        }, SKIP_DELY_TIME);
     }
 
     @Override

@@ -4,11 +4,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.bean.News;
+import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.bean.Page;
+import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.presenter.NewsPresenter;
+import com.caij.codehub.request.EventRequest;
 import com.caij.codehub.ui.listener.NewsUi;
-import com.caij.lib.utils.GsonUtils;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -33,9 +34,9 @@ public class NewsPresenterImp implements NewsPresenter{
         Map<String, String> params = new HashMap<>();
         params.put(API.PAGE, String.valueOf(page.getPageIndex()));
         params.put(API.PER_PAGE, String.valueOf(page.getPageDataCount()));
-        GsonRequest<List<News>> request = new GsonRequest<List<News>>(Request.Method.GET, url, null, head, new TypeToken<List<News>>() {}.getType(),new Response.Listener<List<News>>() {
+        EventRequest request = new EventRequest(Request.Method.GET, url, params, head,new Response.Listener<List<EventWrap>>() {
             @Override
-            public void onResponse(List<News> response) {
+            public void onResponse(List<EventWrap> response) {
                 handlerResponse(loadType, response);
             }
         }, new Response.ErrorListener() {
@@ -51,7 +52,7 @@ public class NewsPresenterImp implements NewsPresenter{
         mUi.showError(loadType, error);
     }
 
-    private void handlerResponse(int loadType, List<News> newses) {
+    private void handlerResponse(int loadType,List<EventWrap> newses) {
         mUi.hideLoading(loadType);
         if (loadType == LoadType.REFRESH || loadType == LoadType.FIRSTLOAD) {
             mUi.onGetNewsSuccess(newses);
@@ -59,7 +60,6 @@ public class NewsPresenterImp implements NewsPresenter{
             mUi.onLoadMoreSuccess(newses);
         }
     }
-
 
     @Override
     public void attachUi(NewsUi ui) {

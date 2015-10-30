@@ -54,4 +54,9 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
         super.onReFreshBtnClick(view);
         mPresenter.getSearchRepository(BasePresent.LoadType.FIRSTLOAD, mRepoSearchQ, mRepoSort, mOrder, mPage);
     }
+
+    @Override
+    public void onLoadMore() {
+
+    }
 }

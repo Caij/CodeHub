@@ -2,11 +2,6 @@ package com.caij.codehub;
 
 import android.test.AndroidTestCase;
 
-import com.android.volley.Request;
-import com.caij.codehub.bean.Repository;
-import com.caij.lib.volley.request.GsonRequest;
-import com.caij.lib.volley.request.json.JsonParamRequest;
-
 /**
  * Created by Administrator on 2015/8/24.
  */

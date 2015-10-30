@@ -41,7 +41,6 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onLoadMore() {
-        super.onLoadMore();
         mPresenter.getUserRepositories(BasePresent.LoadType.LOADMOER, mUsername, mToken, mPage);
     }
 

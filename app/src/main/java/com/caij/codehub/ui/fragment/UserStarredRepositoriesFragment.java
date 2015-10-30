@@ -51,7 +51,6 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onLoadMore() {
-        super.onLoadMore();
         mPresenter.getUserStarredRepositories(BasePresent.LoadType.LOADMOER, mUsername, mToken, mPage);
     }
 

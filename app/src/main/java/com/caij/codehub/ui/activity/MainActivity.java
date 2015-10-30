@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.Constant;
@@ -19,7 +18,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.dagger.DaggerUtils;
 import com.caij.codehub.presenter.UserPresenter;
-import com.caij.codehub.ui.fragment.NewsFragment;
+import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
 import com.caij.codehub.ui.listener.UserUi;
 import com.caij.lib.utils.SPUtils;
@@ -45,7 +44,7 @@ public class MainActivity extends BaseCodeHubActivity<UserPresenter> implements 
 
     private Fragment mCurrentShowFragment;
     private RepositoryPagesFragment mRepositoryPagesFragment;
-    private NewsFragment mNewsFragment;
+    private EventsFragment mNewsFragment;
 
 
     public static Intent newIntent(Activity activity) {
@@ -63,7 +62,8 @@ public class MainActivity extends BaseCodeHubActivity<UserPresenter> implements 
         mPresenter.getUserInfo(SPUtils.get(Constant.USER_TOKEN, ""), SPUtils.get(Constant.USER_NAME, ""));
 
         mRepositoryPagesFragment = new RepositoryPagesFragment();
-        mNewsFragment = new NewsFragment();
+        mNewsFragment = new EventsFragment();
+        mNewsFragment.setUserVisibleHint(true);
 
         getSupportFragmentManager().beginTransaction().add(R.id.main_content, mRepositoryPagesFragment).commit();
         mCurrentShowFragment = mRepositoryPagesFragment;
@@ -98,11 +98,11 @@ public class MainActivity extends BaseCodeHubActivity<UserPresenter> implements 
 
     @OnCheckedChanged(R.id.tv_event)
     public void onEventCheck(boolean isCheck) {
-//        if (isCheck) {
-//            switchContent(mCurrentShowFragment, mNewsFragment, R.id.main_content);
-//            mCurrentShowFragment = mNewsFragment;
-//            mDrawerLayout.closeDrawer(Gravity.LEFT);
-//        }
+        if (isCheck) {
+            switchContent(mCurrentShowFragment, mNewsFragment, R.id.main_content);
+            mCurrentShowFragment = mNewsFragment;
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+        }
     }
 
     @OnClick(R.id.img_navigation_avatar)

@@ -1,6 +1,7 @@
 package com.caij.codehub.ui.listener;
 
-import com.caij.codehub.bean.News;
+import com.caij.codehub.bean.event.Event;
+import com.caij.codehub.bean.event.EventWrap;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  */
 public interface NewsUi extends BaseUi{
 
-    public void onGetNewsSuccess(List<News> newses);
+    public void onGetNewsSuccess(List<EventWrap> newses);
 
-    public void onLoadMoreSuccess(List<News> newses);
+    public void onLoadMoreSuccess(List<EventWrap> newses);
 }

@@ -10,6 +10,8 @@ import com.caij.lib.utils.GsonUtils;
 import com.caij.lib.utils.LogUtil;
 import com.google.gson.JsonSyntaxException;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
@@ -19,8 +21,6 @@ import java.util.Map;
  * Created by Caij on 2015/8/24.
  */
 public class GsonRequest<T> extends AbsRequest<T>{
-
-    private final static String TAG = "GsonRequest";
 
     protected Type mType;
     protected Response.Listener<T> mResponse;
@@ -64,17 +64,15 @@ public class GsonRequest<T> extends AbsRequest<T>{
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         T result;
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.data);
         try {
-            String parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            LogUtil.json(TAG, parsed);
-            result = GsonUtils.getGson().fromJson(parsed, mType);
+            result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, HttpHeaderParser.parseCharset(response.headers)), mType);
             return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
         } catch (JsonSyntaxException e) {
             return Response.error(new JsonParseError());
         }catch (UnsupportedEncodingException e) {
             try {
-                String parsed = new String(response.data, Charset.forName("UTF-8"));
-                result = GsonUtils.getGson().fromJson(parsed, mType);
+                result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, Charset.forName("UTF-8")), mType);
                 return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
             }catch (JsonSyntaxException je) {
                 return Response.error(new JsonParseError());
