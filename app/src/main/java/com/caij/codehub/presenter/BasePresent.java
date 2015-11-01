@@ -13,6 +13,5 @@ public interface BasePresent<T extends BaseUi> {
         int REFRESH = 3;
     }
 
-    public void attachUi(T ui);
-    public void detachUi(T ui);
+    public void onDeath();
 }

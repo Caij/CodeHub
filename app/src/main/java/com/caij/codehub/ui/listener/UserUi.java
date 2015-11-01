@@ -10,4 +10,5 @@ public interface UserUi extends BaseUi{
 
     public void onGetUserInfoSuccess(User user);
 
+
 }

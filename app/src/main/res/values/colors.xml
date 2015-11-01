@@ -9,6 +9,11 @@
 
     <color name="root_view_bg">#EBEBEB</color>
 
+    <color name="follow_btn_color_press">#009900</color>
+    <color name="follow_btn_color_normal">#66CC66</color>
+
+    <color name="unfollow_btn_color_press">#999999</color>
+    <color name="unfollow_btn_color_normal">#CCCCCC</color>
 
     <color name="gplus_color_1">#3e802f</color>
     <color name="gplus_color_2">#f4b400</color>

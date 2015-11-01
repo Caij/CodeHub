@@ -8,4 +8,6 @@ import com.caij.codehub.ui.listener.UserUi;
 public interface UserPresenter extends BasePresent<UserUi>{
 
     public void getUserInfo(String token, String username);
+
+
 }

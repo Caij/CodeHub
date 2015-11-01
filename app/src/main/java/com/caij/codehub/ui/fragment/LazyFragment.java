@@ -12,7 +12,7 @@ import com.caij.codehub.ui.activity.BaseCodeHubActivity;
 /**
  * Created by Caij on 2015/9/18.
  */
-public abstract class LazyFragment<P extends BasePresent> extends BaseCodeHubFragment<P>{
+public abstract class LazyFragment extends BaseCodeHubFragment{
 
     private boolean isFirstVisible = true;
     private boolean isPrepared = false;

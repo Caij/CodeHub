@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
 import com.caij.codehub.presenter.BasePresent;
+import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.presenter.UserListPresenter;
+import com.caij.codehub.ui.listener.UserListUi;
 import com.caij.lib.utils.SPUtils;
 
 /**
@@ -16,6 +20,7 @@ public class FollowingActivity extends UserListActivity{
 
     private String mUsername;
     private String mToken;
+    private UserListPresenter mPresenter;
 
     public static Intent newIntent(Activity activity, String username) {
         Intent intent = new Intent(activity, FollowingActivity.class);
@@ -29,6 +34,7 @@ public class FollowingActivity extends UserListActivity{
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
         mToken = SPUtils.get(Constant.USER_TOKEN, "");
         setToolbarTitle("Following");
+        mPresenter = PresenterFactory.newPresentInstance(UserListPresenter.class, UserListUi.class, this);
         mPresenter.getFollowing(mToken, mUsername, BasePresent.LoadType.FIRSTLOAD, mPage);
     }
 
@@ -50,4 +56,15 @@ public class FollowingActivity extends UserListActivity{
         mPresenter.getFollowing(mToken, mUsername, BasePresent.LoadType.FIRSTLOAD, mPage);
     }
 
+    @Override
+    public void showError(int type, VolleyError error) {
+        super.showError(type, error);
+        if (type == BasePresent.LoadType.REFRESH) {
+            mPage.scrollBack(); //用于刷新的时候重置page刷新错误，导致下拉index出错。
+        }
+
+        if (type == BasePresent.LoadType.LOADMOER) {
+            mListView.onLoadMoreComplete();
+        }
+    }
 }

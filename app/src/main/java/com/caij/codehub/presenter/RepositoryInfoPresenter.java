@@ -8,4 +8,5 @@ import com.caij.codehub.ui.listener.RepositoryInfoUi;
 public interface RepositoryInfoPresenter extends BasePresent<RepositoryInfoUi>{
 
     public void getRepositoryInfo(String repositoryName, String owner, String token);
+
 }

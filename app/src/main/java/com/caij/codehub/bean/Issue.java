@@ -1,11 +1,13 @@
 package com.caij.codehub.bean;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Caij on 2015/9/24.
  */
-public class Issue extends Entity{
+public class Issue extends Entity implements Serializable{
 
 
     /**
@@ -43,9 +45,9 @@ public class Issue extends Entity{
     private Object assignee;
     private Object milestone;
     private int comments;
-    private String created_at;
-    private String updated_at;
-    private Object closed_at;
+    private Date created_at;
+    private Date updated_at;
+    private Date closed_at;
     private String body;
     private List<LabelsEntity> labels;
     private User user;
@@ -110,15 +112,15 @@ public class Issue extends Entity{
         this.comments = comments;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
-    public void setUpdated_at(String updated_at) {
+    public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
 
-    public void setClosed_at(Object closed_at) {
+    public void setClosed_at(Date closed_at) {
         this.closed_at = closed_at;
     }
 
@@ -182,15 +184,15 @@ public class Issue extends Entity{
         return comments;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public String getUpdated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
-    public Object getClosed_at() {
+    public Date getClosed_at() {
         return closed_at;
     }
 

@@ -2,23 +2,30 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
+import com.caij.codehub.bean.Comment;
 import com.caij.codehub.bean.User;
-import com.caij.codehub.dagger.DaggerUtils;
+import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.presenter.UserFollowPresent;
 import com.caij.codehub.presenter.UserPresenter;
+import com.caij.codehub.ui.listener.UserFollowUi;
 import com.caij.codehub.ui.listener.UserUi;
-import com.caij.codehub.utils.TextTypeFaceUtils;
+import com.caij.codehub.widgets.GithubTypeFaceTextView;
 import com.caij.lib.utils.CheckValueUtil;
 import com.caij.lib.utils.SPUtils;
+import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -27,10 +34,14 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * Created by Caij on 2015/9/19.
  */
-public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> implements UserUi {
+public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, UserFollowUi {
+
 
     private String mToken;
     private String mUsername;
+    private UserPresenter mPresenter;
+    private Menu mMenu;
+    private UserFollowPresent userFollowPresent;
 
     public static Intent newIntent(Activity activity, String name) {
         CheckValueUtil.check(name);
@@ -38,7 +49,6 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
         intent.putExtra(Constant.USER_NAME, name);
         return intent;
     }
-
     @Bind(R.id.img_user_avatar)
     ImageView imgUserAvatar;
     @Bind(R.id.tv_user_followers)
@@ -47,24 +57,14 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
     TextView tvUserRepository;
     @Bind(R.id.tv_user_following)
     TextView tvUserFollowing;
-    @Bind(R.id.tv_repository_location_icon)
-    TextView tvRepositoryLocationIcon;
     @Bind(R.id.tv_repository_location)
     TextView tvRepositoryLocation;
-    @Bind(R.id.tv_repository_email_icon)
-    TextView tvRepositoryEmailIcon;
     @Bind(R.id.tv_repository_email)
     TextView tvRepositoryEmail;
-    @Bind(R.id.tv_repository_blog_icon)
-    TextView tvRepositoryBlogIcon;
     @Bind(R.id.tv_repository_blog)
     TextView tvRepositoryBlog;
-    @Bind(R.id.tv_repository_company_icon)
-    TextView tvRepositoryCompanyIcon;
     @Bind(R.id.tv_repository_company)
     TextView tvRepositoryCompany;
-    @Bind(R.id.tv_repository_join_icon)
-    TextView tvRepositoryJoinIcon;
     @Bind(R.id.tv_repository_join)
     TextView tvRepositoryJoin;
     @Bind(R.id.tv_user_name)
@@ -81,7 +81,12 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
         mToken = SPUtils.get(Constant.USER_TOKEN, "");
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
         getSupportActionBar().setTitle(mUsername);
+        mPresenter = PresenterFactory.newPresentInstance(UserPresenter.class, UserUi.class, this);
         mPresenter.getUserInfo(mToken, mUsername);
+
+        userFollowPresent = PresenterFactory.newPresentInstance(UserFollowPresent.class,
+                UserFollowUi.class, this);
+        userFollowPresent.checkFollowState(mToken, mUsername);
     }
 
     protected void handlerData(User user) {
@@ -107,14 +112,63 @@ public class UserInfoActivity extends BaseCodeHubActivity<UserPresenter> impleme
     }
 
     @Override
-    public UserPresenter getPresenter() {
-        return DaggerUtils.getPresenterComponent().provideUserPresenter();
-    }
-
-    @Override
     public void onGetUserInfoSuccess(User user) {
         handlerData(user);
     }
+
+    @Override
+    public void onCheckFollowInfoSuccess(boolean isFollow) {
+        getMenuInflater().inflate(R.menu.menu_user, mMenu);
+        mMenu.findItem(R.id.follow).setTitle(isFollow ? getString(R.string.unfollow) : getString(R.string.follow));
+    }
+
+    @Override
+    public void onFollowSuccess() {
+        ToastUtil.show(this, R.string.follow_success);
+        mMenu.findItem(R.id.follow).setTitle(R.string.unfollow);
+    }
+
+    @Override
+    public void onFollowError() {
+        ToastUtil.show(this, R.string.follow_erroe);
+    }
+
+    @Override
+    public void onUnfollowSuccess() {
+        ToastUtil.show(this, R.string.unfollow_success);
+        mMenu.findItem(R.id.follow).setTitle(R.string.follow);
+    }
+
+    @Override
+    public void onUnfollowError() {
+        ToastUtil.show(this, R.string.unfollow_erroe);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mMenu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.follow) {
+            if (item.getTitle().equals(getString(R.string.unfollow))) {
+                userFollowPresent.unfollowUser(mToken, mUsername);
+            }else {
+                userFollowPresent.followUser(mToken, mUsername);
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onReFreshBtnClick(View view) {

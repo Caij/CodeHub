@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
-import com.caij.codehub.dagger.DaggerUtils;
+import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.UserPresenter;
 import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
@@ -29,7 +29,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class MainActivity extends BaseCodeHubActivity<UserPresenter> implements UserUi {
+public class MainActivity extends BaseCodeHubActivity implements UserUi {
 
     @Bind(R.id.img_navigation_avatar)
     ImageView imgNavigationAvatar;
@@ -37,15 +37,13 @@ public class MainActivity extends BaseCodeHubActivity<UserPresenter> implements 
     TextView tvNavigationUsername;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.tv_event)
-    RadioButton tvEvent;
 
     private User mUser;
 
     private Fragment mCurrentShowFragment;
     private RepositoryPagesFragment mRepositoryPagesFragment;
     private EventsFragment mNewsFragment;
-
+    private UserPresenter mPresenter;
 
     public static Intent newIntent(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
@@ -59,6 +57,7 @@ public class MainActivity extends BaseCodeHubActivity<UserPresenter> implements 
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
 
+        mPresenter = PresenterFactory.newPresentInstance(UserPresenter.class, UserUi.class, this);
         mPresenter.getUserInfo(SPUtils.get(Constant.USER_TOKEN, ""), SPUtils.get(Constant.USER_NAME, ""));
 
         mRepositoryPagesFragment = new RepositoryPagesFragment();
@@ -72,11 +71,6 @@ public class MainActivity extends BaseCodeHubActivity<UserPresenter> implements 
     @Override
     protected int getContentLayoutId() {
         return R.layout.activity_main;
-    }
-
-    @Override
-    public UserPresenter getPresenter() {
-        return DaggerUtils.getPresenterComponent().provideUserPresenter();
     }
 
     @Override

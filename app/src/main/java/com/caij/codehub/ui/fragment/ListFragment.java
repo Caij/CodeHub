@@ -17,7 +17,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/9/23.
  */
-public abstract class ListFragment<P extends BasePresent, AP extends BaseAdapter> extends LazyFragment<P> implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, LoadMoreListView.OnLoadMoreListener {
+public abstract class ListFragment<AP extends BaseAdapter> extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, LoadMoreListView.OnLoadMoreListener {
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;

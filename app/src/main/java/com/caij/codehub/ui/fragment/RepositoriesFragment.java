@@ -9,9 +9,7 @@ import android.widget.AdapterView;
 import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.Repository;
-import com.caij.codehub.dagger.DaggerUtils;
 import com.caij.codehub.presenter.BasePresent;
-import com.caij.codehub.presenter.RepositoryListPresenter;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.adapter.RepositoryAdapter;
 import com.caij.codehub.ui.listener.RepositoryListUi;
@@ -21,8 +19,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/18.
  */
-public abstract class RepositoriesFragment extends ListFragment<RepositoryListPresenter, RepositoryAdapter> implements RepositoryListUi {
-
+public abstract class RepositoriesFragment extends ListFragment<RepositoryAdapter> implements RepositoryListUi {
 
     protected Page mPage;
 
@@ -33,11 +30,6 @@ public abstract class RepositoriesFragment extends ListFragment<RepositoryListPr
         mListView.setDivider(null);
 
         mPage = new Page();
-    }
-
-    @Override
-    public RepositoryListPresenter getPresenter() {
-        return DaggerUtils.getPresenterComponent().provideRepositoryListPresenter();
     }
 
     @Override
@@ -76,17 +68,6 @@ public abstract class RepositoriesFragment extends ListFragment<RepositoryListPr
 
         mAdapter.addEntities(repositories);
         mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onRefresh() {
-        mPage.reset();
-    }
-
-    @Override
-    public void onReFreshBtnClick(View view) {
-        super.onReFreshBtnClick(view);
-        mPage.reset();
     }
 
 }

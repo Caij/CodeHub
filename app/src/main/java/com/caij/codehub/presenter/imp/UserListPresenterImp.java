@@ -26,15 +26,10 @@ import java.util.Map;
 public class UserListPresenterImp implements UserListPresenter{
 
     private UserListUi mUi;
+    private Object tag = new Object();
 
-    @Override
-    public void attachUi(UserListUi ui) {
+    public UserListPresenterImp(UserListUi ui) {
         mUi = ui;
-    }
-
-    @Override
-    public void detachUi(UserListUi ui) {
-        VolleyUtil.cancelRequestByTag(this);
     }
 
     @Override
@@ -61,7 +56,7 @@ public class UserListPresenterImp implements UserListPresenter{
                 handlerError(loadType, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
 
     @Override
@@ -88,7 +83,7 @@ public class UserListPresenterImp implements UserListPresenter{
                 handlerError(loadType, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
 
     private void handlerError(int loadType, VolleyError error) {
@@ -107,5 +102,10 @@ public class UserListPresenterImp implements UserListPresenter{
         }else {
             mUi.showError(loadType, null);
         }
+    }
+
+    @Override
+    public void onDeath() {
+        VolleyUtil.cancelRequestByTag(tag);
     }
 }

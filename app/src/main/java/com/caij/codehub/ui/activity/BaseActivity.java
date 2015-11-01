@@ -20,13 +20,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.R;
-import com.caij.codehub.dagger.component.PresenterComponent;
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.SystemBarTintManager;
-import com.caij.lib.utils.ToastUtil;
-import com.caij.lib.volley.request.JsonParseError;
 
-import java.util.List;
 
 /**
  * Created by Caij on 2015/8/24.

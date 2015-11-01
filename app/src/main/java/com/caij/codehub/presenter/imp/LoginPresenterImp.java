@@ -12,7 +12,7 @@ import com.caij.codehub.bean.Token;
 import com.caij.codehub.presenter.LoginPresenter;
 import com.caij.codehub.ui.listener.LoginUi;
 import com.caij.lib.utils.VolleyUtil;
-import com.caij.lib.volley.request.CommonRequest;
+import com.caij.lib.volley.request.StringRequest;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,6 +35,11 @@ public class LoginPresenterImp implements LoginPresenter {
     private final static String NOTE = "note";
 
     private LoginUi mUi;
+    private Object tag = new Object();
+
+    public LoginPresenterImp(LoginUi ui) {
+        this.mUi = ui;
+    }
 
     @Override
     public void login(final String username, final String pwd) {
@@ -60,7 +65,7 @@ public class LoginPresenterImp implements LoginPresenter {
                     handlerLoginError(error, username, pwd);
                 }
             });
-            VolleyUtil.addRequest(request, this);
+            VolleyUtil.addRequest(request, tag);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -87,7 +92,7 @@ public class LoginPresenterImp implements LoginPresenter {
     private void removeToken(final String username, final String pwd, String id) {
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, username, pwd);
-        final CommonRequest request = new CommonRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, null, head,
+        final StringRequest request = new StringRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, null, head,
                 new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -100,7 +105,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 mUi.showError(LoadType.FIRSTLOAD, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
 
     public void removeTokenIfHaveToken(final String username, final String pwd) {
@@ -124,7 +129,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 mUi.showError(LoadType.FIRSTLOAD, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
 
     private static Map<String, String> addAuthorizationHead(Map<String, String> head, String username, final String pwd) {
@@ -133,12 +138,7 @@ public class LoginPresenterImp implements LoginPresenter {
     }
 
     @Override
-    public void attachUi(LoginUi ui) {
-        mUi = ui;
-    }
-
-    @Override
-    public void detachUi(LoginUi ui) {
-        VolleyUtil.cancelRequestByTag(this);
+    public void onDeath() {
+        VolleyUtil.cancelRequestByTag(tag);
     }
 }

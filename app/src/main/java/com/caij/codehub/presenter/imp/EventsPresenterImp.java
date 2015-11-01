@@ -4,15 +4,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.event.EventWrap;
-import com.caij.codehub.presenter.NewsPresenter;
+import com.caij.codehub.presenter.EventsPresenter;
 import com.caij.codehub.request.EventRequest;
-import com.caij.codehub.ui.listener.NewsUi;
+import com.caij.codehub.ui.listener.EventsUi;
 import com.caij.lib.utils.VolleyUtil;
-import com.caij.lib.volley.request.GsonRequest;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +18,14 @@ import java.util.Map;
 /**
  * Created by Caij on 2015/9/24.
  */
-public class NewsPresenterImp implements NewsPresenter{
+public class EventsPresenterImp implements EventsPresenter {
 
-    NewsUi mUi;
+    private Object tag = new Object();
+    EventsUi mUi;
+
+    public EventsPresenterImp(EventsUi ui) {
+        this.mUi = ui;
+    }
 
     @Override
     public void getReceivedEvents(String username, String token, final int loadType, Page page) {
@@ -45,7 +47,7 @@ public class NewsPresenterImp implements NewsPresenter{
                 handlerError(loadType, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
     private void handlerError(int loadType, VolleyError error) {
         mUi.hideLoading(loadType);
@@ -62,12 +64,7 @@ public class NewsPresenterImp implements NewsPresenter{
     }
 
     @Override
-    public void attachUi(NewsUi ui) {
-        mUi = ui;
-    }
-
-    @Override
-    public void detachUi(NewsUi ui) {
-        VolleyUtil.cancelRequestByTag(this  );
+    public void onDeath() {
+        VolleyUtil.cancelRequestByTag(tag);
     }
 }

@@ -2,6 +2,7 @@ package com.caij.codehub.presenter.imp;
 
 import android.text.TextUtils;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -14,6 +15,7 @@ import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.utils.GsonUtils;
 import com.caij.lib.volley.request.GsonRequest;
+import com.caij.lib.volley.request.NetworkResponseRequest;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
@@ -25,15 +27,10 @@ import java.util.Map;
 public class UserPresenterImp implements UserPresenter{
 
     private UserUi mUserUi;
+    private Object tag = new Object();
 
-    @Override
-    public void attachUi(UserUi ui) {
-        mUserUi = ui;
-    }
-
-    @Override
-    public void detachUi(UserUi ui) {
-        VolleyUtil.cancelRequestByTag(this);
+    public UserPresenterImp(UserUi ui) {
+        this.mUserUi = ui;
     }
 
     @Override
@@ -68,6 +65,7 @@ public class UserPresenterImp implements UserPresenter{
         VolleyUtil.addRequest(request, this);
     }
 
+
     private User getCacheUserInfo() {
         String userInfo = SPUtils.get(Constant.USER_INFO, "");
         if (!TextUtils.isEmpty(userInfo)) {
@@ -75,5 +73,11 @@ public class UserPresenterImp implements UserPresenter{
             return user;
         }
         return null;
+    }
+
+
+    @Override
+    public void onDeath() {
+        VolleyUtil.cancelRequestByTag(tag);
     }
 }

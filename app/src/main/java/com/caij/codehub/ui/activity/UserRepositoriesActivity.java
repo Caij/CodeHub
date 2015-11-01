@@ -14,7 +14,7 @@ import com.caij.codehub.ui.fragment.UserRepositoriesFragment;
 /**
  * Created by Caij on 2015/9/24.
  */
-public class UserRepositoriesActivity extends BaseCodeHubActivity<BasePresent> {
+public class UserRepositoriesActivity extends BaseCodeHubActivity {
 
 
     public static Intent newIntent(Activity activity, String username) {
@@ -38,8 +38,4 @@ public class UserRepositoriesActivity extends BaseCodeHubActivity<BasePresent> {
         return R.layout.activity_frame_layout;
     }
 
-    @Override
-    public BasePresent getPresenter() {
-        return null;
-    }
 }

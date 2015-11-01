@@ -2,6 +2,7 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -37,23 +38,12 @@ public class WebActivity extends BaseCodeHubActivity {
     }
 
     @Override
-    public BasePresent getPresenter() {
-        return null;
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().getUserAgentString();
         webview.getSettings().setSupportZoom(true);
-        webview.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        webview.setWebViewClient(new HubWebClient());
         webview.setWebChromeClient(new WebChromeClient());
 
         //自适应屏幕
@@ -63,5 +53,19 @@ public class WebActivity extends BaseCodeHubActivity {
         webview.getSettings().setLoadWithOverviewMode(true);
         String url = getIntent().getStringExtra(Constant.URL);
         webview.loadUrl(url);
+    }
+
+    private class HubWebClient extends WebViewClient{
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            showLoading(BasePresent.LoadType.FIRSTLOAD);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            hideLoading(BasePresent.LoadType.FIRSTLOAD);
+        }
     }
 }

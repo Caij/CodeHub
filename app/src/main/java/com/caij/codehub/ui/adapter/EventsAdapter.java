@@ -28,24 +28,20 @@ import com.caij.codehub.bean.event.RepositoryEvent;
 import com.caij.codehub.bean.event.TeamAddEvent;
 import com.caij.codehub.bean.event.WatchEvent;
 import com.caij.codehub.utils.TimeUtils;
-import com.caij.lib.utils.GsonUtils;
 
-import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Caij on 2015/9/24.
  */
-public class NewsAdapter extends BaseAdapter<EventWrap>{
-
+public class EventsAdapter extends BaseAdapter<EventWrap>{
 
     private LayoutInflater mInflater;
     private Context context;
 
-    public NewsAdapter(Context context, List<EventWrap> entities) {
+    public EventsAdapter(Context context, List<EventWrap> entities) {
         super(entities);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
@@ -68,7 +64,8 @@ public class NewsAdapter extends BaseAdapter<EventWrap>{
 
     private void onBindViewHolder(ViewHolder holder, int position) {
         EventWrap event = getItem(position);
-        Glide.with(context).load(event.getActor().getAvatar_url()).bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
+        Glide.with(context).load(event.getActor().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+                bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
         holder.happenTime.setText(TimeUtils.getRelativeTime(event.getCreated_at()));
 
         StringBuilder builder = new StringBuilder();
@@ -78,37 +75,43 @@ public class NewsAdapter extends BaseAdapter<EventWrap>{
             CommitCommentEvent realEvent = (CommitCommentEvent) event.getRealEvent();
             builder.append(" ")
                     .append("commit comment");
+            holder.eventBody.setText("");
         }else if (Event.CREATE.equals(event.getType())) {
             CreateEvent realEvent = (CreateEvent) event.getRealEvent();
             builder.append(" ")
                     .append("create");
+            holder.eventBody.setText("");
         }else if (Event.DELETE.equals(event.getType())) {
             DeleteEvent realEvent = (DeleteEvent) event.getRealEvent();
             builder.append(" ")
                     .append("delete");
+            holder.eventBody.setText("");
         }else if (Event.DEPLOYMENT.equals(event.getType())) {
             DeploymentEvent realEvent = (DeploymentEvent) event.getRealEvent();
             builder.append(" ")
                     .append("deployment");
+            holder.eventBody.setText("");
         }else if (Event.DEPLOYMENT_STATUS.equals(event.getType())) {
             DeploymentStatusEvent realEvent = (DeploymentStatusEvent) event.getRealEvent();
             builder.append(" ")
                     .append("deployment status");
+            holder.eventBody.setText("");
         }else if (Event.ISSUE_COMMENT.equals(event.getType())) {
             IssueCommentEvent realEvent = (IssueCommentEvent) event.getRealEvent();
-            String[] urlSp = realEvent.getIssue().getUrl().split("/");
             builder.append(" ").append("comment")
                     .append(" on issue ")
-                    .append(processHtmlString("#" + urlSp[urlSp.length - 1]));
+                    .append(processHtmlString("#" + realEvent.getIssue().getNumber()));
+            holder.eventBody.setText(realEvent.getComment().getBody());
         }else if (Event.ISSUES.equals(event.getType())) {
             IssuesEvent realEvent = (IssuesEvent) event.getRealEvent();
-            String[] urlSp = realEvent.getIssue().getUrl().split("/");
             builder.append(" ").append(realEvent.getAction()).append(" issue ")
-                    .append(processHtmlString("#" + urlSp[urlSp.length - 1]));
+                    .append(processHtmlString("#" + realEvent.getIssue().getNumber()));
+            holder.eventBody.setText(realEvent.getIssue().getTitle());
         }else if (Event.MEMBER.equals(event.getType())) {
             MemberEvent realEvent = (MemberEvent) event.getRealEvent();
             builder.append(" ")
                     .append("member");
+            holder.eventBody.setText("");
         }else if (Event.MEMBERSHIP.equals(event.getType())) {
             MembershipEvent realEvent = (MembershipEvent) event.getRealEvent();
             builder.append(" ")
@@ -118,26 +121,34 @@ public class NewsAdapter extends BaseAdapter<EventWrap>{
             String[] urlSp = realEvent.getPull_request().getUrl().split("/");
             builder.append(" ").append(realEvent.getAction()).
                     append(" pull request ").append(processHtmlString("#" + urlSp[urlSp.length - 1]));
+            holder.eventBody.setText(realEvent.getPull_request().getTitle());
         }else if (Event.PULL_REQUEST_REVIEW_COMMENT.equals(event.getType())) {
             PullRequestReviewCommentEvent realEvent = (PullRequestReviewCommentEvent) event.getRealEvent();
             builder.append(" ")
                     .append("pull request review comment");
+            holder.eventBody.setText("");
         }else if (Event.PUSH.equals(event.getType())) {
             PushEvent realEvent = (PushEvent) event.getRealEvent();
             builder.append(" ")
                     .append("push to ").append(processHtmlString("master"));
+            holder.eventBody.setText(realEvent.getBase_ref());
         }else if (Event.REPOSITORY.equals(event.getType())) {
             RepositoryEvent realEvent = (RepositoryEvent) event.getRealEvent();
             builder.append(" ")
                     .append("repository");
+            holder.eventBody.setText("");
         }else if (Event.TEAM_ADD.equals(event.getType())) {
             TeamAddEvent realEvent = (TeamAddEvent) event.getRealEvent();
             builder.append(" ")
                     .append("team add");
+            holder.eventBody.setText("");
         }else if (Event.WATCH.equals(event.getType())) {
             WatchEvent realEvent = (WatchEvent) event.getRealEvent();
             builder.append(" ")
                     .append("watch");
+            holder.eventBody.setText("");
+        }else {
+            holder.eventBody.setText("unsupport item");
         }
         builder.append(" in ").append(processHtmlString(event.getRepo().getName()));
         holder.event.setText(Html.fromHtml(builder.toString()));
@@ -151,41 +162,20 @@ public class NewsAdapter extends BaseAdapter<EventWrap>{
         return builder.toString();
     }
 
-//    public String getPureEventType(String eventType){
-//        if(eventType.equals(Event.WATCH)){
-//            return "watch";
-//        }else if(eventType.equals(Event.FORK)){
-//            return "forked";
-//        }else if(eventType.equals(Event.CREATE)){
-//            return "created repo";
-//        }else if(eventType.equals(Event.PULL_REQUEST)){
-//            return "opened pull request";
-//        }if(eventType.equals(Event.ISSUE_COMMENT)){
-//            return "commented on issue";
-//        }if(eventType.equals(Event.ISSUES)){
-//            return "open issue";
-//        }else{
-//            return "XXXXX";   // I will add more eventtype later
-//        }
-//    }
-
 
     public static class ViewHolder {
 
         public ImageView avatar;
-        public TextView eventType;
+        public TextView eventBody;
         public TextView event;
         public TextView happenTime;
 
         public ViewHolder(View view){
             avatar = (ImageView) view.findViewById(R.id.avatar);
-            eventType = (TextView) view.findViewById(R.id.eventType);
+            eventBody = (TextView) view.findViewById(R.id.event_body);
             happenTime = (TextView) view.findViewById(R.id.happenTime);
             event = (TextView) view.findViewById(R.id.event);
-
         }
-
     }
-
 
 }

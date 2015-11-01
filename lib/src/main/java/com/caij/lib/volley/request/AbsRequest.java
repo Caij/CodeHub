@@ -62,11 +62,22 @@ public abstract class AbsRequest<T> extends Request<T>{
 
         mParams = params;
         mBody = body;
+
+        logRequest();
+    }
+
+    private void logRequest() {
+        if (mParams != null) {
+            LogUtil.d(TAG, super.getUrl() +  "?" +parameters2String(mParams, getParamsEncoding()));
+        }else if (!TextUtils.isEmpty(mBody)){
+            LogUtil.d(TAG, super.getUrl() +  "?" + mBody);
+        }else {
+            LogUtil.d(TAG, super.getUrl());
+        }
     }
 
     @Override
     public String getUrl() {
-        Log.d(TAG, super.getUrl() + parameters2String(mParams, getParamsEncoding()));
         if (getMethod() == Method.GET && mParams != null && mParams.size() > 0) {
             String url = super.getUrl() + "?" + parameters2String(mParams, getParamsEncoding());
             return url;

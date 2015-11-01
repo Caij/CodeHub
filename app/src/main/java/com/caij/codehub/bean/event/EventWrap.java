@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Created by Caij on 2015/10/30.
  */
-public class EventWrap extends Event{
+public class EventWrap extends Entity{
 
     /**
      * 将Event 转化为EventWrap， 批量应在子线程中

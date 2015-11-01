@@ -15,7 +15,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/9/24.
  */
-public abstract class ListActivity<P extends BasePresent, AP extends BaseAdapter> extends BaseCodeHubActivity<P> implements LoadMoreListView.OnLoadMoreListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+public abstract class ListActivity<AP extends BaseAdapter> extends BaseCodeHubActivity implements LoadMoreListView.OnLoadMoreListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;

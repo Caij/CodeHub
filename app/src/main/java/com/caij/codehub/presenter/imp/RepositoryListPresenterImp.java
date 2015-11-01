@@ -25,6 +25,11 @@ import java.util.Map;
 public class RepositoryListPresenterImp implements RepositoryListPresenter {
 
     protected RepositoryListUi mUi;
+    private Object tag = new Object();
+
+    public RepositoryListPresenterImp(RepositoryListUi ui) {
+        this.mUi = ui;
+    }
 
     @Override
     public void getUserStarredRepositories(int loadType, String username, String token, Page page) {
@@ -68,7 +73,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
                 handlerError(loadType, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
 
     @Override
@@ -96,7 +101,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
                 handlerError(loadType, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
 
     private void loadStarredOrUserRepository(final int loadType, String url, String token, Page page) {
@@ -122,7 +127,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
                handlerError(loadType, error);
             }
         });
-        VolleyUtil.addRequest(request, this);
+        VolleyUtil.addRequest(request, tag);
     }
 
     private void handlerError(int loadType, VolleyError error) {
@@ -140,12 +145,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
     }
 
     @Override
-    public void attachUi(RepositoryListUi ui) {
-        mUi = ui;
-    }
-
-    @Override
-    public void detachUi(RepositoryListUi ui) {
-        VolleyUtil.cancelRequestByTag(this);
+    public void onDeath() {
+        VolleyUtil.cancelRequestByTag(tag);
     }
 }

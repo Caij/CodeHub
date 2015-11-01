@@ -19,4 +19,8 @@ public interface Constant {
 
     public static final String ORDER = "order";
     String URL = "url";
+
+    public static final String ISSUE_NUMBER = "issue_number";
+
+    public static final String ISSUE = "issue";
 }

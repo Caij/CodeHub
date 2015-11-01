@@ -19,7 +19,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/standard_margin">
+                android:padding="@dimen/standard_margin"
+                >
 
                 <ImageView
                     android:id="@+id/img_user_avatar"
@@ -27,10 +28,11 @@
                     android:layout_height="@dimen/user_info_avatar_image" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/standard_margin"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/tv_user_name"

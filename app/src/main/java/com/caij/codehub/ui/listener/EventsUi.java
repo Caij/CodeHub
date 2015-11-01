@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/24.
  */
-public interface NewsUi extends BaseUi{
+public interface EventsUi extends BaseUi{
 
     public void onGetNewsSuccess(List<EventWrap> newses);
 

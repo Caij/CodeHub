@@ -11,6 +11,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <meta-data
+            android:name="com.caij.codehub.utils.MyGlideModule"
+            android:value="GlideModule"/>
+
         <activity
             android:name=".ui.activity.InitActivity"
             android:label="@string/app_name"
@@ -57,6 +62,12 @@
             android:name=".ui.activity.WebActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <activity
+            android:name=".ui.activity.IssueActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

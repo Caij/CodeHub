@@ -4,19 +4,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
-import com.caij.codehub.bean.Page;
-import com.caij.codehub.bean.Repository;
 import com.caij.codehub.presenter.BasePresent;
+import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.presenter.RepositoryListPresenter;
+import com.caij.codehub.ui.listener.RepositoryListUi;
 import com.caij.lib.utils.CheckValueUtil;
 import com.caij.lib.utils.SPUtils;
 
-import java.util.List;
 
 /**
  * Created by Caij on 2015/9/21.
  */
 public class UserStarredRepositoriesFragment extends RepositoriesFragment {
+
+    private RepositoryListPresenter mPresenter;
 
     public static RepositoriesFragment newInstance(String username) {
         CheckValueUtil.check(username);
@@ -35,6 +38,7 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
         super.onViewCreated(view, savedInstanceState);
         mUsername = getArguments().getString(Constant.USER_NAME);
         mToken = SPUtils.get(Constant.USER_TOKEN, "");
+        mPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class, RepositoryListUi.class, this);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onRefresh() {
-        super.onRefresh();
+        mPage.reset();
         mPresenter.getUserStarredRepositories(BasePresent.LoadType.REFRESH, mUsername, mToken, mPage);
     }
 
@@ -57,7 +61,18 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mPage.reset();
         mPresenter.getUserStarredRepositories(BasePresent.LoadType.FIRSTLOAD, mUsername, mToken, mPage);
+    }
+
+
+    @Override
+    public void showError(int type, VolleyError error) {
+        super.showError(type, error);
+        if (type == BasePresent.LoadType.REFRESH) {
+            mPage.scrollBack(); //用于刷新的时候重置page刷新错误，导致下拉index出错。
+        }
+        if (type == BasePresent.LoadType.LOADMOER) {
+            mListView.onLoadMoreComplete();
+        }
     }
 }

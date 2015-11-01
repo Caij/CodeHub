@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Caij on 2015/9/19.
  */
-public abstract class BaseCodeHubActivity<P extends BasePresent> extends BaseActivity implements BaseUi {
+public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi {
 
     @Bind(R.id.toolbar)
     protected Toolbar mToolbar;
@@ -49,8 +49,6 @@ public abstract class BaseCodeHubActivity<P extends BasePresent> extends BaseAct
     Button btnRefresh;
 
     ViewGroup content;
-
-    protected P mPresenter;
 
 
     @Override
@@ -72,15 +70,9 @@ public abstract class BaseCodeHubActivity<P extends BasePresent> extends BaseAct
             }
         });
 
-        mPresenter = getPresenter();
-        if (mPresenter != null) {
-            mPresenter.attachUi(this);
-        }
     }
 
     protected abstract int getContentLayoutId();
-
-    public abstract P getPresenter();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -96,9 +88,6 @@ public abstract class BaseCodeHubActivity<P extends BasePresent> extends BaseAct
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        if (mPresenter != null) {
-            mPresenter.detachUi(this);
-        }
     }
 
     @Override

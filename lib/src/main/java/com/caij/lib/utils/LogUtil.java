@@ -10,7 +10,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by zhangheng on 2014/7/1.
  * log  util
  */
 public class LogUtil {

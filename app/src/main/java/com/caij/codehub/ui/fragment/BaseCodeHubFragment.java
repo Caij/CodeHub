@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Caij on 2015/9/20.
  */
-public abstract class BaseCodeHubFragment<P extends BasePresent> extends BaseFragment implements BaseUi {
+public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi {
 
     @Nullable
     @Bind(R.id.pb_content_loading)
@@ -39,7 +39,6 @@ public abstract class BaseCodeHubFragment<P extends BasePresent> extends BaseFra
     @Bind(R.id.ll_load_error)
     LinearLayout llLoadError;
 
-    protected P mPresenter;
     ViewGroup content;
     @Bind(R.id.btn_refresh)
     Button btnRefresh;
@@ -59,8 +58,6 @@ public abstract class BaseCodeHubFragment<P extends BasePresent> extends BaseFra
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter = getPresenter();
-        mPresenter.attachUi(this);
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,10 +70,7 @@ public abstract class BaseCodeHubFragment<P extends BasePresent> extends BaseFra
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        mPresenter.detachUi(this);
     }
-
-    public abstract P getPresenter();
 
     @Override
     public void showError(int type, VolleyError error) {

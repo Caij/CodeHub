@@ -134,6 +134,8 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
      */
     public void onLoadMoreComplete() {
         mIsLoadingMore = false;
+        mProgressBarLoadMore.setVisibility(View.GONE);
+        mhintLoadMore.setVisibility(View.GONE);
     }
 
     /**

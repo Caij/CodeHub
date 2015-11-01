@@ -35,7 +35,41 @@
     <string name="icon_chevron_right" translatable="false">\uf078</string>
     <string name="icon_readme" translatable="false">\uf011</string>
     <string name="icon_website" translatable="false">\uf007</string>
+
     <string name="refresh">Refresh</string>
     <string name="data_load_error">error</string>
+    <string name="add_comment">Add Comment</string>
+    <string name="issue">Issue:</string>
 
+    <string name="star">Star</string>
+    <string name="un_star">Unstar</string>
+
+    <!--trending-->
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="all">All</string>
+    <string name="c">C</string>
+    <string name="cpp">Cpp</string>
+    <string name="java">Java</string>
+    <string name="javascript">JavaScript</string>
+    <string name="objective_c">Objective-C</string>
+    <string name="python">Python</string>
+
+    <string name="filter">Filter</string>
+
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="follow">follow</string>
+    <string name="follow_erroe">Follow Error</string>
+    <string name="unfollow_erroe">Unfollow Error</string>
+    <string name="follow_success">Follow Success</string>
+    <string name="unfollow_success">Unfollow Success</string>
+    <string name="star_repo_success">Star Repository Success</string>
+    <string name="unstar_repo_success">Unstar Repository Success</string>
+    <string name="star_repo_error">Star Repository Error</string>
+    <string name="unstar_repo_error">Unstar Repository Error</string>
+    <string name="fork_success">Fork Success</string>
+    <string name="fork_error">Fork Error</string>
 </resources>

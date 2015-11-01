@@ -6,23 +6,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.caij.codehub.Constant;
+import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
-import com.caij.codehub.dagger.DaggerUtils;
 import com.caij.codehub.presenter.BasePresent;
-import com.caij.codehub.presenter.UserListPresenter;
 import com.caij.codehub.ui.adapter.UserAdapter;
 import com.caij.codehub.ui.listener.UserListUi;
-import com.caij.lib.utils.SPUtils;
 
 import java.util.List;
 
 /**
  * Created by Caij on 2015/9/24.
  */
-public abstract class UserListActivity extends ListActivity<UserListPresenter, UserAdapter> implements UserListUi{
-
+public abstract class UserListActivity extends ListActivity<UserAdapter> implements UserListUi{
 
     Page mPage;
 
@@ -32,7 +28,6 @@ public abstract class UserListActivity extends ListActivity<UserListPresenter, U
 
         mListView.setDividerHeight(2);
         mPage = new Page();
-
     }
 
     @Override
@@ -40,10 +35,6 @@ public abstract class UserListActivity extends ListActivity<UserListPresenter, U
         return new UserAdapter(this, null);
     }
 
-    @Override
-    public UserListPresenter getPresenter() {
-        return DaggerUtils.getPresenterComponent().provideUserListPresenter();
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -52,14 +43,13 @@ public abstract class UserListActivity extends ListActivity<UserListPresenter, U
         startActivity(intent);
     }
 
-
-
     @Override
     public void onGetUsersSuccess(List<User> users) {
         hideError();
         content.setVisibility(View.VISIBLE);
         mSwipeRefreshLayout.setRefreshing(false);
 
+        mPage.reset();
         mPage.next();
         mListView.setNoMore(users.size() < mPage.getPageDataCount());
 
@@ -77,4 +67,9 @@ public abstract class UserListActivity extends ListActivity<UserListPresenter, U
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void showError(int type, VolleyError error) {
+        super.showError(type, error);
+
+    }
 }

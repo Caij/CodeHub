@@ -3,10 +3,12 @@
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="small_small_margin">4dp</dimen>
+    <dimen name="small_big_margin">24dp</dimen>
     <dimen name="big_margin">32dp</dimen>
 
     <dimen name="big_user_info_image">256dp</dimen>
     <dimen name="user_info_avatar_image">60dp</dimen>
+    <dimen name="comn_avatar_image">40dp</dimen>
 
     <dimen name="load_pro">32dp</dimen>
 
@@ -16,6 +18,8 @@
     <dimen name="title_text_size">20sp</dimen>
 
     <dimen name="repository_icon_size">40sp</dimen>
+
+    <dimen name="follow_btn">32dp</dimen>
 
     <dimen name="btn_radius">3dp</dimen>
 </resources>

@@ -1,6 +1,7 @@
 package com.caij.codehub.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -18,17 +19,12 @@ import java.io.InputStream;
  */
 public class MyGlideModule implements GlideModule {
 
-    private static final int DISK_CACHE_SIZE = 365 * 1024 * 1024; // 365MB
-    public static final String DISK_CACHE_NAME = "glide_disk_cache";
-
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
-
     }
 
     @Override
     public void registerComponents(Context context, Glide glide) {
-
         glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(OkHttpClientProvider.getOkHttpClient()));
     }
 

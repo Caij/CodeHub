@@ -2,6 +2,8 @@ package com.caij.codehub.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by Caij on 2015/9/17.
  */
@@ -137,9 +139,9 @@ public class Repository extends Entity{
     private boolean has_wiki;
     private boolean has_pages;
     private boolean has_downloads;
-    private String pushed_at;
-    private String created_at;
-    private String updated_at;
+    private Date pushed_at;
+    private Date created_at;
+    private Date updated_at;
     private PermissionsEntity permissions;
 
     public void setId(int id) {
@@ -386,15 +388,15 @@ public class Repository extends Entity{
         this.has_downloads = has_downloads;
     }
 
-    public void setPushed_at(String pushed_at) {
+    public void setPushed_at(Date pushed_at) {
         this.pushed_at = pushed_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
-    public void setUpdated_at(String updated_at) {
+    public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
 
@@ -646,15 +648,15 @@ public class Repository extends Entity{
         return has_downloads;
     }
 
-    public String getPushed_at() {
+    public Date getPushed_at() {
         return pushed_at;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return created_at;
     }
 
-    public String getUpdated_at() {
+    public Date getUpdated_at() {
         return updated_at;
     }
 
