@@ -1,6 +1,5 @@
 package com.caij.codehub.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.AdapterView;
 import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
-import com.caij.codehub.presenter.BasePresent;
 import com.caij.codehub.ui.adapter.UserAdapter;
 import com.caij.codehub.ui.listener.UserListUi;
 
@@ -18,7 +16,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/24.
  */
-public abstract class UserListActivity extends ListActivity<UserAdapter> implements UserListUi{
+public abstract class UserListActivity extends ListActivity<UserAdapter, User> implements UserListUi{
 
     Page mPage;
 
@@ -35,7 +33,6 @@ public abstract class UserListActivity extends ListActivity<UserAdapter> impleme
         return new UserAdapter(this, null);
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         User user = (User) adapterView.getAdapter().getItem(i);
@@ -44,32 +41,30 @@ public abstract class UserListActivity extends ListActivity<UserAdapter> impleme
     }
 
     @Override
-    public void onGetUsersSuccess(List<User> users) {
-        hideError();
-        content.setVisibility(View.VISIBLE);
-        mSwipeRefreshLayout.setRefreshing(false);
-
-        mPage.reset();
+    public void onFirstLoadSuccess(List<User> users) {
+        super.onFirstLoadSuccess(users);
         mPage.next();
         mListView.setNoMore(users.size() < mPage.getPageDataCount());
+    }
 
-        mAdapter.setEntities(users);
-        mAdapter.notifyDataSetChanged();
+    @Override
+    public void onRefreshSuccess(List<User> users) {
+        super.onRefreshSuccess(users);
+        mPage.next();
+        mListView.setNoMore(users.size() < mPage.getPageDataCount());
     }
 
     @Override
     public void onLoadMoreSuccess(List<User> users) {
-        mListView.onLoadMoreComplete();
+        super.onLoadMoreSuccess(users);
         mPage.next();
         mListView.setNoMore(users.size() < mPage.getPageDataCount());
-
-        mAdapter.addEntities(users);
-        mAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void showError(int type, VolleyError error) {
-        super.showError(type, error);
-
+    public void onRefreshError(VolleyError error) {
+        super.onRefreshError(error);
+        mPage.scrollBack();
     }
+
 }

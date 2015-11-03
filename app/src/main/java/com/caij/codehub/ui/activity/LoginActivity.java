@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
+import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Token;
@@ -50,16 +51,25 @@ public class LoginActivity extends BaseCodeHubActivity implements LoginUi {
 
     @Override
     public void onLoginSuccess(Token token) {
-        ToastUtil.show(this, "Login Success");
-        SPUtils.save(Constant.USER_TOKEN, token.getToken());
-        SPUtils.save(Constant.USER_NAME, mEditUsername.getText().toString());
+        CodeHubApplication.saveToken(token.getToken());
+        CodeHubApplication.saveCurrentUserName(mEditUsername.getText().toString());
         Intent intent = MainActivity.newIntent(this);
         startActivity(intent);
         finish();
     }
 
     @Override
-    public void showError(int type, VolleyError msg) {
-        ToastUtil.show(this, "Login Error");
+    public void onLoginError(VolleyError error) {
+        ToastUtil.show(this, R.string.login_error);
+    }
+
+    @Override
+    public void onLoading() {
+        showLoading();
+    }
+
+    @Override
+    public void onLoaded() {
+        hideLoading();
     }
 }

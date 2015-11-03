@@ -2,6 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.caij.codehub.ui.activity.InitActivity">
-    <item android:id="@+id/add" android:title="Comment"
+    <item android:id="@+id/comment" android:title="Comment"
         android:orderInCategory="100" app:showAsAction="always" />
 </menu>

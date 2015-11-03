@@ -5,7 +5,7 @@ import com.caij.codehub.ui.listener.CommentsUi;
 /**
  * Created by Caij on 2015/10/31.
  */
-public interface CommentsPresent extends BasePresent<CommentsUi>{
+public interface CommentsPresent extends Present<CommentsUi> {
 
-    public void getIssuesComments(String repo, String issueNumber);
+    public void getIssuesComments(int loadType, String owner, String repo, String issueNumber);
 }

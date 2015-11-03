@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <com.caij.codehub.widgets.GithubTypeFaceTextView
+            android:id="@+id/treeItemImg"
+            style="@style/TvIcon"
+            android:textSize="@dimen/title_text_size"
+            android:layout_margin="@dimen/standard_margin"/>
+
+        <TextView
+            android:id="@+id/treeItemName"
+            android:textSize="@dimen/big_body_text_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_black"/>
+
+    <com.caij.codehub.widgets.GithubTypeFaceTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:singleLine="true"
+        android:text="@string/icon_chevron_right"
+        android:textSize="@dimen/title_text_size" />
+
+</LinearLayout>

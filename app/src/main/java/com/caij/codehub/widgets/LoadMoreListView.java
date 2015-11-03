@@ -116,10 +116,10 @@ public class LoadMoreListView extends ListView implements AbsListView.OnScrollLi
 
     public void setCanLoadMore(boolean canLoadMore) {
         mIsCanLoadMore = canLoadMore;
-        if (!mIsCanLoadMore) {
-            mFooterViewContent.setVisibility(GONE);
-        } else {
-            mFooterViewContent.setVisibility(VISIBLE);
+        if (mIsCanLoadMore){
+            addFooterView(mFooterView);
+        }else {
+            removeFooterView(mFooterView);
         }
     }
 

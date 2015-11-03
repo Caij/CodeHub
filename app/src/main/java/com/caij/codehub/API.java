@@ -36,4 +36,8 @@ public class API {
     public static final String TENDING_REPOSITORY_PARAM_LANGUAGE = "language";
 
     public static final String TENDING_REPOSITORY_PARAM_SINCE = "since";
+
+    public static final String GITHUB_README = "https://github.com/%s/%s/blob/master/README.md";
+
+    public static final String GITHUB_FILE = "https://github.com/%s/%s/%s/%s/%s";
 }

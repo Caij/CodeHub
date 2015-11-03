@@ -10,7 +10,7 @@
     <string name="server_error_hint">server error, please try again later</string>
     <string name="data_load_error_hint">request error, please try again later</string>
     <string name="network_error_hint">request error, please check the network</string>
-    <string name="account_error_hint">account authentication failed, please log in again</string>
+    <string name="account_error_hint">account authentication failed, please login again</string>
 
 
     <string name="icon_star" translatable="false">\uf02a</string>
@@ -39,7 +39,7 @@
     <string name="refresh">Refresh</string>
     <string name="data_load_error">error</string>
     <string name="add_comment">Add Comment</string>
-    <string name="issue">Issue:</string>
+    <string name="issue">Issue</string>
 
     <string name="star">Star</string>
     <string name="un_star">Unstar</string>
@@ -72,4 +72,9 @@
     <string name="unstar_repo_error">Unstar Repository Error</string>
     <string name="fork_success">Fork Success</string>
     <string name="fork_error">Fork Error</string>
+    <string name="data_analysis_error">Unsupport Data</string>
+    <string name="update">Upadte  </string>
+    <string name="login_error">Login Error</string>
+    <string name="not_have_website">Haven\'t Website</string>
+    <string name="comment_success">Comment Success</string>
 </resources>

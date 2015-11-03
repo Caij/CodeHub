@@ -14,67 +14,29 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="160dp"
     android:background="@color/theme_color"
-    android:orientation="vertical">
+    android:paddingLeft="@dimen/standard_margin"
+    android:paddingRight="@dimen/standard_margin">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/img_navigation_avatar"
+        android:layout_width="@dimen/user_info_avatar_image"
+        android:layout_height="@dimen/user_info_avatar_image"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:src="@drawable/default_circle_head_image" />
+
+    <TextView
+        android:id="@+id/tv_navigation_username"
         android:layout_width="wrap_content"
-        android:layout_height="160dp"
-        android:paddingLeft="@dimen/standard_margin"
-        android:paddingRight="@dimen/standard_margin">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_navigation_avatar"
+        android:layout_centerHorizontal="true"
+        android:text="Username"
+        android:textColor="@color/white" />
 
-        <ImageView
-            android:id="@+id/img_navigation_avatar"
-            android:layout_width="@dimen/user_info_avatar_image"
-            android:layout_height="@dimen/user_info_avatar_image"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="@dimen/standard_margin"
-            android:src="@drawable/default_circle_head_image" />
-
-        <TextView
-            android:id="@+id/tv_navigation_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/img_navigation_avatar"
-            android:layout_centerHorizontal="true"
-            android:text="Username"
-            android:textColor="@color/white" />
-
-    </RelativeLayout>
-
-    <RadioGroup
-        android:id="@+id/rg_select"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/standard_margin">
-
-        <RadioButton
-            android:id="@+id/tv_repository"
-            style="@style/MenuItemText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:button="@null"
-            android:text="Repository"
-            android:layout_marginTop="@dimen/small_margin"
-            android:checked="true"/>
-
-        <RadioButton
-            android:id="@+id/tv_event"
-            style="@style/MenuItemText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:button="@null"
-            android:text="News"
-            android:layout_marginTop="@dimen/small_margin"
-            />
-
-    </RadioGroup>
-
-</LinearLayout>
+</RelativeLayout>

@@ -6,119 +6,138 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.bean.Issue;
+import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.CommentsPresent;
 import com.caij.codehub.presenter.IssuePresent;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.CommentAdapter;
 import com.caij.codehub.ui.listener.CommentsUi;
 import com.caij.codehub.ui.listener.IssueUi;
-import com.caij.codehub.widgets.LoadMoreListView;
-
-import java.util.List;
-
-import butterknife.Bind;
 
 /**
  * Created by Caij on 2015/10/31.
  */
-public class IssueActivity extends BaseCodeHubActivity implements IssueUi, CommentsUi {
+public class IssueActivity extends ListActivity<CommentAdapter, Comment> implements IssueUi, CommentsUi {
 
-    TextView tvIssueTitle;
-    @Bind(R.id.list_view)
-    LoadMoreListView listView;
     TextView tvIssueBody;
-    private String repoOwner;
-    private String repo;
-    private String issueNumber;
-    private IssuePresent issuePresent;
-    private CommentsPresent commentsPresent;
-    private CommentAdapter adapter;
+    private String mRepo;
+    private String mIssueNumber;
+    private CommentsPresent mCommentsPresent;
+    private String mOwner;
+    private TextView mIssueTitleTextView;
+    private IssuePresent mIssuePresent;
 
-    public static Intent newIntent(Activity activity, Issue issue, String repo, String issueNumber) {
+    public static Intent newIntent(Activity activity, String owner, String repo, String issueNumber, String issueTitle, String issueBody) {
         Intent intent = new Intent(activity, IssueActivity.class);
-        intent.putExtra(Constant.ISSUE, issue);
         intent.putExtra(Constant.REPO_NAME, repo);
+        intent.putExtra(Constant.USER_NAME, owner);
         intent.putExtra(Constant.ISSUE_NUMBER, issueNumber);
+        intent.putExtra(Constant.ISSUE_TITLE, issueTitle);
+        intent.putExtra(Constant.ISSUE_BODY, issueBody);
         return intent;
-    }
-
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_issue;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        content.setVisibility(View.GONE);
 
-        repo = getIntent().getStringExtra(Constant.REPO_NAME);
-        issueNumber = getIntent().getStringExtra(Constant.ISSUE_NUMBER);
+        mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
+        mIssueNumber = getIntent().getStringExtra(Constant.ISSUE_NUMBER);
+        mOwner = getIntent().getStringExtra(Constant.USER_NAME);
+        String issueTitle = getIntent().getStringExtra(Constant.ISSUE_TITLE);
+        String issueBody = getIntent().getStringExtra(Constant.ISSUE_BODY);
 
-        setToolbarTitle(repo + "  #" + issueNumber);
+        setToolbarTitle(mRepo + "  #" + mIssueNumber);
 
-        Issue issue = (Issue) getIntent().getSerializableExtra(Constant.ISSUE);
-
-        adapter = new CommentAdapter(null, this);
-        listView.setAdapter(adapter);
-        listView.setDivider(null);
-        listView.setCanLoadMore(false);
+        getListView().setDivider(null);
+        getListView().setCanLoadMore(false);
 
         View view = View.inflate(this, R.layout.item_issue_head, null);
-        tvIssueTitle = (TextView) view.findViewById(R.id.tv_issue_title);
+        mIssueTitleTextView = (TextView) view.findViewById(R.id.tv_issue_title);
         tvIssueBody = (TextView) view.findViewById(R.id.tv_issue_body);
-        tvIssueTitle.setText(issue.getTitle());
-        tvIssueBody.setText(issue.getBody());
-        listView.addHeaderView(view);
+        mIssueTitleTextView.setText(getString(R.string.issue) + ": " + issueTitle);
+        tvIssueBody.setText(issueBody);
+        getListView().addHeaderView(view);
 
-        commentsPresent = PresenterFactory.newPresentInstance(CommentsPresent.class, CommentsUi.class, this);
-        commentsPresent.getIssuesComments(repo, issueNumber);
+        mCommentsPresent = PresenterFactory.newPresentInstance(CommentsPresent.class, CommentsUi.class, this);
+        mCommentsPresent.getIssuesComments(Present.LoadType.FIRSTLOAD, mOwner, mRepo, mIssueNumber);
+//        mIssuePresent = PresenterFactory.newPresentInstance(IssuePresent.class, IssueUi.class, this);
+//        mIssuePresent.getIssue(mOwner, mRepo, mIssueNumber);
+    }
+
+    @Override
+    protected CommentAdapter createAdapter() {
+        return new CommentAdapter(null, this);
     }
 
     @Override
     public void onGetIssueSuccess(Issue issue) {
-        tvIssueTitle.setText(issue.getTitle());
+        mIssueTitleTextView.setText(issue.getTitle());
         tvIssueBody.setText(issue.getBody());
     }
 
     @Override
-    public void onGetCommentsSuccess(List<Comment> comments) {
-        content.setVisibility(View.VISIBLE);
-        adapter.setEntities(comments);
-        adapter.notifyDataSetChanged();
+    public void onGetIssueError(VolleyError error) {
+
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        commentsPresent.getIssuesComments(repo, issueNumber);
+        mCommentsPresent.getIssuesComments(Present.LoadType.FIRSTLOAD, mOwner, mRepo, mIssueNumber);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_issue, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.add) {
+        if (id == R.id.comment) {
+            Intent intent = CommentActivity.newIntent(this, mOwner, mRepo, mIssueNumber);
+            startActivityForResult(intent, Constant.ISSUE_COMMENT_REQUEST_CODE);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constant.ISSUE_COMMENT_REQUEST_CODE) {
+                Comment comment = (Comment) data.getSerializableExtra(Constant.COMMENT);
+                mAdapter.addEntity(comment);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onLoadMore() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+        mCommentsPresent.getIssuesComments(Present.LoadType.REFRESH, mOwner, mRepo, mIssueNumber);
     }
 }

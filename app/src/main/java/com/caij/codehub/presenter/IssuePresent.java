@@ -5,7 +5,7 @@ import com.caij.codehub.ui.listener.IssueUi;
 /**
  * Created by Caij on 2015/10/31.
  */
-public interface IssuePresent extends BasePresent<IssueUi>{
+public interface IssuePresent extends Present<IssueUi> {
 
-    public void getIssue(String repo, String issueNumber );
+    public void getIssue(String owner, String repo, String issueNumber );
 }

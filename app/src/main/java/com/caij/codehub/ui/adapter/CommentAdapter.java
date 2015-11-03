@@ -23,20 +23,16 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class CommentAdapter extends BaseAdapter<Comment> {
 
-    private final LayoutInflater inflater;
-    private final Context content;
 
     public CommentAdapter(List<Comment> entities, Context context) {
-        super(entities);
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.content = context;
+        super(context, entities);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_comment, parent, false);
+            convertView = mInflater.inflate(R.layout.item_comment, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         }
@@ -51,8 +47,8 @@ public class CommentAdapter extends BaseAdapter<Comment> {
     private void bindViewHolder(ViewHolder viewHolder, int position) {
         Comment comment = getItem(position);
 
-        Glide.with(content).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
-                bitmapTransform(new CropCircleTransformation(content)).into(viewHolder.avatarImage);
+        Glide.with(context).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+                bitmapTransform(new CropCircleTransformation(context)).into(viewHolder.avatarImage);
         viewHolder.tvUserName.setText(comment.getUser().getLogin());
         viewHolder.tvCommentBody.setText(comment.getBody());
         viewHolder.tvCommentUpdate.setText(TimeUtils.getRelativeTime(comment.getUpdated_at()));

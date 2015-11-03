@@ -10,6 +10,10 @@
     <dimen name="user_info_avatar_image">60dp</dimen>
     <dimen name="comn_avatar_image">40dp</dimen>
 
+    <dimen name="small_avatar_image">30dp</dimen>
+
+    <dimen name="file_avatar_image">20dp</dimen>
+
     <dimen name="load_pro">32dp</dimen>
 
     <dimen name="caption_text_size">12sp</dimen>
@@ -22,4 +26,5 @@
     <dimen name="follow_btn">32dp</dimen>
 
     <dimen name="btn_radius">3dp</dimen>
+    <dimen name="breadcrumb_height">42dp</dimen>
 </resources>

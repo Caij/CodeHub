@@ -28,6 +28,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
 
     @Override
     public void hasStarRepo(String owner, String repo, String token) {
+        mUi.onRepositoryActionLoading(ACTION_TYPE_HAS_STAR);
         String url = API.API_HOST + "/user/starred/" + owner + "/" +repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -36,6 +37,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
             public void onResponse(NetworkResponse response) {
                 LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 mUi.onCheckStarStateSuccess(response.statusCode == 204);
+                mUi.onRepositoryActionLoaded(ACTION_TYPE_HAS_STAR);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -43,6 +45,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 404) {
                     mUi.onCheckStarStateSuccess(false);
                 }
+                mUi.onRepositoryActionLoaded(ACTION_TYPE_HAS_STAR);
             }
         });
         VolleyUtil.addRequest(responseRequest, tag);
@@ -50,7 +53,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
 
     @Override
     public void starRepo(String owner, String repo, String token) {
-        mUi.showLoading(LoadType.FIRSTLOAD);
+        mUi.onRepositoryActionLoading(ACTION_TYPE_STAR);
         String url = API.API_HOST + "/user/starred/" + owner + "/" + repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -65,13 +68,13 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
                 }else {
                     mUi.onStarRepoError(null);
                 }
-                mUi.hideLoading(LoadType.FIRSTLOAD);
+               mUi.onRepositoryActionLoaded(ACTION_TYPE_STAR);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mUi.onStarRepoError(error);
-                mUi.hideLoading(LoadType.FIRSTLOAD);
+                mUi.onRepositoryActionLoaded(ACTION_TYPE_STAR);
             }
         });
         VolleyUtil.addRequest(responseRequest, tag);
@@ -79,7 +82,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
 
     @Override
     public void unstarRepo(String owner, String repo, String token) {
-        mUi.showLoading(LoadType.FIRSTLOAD);
+        mUi.onRepositoryActionLoading(ACTION_TYPE_UNSTAR);
         String url = API.API_HOST + "/user/starred/" + owner + "/" + repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -92,13 +95,13 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
                 }else {
                     mUi.onUnstarRepoError(null);
                 }
-                mUi.hideLoading(LoadType.FIRSTLOAD);
+                mUi.onRepositoryActionLoaded(ACTION_TYPE_UNSTAR);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mUi.onUnstarRepoError(error);
-                mUi.hideLoading(LoadType.FIRSTLOAD);
+                mUi.onRepositoryActionLoaded(ACTION_TYPE_UNSTAR);
             }
         });
         VolleyUtil.addRequest(responseRequest, tag);
@@ -108,7 +111,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
     public void forkRepo(String owner, String repo, String token) {
 //        POST /repos/:owner/:repo/forks
 //        https://api.github.com/repos/81813780/AVLoadingIndicatorView/forks
-        mUi.showLoading(LoadType.FIRSTLOAD);
+        mUi.onRepositoryActionLoading(ACTION_TYPE_FORK);
         String url = API.API_HOST + "/repos/" + owner + "/" + repo + "/forks";
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -118,13 +121,13 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
             public void onResponse(NetworkResponse response) {
                 LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 mUi.onForkRepoSuccess();
-                mUi.hideLoading(LoadType.FIRSTLOAD);
+                mUi.onRepositoryActionLoaded(ACTION_TYPE_FORK);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mUi.onForkRepoError(error);
-                mUi.hideLoading(LoadType.FIRSTLOAD);
+                mUi.onRepositoryActionLoaded(ACTION_TYPE_FORK);
             }
         });
         VolleyUtil.addRequest(responseRequest, tag);

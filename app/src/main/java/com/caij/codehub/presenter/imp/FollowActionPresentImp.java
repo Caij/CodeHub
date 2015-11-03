@@ -5,7 +5,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.presenter.UserFollowPresent;
+import com.caij.codehub.presenter.FollowActionPresent;
 import com.caij.codehub.ui.listener.UserFollowUi;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.NetworkResponseRequest;
@@ -16,18 +16,19 @@ import java.util.Map;
 /**
  * Created by Caij on 2015/11/1.
  */
-public class UserFollowPresentImp implements UserFollowPresent{
+public class FollowActionPresentImp implements FollowActionPresent {
 
     private UserFollowUi mUserUi;
     private Object tag = new Object();
 
-    public UserFollowPresentImp(UserFollowUi ui) {
+    public FollowActionPresentImp(UserFollowUi ui) {
         this.mUserUi = ui;
     }
 
 
     @Override
     public void checkFollowState(String token, String username) {
+        mUserUi.onFollowActionLoading(ACTION_TYPE_HAS_FOLLOW);
         String url = API.API_HOST + "/user/following/" + username;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -39,6 +40,7 @@ public class UserFollowPresentImp implements UserFollowPresent{
                 }else {
                     mUserUi.onCheckFollowInfoSuccess(false);
                 }
+                mUserUi.onFollowActionLoaded(ACTION_TYPE_HAS_FOLLOW);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -46,6 +48,7 @@ public class UserFollowPresentImp implements UserFollowPresent{
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 404) {
                     mUserUi.onCheckFollowInfoSuccess(false);
                 }
+                mUserUi.onFollowActionLoaded(ACTION_TYPE_HAS_FOLLOW);
             }
         });
 
@@ -54,7 +57,7 @@ public class UserFollowPresentImp implements UserFollowPresent{
 
     @Override
     public void followUser(String token, String username) {
-        mUserUi.showLoading(LoadType.FIRSTLOAD);
+        mUserUi.onFollowActionLoading(ACTION_TYPE_FOLLOW);
         String url = API.API_HOST + "/user/following/" + username;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -66,13 +69,13 @@ public class UserFollowPresentImp implements UserFollowPresent{
                 }else {
                     mUserUi.onFollowError();
                 }
-                mUserUi.hideLoading(LoadType.FIRSTLOAD);
+                mUserUi.onFollowActionLoaded(ACTION_TYPE_FOLLOW);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mUserUi.onFollowError();
-                mUserUi.hideLoading(LoadType.FIRSTLOAD);
+                mUserUi.onFollowActionLoaded(ACTION_TYPE_FOLLOW);
             }
         });
 
@@ -81,7 +84,7 @@ public class UserFollowPresentImp implements UserFollowPresent{
 
     @Override
     public void unfollowUser(String token, String username) {
-        mUserUi.showLoading(LoadType.FIRSTLOAD);
+        mUserUi.onFollowActionLoading(ACTION_TYPE_UNFOLLOW);
         String url = API.API_HOST + "/user/following/" + username;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -93,13 +96,13 @@ public class UserFollowPresentImp implements UserFollowPresent{
                 }else {
                     mUserUi.onUnfollowError();
                 }
-                mUserUi.hideLoading(LoadType.FIRSTLOAD);
+                mUserUi.onFollowActionLoaded(ACTION_TYPE_UNFOLLOW);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mUserUi.onUnfollowError();
-                mUserUi.hideLoading(LoadType.FIRSTLOAD);
+                mUserUi.onFollowActionLoaded(ACTION_TYPE_UNFOLLOW);
             }
         });
 

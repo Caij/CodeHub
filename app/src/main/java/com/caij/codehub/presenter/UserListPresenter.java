@@ -6,7 +6,7 @@ import com.caij.codehub.ui.listener.UserListUi;
 /**
  * Created by Caij on 2015/9/18.
  */
-public interface UserListPresenter extends BasePresent<UserListUi>{
+public interface UserListPresenter extends Present<UserListUi> {
 
     public void getFollowers(String token, String username, int loadType, Page page);
 

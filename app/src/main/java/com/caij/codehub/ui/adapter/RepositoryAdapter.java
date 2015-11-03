@@ -17,16 +17,14 @@ import java.util.List;
  */
 public class RepositoryAdapter extends BaseAdapter<Repository>{
 
-    private LayoutInflater mInflater;
 
     public RepositoryAdapter(Context context, List<Repository> repositories) {
-        super(repositories);
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        super(context, repositories);
     }
 
 
     public void onBindViewHolder(RepositoryViewHolder viewHolder, int i) {
-        Repository repository = (Repository) getItem(i);
+        Repository repository = getItem(i);
         viewHolder.tvStarSum.setText(String.valueOf(repository.getStargazers_count()));
         viewHolder.tvForkSum.setText(String.valueOf(repository.getForks_count()));
         viewHolder.tvRepositoryName.setText(repository.getName());

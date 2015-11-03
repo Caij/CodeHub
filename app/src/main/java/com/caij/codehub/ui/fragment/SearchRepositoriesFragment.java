@@ -6,7 +6,7 @@
 //
 //import com.android.volley.VolleyError;
 //import com.caij.codehub.Constant;
-//import com.caij.codehub.presenter.BasePresent;
+//import com.caij.codehub.presenter.Present;
 //import com.caij.codehub.presenter.PresenterFactory;
 //import com.caij.codehub.presenter.RepositoryListPresenter;
 //import com.caij.codehub.ui.listener.RepositoryListUi;
@@ -22,7 +22,7 @@
 //    private String mOrder;
 //    private RepositoryListPresenter mPresenter;
 //
-//    public static RepositoriesFragment newInstance(String q, String sort, String order) {
+//    public static RepositoriesFragment newIntent(String q, String sort, String order) {
 //        Bundle bundle = new Bundle();
 //        CheckValueUtil.check(sort);
 //        bundle.putString(Constant.REPO_SEARCH_Q, q);
@@ -45,19 +45,19 @@
 //
 //    @Override
 //    protected void onUserFirstVisible() {
-//        mPresenter.getSearchRepository(BasePresent.LoadType.FIRSTLOAD, mRepoSearchQ, mRepoSort, mOrder, mPage);
+//        mPresenter.getSearchRepository(Present.LoadType.FIRSTLOAD, mRepoSearchQ, mRepoSort, mOrder, mPage);
 //    }
 //
 //    @Override
 //    public void onRefresh() {
 //        mPage.reset();
-//        mPresenter.getSearchRepository(BasePresent.LoadType.REFRESH, mRepoSearchQ, mRepoSort, mOrder, mPage);
+//        mPresenter.getSearchRepository(Present.LoadType.REFRESH, mRepoSearchQ, mRepoSort, mOrder, mPage);
 //    }
 //
 //    @Override
 //    public void onReFreshBtnClick(View view) {
 //        super.onReFreshBtnClick(view);
-//        mPresenter.getSearchRepository(BasePresent.LoadType.FIRSTLOAD, mRepoSearchQ, mRepoSort, mOrder, mPage);
+//        mPresenter.getSearchRepository(Present.LoadType.FIRSTLOAD, mRepoSearchQ, mRepoSort, mOrder, mPage);
 //    }
 //
 //    @Override
@@ -68,7 +68,7 @@
 //    @Override
 //    public void showError(int type, VolleyError error) {
 //        super.showError(type, error);
-//        if (type == BasePresent.LoadType.REFRESH) {
+//        if (type == Present.LoadType.REFRESH) {
 //            mPage.scrollBack(); //用于刷新的时候重置page刷新错误，导致下拉index出错。
 //        }
 //    }

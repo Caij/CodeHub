@@ -22,19 +22,17 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class UserAdapter extends BaseAdapter<User> {
 
     private final CropCircleTransformation cropCircleTransformation;
-    private Context context;
 
     public UserAdapter(Context context, List<User> entities) {
-        super(entities);
+        super(context, entities);
         cropCircleTransformation = new CropCircleTransformation(context);
-        this.context = context;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         UserViewHolder holder;
         if (view == null) {
-            view = View.inflate(context, R.layout.item_user, null);
+            view = mInflater.inflate(R.layout.item_user, viewGroup, false);
             holder= new UserViewHolder(view);
             view.setTag(holder);
         }

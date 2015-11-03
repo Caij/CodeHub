@@ -23,26 +23,28 @@ public class NetworkResponseRequest extends AbsRequest<NetworkResponse>{
         mResponse = response;
     }
 
-    public NetworkResponseRequest(int method, String url, Map<String, String> params, Map<String, String> head, Response.Listener<NetworkResponse> response,
-                         Response.ErrorListener listener) {
+    public NetworkResponseRequest(int method, String url, String params, Response.Listener<NetworkResponse> response, Response.ErrorListener listener) {
+        super(method, url, params, listener);
+        mResponse = response;
+    }
+
+    public NetworkResponseRequest(int method, String url, Map<String, String> params, Map<String, String> head, Response.Listener<NetworkResponse> response, Response.ErrorListener listener) {
         super(method, url, params, head, listener);
         mResponse = response;
     }
 
-    public NetworkResponseRequest(int method, String url, String params, Map<String, String> head, Response.Listener<NetworkResponse> response,
-                                  Response.ErrorListener listener) {
-        this(method, url, params, head, null, response, listener);
+    public NetworkResponseRequest(int method, String url, String params, Map<String, String> head, Response.Listener<NetworkResponse> response, Response.ErrorListener listener) {
+        super(method, url, params, head, listener);
+        mResponse = response;
     }
 
-    public NetworkResponseRequest(int method, String url, Map<String, String> params, Map<String, String> head, String bodyContentType, Response.Listener<NetworkResponse> response,
-                         Response.ErrorListener listener) {
+    public NetworkResponseRequest(int method, String url, String params, Map<String, String> head, String bodyContentType, Response.Listener<NetworkResponse> response, Response.ErrorListener listener) {
         super(method, url, params, head, bodyContentType, listener);
         mResponse = response;
     }
 
-    public NetworkResponseRequest(int method, String url, String body, Map<String, String> head, String bodyContentType, Response.Listener<NetworkResponse> response,
-                         Response.ErrorListener listener) {
-        super(method, url, body, head, bodyContentType, listener);
+    public NetworkResponseRequest(int method, String url, Map<String, String> params, Map<String, String> head, String bodyContentType, Response.Listener<NetworkResponse> response, Response.ErrorListener listener) {
+        super(method, url, params, head, bodyContentType, listener);
         mResponse = response;
     }
 

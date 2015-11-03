@@ -1,11 +1,13 @@
 package com.caij.codehub.ui.fragment;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -16,9 +18,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.R;
-import com.caij.codehub.presenter.BasePresent;
 import com.caij.codehub.ui.activity.LoginActivity;
-import com.caij.codehub.ui.listener.BaseUi;
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.ToastUtil;
 import com.caij.lib.volley.request.JsonParseError;
@@ -29,26 +29,25 @@ import butterknife.ButterKnife;
 /**
  * Created by Caij on 2015/9/20.
  */
-public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi {
+public abstract class BaseCodeHubFragment extends BaseFragment{
 
     @Nullable
     @Bind(R.id.pb_content_loading)
-    ProgressBar pbLoading;
+    ProgressBar mLoadingProgressBar;
 
-    @Nullable
-    @Bind(R.id.ll_load_error)
-    LinearLayout llLoadError;
+    ViewStub mLoadErrorViewStub;
 
-    ViewGroup content;
-    @Bind(R.id.btn_refresh)
-    Button btnRefresh;
+    LinearLayout mLoadErrorLinearLayout;
+
+    ViewGroup mContentContainer;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_base_code_hub, container, false);
-        content = (ViewGroup) view.findViewById(R.id.content);
-        getActivity().getLayoutInflater().inflate(getContentLayoutId(), content, true);
+        mContentContainer = (ViewGroup) view.findViewById(R.id.content);
+        getActivity().getLayoutInflater().inflate(getContentLayoutId(), mContentContainer, true);
+        mLoadErrorViewStub = (ViewStub) view.findViewById(R.id.vs_load_error);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -58,12 +57,7 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onReFreshBtnClick(view);
-            }
-        });
+
     }
 
     @Override
@@ -72,32 +66,44 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void showError(int type, VolleyError error) {
-        if (llLoadError != null && type == BasePresent.LoadType.FIRSTLOAD) {
-            llLoadError.setVisibility(View.VISIBLE);
-        }
-        processVolleyError(error);
-    }
-
-    public void hideError() {
-        if (llLoadError != null) {
-            llLoadError.setVisibility(View.GONE);
+    protected  void hideError(){
+        if (mLoadErrorLinearLayout != null) {
+            mLoadErrorLinearLayout.setVisibility(View.GONE);
         }
     }
 
-    @Override
-    public void showLoading(int loadType) {
-        if (pbLoading != null && loadType == BasePresent.LoadType.FIRSTLOAD) {
-            pbLoading.setVisibility(View.VISIBLE);
+    protected void showError() {
+        if (mLoadErrorLinearLayout == null) {
+            View view = mLoadErrorViewStub.inflate();
+            mLoadErrorLinearLayout = (LinearLayout) view.findViewById(R.id.ll_load_error);
+            Button btnRefresh = (Button) view.findViewById(R.id.btn_refresh);
+            btnRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onReFreshBtnClick(view);
+                }
+            });
+        }
+        mLoadErrorLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    protected void showLoading() {
+        if (mLoadingProgressBar != null) {
+            mLoadingProgressBar.setVisibility(View.VISIBLE);
         }
     }
 
-    @Override
-    public void hideLoading(int loadType) {
-        if (pbLoading != null && loadType == BasePresent.LoadType.FIRSTLOAD) {
-            pbLoading.setVisibility(View.GONE);
+    public void hideLoading() {
+        if (mLoadingProgressBar != null) {
+            mLoadingProgressBar.setVisibility(View.GONE);
         }
+    }
+
+    public void showContentContainer() {
+        mContentContainer.setVisibility(View.VISIBLE);
+//        ObjectAnimator animator = ObjectAnimator.ofFloat(mContentContainer, "alpha", 0.4f, 1f);
+//        animator.setDuration(800);
+//        animator.start();
     }
 
     public void onReFreshBtnClick(View view) {

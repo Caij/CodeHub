@@ -19,4 +19,7 @@
     <color name="gplus_color_2">#f4b400</color>
     <color name="gplus_color_3">#427fed</color>
     <color name="gplus_color_4">#b23424</color>
+
+    <color name="crumb_active">#fff</color>
+    <color name="crumb_inactive">#73ffffff</color>
 </resources>

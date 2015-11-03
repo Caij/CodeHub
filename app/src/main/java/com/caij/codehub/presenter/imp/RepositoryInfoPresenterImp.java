@@ -31,26 +31,22 @@ public class RepositoryInfoPresenterImp implements RepositoryInfoPresenter {
 
     @Override
     public void getRepositoryInfo(String repositoryName, String owner, String token) {
-        mUi.showLoading(LoadType.FIRSTLOAD);
+        mUi.onLoading();
         String url = API.API_HOST + API.REPOSITORY_REPOS_URI + "/" + owner + "/" + repositoryName;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
-        GsonRequest<Repository> request = new GsonRequest<Repository>(Request.Method.GET, url, null, head, new TypeToken<Repository>() {}.getType(),
+        GsonRequest<Repository> request = new GsonRequest<Repository>(Request.Method.GET, url, "", head, new TypeToken<Repository>() {}.getType(),
                 new Response.Listener<Repository>() {
                     @Override
                     public void onResponse(Repository response) {
-                        if (response != null) {
-                            mUi.onGetRepositoryInfoSuccess(response);
-                        }else {
-                            mUi.showError(LoadType.FIRSTLOAD, null);
-                        }
-                        mUi.hideLoading(LoadType.FIRSTLOAD);
+                        mUi.onGetRepositoryInfoSuccess(response);
+                        mUi.onLoaded();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.hideLoading(LoadType.FIRSTLOAD);
-                mUi.showError(LoadType.FIRSTLOAD, error);
+                mUi.onLoaded();
+                mUi.onGetRepositoryInfoError(error);
             }
         });
         VolleyUtil.addRequest(request, tag);

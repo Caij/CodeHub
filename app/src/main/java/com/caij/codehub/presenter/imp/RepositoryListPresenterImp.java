@@ -45,7 +45,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
 
     @Override
     public void getSearchRepository(final int loadType, String q, String sort, String order, Page page) {
-        mUi.showLoading(loadType);
+        mUi.onLoading(loadType);
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(q)) {
             params.put(API.Q, q);
@@ -78,7 +78,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
 
     @Override
     public void getTrendingRepository(final int loadType, String since, String language) {
-        mUi.showLoading(loadType);
+        mUi.onLoading(loadType);
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(language))
             params.put(API.TENDING_REPOSITORY_PARAM_LANGUAGE, language);
@@ -105,7 +105,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
     }
 
     private void loadStarredOrUserRepository(final int loadType, String url, String token, Page page) {
-        mUi.showLoading(loadType);
+        mUi.onLoading(loadType);
         Map<String, String> params = new HashMap<>();
         params.put(API.PAGE, String.valueOf(page.getPageIndex()));
         params.put(API.PER_PAGE, String.valueOf(page.getPageDataCount()));
@@ -131,16 +131,24 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
     }
 
     private void handlerError(int loadType, VolleyError error) {
-        mUi.hideLoading(loadType);
-        mUi.showError(loadType, error);
+        mUi.onLoaded(loadType);
+        if (loadType == LoadType.FIRSTLOAD) {
+            mUi.onFirstLoadError(error);
+        }else if (loadType == LoadType.REFRESH) {
+            mUi.onRefreshError(error);
+        }else if (loadType == LoadType.LOADMOER) {
+            mUi.onLoadMoreError(error);
+        }
     }
 
     private void handlerResponse(int loadType, List<Repository> repositories) {
-        mUi.hideLoading(loadType);
-        if (loadType == LoadType.REFRESH || loadType == LoadType.FIRSTLOAD) {
-            mUi.onRefreshRepositoriesSuccess(repositories);
-        }else if (loadType == LoadType.LOADMOER) {
-            mUi.onLoadMoreRepositoriesSuccess(repositories);
+        mUi.onLoaded(loadType);
+        if (loadType == LoadType.FIRSTLOAD) {
+            mUi.onFirstLoadSuccess(repositories);
+        }else if (loadType == LoadType.REFRESH){
+           mUi.onRefreshSuccess(repositories);
+        }  else if (loadType == LoadType.LOADMOER) {
+            mUi.onLoadMoreSuccess(repositories);
         }
     }
 

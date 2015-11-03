@@ -6,7 +6,7 @@ import com.caij.codehub.ui.listener.RepositoryListUi;
 /**
  * Created by Caij on 2015/9/18.
  */
-public interface RepositoryListPresenter extends BasePresent<RepositoryListUi>{
+public interface RepositoryListPresenter extends Present<RepositoryListUi> {
 
     public void getUserStarredRepositories(int loadType, String username, String token, Page page);
 

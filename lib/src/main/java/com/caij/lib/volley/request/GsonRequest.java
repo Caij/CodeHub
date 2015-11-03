@@ -25,6 +25,7 @@ public class GsonRequest<T> extends AbsRequest<T>{
     protected Type mType;
     protected Response.Listener<T> mResponse;
 
+
     public GsonRequest(int method, String url, Type type,
                        Response.Listener<T> response, Response.ErrorListener listener) {
         super(method, url, listener);
@@ -32,14 +33,26 @@ public class GsonRequest<T> extends AbsRequest<T>{
         mResponse = response;
     }
 
-    public GsonRequest(int method, String url, Map<String, String> params, Type type,
-                       Response.Listener<T> response, Response.ErrorListener listener) {
+    public GsonRequest(int method, String url, Map<String, String> params, Type type, Response.Listener<T> response, Response.ErrorListener listener) {
+        super(method, url, params, listener);
+        mType = type;
+        mResponse = response;
+    }
+
+    public GsonRequest(int method, String url, String params, Type type, Response.Listener<T> response, Response.ErrorListener listener) {
         super(method, url, params, listener);
         mType = type;
         mResponse = response;
     }
 
     public GsonRequest(int method, String url, Map<String, String> params, Map<String, String> head, Type type,
+                       Response.Listener<T> response, Response.ErrorListener listener) {
+        super(method, url, params, head, listener);
+        mType = type;
+        mResponse = response;
+    }
+
+    public GsonRequest(int method, String url, String params, Map<String, String> head, Type type,
                        Response.Listener<T> response, Response.ErrorListener listener) {
         super(method, url, params, head, listener);
         mType = type;
@@ -53,9 +66,9 @@ public class GsonRequest<T> extends AbsRequest<T>{
         mResponse = response;
     }
 
-    public GsonRequest(int method, String url, String body, Map<String, String> head, String bodyContentType, Type type,
+    public GsonRequest(int method, String url, String params, Map<String, String> head, String bodyContentType, Type type,
                        Response.Listener<T> response, Response.ErrorListener listener) {
-        super(method, url, body, head, bodyContentType, listener);
+        super(method, url, params, head, bodyContentType, listener);
         mType = type;
         mResponse = response;
     }

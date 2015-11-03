@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.Repository;
-import com.caij.codehub.presenter.BasePresent;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.adapter.RepositoryAdapter;
 import com.caij.codehub.ui.listener.RepositoryListUi;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/18.
  */
-public abstract class RepositoriesFragment extends ListFragment<RepositoryAdapter> implements RepositoryListUi {
+public abstract class RepositoriesFragment extends ListFragment<RepositoryAdapter, Repository> implements RepositoryListUi {
 
     protected Page mPage;
 
@@ -38,19 +37,6 @@ public abstract class RepositoriesFragment extends ListFragment<RepositoryAdapte
     }
 
     @Override
-    public void onRefreshRepositoriesSuccess(List<Repository> repositories) {
-        hideError();
-        content.setVisibility(View.VISIBLE);
-        mSwipeRefreshLayout.setRefreshing(false);
-
-        mPage.next();
-        mListView.setNoMore(repositories.size() < mPage.getPageDataCount());
-
-        mAdapter.setEntities(repositories);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Repository repository = (Repository) adapterView.getAdapter().getItem(i);
         Intent intent = RepositoryInfoActivity.newInstance(getActivity(),
@@ -58,16 +44,30 @@ public abstract class RepositoriesFragment extends ListFragment<RepositoryAdapte
         startActivity(intent);
     }
 
-
     @Override
-    public void onLoadMoreRepositoriesSuccess(List<Repository> repositories) {
-
-        mListView.onLoadMoreComplete();
+    public void onFirstLoadSuccess(List<Repository> repositories) {
+        super.onFirstLoadSuccess(repositories);
         mPage.next();
         mListView.setNoMore(repositories.size() < mPage.getPageDataCount());
-
-        mAdapter.addEntities(repositories);
-        mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onRefreshSuccess(List<Repository> repositories) {
+        super.onRefreshSuccess(repositories);
+        mPage.next();
+        mListView.setNoMore(repositories.size() < mPage.getPageDataCount());
+    }
+
+    @Override
+    public void onLoadMoreSuccess(List<Repository> repositories) {
+        super.onLoadMoreSuccess(repositories);
+        mPage.next();
+        mListView.setNoMore(repositories.size() < mPage.getPageDataCount());
+    }
+
+    @Override
+    public void onRefreshError(VolleyError error) {
+        super.onRefreshError(error);
+        mPage.scrollBack();
+    }
 }

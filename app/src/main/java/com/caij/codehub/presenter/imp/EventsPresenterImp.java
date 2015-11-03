@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Page;
+import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.presenter.EventsPresenter;
 import com.caij.codehub.request.EventRequest;
@@ -29,7 +30,7 @@ public class EventsPresenterImp implements EventsPresenter {
 
     @Override
     public void getReceivedEvents(String username, String token, final int loadType, Page page) {
-        mUi.showLoading(loadType);
+        mUi.onLoading(loadType);
         String url = API.API_HOST + "/users/" + username + "/received_events";
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -49,17 +50,26 @@ public class EventsPresenterImp implements EventsPresenter {
         });
         VolleyUtil.addRequest(request, tag);
     }
+
     private void handlerError(int loadType, VolleyError error) {
-        mUi.hideLoading(loadType);
-        mUi.showError(loadType, error);
+        mUi.onLoaded(loadType);
+        if (loadType == LoadType.FIRSTLOAD) {
+            mUi.onFirstLoadError(error);
+        }else if (loadType == LoadType.REFRESH) {
+            mUi.onRefreshError(error);
+        }else if (loadType == LoadType.LOADMOER) {
+            mUi.onLoadMoreError(error);
+        }
     }
 
-    private void handlerResponse(int loadType,List<EventWrap> newses) {
-        mUi.hideLoading(loadType);
-        if (loadType == LoadType.REFRESH || loadType == LoadType.FIRSTLOAD) {
-            mUi.onGetNewsSuccess(newses);
-        }else if (loadType == LoadType.LOADMOER) {
-            mUi.onLoadMoreSuccess(newses);
+    private void handlerResponse(int loadType, List<EventWrap> events) {
+        mUi.onLoaded(loadType);
+        if (loadType == LoadType.FIRSTLOAD) {
+            mUi.onFirstLoadSuccess(events);
+        }else if (loadType == LoadType.REFRESH){
+            mUi.onRefreshSuccess(events);
+        }  else if (loadType == LoadType.LOADMOER) {
+            mUi.onLoadMoreSuccess(events);
         }
     }
 

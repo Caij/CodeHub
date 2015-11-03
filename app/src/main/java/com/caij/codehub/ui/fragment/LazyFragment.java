@@ -2,12 +2,6 @@ package com.caij.codehub.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.caij.codehub.presenter.BasePresent;
-import com.caij.codehub.ui.activity.BaseCodeHubActivity;
 
 /**
  * Created by Caij on 2015/9/18.

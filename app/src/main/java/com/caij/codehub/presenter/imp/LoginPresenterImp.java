@@ -43,7 +43,7 @@ public class LoginPresenterImp implements LoginPresenter {
 
     @Override
     public void login(final String username, final String pwd) {
-        mUi.showLoading(LoadType.FIRSTLOAD);
+        mUi.onLoading();
         try {
             JSONObject json = new JSONObject();
             json.put(NOTE, API.TOKEN_NOTE);
@@ -56,7 +56,7 @@ public class LoginPresenterImp implements LoginPresenter {
                     new Response.Listener<Token>() {
                 @Override
                 public void onResponse(Token response) {
-                    mUi.hideLoading(LoadType.FIRSTLOAD);
+                    mUi.onLoaded();
                     mUi.onLoginSuccess(response);
                 }
             }, new Response.ErrorListener() {
@@ -79,20 +79,20 @@ public class LoginPresenterImp implements LoginPresenter {
                 if (statusCode == 422) {
                     removeTokenIfHaveToken(username, pwd);
                 }else {
-                    mUi.hideLoading(LoadType.FIRSTLOAD);
-                    mUi.showError(LoadType.FIRSTLOAD, error);
+                    mUi.onLoaded();
+                    mUi.onLoginError(error);
                 }
             }
         }else {
-            mUi.hideLoading(LoadType.FIRSTLOAD);
-            mUi.showError(LoadType.FIRSTLOAD, error);
+            mUi.onLoaded();
+            mUi.onLoginError(error);
         }
     }
 
     private void removeToken(final String username, final String pwd, String id) {
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, username, pwd);
-        final StringRequest request = new StringRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, null, head,
+        final StringRequest request = new StringRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, "", head,
                 new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -101,8 +101,8 @@ public class LoginPresenterImp implements LoginPresenter {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.hideLoading(LoadType.FIRSTLOAD);
-                mUi.showError(LoadType.FIRSTLOAD, error);
+                mUi.onLoaded();
+                mUi.onLoginError(error);
             }
         });
         VolleyUtil.addRequest(request, tag);
@@ -111,7 +111,7 @@ public class LoginPresenterImp implements LoginPresenter {
     public void removeTokenIfHaveToken(final String username, final String pwd) {
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, username, pwd);
-        GsonRequest<List<Token>> request = new GsonRequest<List<Token>>(Request.Method.GET, API.AUTHORIZATION_URL, null, head,
+        GsonRequest<List<Token>> request = new GsonRequest<List<Token>>(Request.Method.GET, API.AUTHORIZATION_URL, "", head,
                 new TypeToken<List<Token>>(){}.getType(), new Response.Listener<List<Token>>() {
             @Override
             public void onResponse(List<Token> response) {
@@ -125,8 +125,8 @@ public class LoginPresenterImp implements LoginPresenter {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.hideLoading(LoadType.FIRSTLOAD);
-                mUi.showError(LoadType.FIRSTLOAD, error);
+                mUi.onLoaded();
+                mUi.onLoginError(error);
             }
         });
         VolleyUtil.addRequest(request, tag);

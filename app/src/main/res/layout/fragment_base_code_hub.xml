@@ -17,7 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"/>
 
-    <include layout="@layout/include_load_error"
+    <ViewStub
+        android:id="@+id/vs_load_error"
+        android:layout="@layout/include_load_error"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"/>

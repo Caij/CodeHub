@@ -25,23 +25,20 @@ public class IssuePresentImp implements IssuePresent{
     }
 
     @Override
-    public void getIssue(String repo, String issueNumber) {
-        mUi.showLoading(LoadType.FIRSTLOAD);
-        String url = new StringBuilder().append(API.API_HOST).append("/repos/")
-                .append(repo).append("/issues/")
+    public void getIssue(String owner, String repo, String issueNumber) {
+        String url = new StringBuilder().append(API.API_HOST).append("/repos/").append(owner)
+                .append("/").append(repo).append("/issues/")
                 .append(issueNumber).toString();
         GsonRequest<Issue> request = new GsonRequest<Issue>(Request.Method.GET, url, new TypeToken<Issue>() {
         }.getType(), new Response.Listener<Issue>() {
                     @Override
                     public void onResponse(Issue response) {
                         mUi.onGetIssueSuccess(response);
-                        mUi.hideLoading(LoadType.FIRSTLOAD);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.hideLoading(LoadType.FIRSTLOAD);
-                mUi.showError(LoadType.FIRSTLOAD, error);
+                mUi.onGetIssueError(error);
             }
         });
         VolleyUtil.addRequest(request, tag);

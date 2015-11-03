@@ -20,7 +20,7 @@
 
         <com.caij.codehub.widgets.GithubTypeFaceTextView
             android:id="@+id/tv_repository_icon"
-            style="@style/TvRepositoryIcon"
+            style="@style/TvIcon"
             android:textSize="@dimen/repository_icon_size"
             android:layout_centerVertical="true"/>
 
@@ -52,7 +52,7 @@
 
                 <com.caij.codehub.widgets.GithubTypeFaceTextView
                     android:id="@+id/tv_star_icon"
-                    style="@style/TvRepositoryIcon"
+                    style="@style/TvIcon"
                     android:textSize="@dimen/big_body_text_size"
                     android:text="@string/icon_star"/>
 
@@ -65,7 +65,7 @@
 
                 <com.caij.codehub.widgets.GithubTypeFaceTextView
                     android:id="@+id/tv_fork_icon"
-                    style="@style/TvRepositoryIcon"
+                    style="@style/TvIcon"
                     android:textSize="@dimen/body_text_size"
                     android:text="@string/icon_fork"
                     android:layout_marginLeft="@dimen/standard_margin"/>

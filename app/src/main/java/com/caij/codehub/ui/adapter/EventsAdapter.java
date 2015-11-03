@@ -38,13 +38,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class EventsAdapter extends BaseAdapter<EventWrap>{
 
-    private LayoutInflater mInflater;
-    private Context context;
-
     public EventsAdapter(Context context, List<EventWrap> entities) {
-        super(entities);
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.context = context;
+        super(context, entities);
     }
 
     @Override

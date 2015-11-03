@@ -154,8 +154,8 @@
                     android:padding="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
-                        android:id="@+id/tv_repository_location_icon"
-                        style="@style/TvRepositoryIcon"
+                        android:id="@+id/tv_user_location_icon"
+                        style="@style/TvIcon"
                         android:text="@string/icon_locate"
                         android:textSize="@dimen/body_text_size" />
 
@@ -168,7 +168,7 @@
                         android:textSize="@dimen/body_text_size" />
 
                     <TextView
-                        android:id="@+id/tv_repository_location"
+                        android:id="@+id/tv_user_location"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -185,7 +185,7 @@
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_email_icon"
-                        style="@style/TvRepositoryIcon"
+                        style="@style/TvIcon"
                         android:text="@string/icon_email"
                         android:textSize="@dimen/body_text_size" />
 
@@ -198,7 +198,7 @@
                         android:textSize="@dimen/body_text_size" />
 
                     <TextView
-                        android:id="@+id/tv_repository_email"
+                        android:id="@+id/tv_user_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -215,8 +215,8 @@
                     android:padding="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
-                        android:id="@+id/tv_repository_blog_icon"
-                        style="@style/TvRepositoryIcon"
+                        android:id="@+id/tv_user_blog_icon"
+                        style="@style/TvIcon"
                         android:text="@string/icon_blog"
                         android:textSize="@dimen/body_text_size" />
 
@@ -229,7 +229,7 @@
                         android:textSize="@dimen/body_text_size" />
 
                     <TextView
-                        android:id="@+id/tv_repository_blog"
+                        android:id="@+id/tv_user_blog"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -246,8 +246,8 @@
                     android:padding="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
-                        android:id="@+id/tv_repository_company_icon"
-                        style="@style/TvRepositoryIcon"
+                        android:id="@+id/tv_user_company_icon"
+                        style="@style/TvIcon"
                         android:text="@string/icon_company"
                         android:textSize="@dimen/body_text_size" />
 
@@ -260,7 +260,7 @@
                         android:textSize="@dimen/body_text_size" />
 
                     <TextView
-                        android:id="@+id/tv_repository_company"
+                        android:id="@+id/tv_user_company"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -276,8 +276,8 @@
                     android:padding="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
-                        android:id="@+id/tv_repository_join_icon"
-                        style="@style/TvRepositoryIcon"
+                        android:id="@+id/tv_user_join_time_icon"
+                        style="@style/TvIcon"
                         android:text="@string/icon_join"
                         android:textSize="@dimen/body_text_size" />
 
@@ -290,7 +290,7 @@
                         android:textSize="@dimen/body_text_size" />
 
                     <TextView
-                        android:id="@+id/tv_repository_join"
+                        android:id="@+id/tv_user_join_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

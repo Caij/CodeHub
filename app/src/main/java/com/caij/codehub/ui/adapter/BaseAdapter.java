@@ -1,6 +1,9 @@
 package com.caij.codehub.ui.adapter;
 
 
+import android.content.Context;
+import android.view.LayoutInflater;
+
 import com.caij.codehub.bean.Entity;
 
 import java.util.ArrayList;
@@ -11,11 +14,17 @@ import java.util.List;
  */
 public abstract class BaseAdapter<E extends Entity> extends android.widget.BaseAdapter{
 
-    public List<E> mEntities;
+    private  List<E> mEntities;
+
+    protected Context context;
+
+    protected LayoutInflater mInflater;
 
 
-    public BaseAdapter(List<E> entities) {
+    public BaseAdapter(Context context, List<E> entities) {
         mEntities = entities;
+        this.context = context;
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -65,6 +74,12 @@ public abstract class BaseAdapter<E extends Entity> extends android.widget.BaseA
     public void removeEntities(List<E> entities) {
         if (mEntities != null) {
             mEntities.removeAll(entities);
+        }
+    }
+
+    public void clearEntites() {
+        if (mEntities != null) {
+            mEntities.clear();
         }
     }
 }

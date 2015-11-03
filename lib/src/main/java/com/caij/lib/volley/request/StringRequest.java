@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class StringRequest extends AbsRequest<String>{
 
-    protected Response.Listener<String> mResponse;
+    protected final Response.Listener<String> mResponse;
 
     public StringRequest(int method, String url, Response.Listener<String> response, Response.ErrorListener listener) {
         super(method, url, listener);
@@ -25,21 +25,28 @@ public class StringRequest extends AbsRequest<String>{
         mResponse = response;
     }
 
-    public StringRequest(int method, String url, Map<String, String> params, Map<String, String> head, Response.Listener<String> response,
-                         Response.ErrorListener listener) {
+    public StringRequest(int method, String url, String params, Response.Listener<String> response, Response.ErrorListener listener) {
+        super(method, url, params, listener);
+        mResponse = response;
+    }
+
+    public StringRequest(int method, String url, Map<String, String> params, Map<String, String> head, Response.Listener<String> response, Response.ErrorListener listener) {
         super(method, url, params, head, listener);
         mResponse = response;
     }
 
-    public StringRequest(int method, String url, Map<String, String> params, Map<String, String> head, String bodyContentType, Response.Listener<String> response,
-                         Response.ErrorListener listener) {
+    public StringRequest(int method, String url, String params, Map<String, String> head, Response.Listener<String> response, Response.ErrorListener listener) {
+        super(method, url, params, head, listener);
+        mResponse = response;
+    }
+
+    public StringRequest(int method, String url, String params, Map<String, String> head, String bodyContentType, Response.Listener<String> response, Response.ErrorListener listener) {
         super(method, url, params, head, bodyContentType, listener);
         mResponse = response;
     }
 
-    public StringRequest(int method, String url, String body, Map<String, String> head, String bodyContentType, Response.Listener<String> response,
-                         Response.ErrorListener listener) {
-        super(method, url, body, head, bodyContentType, listener);
+    public StringRequest(int method, String url, Map<String, String> params, Map<String, String> head, String bodyContentType, Response.Listener<String> response, Response.ErrorListener listener) {
+        super(method, url, params, head, bodyContentType, listener);
         mResponse = response;
     }
 

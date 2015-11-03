@@ -24,4 +24,21 @@ public class CodeHubApplication extends Application{
         SPUtils.init(this, SP_FILE_NAME);
     }
 
+    public static String getToken() {
+        return SPUtils.get(Constant.USER_TOKEN, "");
+    }
+
+    public static String getCurrentUserName() {
+        return SPUtils.get(Constant.USER_NAME, "");
+    }
+
+    public static void saveToken(String token) {
+        SPUtils.save(Constant.USER_TOKEN, token);
+    }
+
+    public static void saveCurrentUserName(String name) {
+        SPUtils.save(Constant.USER_NAME, name);
+    }
+
+
 }

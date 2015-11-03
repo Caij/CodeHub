@@ -7,14 +7,13 @@ import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.lib.utils.SPUtils;
 
 public class InitActivity extends BaseActivity {
 
-    public static final long SKIP_DELY_TIME = 3000;
+    public static final long SKIP_DELAY_TIME = 3000;
 
     private Handler mHandler;
 
@@ -43,7 +42,7 @@ public class InitActivity extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-        }, SKIP_DELY_TIME);
+        }, SKIP_DELAY_TIME);
     }
 
     @Override

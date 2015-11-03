@@ -7,10 +7,4 @@ import com.android.volley.VolleyError;
  */
 public interface BaseUi{
 
-    public void showError(int type, VolleyError error);
-
-    public void showLoading(int loadType);
-
-    public void hideLoading(int loadType);
-
 }

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.codehub.presenter.BasePresent;
 import com.caij.codehub.ui.fragment.UserRepositoriesFragment;
 
 

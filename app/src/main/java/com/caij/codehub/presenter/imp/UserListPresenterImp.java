@@ -4,14 +4,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.Constant;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.presenter.UserListPresenter;
+import com.caij.codehub.ui.listener.ListUi;
 import com.caij.codehub.ui.listener.UserListUi;
-import com.caij.codehub.ui.listener.UserUi;
-import com.caij.lib.utils.GsonUtils;
-import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -34,7 +31,7 @@ public class UserListPresenterImp implements UserListPresenter{
 
     @Override
     public void getFollowers(String token, String username, final int loadType, Page page) {
-        mUi.showLoading(loadType);
+        showLoadingByType(mUi, loadType);
         String url = API.API_HOST + "/users/" + username + "/followers";
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -61,7 +58,7 @@ public class UserListPresenterImp implements UserListPresenter{
 
     @Override
     public void getFollowing(String token, String username, final int loadType, Page page) {
-        mUi.showLoading(loadType);
+        showLoadingByType(mUi, loadType);
         String url = API.API_HOST + "/users/" + username + "/following";
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -87,20 +84,41 @@ public class UserListPresenterImp implements UserListPresenter{
     }
 
     private void handlerError(int loadType, VolleyError error) {
-        mUi.hideLoading(loadType);
-        mUi.showError(loadType, error);
+        hintLoadingByType(mUi, loadType);
+        onErrorByType(mUi, loadType, error);
     }
 
     private void handlerResponse(int loadType, List<User> users) {
-        mUi.hideLoading(loadType);
-        if (users != null) {
-            if (loadType == LoadType.REFRESH || loadType == LoadType.FIRSTLOAD) {
-                mUi.onGetUsersSuccess(users);
-            } else if (loadType == LoadType.LOADMOER) {
-                mUi.onLoadMoreSuccess(users);
-            }
-        }else {
-            mUi.showError(loadType, null);
+        hintLoadingByType(mUi, loadType);
+        onResponse(loadType, users);
+    }
+
+    private void onResponse(int loadType, List<User> users) {
+        if (loadType == LoadType.REFRESH ) {
+            mUi.onRefreshSuccess(users);
+        } else if (loadType == LoadType.FIRSTLOAD) {
+            mUi.onFirstLoadSuccess(users);
+        }
+        else if (loadType == LoadType.LOADMOER) {
+            mUi.onLoadMoreSuccess(users);
+        }
+    }
+
+    private void showLoadingByType(UserListUi ui, int loadType) {
+        ui.onLoading(loadType);
+    }
+
+    private void hintLoadingByType(UserListUi ui, int loadType) {
+        ui.onLoaded(loadType);
+    }
+
+    private void onErrorByType(ListUi ui, int loadType, VolleyError error) {
+        if (loadType == LoadType.FIRSTLOAD) {
+            ui.onFirstLoadError(error);
+        }else if (loadType == LoadType.REFRESH){
+            ui.onRefreshError(error);
+        }else if (loadType == LoadType.LOADMOER){
+            ui.onLoadMoreError(error);
         }
     }
 

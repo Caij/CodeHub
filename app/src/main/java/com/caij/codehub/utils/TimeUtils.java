@@ -2,6 +2,7 @@ package com.caij.codehub.utils;
 
 import android.text.format.DateUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.text.format.DateUtils.FORMAT_NUMERIC_DATE;
@@ -13,6 +14,8 @@ import static android.text.format.DateUtils.MINUTE_IN_MILLIS;
  * Utilities for dealing with dates and times
  */
 public class TimeUtils {
+
+    public final static String PATTERN  = "yyyy-MM-dd";
 
     /**
      * Get relative time for date
@@ -28,6 +31,17 @@ public class TimeUtils {
                             | FORMAT_NUMERIC_DATE);
         else
             return "just now";
+    }
+
+    /**
+     * Get relative time for date
+     *
+     * @param date
+     * @return relative time
+     */
+    public static CharSequence getStringTime(final Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN);
+        return dateFormat.format(date);
     }
 }
 

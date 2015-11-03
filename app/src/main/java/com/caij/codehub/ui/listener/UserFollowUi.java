@@ -13,4 +13,9 @@ public interface UserFollowUi extends BaseUi{
     public void onUnfollowSuccess();
 
     public void onUnfollowError();
+
+
+    public void onFollowActionLoading(int actionType);
+
+    public void onFollowActionLoaded(int actionType);
 }

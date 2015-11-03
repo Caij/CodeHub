@@ -8,4 +8,10 @@ import com.caij.codehub.bean.Token;
  */
 public interface LoginUi extends BaseUi{
     public void onLoginSuccess(Token token);
+
+    public void onLoginError(VolleyError error);
+
+    public void onLoading();
+
+    public void onLoaded();
 }

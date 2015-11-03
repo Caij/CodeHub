@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/root_view_bg"
-        android:footerDividersEnabled="false"
         android:listSelector="#00000000">
 
     </com.caij.codehub.widgets.LoadMoreListView>

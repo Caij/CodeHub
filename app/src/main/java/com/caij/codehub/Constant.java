@@ -23,4 +23,14 @@ public interface Constant {
     public static final String ISSUE_NUMBER = "issue_number";
 
     public static final String ISSUE = "issue";
+
+    public static final String REPO_BRAN = "repo_bran";
+
+    public static final int ISSUE_COMMENT_REQUEST_CODE = 100;
+
+    String COMMENT = "comment";
+
+    String ISSUE_TITLE = "issue_title";
+
+    String ISSUE_BODY = "issue_body";
 }

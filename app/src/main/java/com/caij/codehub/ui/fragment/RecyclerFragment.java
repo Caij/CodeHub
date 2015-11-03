@@ -12,7 +12,7 @@
 //import android.view.animation.AnimationUtils;
 //
 //import com.caij.codehub.R;
-//import com.caij.codehub.presenter.BasePresent;
+//import com.caij.codehub.presenter.Present;
 //import com.caij.codehub.ui.adapter.BaseAdapter;
 //import com.caij.codehub.ui.adapter.RecycleViewItemClickListener;
 //import com.caij.codehub.ui.adapter.RepositoryAdapter;
@@ -23,7 +23,7 @@
 ///**
 // * Created by Caij on 2015/9/23.
 // */
-//public abstract class RecyclerFragment<P extends BasePresent, AP extends BaseAdapter> extends LazyFragment<P> implements SwipeRefreshLayout.OnRefreshListener, RecycleViewItemClickListener {
+//public abstract class RecyclerFragment<P extends Present, AP extends BaseAdapter> extends LazyFragment<P> implements SwipeRefreshLayout.OnRefreshListener, RecycleViewItemClickListener {
 //
 //    @Bind(R.id.recycle_view)
 //    RecyclerView mRecycleView;
@@ -53,7 +53,7 @@
 //                getResources().getColor(R.color.gplus_color_3),
 //                getResources().getColor(R.color.gplus_color_4));
 //
-//        content.setVisibility(View.GONE);
+//        mContentContainer.setVisibility(View.GONE);
 //    }
 //
 //    protected abstract AP createAdapter();

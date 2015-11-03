@@ -20,4 +20,8 @@ public interface RepositoryActionUi extends BaseUi {
     public void  onForkRepoError(VolleyError error);
 
     public void onCheckStarStateSuccess(boolean isStar);
+
+    public void onRepositoryActionLoading(int actionType);
+
+    public void onRepositoryActionLoaded(int actionType);
 }

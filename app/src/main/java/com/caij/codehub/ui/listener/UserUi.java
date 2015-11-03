@@ -10,5 +10,10 @@ public interface UserUi extends BaseUi{
 
     public void onGetUserInfoSuccess(User user);
 
+    public void onGetUserInfoError(VolleyError error);
+
+    public void onLoading();
+
+    public void onLoaded();
 
 }

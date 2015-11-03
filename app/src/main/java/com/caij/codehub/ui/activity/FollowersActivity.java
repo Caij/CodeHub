@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
-import com.caij.codehub.presenter.BasePresent;
+import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.UserListPresenter;
 import com.caij.codehub.ui.listener.UserListUi;
@@ -35,35 +34,24 @@ public class FollowersActivity extends UserListActivity{
         mToken = SPUtils.get(Constant.USER_TOKEN, "");
         setToolbarTitle("Followers");
         mPresenter = PresenterFactory.newPresentInstance(UserListPresenter.class, UserListUi.class, this);
-        mPresenter.getFollowers(mToken, mUsername, BasePresent.LoadType.FIRSTLOAD, mPage);
+        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.FIRSTLOAD, mPage);
     }
 
     @Override
     public void onLoadMore() {
-        mPresenter.getFollowers(mToken, mUsername, BasePresent.LoadType.LOADMOER, mPage);
+        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.LOADMOER, mPage);
     }
 
     @Override
     public void onRefresh() {
         mPage.reset();
-        mPresenter.getFollowers(mToken, mUsername, BasePresent.LoadType.REFRESH, mPage);
+        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.REFRESH, mPage);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mPresenter.getFollowers(mToken, mUsername, BasePresent.LoadType.FIRSTLOAD, mPage);
+        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.FIRSTLOAD, mPage);
     }
 
-    @Override
-    public void showError(int type, VolleyError error) {
-        super.showError(type, error);
-        if (type == BasePresent.LoadType.REFRESH) {
-            mPage.scrollBack(); //用于刷新的时候重置page刷新错误，导致下拉index出错。
-        }
-
-        if (type == BasePresent.LoadType.LOADMOER) {
-            mListView.onLoadMoreComplete();
-        }
-    }
 }

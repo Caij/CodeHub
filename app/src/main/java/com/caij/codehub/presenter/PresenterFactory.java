@@ -1,12 +1,16 @@
 package com.caij.codehub.presenter;
 
+import com.caij.codehub.presenter.imp.CommentActionPresentImp;
+import com.caij.codehub.presenter.imp.CommentsPresentImp;
+import com.caij.codehub.presenter.imp.FileTreePresentImp;
+import com.caij.codehub.presenter.imp.IssueListPresentImp;
 import com.caij.codehub.presenter.imp.IssuePresentImp;
 import com.caij.codehub.presenter.imp.LoginPresenterImp;
 import com.caij.codehub.presenter.imp.EventsPresenterImp;
 import com.caij.codehub.presenter.imp.RepositoryActionPresentImp;
 import com.caij.codehub.presenter.imp.RepositoryInfoPresenterImp;
 import com.caij.codehub.presenter.imp.RepositoryListPresenterImp;
-import com.caij.codehub.presenter.imp.UserFollowPresentImp;
+import com.caij.codehub.presenter.imp.FollowActionPresentImp;
 import com.caij.codehub.presenter.imp.UserListPresenterImp;
 import com.caij.codehub.presenter.imp.UserPresenterImp;
 import com.caij.codehub.ui.listener.BaseUi;
@@ -34,10 +38,13 @@ public class PresenterFactory {
         pclazzs.put(IssuePresent.class, IssuePresentImp.class);
         pclazzs.put(CommentsPresent.class, CommentsPresentImp.class);
         pclazzs.put(RepositoryActionPresent.class, RepositoryActionPresentImp.class);
-        pclazzs.put(UserFollowPresent.class, UserFollowPresentImp.class);
+        pclazzs.put(FollowActionPresent.class, FollowActionPresentImp.class);
+        pclazzs.put(FileTreePresent.class, FileTreePresentImp.class);
+        pclazzs.put(IssueListPresent.class, IssueListPresentImp.class);
+        pclazzs.put(CommentActionPresent.class, CommentActionPresentImp.class);
     }
 
-    public static <P extends BasePresent, U extends BaseUi> P newPresentInstance(Class<P> pClass, Class<U> uClazz, U u) {
+    public static <P extends Present, U extends BaseUi> P newPresentInstance(Class<P> pClass, Class<U> uClazz, U u) {
         Class<P> tClass = pclazzs.get(pClass);
         if (tClass != null) {
             try {
@@ -47,7 +54,7 @@ public class PresenterFactory {
                 throw new IllegalStateException(e.getMessage());
             }
         }else {
-            throw new IllegalStateException("未注册Present");
+            throw new IllegalStateException("unregist Present");
         }
     }
 
