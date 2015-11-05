@@ -13,7 +13,7 @@
 
 
 
-    <include layout="@layout/list_view"
+    <include layout="@layout/include_refresh_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/bread_crumbs"/>

@@ -17,6 +17,7 @@ import com.android.volley.NetworkError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.R;
 import com.caij.codehub.ui.activity.LoginActivity;
 import com.caij.lib.utils.AppManager;
@@ -117,6 +118,7 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
             ToastUtil.show(getContext(), R.string.network_error_hint);
         }else if (error instanceof AuthFailureError) {
             AppManager.getInstance().finishAllActivity();
+            CodeHubApplication.clearToken();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             ToastUtil.show(getContext(), R.string.account_error_hint);

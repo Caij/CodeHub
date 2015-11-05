@@ -1,6 +1,7 @@
 package com.caij.codehub.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,22 +23,18 @@ public class FileTreeAdapter extends BaseAdapter<FileTreeItem>{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_treelist, parent, false);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        }
-
-        viewHolder = (ViewHolder) convertView.getTag();
-
-        onBindViewHolder(viewHolder, position);
-
-        return convertView;
+    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onBindViewHolderReal((ViewHolder) holder, position);
     }
 
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    @Override
+    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
+        View convertView = mInflater.inflate(R.layout.item_treelist, parent, false);
+        ViewHolder viewHolder  = new ViewHolder(convertView);
+        return viewHolder;
+    }
+
+    public void onBindViewHolderReal(ViewHolder holder, int position) {
         FileTreeItem treeItem = getItem(position);
         holder.treeItemName.setText(treeItem.getPath());
         if(treeItem.getType().equals(FileTreeItem.MODE_BLOB)){
@@ -47,13 +44,13 @@ public class FileTreeAdapter extends BaseAdapter<FileTreeItem>{
         }
     }
 
-    static class ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView treeItemImg;
         public TextView treeItemName;
 
-
         public ViewHolder(View view){
+            super(view);
             treeItemImg = (TextView) view.findViewById(R.id.treeItemImg);
             treeItemName = (TextView) view.findViewById(R.id.treeItemName);
         }

@@ -38,14 +38,8 @@ public class FollowersActivity extends UserListActivity{
     }
 
     @Override
-    public void onLoadMore() {
-        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.LOADMOER, mPage);
-    }
-
-    @Override
     public void onRefresh() {
-        mPage.reset();
-        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.REFRESH, mPage);
+        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.REFRESH, mPage.createRefreshPage());
     }
 
     @Override
@@ -54,4 +48,8 @@ public class FollowersActivity extends UserListActivity{
         mPresenter.getFollowers(mToken, mUsername, Present.LoadType.FIRSTLOAD, mPage);
     }
 
+    @Override
+    public void onLoadMore() {
+        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.LOADMOER, mPage);
+    }
 }

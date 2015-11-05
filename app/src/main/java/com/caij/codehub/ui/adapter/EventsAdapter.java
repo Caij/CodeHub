@@ -1,6 +1,7 @@
 package com.caij.codehub.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,21 +44,18 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder;
-        if (view == null) {
-            view = mInflater.inflate(R.layout.item_event, viewGroup, false);
-            holder = new ViewHolder(view);
-            view.setTag(holder);
-        }
-
-        holder = (ViewHolder) view.getTag();
-
-        onBindViewHolder(holder, i);
-        return view;
+    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onBindViewHolderReal((ViewHolder) holder, position);
     }
 
-    private void onBindViewHolder(ViewHolder holder, int position) {
+    @Override
+    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_event, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+
+    public void onBindViewHolderReal(ViewHolder holder, int position) {
         EventWrap event = getItem(position);
         Glide.with(context).load(event.getActor().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
                 bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
@@ -158,7 +156,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
     }
 
 
-    public static class ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView avatar;
         public TextView eventBody;
@@ -166,6 +164,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
         public TextView happenTime;
 
         public ViewHolder(View view){
+            super(view);
             avatar = (ImageView) view.findViewById(R.id.avatar);
             eventBody = (TextView) view.findViewById(R.id.event_body);
             happenTime = (TextView) view.findViewById(R.id.happenTime);

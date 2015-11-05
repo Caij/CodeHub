@@ -22,4 +22,7 @@
 
     <color name="crumb_active">#fff</color>
     <color name="crumb_inactive">#73ffffff</color>
+
+    <color name="navdrawer_background">#ffffffff</color>
+    <color name="transparent">#00000000</color>
 </resources>

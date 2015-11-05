@@ -1,7 +1,7 @@
 package com.caij.codehub.ui.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,38 +23,61 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class CommentAdapter extends BaseAdapter<Comment> {
 
+    public static final int COMMENT = 2;
+    public static final int ISSUE = 3;
+    @Bind(R.id.tv_issue_title)
+    TextView mTvIssueTitle;
+    @Bind(R.id.tv_issue_body)
+    TextView mTvIssueBody;
+
 
     public CommentAdapter(List<Comment> entities, Context context) {
         super(context, entities);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_comment, parent, false);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
+    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof CommentViewHolder) {
+            CommentViewHolder viewHolder = (CommentViewHolder) holder;
+            Comment comment = getItem(position);
+
+            Glide.with(context).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+                    bitmapTransform(new CropCircleTransformation(context)).into(viewHolder.avatarImage);
+            viewHolder.tvUserName.setText(comment.getUser().getLogin());
+            viewHolder.tvCommentBody.setText(comment.getBody());
+            viewHolder.tvCommentUpdate.setText(TimeUtils.getRelativeTime(comment.getUpdated_at()));
+        }else if (holder instanceof IssueHeadViewHolder) {
+            IssueHeadViewHolder viewHolder = (IssueHeadViewHolder) holder;
+            Comment comment = getItem(position);
+            viewHolder.mTvIssueTitle.setText(context.getString(R.string.issue) + ": " + comment.getIssue_url());
+            viewHolder.mTvIssueBody.setText(comment.getBody());
         }
-
-        viewHolder = (ViewHolder) convertView.getTag();
-
-        bindViewHolder(viewHolder, position);
-
-        return convertView;
     }
 
-    private void bindViewHolder(ViewHolder viewHolder, int position) {
+    @Override
+    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder viewHolder;
+        if (viewType == COMMENT) {
+            View convertView = mInflater.inflate(R.layout.item_comment, parent, false);
+            viewHolder = new CommentViewHolder(convertView);
+        } else {
+            View convertView = mInflater.inflate(R.layout.item_issue_head, parent, false);
+            viewHolder = new IssueHeadViewHolder(convertView);
+        }
+        return viewHolder;
+    }
+
+    @Override
+    public int getDataViewType(int position) {
         Comment comment = getItem(position);
-
-        Glide.with(context).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
-                bitmapTransform(new CropCircleTransformation(context)).into(viewHolder.avatarImage);
-        viewHolder.tvUserName.setText(comment.getUser().getLogin());
-        viewHolder.tvCommentBody.setText(comment.getBody());
-        viewHolder.tvCommentUpdate.setText(TimeUtils.getRelativeTime(comment.getUpdated_at()));
+        if (comment.getId() == -1) {
+            return ISSUE;
+        } else {
+            return COMMENT;
+        }
     }
 
-    static class ViewHolder {
+    public static class CommentViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.avatar_image)
         ImageView avatarImage;
@@ -65,7 +88,26 @@ public class CommentAdapter extends BaseAdapter<Comment> {
         @Bind(R.id.tv_comment_body)
         TextView tvCommentBody;
 
-        public ViewHolder(View view) {
+        public CommentViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
+    }
+
+    /**
+     * This class contains all butterknife-injected Views & Layouts from layout file 'item_issue_head.xml'
+     * for easy to all layout elements.
+     *
+     * @author ButterKnifeZelezny, plugin for Android Studio by Avast Developers (http://github.com/avast)
+     */
+    static class IssueHeadViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.tv_issue_title)
+        TextView mTvIssueTitle;
+        @Bind(R.id.tv_issue_body)
+        TextView mTvIssueBody;
+
+        IssueHeadViewHolder(View view) {
+            super(view);
             ButterKnife.bind(this, view);
         }
     }

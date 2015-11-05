@@ -12,8 +12,6 @@ public class Page {
     private int pageIndex;
     private final int pageDataCount;
 
-    private int tempIndex;
-
     public Page() {
         this(DEFAULT_PAGE_INDEX, DEFAULT_PAGE_DATA_COUNT);
     }
@@ -32,16 +30,9 @@ public class Page {
     }
 
     public void reset() {
-        tempIndex = pageIndex;
         pageIndex = 1;
     }
 
-    /**
-     * 用于reset后回滚到之前的index
-     * */
-    public void scrollBack() {
-        pageIndex = tempIndex;
-    }
 
     public int getPageIndex() {
         return pageIndex;
@@ -49,5 +40,9 @@ public class Page {
 
     public int getPageDataCount() {
         return pageDataCount;
+    }
+
+    public Page createRefreshPage() {
+        return new Page(pageDataCount);
     }
 }

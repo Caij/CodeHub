@@ -3,6 +3,8 @@ package com.caij.codehub.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +15,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.FileTreeItem;
 import com.caij.codehub.presenter.FileTreePresent;
 import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.FileTreeAdapter;
 import com.caij.codehub.ui.listener.FileTreeUi;
 import com.caij.codehub.widgets.LinearBreadcrumb;
@@ -23,7 +26,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/11/2.
  */
-public class FileTreeActivity extends ListActivity<FileTreeAdapter, FileTreeItem> implements LinearBreadcrumb.SelectionCallback, FileTreeUi {
+public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeItem> implements LinearBreadcrumb.SelectionCallback, FileTreeUi {
 
     private FileTreePresent fileTreePresent;
     private String mOwner;
@@ -51,8 +54,7 @@ public class FileTreeActivity extends ListActivity<FileTreeAdapter, FileTreeItem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        getListView().setCanLoadMore(false);
+        getLoadMoreRecyclerView().setLoadMoreEnable(false);
         breadCrumbs.initRootCrumb();
         breadCrumbs.setCallback(this);
 
@@ -66,8 +68,13 @@ public class FileTreeActivity extends ListActivity<FileTreeAdapter, FileTreeItem
     }
 
     @Override
-    protected FileTreeAdapter createAdapter() {
+    protected BaseAdapter<FileTreeItem> createRecyclerViewAdapter() {
         return new FileTreeAdapter(this, null);
+    }
+
+    @Override
+    protected RecyclerView.LayoutManager createRecyclerViewLayoutManager() {
+        return new LinearLayoutManager(this);
     }
 
     public String getAbosolutePath() {
@@ -85,32 +92,18 @@ public class FileTreeActivity extends ListActivity<FileTreeAdapter, FileTreeItem
         }
         breadCrumbs.setActive(crumb);
 
-        mAdapter.clearEntites();
-        mAdapter.notifyDataSetChanged();
+        getRecyclerViewAdapter().clearEntites();
+        getRecyclerViewAdapter().notifyDataSetChanged();
 
         this.mSha = crumb.getmAttachMsg();
         fileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        FileTreeItem treeItem = (FileTreeItem) parent.getAdapter().getItem(position);
-        if (treeItem.getType().equals(FileTreeItem.MODE_TREE)) {
-            intoItem(treeItem);
-        } else if (treeItem.getType().equals(FileTreeItem.MODE_BLOB)) {
-                String path = getAbosolutePath();
-                String filePath = TextUtils.isEmpty(path) ? treeItem.getPath() :  path + "/" + treeItem.getPath();
-                String url = String.format(API.GITHUB_FILE, mOwner, mRepoName, treeItem.getType(), mBran, filePath);
-                Intent intent = WebActivity.newIntent(this, url);
-                startActivity(intent);
-        }
-    }
-
 
     public void intoItem(FileTreeItem item) {
         mSha = item.getSha();
-        mAdapter.clearEntites();
-        mAdapter.notifyDataSetChanged();
+        getRecyclerViewAdapter().clearEntites();
+        getRecyclerViewAdapter().notifyDataSetChanged();
         breadCrumbs.addCrumb(new LinearBreadcrumb.Crumb(item.getPath(), item.getSha()), true);
         fileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
     }
@@ -130,12 +123,18 @@ public class FileTreeActivity extends ListActivity<FileTreeAdapter, FileTreeItem
 
             breadCrumbs.removeCrumbAt(breadCrumbs.size() - 1);
 
-            mAdapter.clearEntites();
-            mAdapter.notifyDataSetChanged();
+            getRecyclerViewAdapter().clearEntites();
+            getRecyclerViewAdapter().notifyDataSetChanged();
 
             this.mSha = crumb.getmAttachMsg();
             fileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
         }
+    }
+
+
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -144,7 +143,16 @@ public class FileTreeActivity extends ListActivity<FileTreeAdapter, FileTreeItem
     }
 
     @Override
-    public void onRefresh() {
-
+    public void onItemClick(View view, int position) {
+        FileTreeItem treeItem =getRecyclerViewAdapter().getItem(position);
+        if (treeItem.getType().equals(FileTreeItem.MODE_TREE)) {
+            intoItem(treeItem);
+        } else if (treeItem.getType().equals(FileTreeItem.MODE_BLOB)) {
+                String path = getAbosolutePath();
+                String filePath = TextUtils.isEmpty(path) ? treeItem.getPath() :  path + "/" + treeItem.getPath();
+                String url = String.format(API.GITHUB_FILE, mOwner, mRepoName, treeItem.getType(), mBran, filePath);
+                Intent intent = WebActivity.newIntent(this, url);
+                startActivity(intent);
+        }
     }
 }

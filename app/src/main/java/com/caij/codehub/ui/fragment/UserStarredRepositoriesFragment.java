@@ -48,13 +48,7 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onRefresh() {
-        mPage.reset();
-        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.REFRESH, mUsername, mToken, mPage);
-    }
-
-    @Override
-    public void onLoadMore() {
-        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.LOADMOER, mUsername, mToken, mPage);
+        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.REFRESH, mUsername, mToken, mPage.createRefreshPage());
     }
 
     @Override
@@ -63,4 +57,8 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
         mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.FIRSTLOAD, mUsername, mToken, mPage);
     }
 
+    @Override
+    public void onLoadMore() {
+        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.LOADMOER, mUsername, mToken, mPage);
+    }
 }

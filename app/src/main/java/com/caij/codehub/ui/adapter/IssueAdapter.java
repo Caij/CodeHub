@@ -1,6 +1,7 @@
 package com.caij.codehub.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
@@ -28,22 +29,18 @@ public class IssueAdapter extends BaseAdapter<Issue> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_issue, parent, false);
-            viewHolder = new ViewHolder(convertView);
-            convertView.setTag(viewHolder);
-        }
-
-        viewHolder = (ViewHolder) convertView.getTag();
-
-        onBindViewHolder(viewHolder, position);
-
-        return convertView;
+    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onBindViewHolderReal((ViewHolder) holder, position);
     }
 
-    private void onBindViewHolder(ViewHolder viewHolder, int position) {
+    @Override
+    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
+        View convertView = mInflater.inflate(R.layout.item_issue, parent, false);
+        ViewHolder  viewHolder = new ViewHolder(convertView);
+        return viewHolder;
+    }
+
+    public void onBindViewHolderReal(ViewHolder viewHolder, int position) {
         Issue issue = getItem(position);
         viewHolder.mTvCommentCount.setText("comments: " + String.valueOf(issue.getComments()));
         viewHolder.mTvIssueNumber.setText(processHtmlString("#" + String.valueOf(issue.getNumber())));
@@ -67,7 +64,7 @@ public class IssueAdapter extends BaseAdapter<Issue> {
      *
      * @author ButterKnifeZelezny, plugin for Android Studio by Avast Developers (http://github.com/avast)
      */
-    static class ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         @Bind(R.id.tv_issue_number)
         TextView mTvIssueNumber;
         @Bind(R.id.tv_issue_state)
@@ -80,6 +77,7 @@ public class IssueAdapter extends BaseAdapter<Issue> {
         TextView mTvIssueTitle;
 
         ViewHolder(View view) {
+            super(view);
             ButterKnife.bind(this, view);
         }
     }

@@ -20,7 +20,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_issue_title"
                 android:textSize="@dimen/big_body_text_size"
-                android:maxLines="2"
                 android:textColor="@color/color_black"
                 />
 
@@ -29,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_issue_body"
                 android:textSize="@dimen/body_text_size"
-                android:maxLines="2"
                 android:layout_marginTop="@dimen/small_margin"/>
 
         </LinearLayout>

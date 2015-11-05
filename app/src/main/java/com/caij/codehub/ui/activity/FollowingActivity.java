@@ -38,14 +38,8 @@ public class FollowingActivity extends UserListActivity{
     }
 
     @Override
-    public void onLoadMore() {
-        mPresenter.getFollowing(mToken, mUsername, Present.LoadType.LOADMOER, mPage);
-    }
-
-    @Override
     public void onRefresh() {
-        mPage.reset();
-        mPresenter.getFollowing(mToken, mUsername, Present.LoadType.REFRESH, mPage);
+        mPresenter.getFollowing(mToken, mUsername, Present.LoadType.REFRESH, mPage.createRefreshPage());
     }
 
     @Override
@@ -55,4 +49,8 @@ public class FollowingActivity extends UserListActivity{
         mPresenter.getFollowing(mToken, mUsername, Present.LoadType.FIRSTLOAD, mPage);
     }
 
+    @Override
+    public void onLoadMore() {
+        mPresenter.getFollowing(mToken, mUsername, Present.LoadType.LOADMOER, mPage);
+    }
 }

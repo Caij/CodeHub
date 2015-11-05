@@ -1,16 +1,21 @@
 package com.caij.codehub.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.utils.TextTypeFaceUtils;
 
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by Caij on 2015/9/18.
@@ -22,8 +27,19 @@ public class RepositoryAdapter extends BaseAdapter<Repository>{
         super(context, repositories);
     }
 
+    @Override
+    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onBindViewHolderReal((RepositoryViewHolder) holder, position);
+    }
 
-    public void onBindViewHolder(RepositoryViewHolder viewHolder, int i) {
+    @Override
+    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_repository, parent, false);
+        RepositoryViewHolder holder = new RepositoryViewHolder(view);
+        return holder;
+    }
+
+    public void onBindViewHolderReal(RepositoryViewHolder viewHolder, int i) {
         Repository repository = getItem(i);
         viewHolder.tvStarSum.setText(String.valueOf(repository.getStargazers_count()));
         viewHolder.tvForkSum.setText(String.valueOf(repository.getForks_count()));
@@ -42,19 +58,28 @@ public class RepositoryAdapter extends BaseAdapter<Repository>{
     }
 
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        RepositoryViewHolder holder;
-        if (view == null) {
-            view = mInflater.inflate(R.layout.item_repository, viewGroup, false);
-            holder = new RepositoryViewHolder(view);
-            view.setTag(holder);
+    public static class RepositoryViewHolder extends RecyclerView.ViewHolder{
+
+        @Bind(R.id.tv_repository_icon)
+        TextView tvRepositoryIcon;
+        @Bind(R.id.tv_repository_name)
+        TextView tvRepositoryName;
+        @Bind(R.id.tv_star_icon)
+        TextView tvStarIcon;
+        @Bind(R.id.tv_star_sum)
+        TextView tvStarSum;
+        @Bind(R.id.tv_fork_icon)
+        TextView tvForkIcon;
+        @Bind(R.id.tv_fork_sum)
+        TextView tvForkSum;
+        @Bind(R.id.tv_repository_desc)
+        TextView tvRepositoryDesc;
+
+
+        public RepositoryViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
-
-        holder = (RepositoryViewHolder) view.getTag();
-
-        onBindViewHolder(holder, i);
-        return view;
     }
 }
 

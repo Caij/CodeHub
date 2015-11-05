@@ -16,14 +16,10 @@
 
         </FrameLayout>
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
+        <include layout="@layout/include_navigation_main"
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/include_navigation_main"
-            app:menu="@menu/menu_drawer_view"
-            />
+            android:layout_gravity="start"/>
 
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

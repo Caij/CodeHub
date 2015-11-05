@@ -13,30 +13,108 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
-    android:background="@color/theme_color"
-    android:paddingLeft="@dimen/standard_margin"
-    android:paddingRight="@dimen/standard_margin">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/navdrawer_background">
 
-    <ImageView
-        android:id="@+id/img_navigation_avatar"
-        android:layout_width="@dimen/user_info_avatar_image"
-        android:layout_height="@dimen/user_info_avatar_image"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="@dimen/standard_margin"
-        android:src="@drawable/default_circle_head_image" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:background="@color/theme_color"
+        android:padding="@dimen/standard_margin">
 
-    <TextView
-        android:id="@+id/tv_navigation_username"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/img_navigation_avatar"
+            android:layout_width="@dimen/user_info_avatar_image"
+            android:layout_height="@dimen/user_info_avatar_image"
+            android:src="@drawable/default_circle_head_image" />
+
+        <TextView
+            android:id="@+id/tv_navigation_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Username"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/img_navigation_avatar"
-        android:layout_centerHorizontal="true"
-        android:text="Username"
-        android:textColor="@color/white" />
+        android:paddingTop="@dimen/standard_margin"
+        android:paddingBottom="@dimen/standard_margin"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <RadioButton
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/rb_repository"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:button="@null"
+            android:text="Repository"
+            android:textSize="@dimen/big_body_text_size"
+            android:paddingLeft="@dimen/standard_margin"
+            android:paddingBottom="@dimen/standard_margin"
+            android:paddingTop="@dimen/standard_margin"/>
+
+        <RadioButton
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/rb_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/standard_margin"
+            android:paddingBottom="@dimen/standard_margin"
+            android:paddingTop="@dimen/standard_margin"
+            android:button="@null"
+            android:textSize="@dimen/big_body_text_size"
+            android:text="Events"/>
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/theme_color"/>
+
+    <LinearLayout
+        android:id="@+id/ll_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/standard_margin"
+        android:paddingBottom="@dimen/standard_margin"
+        android:paddingTop="@dimen/standard_margin"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:background="?android:selectableItemBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setting"
+            android:textSize="@dimen/big_body_text_size"
+            android:textColor="@color/color_black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/standard_margin"
+        android:paddingBottom="@dimen/standard_margin"
+        android:paddingTop="@dimen/standard_margin"
+        android:background="?android:selectableItemBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:textSize="@dimen/big_body_text_size"
+            android:textColor="@color/color_black"/>
+
+    </LinearLayout>
+
+</LinearLayout>

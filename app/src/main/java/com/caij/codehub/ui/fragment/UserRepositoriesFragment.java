@@ -44,14 +44,8 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
     }
 
     @Override
-    public void onLoadMore() {
-        mRepositoryListPresenter.getUserRepositories(Present.LoadType.LOADMOER, mUsername, mToken, mPage);
-    }
-
-    @Override
     public void onRefresh() {
-        mPage.reset();
-        mRepositoryListPresenter.getUserRepositories(Present.LoadType.REFRESH, mUsername, mToken, mPage);
+        mRepositoryListPresenter.getUserRepositories(Present.LoadType.REFRESH, mUsername, mToken, mPage.createRefreshPage());
     }
 
     @Override
@@ -60,4 +54,8 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
         mRepositoryListPresenter.getUserRepositories(Present.LoadType.FIRSTLOAD, mUsername, mToken, mPage);
     }
 
+    @Override
+    public void onLoadMore() {
+        mRepositoryListPresenter.getUserRepositories(Present.LoadType.LOADMOER, mUsername, mToken, mPage);
+    }
 }

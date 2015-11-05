@@ -8,5 +8,4 @@ import com.caij.codehub.ui.listener.LoginUi;
 public interface LoginPresenter extends Present<LoginUi> {
     public void login(String username, String pwd);
 
-    public void loginOut(String tokenId, String token);
 }

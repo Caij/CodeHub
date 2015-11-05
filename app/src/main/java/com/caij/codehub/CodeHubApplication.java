@@ -28,6 +28,10 @@ public class CodeHubApplication extends Application{
         return SPUtils.get(Constant.USER_TOKEN, "");
     }
 
+    public static void clearToken() {
+        SPUtils.save(Constant.USER_TOKEN, "");
+    }
+
     public static String getCurrentUserName() {
         return SPUtils.get(Constant.USER_NAME, "");
     }

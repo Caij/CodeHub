@@ -3,85 +3,62 @@ package com.caij.codehub.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
 import com.caij.codehub.presenter.Present;
-import com.caij.codehub.ui.adapter.BaseAdapter;
-import com.caij.codehub.ui.listener.ListUi;
-import com.caij.codehub.widgets.LoadMoreListView;
 
 import java.util.List;
 
 import butterknife.Bind;
 
 /**
- * Created by Caij on 2015/9/23.
+ * Created by Caij on 2015/11/4.
  */
-public abstract class ListFragment<AP extends BaseAdapter<E>, E extends Entity> extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener, LoadMoreListView.OnLoadMoreListener, ListUi<E> {
+public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends RecyclerViewFragment<E> implements SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    protected AP mAdapter;
-    @Bind(R.id.list_view)
-    LoadMoreListView mListView;
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.list_view;
+        return R.layout.include_refresh_recycle_view;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mAdapter = createAdapter();
-        mListView.setOnLoadMoreListener(this);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(
                 getResources().getColor(R.color.gplus_color_1),
                 getResources().getColor(R.color.gplus_color_2),
                 getResources().getColor(R.color.gplus_color_3),
                 getResources().getColor(R.color.gplus_color_4));
-
-        mContentContainer.setVisibility(View.GONE);
-    }
-
-    protected abstract AP createAdapter();
-
-    public LoadMoreListView getListView() {
-        return mListView;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onFirstLoadSuccess(List<E>  entities) {
+    public void onFirstLoadSuccess(List<E> entities) {
         showContentContainer();
-        mAdapter.setEntities(entities);
-        mAdapter.notifyDataSetChanged();
+        getRecyclerViewAdapter().setEntities(entities);
+        getRecyclerViewAdapter().notifyDataSetChanged();
     }
 
     @Override
     public void onRefreshSuccess(List<E> entities) {
         mSwipeRefreshLayout.setRefreshing(false);
-        mAdapter.setEntities(entities);
-        mAdapter.notifyDataSetChanged();
+        getRecyclerViewAdapter().setEntities(entities);
+        getRecyclerViewAdapter().notifyDataSetChanged();
     }
 
     @Override
     public void onLoadMoreSuccess(List<E>  entities) {
-        mListView.onLoadMoreComplete();
-        mAdapter.addEntities(entities);
-        mAdapter.notifyDataSetChanged();
+        getLoadMoreRecyclerView().completeLoading();
+        getRecyclerViewAdapter().addEntities(entities);
+        getRecyclerViewAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -92,7 +69,7 @@ public abstract class ListFragment<AP extends BaseAdapter<E>, E extends Entity> 
 
     @Override
     public void onLoadMoreError(VolleyError error) {
-        mListView.onLoadMoreComplete();
+        getLoadMoreRecyclerView().completeLoading();
         processVolleyError(error);
     }
 
@@ -100,6 +77,16 @@ public abstract class ListFragment<AP extends BaseAdapter<E>, E extends Entity> 
     public void onFirstLoadError(VolleyError error) {
         processVolleyError(error);
         showError();
+    }
+
+    @Override
+    public void onLoadMore() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 
     @Override
@@ -119,4 +106,5 @@ public abstract class ListFragment<AP extends BaseAdapter<E>, E extends Entity> 
         }else if (loadType == Present.LoadType.LOADMOER) {
         }
     }
+
 }

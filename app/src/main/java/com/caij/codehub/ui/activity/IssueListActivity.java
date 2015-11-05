@@ -3,8 +3,8 @@ package com.caij.codehub.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.AdapterView;
 
 import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
@@ -14,15 +14,17 @@ import com.caij.codehub.bean.Page;
 import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.IssueListPresent;
 import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.IssueAdapter;
 import com.caij.codehub.ui.listener.IssueListUi;
+import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
 
 /**
  * Created by Caij on 2015/11/3.
  */
-public class IssueListActivity extends ListActivity<IssueAdapter, Issue> implements IssueListUi {
+public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> implements IssueListUi {
 
     private IssueListPresent mIssueListPresent;
     private String mOwner;
@@ -40,7 +42,6 @@ public class IssueListActivity extends ListActivity<IssueAdapter, Issue> impleme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolbarTitle(getString(R.string.issue));
-        getListView().setDivider(null);
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mPage = new Page();
@@ -49,15 +50,13 @@ public class IssueListActivity extends ListActivity<IssueAdapter, Issue> impleme
     }
 
     @Override
-    protected IssueAdapter createAdapter() {
+    protected BaseAdapter<Issue> createRecyclerViewAdapter() {
         return new IssueAdapter(this, null);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Issue issue = (Issue) parent.getAdapter().getItem(position);
-        Intent intent = IssueActivity.newIntent(this, mOwner, mRepo, String.valueOf(issue.getNumber()), issue.getTitle(), issue.getBody());
-        startActivity(intent);
+    protected LoadMoreRecyclerView.LayoutManager createRecyclerViewLayoutManager() {
+        return new LinearLayoutManager(this);
     }
 
     @Override
@@ -69,6 +68,7 @@ public class IssueListActivity extends ListActivity<IssueAdapter, Issue> impleme
     @Override
     public void onRefreshSuccess(List<Issue> entities) {
         super.onRefreshSuccess(entities);
+        mPage.reset();
         mPage.next();
     }
 
@@ -79,9 +79,8 @@ public class IssueListActivity extends ListActivity<IssueAdapter, Issue> impleme
     }
 
     @Override
-    public void onRefreshError(VolleyError error) {
-        super.onRefreshError(error);
-        mPage.scrollBack();
+    public void onRefresh() {
+        mIssueListPresent.getIssueList(Present.LoadType.REFRESH, mOwner, mRepo, mPage.createRefreshPage());
     }
 
     @Override
@@ -90,8 +89,9 @@ public class IssueListActivity extends ListActivity<IssueAdapter, Issue> impleme
     }
 
     @Override
-    public void onRefresh() {
-        mPage.reset();
-        mIssueListPresent.getIssueList(Present.LoadType.REFRESH, mOwner, mRepo, mPage);
+    public void onItemClick(View view, int position) {
+        Issue issue = getRecyclerViewAdapter().getItem(position);
+        Intent intent = IssueActivity.newIntent(this, mOwner, mRepo, String.valueOf(issue.getNumber()), issue.getTitle(), issue.getBody());
+        startActivity(intent);
     }
 }

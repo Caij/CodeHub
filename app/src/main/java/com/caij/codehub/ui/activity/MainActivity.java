@@ -3,13 +3,13 @@ package com.caij.codehub.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -25,10 +25,11 @@ import com.caij.codehub.ui.listener.UserUi;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-public class MainActivity extends BaseCodeHubActivity implements UserUi, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseCodeHubActivity implements UserUi {
 
     @Bind(R.id.img_navigation_avatar)
     ImageView mNavigationAvatarImageView;
@@ -36,8 +37,6 @@ public class MainActivity extends BaseCodeHubActivity implements UserUi, Navigat
     TextView mNavigationUsernameTextView;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.nav_view)
-    NavigationView mNavigationView;
 
     private User mUser;
 
@@ -57,7 +56,6 @@ public class MainActivity extends BaseCodeHubActivity implements UserUi, Navigat
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
-        mNavigationView.setNavigationItemSelectedListener(this);
         mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class, UserUi.class, this);
         mUserPresenter.getUserInfo(CodeHubApplication.getToken(), CodeHubApplication.getCurrentUserName());
 
@@ -104,29 +102,28 @@ public class MainActivity extends BaseCodeHubActivity implements UserUi, Navigat
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        mDrawerLayout.closeDrawer(Gravity.LEFT);
-        switch (menuItem.getItemId()) {
-            case R.id.nav_repository:
-                if (menuItem.isChecked()) return true;
-                menuItem.setChecked(true);
-                switchContent(mCurrentShowFragment, mRepositoryPagesFragment, R.id.main_content);
-                mCurrentShowFragment = mRepositoryPagesFragment;
-                break;
-
-            case R.id.nav_events:
-                if (menuItem.isChecked()) return true;
-                menuItem.setChecked(true);
-                switchContent(mCurrentShowFragment, mNewsFragment, R.id.main_content);
-                mCurrentShowFragment = mNewsFragment;
-                break;
-
-            case R.id.nav_setting:
-                Intent intent = new Intent(this, SettingActivity.class);
-                startActivity(intent);
-                break;
+    @OnCheckedChanged(R.id.rb_repository)
+    public void onRepositoryChecked(RadioButton radioButton, boolean isCheck) {
+        if (isCheck) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+            switchContent(mCurrentShowFragment, mRepositoryPagesFragment, R.id.main_content);
+            mCurrentShowFragment = mRepositoryPagesFragment;
         }
-        return true;
+    }
+
+    @OnCheckedChanged(R.id.rb_event)
+    public void onEventChecked(RadioButton radioButton, boolean isCheck) {
+        if (isCheck) {
+            mDrawerLayout.closeDrawer(Gravity.LEFT);
+            switchContent(mCurrentShowFragment, mNewsFragment, R.id.main_content);
+            mCurrentShowFragment = mNewsFragment;
+        }
+    }
+
+    @OnClick(R.id.ll_setting)
+    public void onSettingClick() {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
     }
 }

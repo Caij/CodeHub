@@ -2,44 +2,47 @@ package com.caij.codehub.ui.adapter;
 
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
+import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
+import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerViewAdapter;
+import com.caij.lib.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Caij on 2015/9/22.
  */
-public abstract class BaseAdapter<E extends Entity> extends android.widget.BaseAdapter{
+public abstract class BaseAdapter<E extends Entity> extends LoadMoreRecyclerViewAdapter {
 
-    private  List<E> mEntities;
+    private static final String TAG = "BaseAdapter";
 
-    protected Context context;
-
-    protected LayoutInflater mInflater;
-
+    private List<E> mEntities;
 
     public BaseAdapter(Context context, List<E> entities) {
+        super(context);
         mEntities = entities;
-        this.context = context;
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    @Override
-    public int getCount() {
-        return mEntities == null ? 0 : mEntities.size();
-    }
-
-    @Override
     public E getItem(int i) {
         return mEntities.get(i);
     }
 
+
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return position;
     }
 
     public void setEntities(List<E> entities) {
@@ -49,7 +52,7 @@ public abstract class BaseAdapter<E extends Entity> extends android.widget.BaseA
     public void addEntities(List<E> entities) {
         if (mEntities == null) {
             mEntities = entities;
-        }else {
+        } else {
             mEntities.addAll(entities);
         }
     }
@@ -82,4 +85,9 @@ public abstract class BaseAdapter<E extends Entity> extends android.widget.BaseA
             mEntities.clear();
         }
     }
+
+    public int getDataCount() {
+        return mEntities == null ? 0 : mEntities.size();
+    }
+
 }
