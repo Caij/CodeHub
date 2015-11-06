@@ -8,21 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
-import com.caij.codehub.bean.Issue;
-import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.CommentsPresent;
-import com.caij.codehub.presenter.IssuePresent;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.CommentAdapter;
-import com.caij.codehub.ui.listener.CommentsUi;
-import com.caij.codehub.ui.listener.IssueUi;
+import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.ui.intf.CommentsUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
@@ -30,15 +26,12 @@ import java.util.List;
 /**
  * Created by Caij on 2015/10/31.
  */
-public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> implements IssueUi, CommentsUi {
+public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> implements CommentsUi, UiCallBack<List<Comment>> {
 
-    TextView tvIssueBody;
     private String mRepo;
     private String mIssueNumber;
     private CommentsPresent mCommentsPresent;
     private String mOwner;
-    private TextView mIssueTitleTextView;
-    private IssuePresent mIssuePresent;
     private String mIssueTitle;
     private String mIssueBody;
 
@@ -69,8 +62,8 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
 //        mIssueTitleTextView.setText(getString(R.string.issue) + ": " + issueTitle);
 //        tvIssueBody.setText(issueBody);
 
-        mCommentsPresent = PresenterFactory.newPresentInstance(CommentsPresent.class, CommentsUi.class, this);
-        mCommentsPresent.getIssuesComments(Present.LoadType.FIRSTLOAD, mOwner, mRepo, mIssueNumber);
+        mCommentsPresent = PresenterFactory.newPresentInstance(CommentsPresent.class);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, this, this);
 //        mIssuePresent = PresenterFactory.newPresentInstance(IssuePresent.class, IssueUi.class, this);
 //        mIssuePresent.getIssue(mOwner, mRepo, mIssueNumber);
     }
@@ -86,20 +79,9 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
     }
 
     @Override
-    public void onGetIssueSuccess(Issue issue) {
-        mIssueTitleTextView.setText(issue.getTitle());
-        tvIssueBody.setText(issue.getBody());
-    }
-
-    @Override
-    public void onGetIssueError(VolleyError error) {
-
-    }
-
-    @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mCommentsPresent.getIssuesComments(Present.LoadType.FIRSTLOAD, mOwner, mRepo, mIssueNumber);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, this, this);
     }
 
     @Override
@@ -135,7 +117,7 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
 
     @Override
     public void onRefresh() {
-        mCommentsPresent.getIssuesComments(Present.LoadType.REFRESH, mOwner, mRepo, mIssueNumber);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -154,17 +136,27 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
     }
 
     @Override
-    public void onFirstLoadSuccess(List<Comment> entities) {
+    public void onItemClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onSuccess(List<Comment> comments) {
         Comment comment = new Comment();
         comment.setId(- 1);
         comment.setIssue_url(mIssueTitle);
         comment.setBody(mIssueBody);
-        entities.add(0, comment);
-        super.onFirstLoadSuccess(entities);
+        comments.add(0, comment);
+        super.onFirstLoadSuccess(comments);
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onLoading() {
+        onComnLoading(LOAD_FIRST);
+    }
 
+    @Override
+    public void onError(VolleyError error) {
+        onFirstLoadError(error);
     }
 }

@@ -11,7 +11,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.presenter.LoginPresenter;
 import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.ui.listener.LoginUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
 
@@ -21,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/8/26.
  */
-public class LoginActivity extends BaseCodeHubActivity implements LoginUi {
+public class LoginActivity extends BaseCodeHubActivity implements UiCallBack<Token> {
 
 
     @Bind(R.id.edit_username)
@@ -35,7 +35,7 @@ public class LoginActivity extends BaseCodeHubActivity implements LoginUi {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setToolbarTitle(getString(R.string.action_login));
-        mPresenter = PresenterFactory.newPresentInstance(LoginPresenter.class, LoginUi.class, this);
+        mPresenter = PresenterFactory.newPresentInstance(LoginPresenter.class);
     }
 
     @Override
@@ -43,24 +43,22 @@ public class LoginActivity extends BaseCodeHubActivity implements LoginUi {
         return R.layout.activity_login;
     }
 
-
     @OnClick(R.id.button_login)
     public void onSubmit() {
-        mPresenter.login(mEditUsername.getText().toString(), mEditPassword.getText().toString());
+        mPresenter.login(mEditUsername.getText().toString(), mEditPassword.getText().toString(), this, this);
     }
 
+
     @Override
-    public void onLoginSuccess(Token token) {
-        CodeHubApplication.saveToken(token.getToken());
+    public void onSuccess(Token token) {
+        hideLoading();
+        saveToken(token.getToken());
+        saveTokenId(token.getId());
         CodeHubApplication.saveCurrentUserName(mEditUsername.getText().toString());
+        savePwd(mEditPassword.getText().toString());
         Intent intent = MainActivity.newIntent(this);
         startActivity(intent);
         finish();
-    }
-
-    @Override
-    public void onLoginError(VolleyError error) {
-        ToastUtil.show(this, R.string.login_error);
     }
 
     @Override
@@ -69,7 +67,20 @@ public class LoginActivity extends BaseCodeHubActivity implements LoginUi {
     }
 
     @Override
-    public void onLoaded() {
+    public void onError(VolleyError error) {
         hideLoading();
+        ToastUtil.show(this, R.string.login_error);
+    }
+
+    private void saveToken(String token) {
+        SPUtils.saveString(Constant.USER_TOKEN, token);
+    }
+
+    private void saveTokenId(long tokenId) {
+        SPUtils.saveString(Constant.USER_TOKEN_ID, tokenId);
+    }
+
+    private void savePwd(String pwd) {
+        SPUtils.saveString(Constant.USER_PWD, pwd);
     }
 }

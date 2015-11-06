@@ -16,6 +16,11 @@ import butterknife.Bind;
  */
 public abstract class RecyclerViewActivity<E extends Entity> extends BaseCodeHubActivity implements LoadMoreRecyclerView.OnLoadMoreListener, RecyclerViewOnItemClickListener {
 
+    public static final int LOAD_FIRST = 1;
+    public static final int LOAD_REFRESH = 2;
+    public static final int LOAD_MORE = 3;
+
+
     @Bind(R.id.recycler_view)
     LoadMoreRecyclerView mLoadMoreLoadMoreRecyclerView;
 

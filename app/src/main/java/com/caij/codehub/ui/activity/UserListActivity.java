@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.UserAdapter;
-import com.caij.codehub.ui.listener.UserListUi;
+import com.caij.codehub.ui.intf.ListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/24.
  */
-public abstract class UserListActivity extends SwipeRefreshRecyclerViewActivity<User> implements UserListUi{
+public abstract class UserListActivity extends SwipeRefreshRecyclerViewActivity<User> implements ListUi<User> {
 
     Page mPage;
 

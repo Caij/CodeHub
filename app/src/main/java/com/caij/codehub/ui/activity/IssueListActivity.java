@@ -6,17 +6,15 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Issue;
 import com.caij.codehub.bean.Page;
-import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.IssueListPresent;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.IssueAdapter;
-import com.caij.codehub.ui.listener.IssueListUi;
+import com.caij.codehub.ui.intf.IssueListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
@@ -45,8 +43,8 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> i
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mPage = new Page();
-        mIssueListPresent = PresenterFactory.newPresentInstance(IssueListPresent.class, IssueListUi.class, this);
-        mIssueListPresent.getIssueList(Present.LoadType.FIRSTLOAD, mOwner, mRepo, mPage);
+        mIssueListPresent = PresenterFactory.newPresentInstance(IssueListPresent.class);
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override
@@ -80,12 +78,18 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> i
 
     @Override
     public void onRefresh() {
-        mIssueListPresent.getIssueList(Present.LoadType.REFRESH, mOwner, mRepo, mPage.createRefreshPage());
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onLoadMore() {
-        mIssueListPresent.getIssueList(Present.LoadType.LOADMOER, mOwner, mRepo, mPage);
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, this, mLoadMoreUiCallBack);
+    }
+
+    @Override
+    public void onReFreshBtnClick(View view) {
+        super.onReFreshBtnClick(view);
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override

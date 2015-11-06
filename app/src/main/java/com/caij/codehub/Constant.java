@@ -33,4 +33,8 @@ public interface Constant {
     String ISSUE_TITLE = "issue_title";
 
     String ISSUE_BODY = "issue_body";
+
+    String USER_TOKEN_ID = "user_token_id";
+
+    String USER_PWD = "user_pwd";
 }

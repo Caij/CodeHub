@@ -10,8 +10,9 @@ import com.caij.codehub.API;
 import com.caij.codehub.Base64;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.presenter.LoginPresenter;
-import com.caij.codehub.ui.listener.LoginUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.volley.request.NetworkResponseRequest;
 import com.caij.lib.volley.request.StringRequest;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -34,17 +35,10 @@ public class LoginPresenterImp implements LoginPresenter {
     private final static String SCOPES = "scopes";
     private final static String NOTE = "note";
 
-    private LoginUi mUi;
-    private Object tag = new Object();
-
-    public LoginPresenterImp(LoginUi ui) {
-        this.mUi = ui;
-    }
-
     @Override
-    public void login(final String username, final String pwd) {
-        mUi.onLoading();
+    public void login(final String username, final String pwd, final Object requestTag, final UiCallBack<Token> uiCallBack) {
         try {
+            uiCallBack.onLoading();
             JSONObject json = new JSONObject();
             json.put(NOTE, API.TOKEN_NOTE);
             JSONArray jsonArray = new JSONArray(Arrays.asList(API.SCOPES));
@@ -56,80 +50,115 @@ public class LoginPresenterImp implements LoginPresenter {
                     new Response.Listener<Token>() {
                 @Override
                 public void onResponse(Token response) {
-                    mUi.onLoaded();
-                    mUi.onLoginSuccess(response);
+                    uiCallBack.onSuccess(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    handlerLoginError(error, username, pwd);
+                    handlerLoginError(error, username, pwd, requestTag, uiCallBack);
                 }
             });
-            VolleyUtil.addRequest(request, tag);
+            VolleyUtil.addRequest(request, requestTag);
         } catch (JSONException e) {
-            e.printStackTrace();
+            uiCallBack.onError(null);
         }
     }
 
-    private void handlerLoginError(VolleyError error, String username, String pwd) {
+    @Override
+    public void loginOut(String username, String pwd, String tokenId, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+        removeToken(username, pwd, tokenId, requestTag, uiCallBack);
+    }
+
+    private void handlerLoginError(VolleyError error, String username, String pwd, Object requestTag, final UiCallBack<Token> uiCallBack) {
         if (error instanceof ServerError) {
             NetworkResponse response = ((ServerError) error).networkResponse;
             if (response != null) {
                 int statusCode = response.statusCode;
                 if (statusCode == 422) {
-                    removeTokenIfHaveToken(username, pwd);
+                    removeTokenByLogin(username, pwd, requestTag, uiCallBack);
                 }else {
-                    mUi.onLoaded();
-                    mUi.onLoginError(error);
+                    uiCallBack.onError(error);
                 }
             }
         }else {
-            mUi.onLoaded();
-            mUi.onLoginError(error);
+            uiCallBack.onError(error);
         }
     }
 
-    private void removeToken(final String username, final String pwd, String id) {
+    private void removeTokenByLogin(final String username, final String pwd, final Object requestTag, final UiCallBack<Token> uiCallBack) {
+        getHaveTokens(username, pwd, requestTag, new UiCallBack<List<Token>>() {
+            @Override
+            public void onSuccess(List<Token> tokens) {
+                for (Token token : tokens) {
+                    if (token != null && API.TOKEN_NOTE.equals(token.getNote())) {
+                        removeToken(username, pwd, String.valueOf(token.getId()), requestTag, new UiCallBack<NetworkResponse>() {
+                            @Override
+                            public void onSuccess(NetworkResponse networkResponse) {
+                                login(username, pwd, requestTag, uiCallBack);
+                            }
+
+                            @Override
+                            public void onLoading() {}
+
+                            @Override
+                            public void onError(VolleyError error) {
+                                uiCallBack.onError(error);
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onLoading() {}
+
+            @Override
+            public void onError(VolleyError error) {
+                uiCallBack.onError(error);
+            }
+        });
+    }
+
+    public void removeToken(final String username, final String pwd, String id, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+        uiCallBack.onLoading();
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, username, pwd);
-        final StringRequest request = new StringRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, "", head,
-                new Response.Listener<String>() {
+        final NetworkResponseRequest request = new NetworkResponseRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, "", head,
+                new Response.Listener<NetworkResponse>() {
             @Override
-            public void onResponse(String response) {
-                login(username, pwd);
+            public void onResponse(NetworkResponse response) {
+                if (response.statusCode == 204) {
+                    uiCallBack.onSuccess(response);
+                }else {
+                    uiCallBack.onError(null);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onLoaded();
-                mUi.onLoginError(error);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 
-    public void removeTokenIfHaveToken(final String username, final String pwd) {
+    public void getHaveTokens(final String username, final String pwd, Object requestTag, final UiCallBack<List<Token>> uiCallBack) {
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, username, pwd);
         GsonRequest<List<Token>> request = new GsonRequest<List<Token>>(Request.Method.GET, API.AUTHORIZATION_URL, "", head,
                 new TypeToken<List<Token>>(){}.getType(), new Response.Listener<List<Token>>() {
             @Override
             public void onResponse(List<Token> response) {
-                for (Token token : response) {
-                    if (token != null && API.TOKEN_NOTE.equals(token.getNote())) {
-                        removeToken(username, pwd, String.valueOf(token.getId()));
-                        break;
-                    }
-                }
+                uiCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onLoaded();
-                mUi.onLoginError(error);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 
     private static Map<String, String> addAuthorizationHead(Map<String, String> head, String username, final String pwd) {
@@ -137,8 +166,4 @@ public class LoginPresenterImp implements LoginPresenter {
         return head;
     }
 
-    @Override
-    public void onDeath() {
-        VolleyUtil.cancelRequestByTag(tag);
-    }
 }

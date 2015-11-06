@@ -1,10 +1,10 @@
 package com.caij.codehub.ui.activity;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,9 +133,9 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             //clear cahce data
-            SPUtils.save(Constant.USER_TOKEN, "");
-            SPUtils.save(Constant.USER_INFO, "");
-            SPUtils.save(Constant.USER_NAME, "");
+            SPUtils.saveString(Constant.USER_TOKEN, "");
+            SPUtils.saveString(Constant.USER_INFO, "");
+            SPUtils.saveString(Constant.USER_NAME, "");
             ToastUtil.show(this, R.string.account_error_hint);
         }else {
             ToastUtil.show(this, R.string.data_load_error_hint);
@@ -147,5 +147,20 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
             title = title.substring(0, 12) + "...";
         }
         getSupportActionBar().setTitle(title);
+    }
+
+    public String getToken() {
+        String token = SPUtils.getString(Constant.USER_TOKEN, "");
+        if (TextUtils.isEmpty(token)) {
+            AppManager.getInstance().finishAllActivity();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            //clear cahce data
+            SPUtils.saveString(Constant.USER_TOKEN, "");
+            SPUtils.saveString(Constant.USER_INFO, "");
+            SPUtils.saveString(Constant.USER_NAME, "");
+            ToastUtil.show(this, R.string.account_error_hint);
+        }
+        return token;
     }
 }

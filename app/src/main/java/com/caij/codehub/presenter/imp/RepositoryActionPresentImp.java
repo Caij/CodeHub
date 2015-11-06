@@ -6,7 +6,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.presenter.RepositoryActionPresent;
-import com.caij.codehub.ui.listener.RepositoryActionUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.LogUtil;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.NetworkResponseRequest;
@@ -19,16 +19,9 @@ import java.util.Map;
  */
 public class RepositoryActionPresentImp implements RepositoryActionPresent {
 
-    private RepositoryActionUi mUi;
-    private Object tag = new Object();
-
-    public RepositoryActionPresentImp(RepositoryActionUi ui) {
-        this.mUi = ui;
-    }
-
     @Override
-    public void hasStarRepo(String owner, String repo, String token) {
-        mUi.onRepositoryActionLoading(ACTION_TYPE_HAS_STAR);
+    public void hasStarRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<Boolean> uiCallBack) {
+        uiCallBack.onLoading();
         String url = API.API_HOST + "/user/starred/" + owner + "/" +repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -36,24 +29,24 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
             @Override
             public void onResponse(NetworkResponse response) {
                 LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
-                mUi.onCheckStarStateSuccess(response.statusCode == 204);
-                mUi.onRepositoryActionLoaded(ACTION_TYPE_HAS_STAR);
+                uiCallBack.onSuccess(response.statusCode == 204);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 404) {
-                    mUi.onCheckStarStateSuccess(false);
+                    uiCallBack.onSuccess(false);
+                }else {
+                    uiCallBack.onError(error);
                 }
-                mUi.onRepositoryActionLoaded(ACTION_TYPE_HAS_STAR);
             }
         });
-        VolleyUtil.addRequest(responseRequest, tag);
+        VolleyUtil.addRequest(responseRequest, requestTag);
     }
 
     @Override
-    public void starRepo(String owner, String repo, String token) {
-        mUi.onRepositoryActionLoading(ACTION_TYPE_STAR);
+    public void starRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+        uiCallBack.onLoading();
         String url = API.API_HOST + "/user/starred/" + owner + "/" + repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -64,25 +57,23 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
             public void onResponse(NetworkResponse response) {
                 LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 if (response.statusCode == 204) {
-                    mUi.onStarRepoSuccess();
+                    uiCallBack.onSuccess(response);
                 }else {
-                    mUi.onStarRepoError(null);
+                    uiCallBack.onError(null);
                 }
-               mUi.onRepositoryActionLoaded(ACTION_TYPE_STAR);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onStarRepoError(error);
-                mUi.onRepositoryActionLoaded(ACTION_TYPE_STAR);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(responseRequest, tag);
+        VolleyUtil.addRequest(responseRequest, requestTag);
     }
 
     @Override
-    public void unstarRepo(String owner, String repo, String token) {
-        mUi.onRepositoryActionLoading(ACTION_TYPE_UNSTAR);
+    public void unstarRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+        uiCallBack.onLoading();
         String url = API.API_HOST + "/user/starred/" + owner + "/" + repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -91,27 +82,25 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
             public void onResponse(NetworkResponse response) {
                 LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 if (response.statusCode == 204) {
-                    mUi.onUnstarRepoSuccess();
+                    uiCallBack.onSuccess(response);
                 }else {
-                    mUi.onUnstarRepoError(null);
+                    uiCallBack.onError(null);
                 }
-                mUi.onRepositoryActionLoaded(ACTION_TYPE_UNSTAR);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onUnstarRepoError(error);
-                mUi.onRepositoryActionLoaded(ACTION_TYPE_UNSTAR);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(responseRequest, tag);
+        VolleyUtil.addRequest(responseRequest, requestTag);
     }
 
     @Override
-    public void forkRepo(String owner, String repo, String token) {
+    public void forkRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
 //        POST /repos/:owner/:repo/forks
 //        https://api.github.com/repos/81813780/AVLoadingIndicatorView/forks
-        mUi.onRepositoryActionLoading(ACTION_TYPE_FORK);
+        uiCallBack.onLoading();
         String url = API.API_HOST + "/repos/" + owner + "/" + repo + "/forks";
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -120,22 +109,18 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
             @Override
             public void onResponse(NetworkResponse response) {
                 LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
-                mUi.onForkRepoSuccess();
-                mUi.onRepositoryActionLoaded(ACTION_TYPE_FORK);
+                if (response.statusCode == 204) {
+                    uiCallBack.onSuccess(response);
+                }else {
+                    uiCallBack.onError(null);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onForkRepoError(error);
-                mUi.onRepositoryActionLoaded(ACTION_TYPE_FORK);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(responseRequest, tag);
-    }
-
-
-    @Override
-    public void onDeath() {
-        VolleyUtil.cancelRequestByTag(tag);
+        VolleyUtil.addRequest(responseRequest, requestTag);
     }
 }

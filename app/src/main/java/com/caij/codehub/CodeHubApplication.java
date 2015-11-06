@@ -1,8 +1,10 @@
 package com.caij.codehub;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import com.caij.codehub.utils.OkHttpClientProvider;
+import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.stack.OkHttpStack;
@@ -24,24 +26,12 @@ public class CodeHubApplication extends Application{
         SPUtils.init(this, SP_FILE_NAME);
     }
 
-    public static String getToken() {
-        return SPUtils.get(Constant.USER_TOKEN, "");
-    }
-
-    public static void clearToken() {
-        SPUtils.save(Constant.USER_TOKEN, "");
-    }
-
     public static String getCurrentUserName() {
-        return SPUtils.get(Constant.USER_NAME, "");
-    }
-
-    public static void saveToken(String token) {
-        SPUtils.save(Constant.USER_TOKEN, token);
+        return SPUtils.getString(Constant.USER_NAME, "");
     }
 
     public static void saveCurrentUserName(String name) {
-        SPUtils.save(Constant.USER_NAME, name);
+        SPUtils.saveString(Constant.USER_NAME, name);
     }
 
 

@@ -6,7 +6,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.presenter.UserPresenter;
-import com.caij.codehub.ui.listener.UserUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -19,38 +19,23 @@ import java.util.Map;
  */
 public class UserPresenterImp implements UserPresenter{
 
-    private UserUi mUserUi;
-    private Object tag = new Object();
-
-    public UserPresenterImp(UserUi ui) {
-        this.mUserUi = ui;
-    }
-
     @Override
-    public void getUserInfo(String token, String username) {
-        mUserUi.onLoading();
+    public void getUserInfo(String token, String username, Object requestTag, final UiCallBack<User> uiCallBack) {
+        uiCallBack.onLoading();
         String url = API.API_HOST + "/users/" + username;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
         GsonRequest<User> request = new GsonRequest<User>(Request.Method.GET, url, "", head, new TypeToken<User>() {}.getType(),new Response.Listener<User>() {
             @Override
             public void onResponse(User response) {
-                mUserUi.onGetUserInfoSuccess(response);
-                mUserUi.onLoaded();
+                uiCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUserUi.onLoaded();
-                mUserUi.onGetUserInfoError(error);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, this);
-    }
-
-
-    @Override
-    public void onDeath() {
-        VolleyUtil.cancelRequestByTag(tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 }

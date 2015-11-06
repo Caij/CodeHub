@@ -14,13 +14,23 @@ public class SPUtils {
         sp = context.getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
-    public static void save(String name, String value) {
+    public static void saveString(String name, String value) {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(name, value);
         editor.commit();
     }
 
-    public static String get(String name, String defaultValue) {
+    public static void saveString(String name, long value) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putLong(name, value);
+        editor.commit();
+    }
+
+    public static String getString(String name, String defaultValue) {
         return sp.getString(name, defaultValue);
+    }
+
+    public static long getLong(String name, long defaultValue) {
+        return sp.getLong(name, defaultValue);
     }
 }

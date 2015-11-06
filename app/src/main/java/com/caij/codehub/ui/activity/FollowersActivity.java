@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.caij.codehub.Constant;
-import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.UserListPresenter;
-import com.caij.codehub.ui.listener.UserListUi;
 import com.caij.lib.utils.SPUtils;
 
 /**
@@ -31,25 +29,25 @@ public class FollowersActivity extends UserListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
-        mToken = SPUtils.get(Constant.USER_TOKEN, "");
+        mToken = SPUtils.getString(Constant.USER_TOKEN, "");
         setToolbarTitle("Followers");
-        mPresenter = PresenterFactory.newPresentInstance(UserListPresenter.class, UserListUi.class, this);
-        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.FIRSTLOAD, mPage);
+        mPresenter = PresenterFactory.newPresentInstance(UserListPresenter.class);
+        mPresenter.getFollowers(mToken, mUsername, mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.REFRESH, mPage.createRefreshPage());
+        mPresenter.getFollowers(mToken, mUsername, mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.FIRSTLOAD, mPage);
+        mPresenter.getFollowers(mToken, mUsername,mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override
     public void onLoadMore() {
-        mPresenter.getFollowers(mToken, mUsername, Present.LoadType.LOADMOER, mPage);
+        mPresenter.getFollowers(mToken, mUsername, mPage, this, mLoadMoreUiCallBack);
     }
 }

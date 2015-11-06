@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,11 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.CodeHubApplication;
+import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.ui.activity.LoginActivity;
 import com.caij.lib.utils.AppManager;
+import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
 import com.caij.lib.volley.request.JsonParseError;
 
@@ -118,12 +121,27 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
             ToastUtil.show(getContext(), R.string.network_error_hint);
         }else if (error instanceof AuthFailureError) {
             AppManager.getInstance().finishAllActivity();
-            CodeHubApplication.clearToken();
+            SPUtils.saveString(Constant.USER_TOKEN, "");
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             ToastUtil.show(getContext(), R.string.account_error_hint);
         }else {
             ToastUtil.show(getContext(), R.string.data_load_error_hint);
         }
+    }
+
+    public String getToken() {
+        String token = SPUtils.getString(Constant.USER_TOKEN, "");
+        if (TextUtils.isEmpty(token)) {
+            AppManager.getInstance().finishAllActivity();
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            //clear cahce data
+            SPUtils.saveString(Constant.USER_TOKEN, "");
+            SPUtils.saveString(Constant.USER_INFO, "");
+            SPUtils.saveString(Constant.USER_NAME, "");
+            ToastUtil.show(getActivity(), R.string.account_error_hint);
+        }
+        return token;
     }
 }

@@ -14,7 +14,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.presenter.CommentActionPresent;
 import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.ui.listener.CommentActionUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
@@ -22,7 +22,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/11/3.
  */
-public class CommentActivity extends BaseCodeHubActivity implements CommentActionUi {
+public class CommentActivity extends BaseCodeHubActivity implements UiCallBack<Comment> {
 
     @Bind(R.id.edit_comment)
     EditText mEditComment;
@@ -49,11 +49,11 @@ public class CommentActivity extends BaseCodeHubActivity implements CommentActio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCommentActionPresent = PresenterFactory.newPresentInstance(CommentActionPresent.class, CommentActionUi.class, this);
+        mCommentActionPresent = PresenterFactory.newPresentInstance(CommentActionPresent.class);
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mIssueNumber = getIntent().getStringExtra(Constant.ISSUE_NUMBER);
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
-        mToken = CodeHubApplication.getToken();
+        mToken = getToken();
     }
 
 
@@ -73,7 +73,7 @@ public class CommentActivity extends BaseCodeHubActivity implements CommentActio
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.comment) {
-            mCommentActionPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken);
+            mCommentActionPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken, this, this);
             return true;
         }
 
@@ -81,7 +81,8 @@ public class CommentActivity extends BaseCodeHubActivity implements CommentActio
     }
 
     @Override
-    public void onCommentSuccess(Comment comment) {
+    public void onSuccess(Comment comment) {
+        hideLoading();
         ToastUtil.show(this, R.string.comment_success);
         Intent intent = new Intent();
         intent.putExtra(Constant.COMMENT, comment);
@@ -90,17 +91,13 @@ public class CommentActivity extends BaseCodeHubActivity implements CommentActio
     }
 
     @Override
-    public void onCommentError(VolleyError error) {
-        processVolleyError(error);
-    }
-
-    @Override
-    public void onCommentLoading() {
+    public void onLoading() {
         showLoading();
     }
 
     @Override
-    public void onCommentLoaded() {
+    public void onError(VolleyError error) {
         hideLoading();
+        processVolleyError(error);
     }
 }

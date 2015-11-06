@@ -13,10 +13,8 @@ import com.caij.codehub.presenter.imp.RepositoryListPresenterImp;
 import com.caij.codehub.presenter.imp.FollowActionPresentImp;
 import com.caij.codehub.presenter.imp.UserListPresenterImp;
 import com.caij.codehub.presenter.imp.UserPresenterImp;
-import com.caij.codehub.ui.listener.BaseUi;
 
 
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,12 +42,11 @@ public class PresenterFactory {
         pclazzs.put(CommentActionPresent.class, CommentActionPresentImp.class);
     }
 
-    public static <P extends Present, U extends BaseUi> P newPresentInstance(Class<P> pClass, Class<U> uClazz, U u) {
+    public static <P extends Present> P newPresentInstance(Class<P> pClass) {
         Class<P> tClass = pclazzs.get(pClass);
         if (tClass != null) {
             try {
-                Constructor<P> constructor = tClass.getConstructor(uClazz);
-                return constructor.newInstance(u);
+                return  tClass.newInstance();
             } catch (Exception e) {
                 throw new IllegalStateException(e.getMessage());
             }
@@ -57,29 +54,5 @@ public class PresenterFactory {
             throw new IllegalStateException("unregist Present");
         }
     }
-
-//    public static  LoginPresenter provideLoginPresenter(LoginUi ui) {
-//        return new LoginPresenterImp(ui);
-//    }
-//
-//    public static  EventsPresenter provideNewsPresenter(EventsUi ui) {
-//        return new EventsPresenterImp(ui);
-//    }
-//
-//    public static  RepositoryListPresenter provideRepositoryListPresenter(RepositoryListUi ui) {
-//        return new RepositoryListPresenterImp(ui);
-//    }
-//
-//    public static  RepositoryInfoPresenter provideRepositoryInfoPresenter(RepositoryInfoUi ui) {
-//        return new RepositoryInfoPresenterImp(ui);
-//    }
-//
-//    public static  UserListPresenter provideUserListPresenter(UserListUi ui) {
-//        return new UserListPresenterImp(ui);
-//    }
-//
-//    public static  UserPresenter provideUserPresenter(UserUi ui) {
-//        return new UserPresenterImp(ui);
-//    }
 
 }

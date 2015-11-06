@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.android.volley.VolleyError;
+import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Page;
@@ -14,14 +14,13 @@ import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.bean.event.IssueCommentEvent;
 import com.caij.codehub.bean.event.IssuesEvent;
-import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.EventsPresenter;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.activity.IssueActivity;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.EventsAdapter;
-import com.caij.codehub.ui.listener.EventsUi;
+import com.caij.codehub.ui.intf.EventsUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
@@ -43,19 +42,19 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(false);
         mPage = new Page();
-        mEventsPresenter = PresenterFactory.newPresentInstance(EventsPresenter.class, EventsUi.class, this);
+        mEventsPresenter = PresenterFactory.newPresentInstance(EventsPresenter.class);
     }
 
     @Override
     protected void onUserFirstVisible() {
-        mEventsPresenter.getReceivedEvents(SPUtils.get(Constant.USER_NAME, ""), SPUtils.get(Constant.USER_TOKEN, ""),
-                Present.LoadType.FIRSTLOAD, mPage);
+        mEventsPresenter.getReceivedEvents(SPUtils.getString(Constant.USER_NAME, ""), SPUtils.getString(Constant.USER_TOKEN, ""),
+                mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mEventsPresenter.getReceivedEvents(SPUtils.get(Constant.USER_NAME, ""), SPUtils.get(Constant.USER_TOKEN, ""),
-                Present.LoadType.REFRESH, mPage.createRefreshPage());
+        mEventsPresenter.getReceivedEvents(SPUtils.getString(Constant.USER_NAME, ""), SPUtils.getString(Constant.USER_TOKEN, ""),
+                mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
     }
 
     @Override
@@ -84,8 +83,8 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
         mPage.reset();
-        mEventsPresenter.getReceivedEvents(SPUtils.get(Constant.USER_NAME, ""), SPUtils.get(Constant.USER_TOKEN, ""),
-                Present.LoadType.FIRSTLOAD, mPage);
+        mEventsPresenter.getReceivedEvents(CodeHubApplication.getCurrentUserName(), getToken(),
+                mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override
@@ -100,8 +99,8 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     public void onLoadMore() {
-        mEventsPresenter.getReceivedEvents(SPUtils.get(Constant.USER_NAME, ""), SPUtils.get(Constant.USER_TOKEN, ""),
-                Present.LoadType.LOADMOER, mPage);
+        mEventsPresenter.getReceivedEvents(CodeHubApplication.getCurrentUserName(), getToken(),
+                mPage, this, mLoadMoreUiCallBack);
     }
 
     @Override

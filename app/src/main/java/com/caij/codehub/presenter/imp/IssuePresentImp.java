@@ -6,7 +6,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Issue;
 import com.caij.codehub.presenter.IssuePresent;
-import com.caij.codehub.ui.listener.IssueUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -16,16 +16,9 @@ import com.google.gson.reflect.TypeToken;
  */
 public class IssuePresentImp implements IssuePresent{
 
-    private Object tag = new Object() ;
-
-    private IssueUi mUi;
-
-    public IssuePresentImp(IssueUi ui) {
-        this.mUi = ui;
-    }
-
     @Override
-    public void getIssue(String owner, String repo, String issueNumber) {
+    public void getIssue(String owner, String repo, String issueNumber, Object requestTag, final UiCallBack<Issue> uiCallBack) {
+        uiCallBack.onLoading();
         String url = new StringBuilder().append(API.API_HOST).append("/repos/").append(owner)
                 .append("/").append(repo).append("/issues/")
                 .append(issueNumber).toString();
@@ -33,19 +26,14 @@ public class IssuePresentImp implements IssuePresent{
         }.getType(), new Response.Listener<Issue>() {
                     @Override
                     public void onResponse(Issue response) {
-                        mUi.onGetIssueSuccess(response);
+                       uiCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onGetIssueError(error);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, tag);
-    }
-
-    @Override
-    public void onDeath() {
-        VolleyUtil.cancelRequestByTag(tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 }

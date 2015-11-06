@@ -1,6 +1,5 @@
 package com.caij.codehub.ui.fragment;
 
-import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,10 +9,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.caij.codehub.R;
-import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.RepositoryListPresenter;
-import com.caij.codehub.ui.listener.RepositoryListUi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +46,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
 
         getLoadMoreRecyclerView().setLoadMoreEnable(false);
 
-        mRepositoryListPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class, RepositoryListUi.class, this);
+        mRepositoryListPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         mFilterDialogView = View.inflate(getContext(), R.layout.dialog_repository_filter, null);
         builder.setTitle(getString(R.string.filter)).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -61,7 +58,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
                 mLanguageCheckRadioId = mLanguageRadioGroup.getCheckedRadioButtonId();
 
                 mSwipeRefreshLayout.setRefreshing(true);
-                mRepositoryListPresenter.getTrendingRepository(Present.LoadType.REFRESH, mSince, mLanguage);
+                mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this , mLoadRefreshUiCallBack);
             }
         }).setNegativeButton(R.string.cancel, null).setView(mFilterDialogView);
         mDialog = builder.create();
@@ -95,18 +92,18 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     protected void onUserFirstVisible() {
-        mRepositoryListPresenter.getTrendingRepository(Present.LoadType.FIRSTLOAD, mSince, mLanguage);
+        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this, mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mRepositoryListPresenter.getTrendingRepository(Present.LoadType.REFRESH, mSince, mLanguage);
+        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this, mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoryListPresenter.getTrendingRepository(Present.LoadType.FIRSTLOAD, mSince, mLanguage);
+        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this, mFirstLoadUiCallBack);
     }
 
 

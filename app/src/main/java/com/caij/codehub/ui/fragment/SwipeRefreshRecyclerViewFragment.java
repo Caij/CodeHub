@@ -9,7 +9,9 @@ import android.view.View;
 import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
+import com.caij.codehub.bean.Repository;
 import com.caij.codehub.presenter.Present;
+import com.caij.codehub.ui.callback.UiCallBack;
 
 import java.util.List;
 
@@ -42,6 +44,7 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
     @Override
     public void onFirstLoadSuccess(List<E> entities) {
+        hideLoading();
         showContentContainer();
         getRecyclerViewAdapter().setEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
@@ -75,6 +78,7 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
     @Override
     public void onFirstLoadError(VolleyError error) {
+        hideLoading();
         processVolleyError(error);
         showError();
     }
@@ -90,21 +94,82 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
     }
 
     @Override
-    public void onLoading(int loadType) {
-        if (loadType == Present.LoadType.FIRSTLOAD) {
+    public void onComnLoading(int loadType) {
+        if (loadType == LOAD_FIRST) {
             showLoading();
-        }else if (loadType == Present.LoadType.REFRESH) {
-        }else if (loadType == Present.LoadType.LOADMOER) {
         }
     }
 
-    @Override
-    public void onLoaded(int loadType) {
-        if (loadType == Present.LoadType.FIRSTLOAD) {
-            hideLoading();
-        }else if (loadType == Present.LoadType.REFRESH) {
-        }else if (loadType == Present.LoadType.LOADMOER) {
+    public void onComnLoadSuccess(int loadType, List<E> entities) {
+        if (loadType == LOAD_FIRST) {
+            onFirstLoadSuccess(entities);
+        }else if (loadType == LOAD_REFRESH) {
+            onRefreshSuccess(entities);
+        }else if (loadType == LOAD_MORE) {
+            onLoadMoreSuccess(entities);
         }
     }
+
+    public void onComnLoadError(int loadType, VolleyError error) {
+        if (loadType == LOAD_FIRST) {
+            onFirstLoadError(error);
+        }else if (loadType == LOAD_REFRESH) {
+            onRefreshError(error);
+        }else if (loadType == LOAD_MORE) {
+            onLoadMoreError(error);
+        }
+    }
+
+
+    protected UiCallBack<List<E>> mFirstLoadUiCallBack = new UiCallBack<List<E>>() {
+        @Override
+        public void onSuccess(List<E> entities) {
+            onFirstLoadSuccess(entities);
+        }
+
+        @Override
+        public void onLoading() {
+            onComnLoading(LOAD_FIRST);
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            onFirstLoadError(error);
+        }
+    };
+
+    protected UiCallBack<List<E>> mLoadMoreUiCallBack = new UiCallBack<List<E>>() {
+        @Override
+        public void onSuccess(List<E> entities) {
+            onLoadMoreSuccess(entities);
+        }
+
+        @Override
+        public void onLoading() {
+            onComnLoading(LOAD_MORE);
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            onLoadMoreError(error);
+        }
+    };
+
+    protected UiCallBack<List<E>> mLoadRefreshUiCallBack = new UiCallBack<List<E>>() {
+        @Override
+        public void onSuccess(List<E> entities) {
+            onRefreshSuccess(entities);
+        }
+
+        @Override
+        public void onLoading() {
+            onComnLoading(LOAD_REFRESH);
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            onRefreshError(error);
+        }
+    };
 
 }

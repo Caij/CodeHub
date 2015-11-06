@@ -96,7 +96,7 @@
 //    }
 //
 //    @Override
-//    public void onLoading(int loadType) {
+//    public void onComnLoading(int loadType) {
 //        if (loadType == Present.LoadType.FIRSTLOAD) {
 //            showLoading();
 //        }else if (loadType == Present.LoadType.REFRESH) {

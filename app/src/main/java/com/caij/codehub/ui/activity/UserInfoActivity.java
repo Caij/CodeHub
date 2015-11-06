@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.CodeHubApplication;
@@ -19,8 +20,7 @@ import com.caij.codehub.bean.User;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.FollowActionPresent;
 import com.caij.codehub.presenter.UserPresenter;
-import com.caij.codehub.ui.listener.UserFollowUi;
-import com.caij.codehub.ui.listener.UserUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.utils.TimeUtils;
 import com.caij.lib.utils.CheckValueUtil;
 import com.caij.lib.utils.SPUtils;
@@ -33,7 +33,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * Created by Caij on 2015/9/19.
  */
-public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, UserFollowUi {
+public class UserInfoActivity extends BaseCodeHubActivity {
 
     @Bind(R.id.img_user_avatar)
     ImageView mUserAvatarImageView;
@@ -76,16 +76,15 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContentContainer.setVisibility(View.GONE);
-        mToken = SPUtils.get(Constant.USER_TOKEN, "");
+        mToken = SPUtils.getString(Constant.USER_TOKEN, "");
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
         getSupportActionBar().setTitle(mUsername);
-        mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class, UserUi.class, this);
-        mUserPresenter.getUserInfo(mToken, mUsername);
+        mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
+        mUserPresenter.getUserInfo(mToken, mUsername, this, mUserUiCallBack);
 
         if (!mUsername.equals(CodeHubApplication.getCurrentUserName())) { //如果是自己就不用加载follow信息
-            mFollowActionPresent = PresenterFactory.newPresentInstance(FollowActionPresent.class,
-                    UserFollowUi.class, this);
-            mFollowActionPresent.checkFollowState(mToken, mUsername);
+            mFollowActionPresent = PresenterFactory.newPresentInstance(FollowActionPresent.class);
+            mFollowActionPresent.checkFollowState(mToken, mUsername, this, mCheckFollowStateUiCallBack);
         }
     }
 
@@ -112,55 +111,6 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
     }
 
     @Override
-    public void onGetUserInfoSuccess(User user) {
-        handlerData(user);
-    }
-
-    @Override
-    public void onGetUserInfoError(VolleyError error) {
-        showError();
-    }
-
-    @Override
-    public void onCheckFollowInfoSuccess(boolean isFollow) {
-        getMenuInflater().inflate(R.menu.menu_user, mMenu);
-        mMenu.findItem(R.id.follow).setTitle(isFollow ? getString(R.string.unfollow) : getString(R.string.follow));
-    }
-
-    @Override
-    public void onFollowSuccess() {
-        ToastUtil.show(this, R.string.follow_success);
-        mMenu.findItem(R.id.follow).setTitle(R.string.unfollow);
-    }
-
-    @Override
-    public void onFollowError() {
-        ToastUtil.show(this, R.string.follow_erroe);
-    }
-
-    @Override
-    public void onUnfollowSuccess() {
-        ToastUtil.show(this, R.string.unfollow_success);
-        mMenu.findItem(R.id.follow).setTitle(R.string.follow);
-    }
-
-    @Override
-    public void onUnfollowError() {
-        ToastUtil.show(this, R.string.unfollow_erroe);
-    }
-
-    @Override
-    public void onFollowActionLoading(int actionType) {
-        showLoading();
-    }
-
-    @Override
-    public void onFollowActionLoaded(int actionType) {
-        hideLoading();
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenu = menu;
         return true;
@@ -172,9 +122,9 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
 
         if (id == R.id.follow) {
             if (item.getTitle().equals(getString(R.string.unfollow))) {
-                mFollowActionPresent.unfollowUser(mToken, mUsername);
+                mFollowActionPresent.unfollowUser(mToken, mUsername,this, mUnFollowUiCallBack);
             }else {
-                mFollowActionPresent.followUser(mToken, mUsername);
+                mFollowActionPresent.followUser(mToken, mUsername, this, mFollowUiCallBack);
             }
             return true;
         }
@@ -185,7 +135,7 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mUserPresenter.getUserInfo(mToken, mUsername);
+        mUserPresenter.getUserInfo(mToken, mUsername,this, mUserUiCallBack);
     }
 
     @OnClick(R.id.ll_user_followers)
@@ -215,13 +165,78 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
         }
     }
 
-    @Override
-    public void onLoading() {
-        showLoading();
-    }
+    private UiCallBack<User> mUserUiCallBack = new UiCallBack<User>() {
+        @Override
+        public void onSuccess(User user) {
+            hideLoading();
+            handlerData(user);
+        }
 
-    @Override
-    public void onLoaded() {
-        hideLoading();
-    }
+        @Override
+        public void onLoading() {
+            showLoading();
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            hideLoading();
+            showError();
+        }
+    };
+
+    private UiCallBack<Boolean> mCheckFollowStateUiCallBack = new UiCallBack<Boolean>() {
+        @Override
+        public void onSuccess(Boolean isFollow) {
+            getMenuInflater().inflate(R.menu.menu_user, mMenu);
+            mMenu.findItem(R.id.follow).setTitle(isFollow ? getString(R.string.unfollow) : getString(R.string.follow));
+        }
+
+        @Override
+        public void onLoading() {
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+        }
+    };
+
+    private UiCallBack<NetworkResponse> mFollowUiCallBack = new UiCallBack<NetworkResponse>() {
+        @Override
+        public void onSuccess(NetworkResponse response) {
+            hideLoading();
+            ToastUtil.show(UserInfoActivity.this, R.string.follow_success);
+            mMenu.findItem(R.id.follow).setTitle(R.string.unfollow);
+        }
+
+        @Override
+        public void onLoading() {
+            showLoading();
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            processVolleyError(error);
+            hideLoading();
+        }
+    };
+
+    private UiCallBack<NetworkResponse> mUnFollowUiCallBack = new UiCallBack<NetworkResponse>() {
+        @Override
+        public void onSuccess(NetworkResponse response) {
+            hideLoading();
+            ToastUtil.show(UserInfoActivity.this, R.string.unfollow_success);
+            mMenu.findItem(R.id.follow).setTitle(R.string.follow);
+        }
+
+        @Override
+        public void onLoading() {
+            showLoading();
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            processVolleyError(error);
+            hideLoading();
+        }
+    };
 }

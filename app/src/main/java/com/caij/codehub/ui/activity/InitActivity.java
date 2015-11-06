@@ -34,7 +34,7 @@ public class InitActivity extends BaseActivity {
             @Override
             public void run() {
                 Intent intent;
-                if (TextUtils.isEmpty(SPUtils.get(Constant.USER_TOKEN, ""))) {
+                if (TextUtils.isEmpty(SPUtils.getString(Constant.USER_TOKEN, ""))) {
                     intent = new Intent(InitActivity.this, LoginActivity.class);
                 } else {
                     intent = new Intent(InitActivity.this, MainActivity.class);

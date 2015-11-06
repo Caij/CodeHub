@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.caij.codehub.API;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.lib.utils.SPUtils;
@@ -46,7 +45,7 @@ public class RepositoryPagesFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         List<BaseFragment> fragments = new ArrayList<>();
-        String username = SPUtils.get(Constant.USER_NAME, "");
+        String username = SPUtils.getString(Constant.USER_NAME, "");
         fragments.add(UserRepositoriesFragment.newInstance(username));
         fragments.add(UserStarredRepositoriesFragment.newInstance(username));
 //        fragments.add(SearchRepositoriesFragment.provideNewsPresenter("language:java", "stars", "desc"));

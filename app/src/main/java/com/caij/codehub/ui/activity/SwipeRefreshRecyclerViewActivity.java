@@ -2,14 +2,13 @@ package com.caij.codehub.ui.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
-import com.caij.codehub.presenter.Present;
-import com.caij.codehub.ui.listener.ListUi;
+import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.ui.intf.ListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
@@ -44,6 +43,7 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
 
     @Override
     public void onFirstLoadSuccess(List<E> entities) {
+        hideLoading();
         showContentContainer();
         getRecyclerViewAdapter().setEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
@@ -77,24 +77,67 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
 
     @Override
     public void onFirstLoadError(VolleyError error) {
+        hideLoading();
         showError();
     }
 
     @Override
-    public void onLoading(int loadType) {
-        if (loadType == Present.LoadType.FIRSTLOAD) {
+    public void onComnLoading(int loadType) {
+        if (loadType == LOAD_FIRST) {
             showLoading();
-        }else if (loadType == Present.LoadType.REFRESH) {
-        }else if (loadType == Present.LoadType.LOADMOER) {
         }
     }
 
-    @Override
-    public void onLoaded(int loadType) {
-        if (loadType == Present.LoadType.FIRSTLOAD) {
-            hideLoading();
-        }else if (loadType == Present.LoadType.REFRESH) {
-        }else if (loadType == Present.LoadType.LOADMOER) {
+
+
+    protected UiCallBack<List<E>> mFirstLoadUiCallBack = new UiCallBack<List<E>>() {
+        @Override
+        public void onSuccess(List<E> entities) {
+            onFirstLoadSuccess(entities);
         }
-    }
+
+        @Override
+        public void onLoading() {
+            onComnLoading(LOAD_FIRST);
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            onFirstLoadError(error);
+        }
+    };
+
+    protected UiCallBack<List<E>> mLoadMoreUiCallBack = new UiCallBack<List<E>>() {
+        @Override
+        public void onSuccess(List<E> entities) {
+            onLoadMoreSuccess(entities);
+        }
+
+        @Override
+        public void onLoading() {
+            onComnLoading(LOAD_MORE);
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            onLoadMoreError(error);
+        }
+    };
+
+    protected UiCallBack<List<E>> mLoadRefreshUiCallBack = new UiCallBack<List<E>>() {
+        @Override
+        public void onSuccess(List<E> entities) {
+            onRefreshSuccess(entities);
+        }
+
+        @Override
+        public void onLoading() {
+            onComnLoading(LOAD_REFRESH);
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            onRefreshError(error);
+        }
+    };
 }

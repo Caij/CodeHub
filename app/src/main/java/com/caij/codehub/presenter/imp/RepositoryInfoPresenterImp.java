@@ -1,17 +1,14 @@
 package com.caij.codehub.presenter.imp;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.presenter.RepositoryInfoPresenter;
-import com.caij.codehub.ui.listener.RepositoryInfoUi;
-import com.caij.lib.utils.LogUtil;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
-import com.caij.lib.volley.request.NetworkResponseRequest;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
@@ -22,16 +19,9 @@ import java.util.Map;
  */
 public class RepositoryInfoPresenterImp implements RepositoryInfoPresenter {
 
-    private RepositoryInfoUi mUi;
-    private Object tag = new Object();
-
-    public RepositoryInfoPresenterImp(RepositoryInfoUi ui) {
-        this.mUi = ui;
-    }
-
     @Override
-    public void getRepositoryInfo(String repositoryName, String owner, String token) {
-        mUi.onLoading();
+    public void getRepositoryInfo(String repositoryName, String owner, String token, Object requestTag, final UiCallBack<Repository> uiCallBack) {
+        uiCallBack.onLoading();
         String url = API.API_HOST + API.REPOSITORY_REPOS_URI + "/" + owner + "/" + repositoryName;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -39,21 +29,14 @@ public class RepositoryInfoPresenterImp implements RepositoryInfoPresenter {
                 new Response.Listener<Repository>() {
                     @Override
                     public void onResponse(Repository response) {
-                        mUi.onGetRepositoryInfoSuccess(response);
-                        mUi.onLoaded();
+                        uiCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onLoaded();
-                mUi.onGetRepositoryInfoError(error);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, tag);
-    }
-
-    @Override
-    public void onDeath() {
-        VolleyUtil.cancelRequestByTag(tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 }

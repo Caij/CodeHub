@@ -10,7 +10,7 @@ import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.SearchRepository;
 import com.caij.codehub.presenter.RepositoryListPresenter;
-import com.caij.codehub.ui.listener.RepositoryListUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -24,28 +24,21 @@ import java.util.Map;
  */
 public class RepositoryListPresenterImp implements RepositoryListPresenter {
 
-    protected RepositoryListUi mUi;
-    private Object tag = new Object();
-
-    public RepositoryListPresenterImp(RepositoryListUi ui) {
-        this.mUi = ui;
-    }
-
     @Override
-    public void getUserStarredRepositories(int loadType, String username, String token, Page page) {
+    public void getUserStarredRepositories(String username, String token, Page page, Object requestTag, UiCallBack<List<Repository>> uiCallBack) {
         String url = API.API_HOST + "/users/" + username + API.REPOSITORY_STARRED_URI;
-        loadStarredOrUserRepository(loadType, url, token, page);
+        loadStarredOrUserRepository(url, token, page, requestTag, uiCallBack);
     }
 
     @Override
-    public void getUserRepositories(int loadType, String username, String token, Page page) {
+    public void getUserRepositories(String username, String token, Page page, Object requestTag, UiCallBack<List<Repository>> uiCallBack) {
         String url = API.API_HOST + "/users/" + username + API.REPOSITORY_REPOS_URI;
-        loadStarredOrUserRepository(loadType, url, token, page);
+        loadStarredOrUserRepository(url, token, page, requestTag, uiCallBack);
     }
 
     @Override
-    public void getSearchRepository(final int loadType, String q, String sort, String order, Page page) {
-        mUi.onLoading(loadType);
+    public void getSearchRepository(String q, String sort, String order, Page page, Object requestTag, final UiCallBack<List<Repository>> uiCallBack) {
+        uiCallBack.onLoading();
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(q)) {
             params.put(API.Q, q);
@@ -62,23 +55,23 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
             @Override
             public void onResponse(SearchRepository response) {
                 if (response != null) {
-                    handlerResponse(loadType, response.getItems());
+                    uiCallBack.onSuccess(response.getItems());
                 }else {
-                    handlerError(loadType, null);
+                    uiCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handlerError(loadType, error);
+               uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 
     @Override
-    public void getTrendingRepository(final int loadType, String since, String language) {
-        mUi.onLoading(loadType);
+    public void getTrendingRepository(String since, String language, Object requestTag, final UiCallBack<List<Repository>> uiCallBack) {
+        uiCallBack.onLoading();
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(language))
             params.put(API.TENDING_REPOSITORY_PARAM_LANGUAGE, language);
@@ -89,23 +82,19 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
                 new TypeToken<List<Repository>>() {}.getType(), new Response.Listener<List<Repository>>() {
             @Override
             public void onResponse(List<Repository> response) {
-                if (response != null) {
-                    handlerResponse(loadType, response);
-                }else {
-                    handlerError(loadType, null);
-                }
+                uiCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                handlerError(loadType, error);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 
-    private void loadStarredOrUserRepository(final int loadType, String url, String token, Page page) {
-        mUi.onLoading(loadType);
+    private void loadStarredOrUserRepository(String url, String token, Page page, Object requestTag, final UiCallBack<List<Repository>> uiCallBack) {
+        uiCallBack.onLoading();
         Map<String, String> params = new HashMap<>();
         params.put(API.PAGE, String.valueOf(page.getPageIndex()));
         params.put(API.PER_PAGE, String.valueOf(page.getPageDataCount()));
@@ -116,44 +105,18 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
             @Override
             public void onResponse(List<Repository> response) {
                 if (response != null) {
-                    handlerResponse(loadType, response);
+                    uiCallBack.onSuccess(response);
                 }else {
-                    handlerError(loadType, null);
+                    uiCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               handlerError(loadType, error);
+                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, tag);
+        VolleyUtil.addRequest(request, requestTag);
     }
 
-    private void handlerError(int loadType, VolleyError error) {
-        mUi.onLoaded(loadType);
-        if (loadType == LoadType.FIRSTLOAD) {
-            mUi.onFirstLoadError(error);
-        }else if (loadType == LoadType.REFRESH) {
-            mUi.onRefreshError(error);
-        }else if (loadType == LoadType.LOADMOER) {
-            mUi.onLoadMoreError(error);
-        }
-    }
-
-    private void handlerResponse(int loadType, List<Repository> repositories) {
-        mUi.onLoaded(loadType);
-        if (loadType == LoadType.FIRSTLOAD) {
-            mUi.onFirstLoadSuccess(repositories);
-        }else if (loadType == LoadType.REFRESH){
-           mUi.onRefreshSuccess(repositories);
-        }  else if (loadType == LoadType.LOADMOER) {
-            mUi.onLoadMoreSuccess(repositories);
-        }
-    }
-
-    @Override
-    public void onDeath() {
-        VolleyUtil.cancelRequestByTag(tag);
-    }
 }

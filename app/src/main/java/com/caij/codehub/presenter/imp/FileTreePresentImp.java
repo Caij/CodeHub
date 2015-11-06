@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Tree;
 import com.caij.codehub.presenter.FileTreePresent;
-import com.caij.codehub.ui.listener.FileTreeUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -18,15 +18,9 @@ import com.google.gson.reflect.TypeToken;
  */
 public class FileTreePresentImp implements FileTreePresent {
 
-    private final FileTreeUi mUi;
-
-    public FileTreePresentImp(FileTreeUi ui){
-        this.mUi = ui;
-    }
-
     @Override
-    public void loadFileTree(String name, String repo, String ref) {
-        mUi.onLoading(LoadType.FIRSTLOAD);
+    public void loadFileTree(String name, String repo, String ref,  Object requestTag, final UiCallBack<Tree> uiCallBack) {
+        uiCallBack.onLoading();
         StringBuilder builder = new StringBuilder();
         builder.append(API.API_HOST).append("/repos/").append(name).append("/").
                 append(repo).append("/git/trees/");
@@ -38,21 +32,15 @@ public class FileTreePresentImp implements FileTreePresent {
         }.getType(), new Response.Listener<Tree>() {
             @Override
             public void onResponse(Tree response) {
-                mUi.onLoaded(LoadType.FIRSTLOAD);
-                mUi.onFirstLoadSuccess(response.getTree());
+                uiCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mUi.onLoaded(LoadType.FIRSTLOAD);
-                mUi.onFirstLoadError(error);
+                uiCallBack.onError(error);
             }
         });
         VolleyUtil.addRequest(request, null);
     }
 
-    @Override
-    public void onDeath() {
-
-    }
 }

@@ -6,7 +6,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.presenter.CommentActionPresent;
-import com.caij.codehub.ui.listener.CommentActionUi;
+import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.VolleyUtil;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -22,17 +22,11 @@ import java.util.Map;
  */
 public class CommentActionPresentImp implements CommentActionPresent{
 
-    private final CommentActionUi mUi;
-
-    public CommentActionPresentImp(CommentActionUi ui) {
-        this.mUi = ui;
-    }
-
 //    POST /repos/:owner/:repo/issues/:number/comments
     @Override
-    public void createCommentForIssue(String comment, String owner, String repo, String num, String token) {
+    public void createCommentForIssue(String comment, String owner, String repo, final String num, String token, Object requestTag, final UiCallBack<Comment> uiCallBack) {
         try {
-            mUi.onCommentLoading();
+            uiCallBack.onLoading();
             StringBuilder builder = new StringBuilder(API.API_HOST);
             builder.append("/repos/").append(owner).append("/").append(repo).append("/issues").append("/").append(num).append("/comments");
             String url = builder.toString();
@@ -44,25 +38,22 @@ public class CommentActionPresentImp implements CommentActionPresent{
                     new Response.Listener<Comment>() {
                         @Override
                         public void onResponse(Comment response) {
-                            mUi.onCommentLoading();
-                            mUi.onCommentSuccess(response);
+                            if (response != null) {
+                                uiCallBack.onSuccess(response);
+                            }else {
+                                uiCallBack.onError(new VolleyError());
+                            }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mUi.onCommentLoading();
-                    mUi.onCommentError(error);
+                    uiCallBack.onError(error);
                 }
             });
-            VolleyUtil.addRequest(request, null);
+            VolleyUtil.addRequest(request, requestTag);
         } catch (JSONException e) {
-            e.printStackTrace();
-            mUi.onCommentLoading();
+            uiCallBack.onError(new VolleyError(e));
         }
     }
 
-    @Override
-    public void onDeath() {
-
-    }
 }

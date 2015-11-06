@@ -6,13 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.RepositoryAdapter;
-import com.caij.codehub.ui.listener.RepositoryListUi;
+import com.caij.codehub.ui.intf.RepositoryListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;

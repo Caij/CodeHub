@@ -7,17 +7,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AdapterView;
 
+import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.FileTreeItem;
+import com.caij.codehub.bean.Tree;
 import com.caij.codehub.presenter.FileTreePresent;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.FileTreeAdapter;
-import com.caij.codehub.ui.listener.FileTreeUi;
+import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.ui.intf.FileTreeUi;
 import com.caij.codehub.widgets.LinearBreadcrumb;
 import com.caij.lib.utils.LogUtil;
 
@@ -63,8 +65,8 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         mSha =  getIntent().getStringExtra(Constant.REPO_BRAN);
         mBran =  getIntent().getStringExtra(Constant.REPO_BRAN);
 
-        fileTreePresent = PresenterFactory.newPresentInstance(FileTreePresent.class, FileTreeUi.class, this);
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
+        fileTreePresent = PresenterFactory.newPresentInstance(FileTreePresent.class);
+        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
     }
 
     @Override
@@ -96,7 +98,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         getRecyclerViewAdapter().notifyDataSetChanged();
 
         this.mSha = crumb.getmAttachMsg();
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
+        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
     }
 
 
@@ -105,7 +107,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         getRecyclerViewAdapter().clearEntites();
         getRecyclerViewAdapter().notifyDataSetChanged();
         breadCrumbs.addCrumb(new LinearBreadcrumb.Crumb(item.getPath(), item.getSha()), true);
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
+        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
     }
 
     @Override
@@ -127,7 +129,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
             getRecyclerViewAdapter().notifyDataSetChanged();
 
             this.mSha = crumb.getmAttachMsg();
-            fileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
+            fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
         }
     }
 
@@ -155,4 +157,21 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
                 startActivity(intent);
         }
     }
+
+    private UiCallBack<Tree> mUiCallBack = new UiCallBack<Tree>() {
+        @Override
+        public void onSuccess(Tree tree) {
+            onFirstLoadSuccess(tree.getTree());
+        }
+
+        @Override
+        public void onLoading() {
+            onComnLoading(LOAD_FIRST);
+        }
+
+        @Override
+        public void onError(VolleyError error) {
+            onFirstLoadError(error);
+        }
+    };
 }

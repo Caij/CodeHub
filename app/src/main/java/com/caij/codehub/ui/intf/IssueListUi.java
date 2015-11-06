@@ -1,4 +1,4 @@
-package com.caij.codehub.ui.listener;
+package com.caij.codehub.ui.intf;
 
 import com.caij.codehub.bean.Issue;
 

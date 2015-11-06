@@ -1,4 +1,4 @@
-package com.caij.codehub.ui.listener;
+package com.caij.codehub.ui.intf;
 
 import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Entity;
@@ -22,7 +22,6 @@ public interface ListUi<E extends Entity> extends BaseUi{
 
     public void onFirstLoadError(VolleyError error);
 
-    public void onLoading(int loadType);
+    public void onComnLoading(int loadType);
 
-    public void onLoaded(int loadType);
 }

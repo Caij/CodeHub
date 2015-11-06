@@ -7,7 +7,7 @@ import android.view.View;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
-import com.caij.codehub.ui.listener.ListUi;
+import com.caij.codehub.ui.intf.ListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
 
@@ -17,6 +17,10 @@ import butterknife.Bind;
  * Created by Caij on 2015/9/23.
  */
 public abstract class RecyclerViewFragment<E extends Entity> extends LazyFragment implements ListUi<E>, LoadMoreRecyclerView.OnLoadMoreListener, RecyclerViewOnItemClickListener {
+
+    public static final int LOAD_FIRST = 1;
+    public static final int LOAD_REFRESH = 2;
+    public static final int LOAD_MORE = 3;
 
     @Bind(R.id.recycler_view)
     LoadMoreRecyclerView mLoadMoreLoadMoreRecyclerView;

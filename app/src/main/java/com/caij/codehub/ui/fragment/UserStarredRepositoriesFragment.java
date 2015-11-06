@@ -5,10 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.caij.codehub.Constant;
-import com.caij.codehub.presenter.Present;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.RepositoryListPresenter;
-import com.caij.codehub.ui.listener.RepositoryListUi;
 import com.caij.lib.utils.CheckValueUtil;
 import com.caij.lib.utils.SPUtils;
 
@@ -36,29 +34,29 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUsername = getArguments().getString(Constant.USER_NAME);
-        mToken = SPUtils.get(Constant.USER_TOKEN, "");
-        mRepositoryListPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class, RepositoryListUi.class, this);
+        mToken = SPUtils.getString(Constant.USER_TOKEN, "");
+        mRepositoryListPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class);
     }
 
     @Override
     protected void onUserFirstVisible() {
         mPage.reset();
-        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.FIRSTLOAD, mUsername, mToken, mPage);
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.REFRESH, mUsername, mToken, mPage.createRefreshPage());
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.FIRSTLOAD, mUsername, mToken, mPage);
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, this, mFirstLoadUiCallBack);
     }
 
     @Override
     public void onLoadMore() {
-        mRepositoryListPresenter.getUserStarredRepositories(Present.LoadType.LOADMOER, mUsername, mToken, mPage);
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, this, mLoadMoreUiCallBack);
     }
 }
