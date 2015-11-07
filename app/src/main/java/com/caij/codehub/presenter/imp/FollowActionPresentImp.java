@@ -7,7 +7,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.presenter.FollowActionPresent;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;
 
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class FollowActionPresentImp implements FollowActionPresent {
             }
         });
 
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FollowActionPresentImp implements FollowActionPresent {
             }
         });
 
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 
     @Override
@@ -94,6 +94,6 @@ public class FollowActionPresentImp implements FollowActionPresent {
             }
         });
 
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 }

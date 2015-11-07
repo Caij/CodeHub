@@ -25,10 +25,11 @@ public class WebActivity extends BaseCodeHubActivity {
     @Bind(R.id.webview)
     WebView mWebview;
 
-    public static Intent newIntent(Activity activity, String url) {
+    public static Intent newIntent(Activity activity, String title, String url) {
         CheckValueUtil.check(url);
         Intent intent = new Intent(activity, WebActivity.class);
         intent.putExtra(Constant.URL, url);
+        intent.putExtra(Constant.TITLE, title);
         return intent;
     }
 
@@ -41,6 +42,10 @@ public class WebActivity extends BaseCodeHubActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String title = getIntent().getStringExtra(Constant.TITLE);
+        setTitle(title);
+
         mWebview.getSettings().setJavaScriptEnabled(true);
         mWebview.getSettings().getUserAgentString();
         mWebview.getSettings().setSupportZoom(true);
@@ -58,6 +63,15 @@ public class WebActivity extends BaseCodeHubActivity {
         LogUtil.d(TAG, url);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mWebview.canGoBack()) {
+            mWebview.goBack();
+            return;
+        }
+        super.onBackPressed();
+    }
+
     private class HubWebClient extends WebViewClient{
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -71,4 +85,5 @@ public class WebActivity extends BaseCodeHubActivity {
             hideLoading();
         }
     }
+
 }

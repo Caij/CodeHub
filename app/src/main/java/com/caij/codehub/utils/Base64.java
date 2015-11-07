@@ -1,4 +1,4 @@
-package com.caij.codehub;
+package com.caij.codehub.utils;
 
 import java.io.UnsupportedEncodingException;
 

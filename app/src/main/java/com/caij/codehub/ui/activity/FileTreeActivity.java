@@ -153,7 +153,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
                 String path = getAbosolutePath();
                 String filePath = TextUtils.isEmpty(path) ? treeItem.getPath() :  path + "/" + treeItem.getPath();
                 String url = String.format(API.GITHUB_FILE, mOwner, mRepoName, treeItem.getType(), mBran, filePath);
-                Intent intent = WebActivity.newIntent(this, url);
+                Intent intent = WebActivity.newIntent(this, treeItem.getPath(), url);
                 startActivity(intent);
         }
     }

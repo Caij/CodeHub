@@ -1,6 +1,5 @@
 package com.caij.codehub.ui.fragment;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,13 +17,14 @@ import com.android.volley.NetworkError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.caij.codehub.CodeHubApplication;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.ui.activity.LoginActivity;
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.JsonParseError;
 
 import butterknife.Bind;
@@ -59,15 +59,10 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
     protected abstract int getContentLayoutId();
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        VolleyManager.cancelRequestByTag(this);
     }
 
     protected  void hideError(){
@@ -121,7 +116,7 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
             ToastUtil.show(getContext(), R.string.network_error_hint);
         }else if (error instanceof AuthFailureError) {
             AppManager.getInstance().finishAllActivity();
-            SPUtils.saveString(Constant.USER_TOKEN, "");
+            CodeHubPrefs.get().logout();
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             ToastUtil.show(getContext(), R.string.account_error_hint);
@@ -137,9 +132,7 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             startActivity(intent);
             //clear cahce data
-            SPUtils.saveString(Constant.USER_TOKEN, "");
-            SPUtils.saveString(Constant.USER_INFO, "");
-            SPUtils.saveString(Constant.USER_NAME, "");
+            CodeHubPrefs.get().logout();
             ToastUtil.show(getActivity(), R.string.account_error_hint);
         }
         return token;

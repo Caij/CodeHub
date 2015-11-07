@@ -18,11 +18,11 @@ import com.android.volley.NetworkError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.caij.codehub.Constant;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.lib.utils.AppManager;
-import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.JsonParseError;
 
 import butterknife.Bind;
@@ -46,7 +46,6 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
     LinearLayout mLoadErrorLinearLayout;
 
     ViewGroup mContentContainer;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +76,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        VolleyManager.cancelRequestByTag(this);
     }
 
     public void onReFreshBtnClick(View view) {
@@ -118,9 +118,6 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
 
     public void showContentContainer() {
         mContentContainer.setVisibility(View.VISIBLE);
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(mContentContainer, "alpha", 0.4f, 1f);
-//        animator.setDuration(800);
-//        animator.start();
     }
 
     protected void processVolleyError(VolleyError error) {
@@ -133,9 +130,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             //clear cahce data
-            SPUtils.saveString(Constant.USER_TOKEN, "");
-            SPUtils.saveString(Constant.USER_INFO, "");
-            SPUtils.saveString(Constant.USER_NAME, "");
+            CodeHubPrefs.get().logout();
             ToastUtil.show(this, R.string.account_error_hint);
         }else {
             ToastUtil.show(this, R.string.data_load_error_hint);
@@ -150,15 +145,13 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
     }
 
     public String getToken() {
-        String token = SPUtils.getString(Constant.USER_TOKEN, "");
+        String token = CodeHubPrefs.get().getToken();
         if (TextUtils.isEmpty(token)) {
             AppManager.getInstance().finishAllActivity();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             //clear cahce data
-            SPUtils.saveString(Constant.USER_TOKEN, "");
-            SPUtils.saveString(Constant.USER_INFO, "");
-            SPUtils.saveString(Constant.USER_NAME, "");
+            CodeHubPrefs.get().logout();
             ToastUtil.show(this, R.string.account_error_hint);
         }
         return token;

@@ -1,13 +1,12 @@
 package com.caij.codehub;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import com.caij.codehub.utils.OkHttpClientProvider;
-import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.SPUtils;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.stack.OkHttpStack;
+import com.squareup.leakcanary.LeakCanary;
 
 
 /**
@@ -22,17 +21,8 @@ public class CodeHubApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        VolleyUtil.init(this, new OkHttpStack(OkHttpClientProvider.getOkHttpClient()), VOLLEY_DISK_MAX_SIZE);
+        VolleyManager.init(this, new OkHttpStack(OkHttpClientProvider.getOkHttpClient()), VOLLEY_DISK_MAX_SIZE);
         SPUtils.init(this, SP_FILE_NAME);
     }
-
-    public static String getCurrentUserName() {
-        return SPUtils.getString(Constant.USER_NAME, "");
-    }
-
-    public static void saveCurrentUserName(String name) {
-        SPUtils.saveString(Constant.USER_NAME, name);
-    }
-
 
 }

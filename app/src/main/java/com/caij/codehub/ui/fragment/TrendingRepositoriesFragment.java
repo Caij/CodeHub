@@ -1,6 +1,9 @@
 package com.caij.codehub.ui.fragment;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -109,7 +112,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
 
 
     @OnClick(R.id.filter)
-    public void onFilterClick() {
+    public void onFilterClick(View view) {
         ((RadioButton) mSinceRadioGroup.findViewById(mSinceCheckRadioId)).setChecked(true);
         ((RadioButton) mLanguageRadioGroup.findViewById(mLanguageCheckRadioId)).setChecked(true);
         mDialog.show();

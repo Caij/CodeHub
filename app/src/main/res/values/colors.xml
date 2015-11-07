@@ -25,4 +25,9 @@
 
     <color name="navdrawer_background">#ffffffff</color>
     <color name="transparent">#00000000</color>
+
+    <color name="dark_icon">#99000000</color> <!-- 60% black-->
+    <color name="mid_grey">#40808080</color>
+    <color name="scrim">#99323232</color>
+    <color name="item_select">#CCCCCC</color>
 </resources>

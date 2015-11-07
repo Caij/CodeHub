@@ -40,4 +40,10 @@
         <item name="android:textSize">@dimen/big_body_text_size</item>
     </style>
 
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textColorPrimary">@color/color_black</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
 </resources>

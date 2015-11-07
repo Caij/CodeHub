@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.CodeHubApplication;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.presenter.PresenterFactory;
@@ -41,7 +42,7 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
 
     private Fragment mCurrentShowFragment;
     private RepositoryPagesFragment mRepositoryPagesFragment;
-    private EventsFragment mNewsFragment;
+    private EventsFragment mEventsFragment;
     private UserPresenter mUserPresenter;
 
     public static Intent newIntent(Activity activity) {
@@ -56,11 +57,11 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
         mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
-        mUserPresenter.getUserInfo(getToken(), CodeHubApplication.getCurrentUserName(), this, this);
+        mUserPresenter.getUserInfo(getToken(), CodeHubPrefs.get().getUsername(), this, this);
 
         mRepositoryPagesFragment = new RepositoryPagesFragment();
-        mNewsFragment = new EventsFragment();
-        mNewsFragment.setUserVisibleHint(true);
+        mEventsFragment = new EventsFragment();
+        mEventsFragment.setUserVisibleHint(true);
 
         getSupportFragmentManager().beginTransaction().add(R.id.main_content, mRepositoryPagesFragment).commit();
         mCurrentShowFragment = mRepositoryPagesFragment;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
     public void onUserOnClick() {
         if (mUser == null)  {
             ToastUtil.show(this, R.string.user_info_error);
-            mUserPresenter.getUserInfo(getToken(), CodeHubApplication.getCurrentUserName(), this, this);
+            mUserPresenter.getUserInfo(getToken(),  CodeHubPrefs.get().getUsername(), this, this);
         }
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         Intent intent = UserInfoActivity.newIntent(this, mUser.getLogin());
@@ -113,8 +114,8 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
     public void onEventChecked(RadioButton radioButton, boolean isCheck) {
         if (isCheck) {
             mDrawerLayout.closeDrawer(Gravity.LEFT);
-            switchContent(mCurrentShowFragment, mNewsFragment, R.id.main_content);
-            mCurrentShowFragment = mNewsFragment;
+            switchContent(mCurrentShowFragment, mEventsFragment, R.id.main_content);
+            mCurrentShowFragment = mEventsFragment;
         }
     }
 
@@ -122,6 +123,13 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
     public void onSettingClick() {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.ll_about)
+    public void onAboutClick() {
+        mDrawerLayout.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
 }

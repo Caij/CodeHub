@@ -37,4 +37,6 @@ public interface Constant {
     String USER_TOKEN_ID = "user_token_id";
 
     String USER_PWD = "user_pwd";
+
+    String TITLE = "title";
 }

@@ -80,4 +80,9 @@
     <string name="loading">Loading</string>
     <string name="user_info_error">User Info Error</string>
     <string name="login_out_error">Login Out Error</string>
+    <string name="logining">Logging in</string>
+    <string name="hint">Hint</string>
+    <string name="loginout">Logging Out</string>
+    <string name="about">About</string>
+    <string name="check_update">Check For Updates</string>
 </resources>

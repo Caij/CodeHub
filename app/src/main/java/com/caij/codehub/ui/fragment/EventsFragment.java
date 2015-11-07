@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.caij.codehub.CodeHubApplication;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Page;
@@ -83,7 +84,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
         mPage.reset();
-        mEventsPresenter.getReceivedEvents(CodeHubApplication.getCurrentUserName(), getToken(),
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
                 mPage, this, mFirstLoadUiCallBack);
     }
 
@@ -99,7 +100,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     public void onLoadMore() {
-        mEventsPresenter.getReceivedEvents(CodeHubApplication.getCurrentUserName(), getToken(),
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
                 mPage, this, mLoadMoreUiCallBack);
     }
 

@@ -10,24 +10,19 @@ import com.android.volley.toolbox.Volley;
 /**
  * Created by Caij on 2015/8/25.
  */
-public class VolleyUtil {
+public class VolleyManager {
 
     private static RequestQueue mQueue;
 
     public static void init(Context context, HttpStack stack, int diskCacheSize) {
         if (mQueue == null) {
-            synchronized (VolleyUtil.class) {
+            synchronized (VolleyManager.class) {
                 if (mQueue == null) {
                     mQueue = Volley.newRequestQueue(context, stack, diskCacheSize);
                 }
             }
         }
     }
-
-//    public static void addRequest(Request request) {
-//        checkQueue();
-//        mQueue.add(request);
-//    }
 
     public static void addRequest(Request request, Object tag) {
         checkQueue();

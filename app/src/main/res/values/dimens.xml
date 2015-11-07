@@ -27,4 +27,6 @@
 
     <dimen name="btn_radius">3dp</dimen>
     <dimen name="breadcrumb_height">42dp</dimen>
+    <dimen name="fab_size">48dp</dimen>
+    <dimen name="z_fab">6dp</dimen>
 </resources>

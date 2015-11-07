@@ -61,6 +61,7 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> i
     public void onFirstLoadSuccess(List<Issue> entities) {
         super.onFirstLoadSuccess(entities);
         mPage.next();
+        getLoadMoreRecyclerView().setState(entities.size() < mPage.getPageDataCount() ? LoadMoreRecyclerView.STATE_NO_MORE : LoadMoreRecyclerView.STATE_NORMAL);
     }
 
     @Override
@@ -68,12 +69,14 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> i
         super.onRefreshSuccess(entities);
         mPage.reset();
         mPage.next();
+        getLoadMoreRecyclerView().setState(entities.size() < mPage.getPageDataCount() ? LoadMoreRecyclerView.STATE_NO_MORE : LoadMoreRecyclerView.STATE_NORMAL);
     }
 
     @Override
     public void onLoadMoreSuccess(List<Issue> entities) {
         super.onLoadMoreSuccess(entities);
         mPage.next();
+        getLoadMoreRecyclerView().setState(entities.size() < mPage.getPageDataCount() ? LoadMoreRecyclerView.STATE_NO_MORE : LoadMoreRecyclerView.STATE_NORMAL);
     }
 
     @Override

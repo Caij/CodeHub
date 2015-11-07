@@ -7,7 +7,7 @@ import com.caij.codehub.API;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.presenter.RepositoryInfoPresenter;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
 
@@ -37,6 +37,6 @@ public class RepositoryInfoPresenterImp implements RepositoryInfoPresenter {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 }

@@ -8,7 +8,7 @@ import com.caij.codehub.bean.Issue;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.presenter.IssueListPresent;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,6 +45,6 @@ public class IssueListPresentImp implements IssueListPresent {
                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 }

@@ -40,4 +40,8 @@ public class API {
     public static final String GITHUB_README = "https://github.com/%s/%s/blob/master/README.md";
 
     public static final String GITHUB_FILE = "https://github.com/%s/%s/%s/%s/%s";
+
+    public static final String PROJECT_README_URL = "https://github.com/Caij/CodeHub/blob/master/README.md";
+
+    public static final String PROJECT_URL = "https://github.com/Caij/CodeHub";
 }

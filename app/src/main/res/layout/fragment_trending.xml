@@ -9,15 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-
-    <ImageView
+    <ImageButton
         android:id="@+id/filter"
-        android:layout_width="@dimen/small_avatar_image"
-        android:layout_height="@dimen/small_avatar_image"
-        android:layout_alignParentRight="true"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:elevation="@dimen/z_fab"
+        android:background="@drawable/fab"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="@dimen/standard_margin"
+        android:layout_marginBottom="@dimen/standard_margin"
+        android:stateListAnimator="@animator/raise"
+        android:src="@drawable/ic_add"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/small_big_margin"
-        android:src="@drawable/filter"/>
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>
 

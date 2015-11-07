@@ -44,10 +44,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void setSystemBarTintColor(int color) {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
+        }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window win = getWindow();
             WindowManager.LayoutParams winParams = win.getAttributes();
             final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
@@ -59,22 +59,19 @@ public abstract class BaseActivity extends AppCompatActivity {
                 mTintManager.setStatusBarTintEnabled(true);
                 mTintManager.setStatusBarTintColor(color);
             }
-        }else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            getWindow().setStatusBarColor(color);
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     protected void setFullScreen() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window win = getWindow();
             WindowManager.LayoutParams winParams = win.getAttributes();
             final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
             winParams.flags |= bits;
             win.setAttributes(winParams);
-        }else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT){
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
 
@@ -98,10 +95,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void switchContent(Fragment from, Fragment to, int id) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (!to.isAdded()) {    // 先判断是否被add过
-            transaction.hide(from).add(id, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+        if (!to.isAdded()) {
+            transaction.hide(from).add(id, to).commit();
         } else {
-            transaction.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
+            transaction.hide(from).show(to).commit();
         }
     }
 }

@@ -11,7 +11,7 @@ import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.SearchRepository;
 import com.caij.codehub.presenter.RepositoryListPresenter;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
 
@@ -66,7 +66,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 
     private void loadStarredOrUserRepository(String url, String token, Page page, Object requestTag, final UiCallBack<List<Repository>> uiCallBack) {
@@ -116,7 +116,7 @@ public class RepositoryListPresenterImp implements RepositoryListPresenter {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 
 }

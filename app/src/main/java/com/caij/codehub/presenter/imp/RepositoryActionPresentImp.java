@@ -8,7 +8,7 @@ import com.caij.codehub.API;
 import com.caij.codehub.presenter.RepositoryActionPresent;
 import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.LogUtil;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;
 
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
                 }
             }
         });
-        VolleyUtil.addRequest(responseRequest, requestTag);
+        VolleyManager.addRequest(responseRequest, requestTag);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(responseRequest, requestTag);
+        VolleyManager.addRequest(responseRequest, requestTag);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(responseRequest, requestTag);
+        VolleyManager.addRequest(responseRequest, requestTag);
     }
 
     @Override
@@ -121,6 +121,6 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(responseRequest, requestTag);
+        VolleyManager.addRequest(responseRequest, requestTag);
     }
 }

@@ -7,13 +7,12 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.Base64;
+import com.caij.codehub.utils.Base64;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.presenter.LoginPresenter;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;
-import com.caij.lib.volley.request.StringRequest;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
 
@@ -58,14 +57,14 @@ public class LoginPresenterImp implements LoginPresenter {
                     handlerLoginError(error, username, pwd, requestTag, uiCallBack);
                 }
             });
-            VolleyUtil.addRequest(request, requestTag);
+            VolleyManager.addRequest(request, requestTag);
         } catch (JSONException e) {
             uiCallBack.onError(null);
         }
     }
 
     @Override
-    public void loginOut(String username, String pwd, String tokenId, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+    public void logout(String username, String pwd, String tokenId, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
         removeToken(username, pwd, tokenId, requestTag, uiCallBack);
     }
 
@@ -140,7 +139,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 
     public void getHaveTokens(final String username, final String pwd, Object requestTag, final UiCallBack<List<Token>> uiCallBack) {
@@ -158,7 +157,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 
     private static Map<String, String> addAuthorizationHead(Map<String, String> head, String username, final String pwd) {

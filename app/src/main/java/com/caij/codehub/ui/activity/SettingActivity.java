@@ -1,36 +1,41 @@
 package com.caij.codehub.ui.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AlertDialog;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
-import com.caij.codehub.CodeHubApplication;
-import com.caij.codehub.Constant;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.presenter.LoginPresenter;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.codehub.utils.FileUtil;
 import com.caij.lib.utils.AppManager;
-import com.caij.lib.utils.SPUtils;
-import com.caij.lib.utils.ToastUtil;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 
 /**
  * Created by Caij on 2015/11/3.
  */
-public class SettingActivity extends BaseCodeHubActivity {
+public class SettingActivity extends BaseCodeHubActivity implements DialogInterface.OnClickListener{
 
+
+    private ProgressDialog mLogoutLoadingDialog;
+    private AlertDialog mLogoutConfirmDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolbarTitle("Setting");
+        mLogoutConfirmDialog = new AlertDialog.Builder(this).
+                setMessage("Whether or not logout").
+                setPositiveButton(getString(R.string.ok), this).
+                setNegativeButton(getString(R.string.cancel), null).
+                create();
     }
 
     @Override
@@ -40,39 +45,46 @@ public class SettingActivity extends BaseCodeHubActivity {
 
     @OnClick(R.id.rl_login_out)
     public void onLoginOutClick() {
+        mLogoutConfirmDialog.show();
+    }
+
+    private void logout() {
         LoginPresenter loginPresenter = PresenterFactory.newPresentInstance(LoginPresenter.class);
-        long tokenId = SPUtils.getLong(Constant.USER_TOKEN_ID, -1);
-        String username = CodeHubApplication.getCurrentUserName();
-        String pwd = SPUtils.getString(Constant.USER_PWD, "");
-        loginPresenter.loginOut(pwd, username, String.valueOf(tokenId), this, new UiCallBack<NetworkResponse>() {
+        String tokenId = CodeHubPrefs.get().getTokenId();
+        String username = CodeHubPrefs.get().getUsername();
+        String pwd = CodeHubPrefs.get().getPwd();
+        loginPresenter.logout(username, pwd, tokenId, this, new UiCallBack<NetworkResponse>() {
             @Override
             public void onSuccess(NetworkResponse response) {
-                hideLoading();
+                mLogoutLoadingDialog.dismiss();
                 clearDataAndGotoLogin();
             }
 
             @Override
             public void onLoading() {
-                showLoading();
+                mLogoutLoadingDialog = ProgressDialog.show(SettingActivity.this, null, getString(R.string.loginout), true);
+                mLogoutLoadingDialog.setProgressStyle(R.style.AppCompatAlertDialogStyle);
             }
 
             @Override
             public void onError(VolleyError error) {
-                hideLoading();
-                if (error != null && error.networkResponse!= null && error.networkResponse.statusCode == 401) {
-                    clearDataAndGotoLogin();
-                }else {
-                    ToastUtil.show(SettingActivity.this, R.string.login_out_error);
-                }
+                mLogoutLoadingDialog.dismiss();
+                processVolleyError(error);
             }
         });
     }
 
     private void clearDataAndGotoLogin() {
-        SPUtils.saveString(Constant.USER_TOKEN, "");
-        SPUtils.saveString(Constant.USER_NAME, "");
+        CodeHubPrefs.get().logout();
         AppManager.getInstance().finishAllActivity();
         Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        if (which == DialogInterface.BUTTON_POSITIVE) {
+            logout();
+        }
     }
 }

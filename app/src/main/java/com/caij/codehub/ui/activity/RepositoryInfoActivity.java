@@ -114,7 +114,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
 
     @OnClick(R.id.ll_readme)
     public void onReadmeClick() {
-        Intent intent = WebActivity.newIntent(this, String.format(API.GITHUB_README, mOwner, mRepo));
+        Intent intent = WebActivity.newIntent(this, "README", String.format(API.GITHUB_README, mOwner, mRepo));
         startActivity(intent);
     }
 
@@ -128,7 +128,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
     public void onWebsiteClick() {
         String homepage = mRepository.getHomepage();
         if (!TextUtils.isEmpty(homepage)) {
-            Intent intent = WebActivity.newIntent(this, mRepository.getHomepage());
+            Intent intent = WebActivity.newIntent(this, mRepository.getName(), mRepository.getHomepage());
             startActivity(intent);
         }else {
             ToastUtil.show(this, R.string.not_have_website);

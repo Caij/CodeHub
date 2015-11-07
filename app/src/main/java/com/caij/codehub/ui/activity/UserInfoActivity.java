@@ -14,6 +14,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.CodeHubApplication;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
@@ -82,7 +83,7 @@ public class UserInfoActivity extends BaseCodeHubActivity {
         mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
         mUserPresenter.getUserInfo(mToken, mUsername, this, mUserUiCallBack);
 
-        if (!mUsername.equals(CodeHubApplication.getCurrentUserName())) { //如果是自己就不用加载follow信息
+        if (!mUsername.equals(CodeHubPrefs.get().getUsername())) { //如果是自己就不用加载follow信息
             mFollowActionPresent = PresenterFactory.newPresentInstance(FollowActionPresent.class);
             mFollowActionPresent.checkFollowState(mToken, mUsername, this, mCheckFollowStateUiCallBack);
         }
@@ -160,7 +161,7 @@ public class UserInfoActivity extends BaseCodeHubActivity {
     public void onBlogClick() {
         String blogUrl = mUser.getBlog();
         if (!TextUtils.isEmpty(blogUrl)) {
-            Intent intent = WebActivity.newIntent(this, blogUrl);
+            Intent intent = WebActivity.newIntent(this, "Blog", blogUrl);
             startActivity(intent);
         }
     }

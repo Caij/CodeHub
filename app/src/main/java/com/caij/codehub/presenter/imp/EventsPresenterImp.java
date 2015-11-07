@@ -9,7 +9,7 @@ import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.presenter.EventsPresenter;
 import com.caij.codehub.request.EventRequest;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.lib.utils.VolleyUtil;
+import com.caij.lib.utils.VolleyManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +39,6 @@ public class EventsPresenterImp implements EventsPresenter {
                uiCallBack.onError(error);
             }
         });
-        VolleyUtil.addRequest(request, requestTag);
+        VolleyManager.addRequest(request, requestTag);
     }
 }

@@ -49,7 +49,7 @@
         android:orientation="vertical">
 
         <RadioButton
-            android:background="?android:selectableItemBackground"
+            android:background="@drawable/nav_item_selector"
             android:id="@+id/rb_repository"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
             android:paddingTop="@dimen/standard_margin"/>
 
         <RadioButton
-            android:background="?android:selectableItemBackground"
+            android:background="@drawable/nav_item_selector"
             android:id="@+id/rb_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/theme_color"/>
+        android:background="@color/item_select"/>
 
     <LinearLayout
         android:id="@+id/ll_setting"
@@ -88,7 +88,7 @@
         android:paddingBottom="@dimen/standard_margin"
         android:paddingTop="@dimen/standard_margin"
         android:layout_marginTop="@dimen/standard_margin"
-        android:background="?android:selectableItemBackground">
+        android:background="@drawable/nav_item_selector">
 
         <TextView
             android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
         android:paddingLeft="@dimen/standard_margin"
         android:paddingBottom="@dimen/standard_margin"
         android:paddingTop="@dimen/standard_margin"
-        android:background="?android:selectableItemBackground">
+        android:background="@drawable/nav_item_selector">
 
         <TextView
             android:layout_width="wrap_content"

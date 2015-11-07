@@ -7,17 +7,18 @@ Github Client For Android, support for the login, personal information , reposit
 ![repository](introduce/repository.png)   ![user](introduce/user.png) 
 
 ###Thanks
-[CodeHub](https://github.com/thedillonb/CodeHub)  
-[WeGit](https://github.com/Leaking/WeGit)  
+[CodeHub](https://github.com/thedillonb/CodeHub)
 
 ###Libs 
 [butterknife](https://github.com/JakeWharton/butterknife) 
 
 [glide](https://github.com/bumptech/glide)  
 
-[dagger](https://github.com/google/dagger)  
+[stetho](https://github.com/facebook/stetho)
 
-[volley](https://github.com/mcxiaoke/android-volley)  
+[volley](https://github.com/mcxiaoke/android-volley)
+
+[leakcanary](https://github.com/square/leakcanary)
 
 ###Contact
 [worldcaij@gmail.com](mailto:worldcaij@gmail.com)  
