@@ -102,7 +102,7 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
         mLoadingMoreHolder.mView.setVisibility(View.VISIBLE);
         switch (state) {
             case LoadMoreRecyclerView.STATE_NORMAL:
-                mLoadingMoreHolder.mLoading.setVisibility(View.INVISIBLE);
+                mLoadingMoreHolder.mLoading.setVisibility(View.GONE);
                 mLoadingMoreHolder.mHint.setText(context.getString(R.string.pull_loading));
                 break;
             case LoadMoreRecyclerView.STATE_LOADING:

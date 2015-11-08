@@ -16,6 +16,7 @@
 #   public *;
 #}
 
+#Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
     **[] $VALUES;
@@ -25,3 +26,15 @@
 # LeakCanary
 -keep class org.eclipse.mat.** { *; }
 -keep class com.squareup.leakcanary.** { *; }
+
+#UM
+-keepclassmembers class * {
+   public <init>(org.json.JSONObject);
+}
+-keep public class com.caij.codehub.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}

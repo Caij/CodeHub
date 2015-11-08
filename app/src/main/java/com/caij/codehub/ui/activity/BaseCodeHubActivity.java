@@ -24,6 +24,7 @@ import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.ToastUtil;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.JsonParseError;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -58,6 +59,18 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     protected abstract int getContentLayoutId();
