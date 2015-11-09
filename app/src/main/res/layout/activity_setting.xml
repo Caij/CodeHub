@@ -9,7 +9,7 @@
         android:id="@+id/rl_login_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_them_selector"
+        android:background="?android:attr/selectableItemBackground"
         android:paddingTop="@dimen/standard_margin"
         android:paddingBottom="@dimen/standard_margin"
         android:paddingLeft="@dimen/small_big_margin"

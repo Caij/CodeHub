@@ -61,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="@dimen/standard_margin">
+                android:paddingBottom="@dimen/standard_margin"
+                android:paddingTop="@dimen/standard_margin">
 
                 <TextView
                     android:id="@+id/tv_repository_desc"
@@ -69,12 +70,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/standard_margin"
                     android:maxLines="2"
-                    android:textSize="@dimen/body_text_size" />
+                    android:textSize="@dimen/body_text_size"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/root_view_bg" />
+                    android:background="@color/root_view_bg"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_marginRight="@dimen/small_margin"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -82,7 +87,9 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/small_margin"
-                    android:paddingTop="@dimen/small_margin">
+                    android:paddingTop="@dimen/small_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -130,7 +137,9 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/root_view_bg" />
+                    android:background="@color/root_view_bg"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_marginRight="@dimen/small_margin"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -138,7 +147,9 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/small_margin"
-                    android:paddingTop="@dimen/small_margin">
+                    android:paddingTop="@dimen/small_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -187,15 +198,20 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/root_view_bg" />
+                    android:background="@color/root_view_bg"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_marginRight="@dimen/small_margin"/>
 
                 <LinearLayout
+                    android:background="?android:attr/selectableItemBackground"
                     android:id="@+id/ll_create"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingBottom="@dimen/standard_margin"
-                    android:paddingTop="@dimen/standard_margin">
+                    android:paddingTop="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_owner_icon"
@@ -234,15 +250,20 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/root_view_bg" />
+                    android:background="@color/root_view_bg"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_marginRight="@dimen/small_margin"/>
 
                 <LinearLayout
+                    android:background="?android:attr/selectableItemBackground"
                     android:id="@+id/ll_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingBottom="@dimen/standard_margin"
-                    android:paddingTop="@dimen/standard_margin">
+                    android:paddingTop="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_source_icon"
@@ -272,15 +293,20 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/root_view_bg" />
+                    android:background="@color/root_view_bg"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_marginRight="@dimen/small_margin"/>
 
                 <LinearLayout
+                    android:background="?android:attr/selectableItemBackground"
                     android:id="@+id/ll_issue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingBottom="@dimen/standard_margin"
-                    android:paddingTop="@dimen/standard_margin">
+                    android:paddingTop="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_issues_icon"
@@ -322,15 +348,19 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="@dimen/standard_margin">
+                android:paddingBottom="@dimen/standard_margin"
+                android:paddingTop="@dimen/standard_margin">
 
                 <LinearLayout
+                    android:background="?android:attr/selectableItemBackground"
                     android:id="@+id/ll_readme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingBottom="@dimen/standard_margin"
-                    android:paddingTop="@dimen/standard_margin">
+                    android:paddingTop="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_readme_icon"
@@ -362,15 +392,20 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/root_view_bg" />
+                    android:background="@color/root_view_bg"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:layout_marginRight="@dimen/small_margin"/>
 
                 <LinearLayout
+                    android:background="?android:attr/selectableItemBackground"
                     android:id="@+id/ll_website"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingBottom="@dimen/standard_margin"
-                    android:paddingTop="@dimen/standard_margin">
+                    android:paddingTop="@dimen/standard_margin"
+                    android:paddingLeft="@dimen/standard_margin"
+                    android:paddingRight="@dimen/standard_margin">
 
                     <com.caij.codehub.widgets.GithubTypeFaceTextView
                         android:id="@+id/tv_repository_website_icon"

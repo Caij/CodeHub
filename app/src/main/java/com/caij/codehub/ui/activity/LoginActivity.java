@@ -49,7 +49,7 @@ public class LoginActivity extends BaseCodeHubActivity implements UiCallBack<Tok
 
     @OnClick(R.id.button_login)
     public void onSubmit() {
-        mPresenter.login(mEditUsername.getText().toString(), mEditPassword.getText().toString(), this, this);
+        mPresenter.login(mEditUsername.getText().toString(), mEditPassword.getText().toString(), getRequestTag(), this);
     }
 
 

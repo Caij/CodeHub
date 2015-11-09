@@ -48,14 +48,14 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     protected void onUserFirstVisible() {
-        mEventsPresenter.getReceivedEvents(SPUtils.getString(Constant.USER_NAME, ""), SPUtils.getString(Constant.USER_TOKEN, ""),
-                mPage, this, mFirstLoadUiCallBack);
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
+                mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mEventsPresenter.getReceivedEvents(SPUtils.getString(Constant.USER_NAME, ""), SPUtils.getString(Constant.USER_TOKEN, ""),
-                mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
+                mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
         super.onReFreshBtnClick(view);
         mPage.reset();
         mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
-                mPage, this, mFirstLoadUiCallBack);
+                mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     @Override
     public void onLoadMore() {
         mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
-                mPage, this, mLoadMoreUiCallBack);
+                mPage, getRequestTag(), mLoadMoreUiCallBack);
     }
 
     @Override

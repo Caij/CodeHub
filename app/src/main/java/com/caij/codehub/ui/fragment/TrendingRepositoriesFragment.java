@@ -61,7 +61,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
                 mLanguageCheckRadioId = mLanguageRadioGroup.getCheckedRadioButtonId();
 
                 mSwipeRefreshLayout.setRefreshing(true);
-                mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this , mLoadRefreshUiCallBack);
+                mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, getRequestTag() , mLoadRefreshUiCallBack);
             }
         }).setNegativeButton(R.string.cancel, null).setView(mFilterDialogView);
         mDialog = builder.create();
@@ -95,18 +95,18 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     protected void onUserFirstVisible() {
-        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this, mFirstLoadUiCallBack);
+        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this, mLoadRefreshUiCallBack);
+        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, getRequestTag(), mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, this, mFirstLoadUiCallBack);
+        mRepositoryListPresenter.getTrendingRepository(mSince, mLanguage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
 

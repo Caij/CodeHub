@@ -15,6 +15,19 @@ android {
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "github"]
     }
 
+    signingConfigs {
+        debug {
+            // No debug config
+        }
+
+        release {
+//            storeFile file("../yourapp.keystore")
+//            storePassword "your password"
+//            keyAlias "your alias"
+//            keyPassword "your password"
+        }
+    }
+
     buildTypes {
 
         debug {
@@ -22,6 +35,7 @@ android {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
+            signingConfig signingConfigs.debug
         }
 
         release {
@@ -29,6 +43,18 @@ android {
             zipAlignEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为CodeHub_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "CodeHub_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
 
@@ -68,4 +94,8 @@ dependencies {
 //    apt 'com.google.dagger:dagger-compiler:2.0'
 //    compile 'com.google.dagger:dagger:2.0'
 //    provided 'org.glassfish:javax.annotation:10.0-b28'
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }

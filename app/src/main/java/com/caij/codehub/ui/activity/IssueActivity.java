@@ -63,7 +63,7 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
 //        tvIssueBody.setText(issueBody);
 
         mCommentsPresent = PresenterFactory.newPresentInstance(CommentsPresent.class);
-        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, this, this);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), this);
 //        mIssuePresent = PresenterFactory.newPresentInstance(IssuePresent.class, IssueUi.class, this);
 //        mIssuePresent.getIssue(mOwner, mRepo, mIssueNumber);
     }
@@ -81,7 +81,7 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, this, this);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), this);
     }
 
     @Override

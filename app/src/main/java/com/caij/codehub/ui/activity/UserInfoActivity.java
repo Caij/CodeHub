@@ -81,11 +81,11 @@ public class UserInfoActivity extends BaseCodeHubActivity {
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
         getSupportActionBar().setTitle(mUsername);
         mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
-        mUserPresenter.getUserInfo(mToken, mUsername, this, mUserUiCallBack);
+        mUserPresenter.getUserInfo(mToken, mUsername, getRequestTag(), mUserUiCallBack);
 
-        if (!mUsername.equals(CodeHubPrefs.get().getUsername())) { //如果是自己就不用加载follow信息
+        if (!mUsername.equals(CodeHubPrefs.get().getUsername())) { //self
             mFollowActionPresent = PresenterFactory.newPresentInstance(FollowActionPresent.class);
-            mFollowActionPresent.checkFollowState(mToken, mUsername, this, mCheckFollowStateUiCallBack);
+            mFollowActionPresent.checkFollowState(mToken, mUsername, getRequestTag(), mCheckFollowStateUiCallBack);
         }
     }
 
@@ -123,9 +123,9 @@ public class UserInfoActivity extends BaseCodeHubActivity {
 
         if (id == R.id.follow) {
             if (item.getTitle().equals(getString(R.string.unfollow))) {
-                mFollowActionPresent.unfollowUser(mToken, mUsername,this, mUnFollowUiCallBack);
+                mFollowActionPresent.unfollowUser(mToken, mUsername,getRequestTag(), mUnFollowUiCallBack);
             }else {
-                mFollowActionPresent.followUser(mToken, mUsername, this, mFollowUiCallBack);
+                mFollowActionPresent.followUser(mToken, mUsername, getRequestTag(), mFollowUiCallBack);
             }
             return true;
         }
@@ -136,7 +136,7 @@ public class UserInfoActivity extends BaseCodeHubActivity {
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mUserPresenter.getUserInfo(mToken, mUsername,this, mUserUiCallBack);
+        mUserPresenter.getUserInfo(mToken, mUsername,getRequestTag(), mUserUiCallBack);
     }
 
     @OnClick(R.id.ll_user_followers)

@@ -38,22 +38,22 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     protected void onUserFirstVisible() {
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, this, mFirstLoadUiCallBack);
+        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
+        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, this, mFirstLoadUiCallBack);
+        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onLoadMore() {
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, this, mLoadMoreUiCallBack);
+        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, getRequestTag(), mLoadMoreUiCallBack);
     }
 }

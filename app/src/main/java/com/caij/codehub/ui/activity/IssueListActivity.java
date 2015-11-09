@@ -44,7 +44,7 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> i
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mPage = new Page();
         mIssueListPresent = PresenterFactory.newPresentInstance(IssueListPresent.class);
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, this, mFirstLoadUiCallBack);
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
@@ -81,18 +81,18 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> i
 
     @Override
     public void onRefresh() {
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onLoadMore() {
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, this, mLoadMoreUiCallBack);
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, getRequestTag(), mLoadMoreUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, this, mFirstLoadUiCallBack);
+        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override

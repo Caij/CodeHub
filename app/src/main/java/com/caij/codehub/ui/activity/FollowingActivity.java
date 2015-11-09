@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.Constant;
+import com.caij.codehub.R;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.UserListPresenter;
 
@@ -30,26 +31,26 @@ public class FollowingActivity extends UserListActivity{
         super.onCreate(savedInstanceState);
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
         mToken = getToken();
-        setToolbarTitle("Following");
+        setToolbarTitle(getString(R.string.following));
         mPresenter = PresenterFactory.newPresentInstance(UserListPresenter.class);
-        mPresenter.getFollowing(mToken, mUsername, mPage, this, mFirstLoadUiCallBack);
+        mPresenter.getFollowing(mToken, mUsername, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.getFollowing(mToken, mUsername, mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
+        mPresenter.getFollowing(mToken, mUsername, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
         mPage.reset();
-        mPresenter.getFollowing(mToken, mUsername, mPage, this, mFirstLoadUiCallBack);
+        mPresenter.getFollowing(mToken, mUsername, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onLoadMore() {
-        mPresenter.getFollowing(mToken, mUsername, mPage, this, mLoadMoreUiCallBack);
+        mPresenter.getFollowing(mToken, mUsername, mPage, getRequestTag(), mLoadMoreUiCallBack);
     }
 
 }

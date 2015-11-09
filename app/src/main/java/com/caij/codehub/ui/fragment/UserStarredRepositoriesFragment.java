@@ -41,22 +41,22 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
     @Override
     protected void onUserFirstVisible() {
         mPage.reset();
-        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, this, mFirstLoadUiCallBack);
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage.createRefreshPage(), this, mLoadRefreshUiCallBack);
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, this, mFirstLoadUiCallBack);
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onLoadMore() {
-        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, this, mLoadMoreUiCallBack);
+        mRepositoryListPresenter.getUserStarredRepositories(mUsername, mToken, mPage, getRequestTag(), mLoadMoreUiCallBack);
     }
 }

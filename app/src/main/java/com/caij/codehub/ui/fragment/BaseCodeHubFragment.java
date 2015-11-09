@@ -45,6 +45,8 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
 
     ViewGroup mContentContainer;
 
+    private Object mRequestTag;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,16 +55,27 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
         getActivity().getLayoutInflater().inflate(getContentLayoutId(), mContentContainer, true);
         mLoadErrorViewStub = (ViewStub) view.findViewById(R.id.vs_load_error);
         ButterKnife.bind(this, view);
+        mRequestTag = createRequestTag();
         return view;
     }
 
     protected abstract int getContentLayoutId();
 
+    protected Object createRequestTag() {
+        return new Object();
+    }
+
+    protected Object getRequestTag() {
+        return mRequestTag;
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        VolleyManager.cancelRequestByTag(this);
+        if (mRequestTag != null) {
+            VolleyManager.cancelRequestByTag(this);
+        }
     }
 
     protected  void hideError(){

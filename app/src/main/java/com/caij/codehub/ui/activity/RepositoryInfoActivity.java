@@ -81,10 +81,10 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
         setToolbarTitle(mRepo);
 
         mRepositoryInfoPresenter = PresenterFactory.newPresentInstance(RepositoryInfoPresenter.class);
-        mRepositoryInfoPresenter.getRepositoryInfo(mRepo, mOwner, mToken, this, mFirstLoadUiCallBack);
+        mRepositoryInfoPresenter.getRepositoryInfo(mRepo, mOwner, mToken, getRequestTag(), mFirstLoadUiCallBack);
 
         mRepositoryActionPresent = PresenterFactory.newPresentInstance(RepositoryActionPresent.class);
-        mRepositoryActionPresent.hasStarRepo(mOwner, mRepo, mToken, this, new UiCallBack<Boolean>() {
+        mRepositoryActionPresent.hasStarRepo(mOwner, mRepo, mToken, getRequestTag(), new UiCallBack<Boolean>() {
             @Override
             public void onSuccess(Boolean aBoolean) {
                 getMenuInflater().inflate(R.menu.menu_repository_info, mMenu);
@@ -145,7 +145,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoryInfoPresenter.getRepositoryInfo(mRepo, mOwner, mToken, this, mFirstLoadUiCallBack);
+        mRepositoryInfoPresenter.getRepositoryInfo(mRepo, mOwner, mToken, getRequestTag(), mFirstLoadUiCallBack);
     }
 
 
@@ -161,13 +161,13 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
 
         if (id == R.id.star) {
             if (item.getTitle().equals(getString(R.string.star))) {
-                mRepositoryActionPresent.starRepo(mOwner, mRepo, mToken, this, mStarUiCallback);
+                mRepositoryActionPresent.starRepo(mOwner, mRepo, mToken, getRequestTag(), mStarUiCallback);
             }else {
-                mRepositoryActionPresent.unstarRepo(mOwner, mRepo, mToken, this, mUnStarUiCallback);
+                mRepositoryActionPresent.unstarRepo(mOwner, mRepo, mToken, getRequestTag(), mUnStarUiCallback);
             }
             return true;
         }else if (id == R.id.fork) {
-            mRepositoryActionPresent.forkRepo(mOwner, mRepo, mToken, this, mForkUiCallBack);
+            mRepositoryActionPresent.forkRepo(mOwner, mRepo, mToken, getRequestTag(), mForkUiCallBack);
             return true;
         }
 

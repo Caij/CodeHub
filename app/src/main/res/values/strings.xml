@@ -85,4 +85,6 @@
     <string name="loginout">Logging Out</string>
     <string name="about">About</string>
     <string name="check_update">Check For Updates</string>
+    <string name="follows">Follows</string>
+    <string name="following">Following</string>
 </resources>

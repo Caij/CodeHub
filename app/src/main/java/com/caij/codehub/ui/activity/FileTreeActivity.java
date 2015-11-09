@@ -66,7 +66,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         mBran =  getIntent().getStringExtra(Constant.REPO_BRAN);
 
         fileTreePresent = PresenterFactory.newPresentInstance(FileTreePresent.class);
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
+        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         getRecyclerViewAdapter().notifyDataSetChanged();
 
         this.mSha = crumb.getmAttachMsg();
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
+        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
     }
 
 
@@ -107,7 +107,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         getRecyclerViewAdapter().clearEntites();
         getRecyclerViewAdapter().notifyDataSetChanged();
         breadCrumbs.addCrumb(new LinearBreadcrumb.Crumb(item.getPath(), item.getSha()), true);
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
+        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
             getRecyclerViewAdapter().notifyDataSetChanged();
 
             this.mSha = crumb.getmAttachMsg();
-            fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, this, mUiCallBack);
+            fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
         }
     }
 

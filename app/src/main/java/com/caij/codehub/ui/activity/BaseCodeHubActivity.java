@@ -48,6 +48,8 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
 
     ViewGroup mContentContainer;
 
+    private Object mRequestTag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mRequestTag = createRequestTag();
     }
 
     @Override
@@ -75,6 +78,14 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
 
     protected abstract int getContentLayoutId();
 
+    protected Object createRequestTag() {
+        return new Object();
+    }
+
+    protected Object getRequestTag() {
+        return mRequestTag;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -89,7 +100,9 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        VolleyManager.cancelRequestByTag(this);
+        if (mRequestTag != null) {
+            VolleyManager.cancelRequestByTag(mRequestTag);
+        }
     }
 
     public void onReFreshBtnClick(View view) {

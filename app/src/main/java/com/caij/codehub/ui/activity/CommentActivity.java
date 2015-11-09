@@ -73,7 +73,7 @@ public class CommentActivity extends BaseCodeHubActivity implements UiCallBack<C
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.comment) {
-            mCommentActionPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken, this, this);
+            mCommentActionPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken, getRequestTag(), this);
             return true;
         }
 

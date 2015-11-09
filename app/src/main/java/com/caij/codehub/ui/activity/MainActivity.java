@@ -57,7 +57,7 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
         mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
-        mUserPresenter.getUserInfo(getToken(), CodeHubPrefs.get().getUsername(), this, this);
+        mUserPresenter.getUserInfo(getToken(), CodeHubPrefs.get().getUsername(), getRequestTag(), this);
 
         mRepositoryPagesFragment = new RepositoryPagesFragment();
         mEventsFragment = new EventsFragment();
@@ -76,7 +76,7 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
     public void onUserOnClick() {
         if (mUser == null)  {
             ToastUtil.show(this, R.string.user_info_error);
-            mUserPresenter.getUserInfo(getToken(),  CodeHubPrefs.get().getUsername(), this, this);
+            mUserPresenter.getUserInfo(getToken(),  CodeHubPrefs.get().getUsername(), getRequestTag(), this);
         }
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         Intent intent = UserInfoActivity.newIntent(this, mUser.getLogin());

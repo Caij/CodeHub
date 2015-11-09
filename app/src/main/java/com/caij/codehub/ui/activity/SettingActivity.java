@@ -53,7 +53,7 @@ public class SettingActivity extends BaseCodeHubActivity implements DialogInterf
         String tokenId = CodeHubPrefs.get().getTokenId();
         String username = CodeHubPrefs.get().getUsername();
         String pwd = CodeHubPrefs.get().getPwd();
-        loginPresenter.logout(username, pwd, tokenId, this, new UiCallBack<NetworkResponse>() {
+        loginPresenter.logout(username, pwd, tokenId, getRequestTag(), new UiCallBack<NetworkResponse>() {
             @Override
             public void onSuccess(NetworkResponse response) {
                 mLogoutLoadingDialog.dismiss();
@@ -69,7 +69,11 @@ public class SettingActivity extends BaseCodeHubActivity implements DialogInterf
             @Override
             public void onError(VolleyError error) {
                 mLogoutLoadingDialog.dismiss();
-                processVolleyError(error);
+                if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 404) {
+                    clearDataAndGotoLogin();
+                }else {
+                    processVolleyError(error);
+                }
             }
         });
     }

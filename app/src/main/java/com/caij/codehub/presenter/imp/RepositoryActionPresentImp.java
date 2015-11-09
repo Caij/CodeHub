@@ -104,7 +104,6 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
         String url = API.API_HOST + "/repos/" + owner + "/" + repo + "/forks";
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
-        Map<String, String> params = new HashMap<>();
         NetworkResponseRequest responseRequest = new NetworkResponseRequest(Request.Method.POST, url, " ", head, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
