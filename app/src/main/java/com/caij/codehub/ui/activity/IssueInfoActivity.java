@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 
 import com.android.volley.VolleyError;
@@ -18,7 +19,6 @@ import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.CommentAdapter;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.codehub.ui.intf.CommentsUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
@@ -26,17 +26,15 @@ import java.util.List;
 /**
  * Created by Caij on 2015/10/31.
  */
-public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> implements CommentsUi, UiCallBack<List<Comment>> {
+public class IssueInfoActivity extends SwipeRefreshRecyclerViewActivity<Comment> {
 
     private String mRepo;
     private String mIssueNumber;
     private CommentsPresent mCommentsPresent;
     private String mOwner;
-    private String mIssueTitle;
-    private String mIssueBody;
 
     public static Intent newIntent(Activity activity, String owner, String repo, String issueNumber, String issueTitle, String issueBody) {
-        Intent intent = new Intent(activity, IssueActivity.class);
+        Intent intent = new Intent(activity, IssueInfoActivity.class);
         intent.putExtra(Constant.REPO_NAME, repo);
         intent.putExtra(Constant.USER_NAME, owner);
         intent.putExtra(Constant.ISSUE_NUMBER, issueNumber);
@@ -52,25 +50,25 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mIssueNumber = getIntent().getStringExtra(Constant.ISSUE_NUMBER);
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
-        mIssueTitle = getIntent().getStringExtra(Constant.ISSUE_TITLE);
-        mIssueBody = getIntent().getStringExtra(Constant.ISSUE_BODY);
 
         setToolbarTitle(mRepo + "  #" + mIssueNumber);
 
-//        mIssueTitleTextView = (TextView) findViewById(R.id.tv_issue_title);
-//        tvIssueBody = (TextView) findViewById(R.id.tv_issue_body);
-//        mIssueTitleTextView.setText(getString(R.string.issue) + ": " + issueTitle);
-//        tvIssueBody.setText(issueBody);
-
         mCommentsPresent = PresenterFactory.newPresentInstance(CommentsPresent.class);
-        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), this);
-//        mIssuePresent = PresenterFactory.newPresentInstance(IssuePresent.class, IssueUi.class, this);
-//        mIssuePresent.getIssue(mOwner, mRepo, mIssueNumber);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     protected BaseAdapter<Comment> createRecyclerViewAdapter() {
-        return new CommentAdapter(null, this);
+        String issueTitle = getIntent().getStringExtra(Constant.ISSUE_TITLE);
+        String issueBody = getIntent().getStringExtra(Constant.ISSUE_BODY);
+        View issueContentHeadView = getLayoutInflater().inflate(R.layout.item_issue_head, null, false);
+        CommentAdapter adapter = new CommentAdapter(null, this);
+        TextView tvIssueTitle = (TextView) issueContentHeadView.findViewById(R.id.tv_issue_title);
+        TextView tvIssueBody = (TextView) issueContentHeadView.findViewById(R.id.tv_issue_body);
+        tvIssueTitle.setText(issueTitle);
+        tvIssueBody.setText(issueBody);
+        adapter.addIssueContentHeadView(issueContentHeadView);
+        return adapter;
     }
 
     @Override
@@ -81,7 +79,7 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), this);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
@@ -126,37 +124,8 @@ public class IssueActivity extends SwipeRefreshRecyclerViewActivity<Comment> imp
     }
 
     @Override
-    public void onRefreshSuccess(List<Comment> entities) {
-        Comment comment = new Comment();
-        comment.setId(- 1);
-        comment.setIssue_url(mIssueTitle);
-        comment.setBody(mIssueBody);
-        entities.add(0, comment);
-        super.onRefreshSuccess(entities);
-    }
-
-    @Override
     public void onItemClick(View view, int position) {
 
     }
 
-    @Override
-    public void onSuccess(List<Comment> comments) {
-        Comment comment = new Comment();
-        comment.setId(- 1);
-        comment.setIssue_url(mIssueTitle);
-        comment.setBody(mIssueBody);
-        comments.add(0, comment);
-        super.onFirstLoadSuccess(comments);
-    }
-
-    @Override
-    public void onLoading() {
-        onComnLoading(LOAD_FIRST);
-    }
-
-    @Override
-    public void onError(VolleyError error) {
-        onFirstLoadError(error);
-    }
 }

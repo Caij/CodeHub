@@ -87,4 +87,6 @@
     <string name="check_update">Check For Updates</string>
     <string name="follows">Follows</string>
     <string name="following">Following</string>
+
+    <string name="description_search">Search</string>
 </resources>

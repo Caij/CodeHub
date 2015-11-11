@@ -1,14 +1,15 @@
-package com.caij.codehub.ui.intf;
+package com.caij.codehub.ui.callback;
 
 import com.android.volley.VolleyError;
 import com.caij.codehub.bean.Entity;
+import com.caij.codehub.ui.callback.BaseUi;
 
 import java.util.List;
 
 /**
  * Created by Caij on 2015/11/2.
  */
-public interface ListUi<E extends Entity> extends BaseUi{
+public interface ListUi<E extends Entity> extends BaseUi {
 
     public void onFirstLoadSuccess(List<E> entities);
 

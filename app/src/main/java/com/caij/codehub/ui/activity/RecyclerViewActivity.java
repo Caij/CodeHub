@@ -34,6 +34,11 @@ public abstract class RecyclerViewActivity<E extends Entity> extends BaseCodeHub
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initView();
+    }
+
+    protected void initView() {
         mRecyclerViewAdapter  = createRecyclerViewAdapter();
         mRecyclerViewAdapter.setOnItemClickListener(this);
         mLoadMoreLoadMoreRecyclerView.setLayoutManager(createRecyclerViewLayoutManager());

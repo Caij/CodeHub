@@ -83,15 +83,15 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
         showError();
     }
 
-    @Override
-    public void onLoadMore() {
-        mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onRefresh() {
-
-    }
+//    @Override
+//    public void onLoadMore() {
+//        mSwipeRefreshLayout.setRefreshing(false);
+//    }
+//
+//    @Override
+//    public void onRefresh() {
+//
+//    }
 
     @Override
     public void onComnLoading(int loadType) {

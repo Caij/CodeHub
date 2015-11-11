@@ -76,4 +76,11 @@ public class LoginActivity extends BaseCodeHubActivity implements UiCallBack<Tok
         mLoginDialog.dismiss();
         ToastUtil.show(this, R.string.login_error);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLoginDialog.dismiss();
+        mLoginDialog = null;
+    }
 }

@@ -9,7 +9,7 @@ import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.UserAdapter;
-import com.caij.codehub.ui.intf.ListUi;
+import com.caij.codehub.ui.callback.ListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 

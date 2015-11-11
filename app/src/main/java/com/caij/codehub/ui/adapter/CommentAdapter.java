@@ -25,11 +25,8 @@ public class CommentAdapter extends BaseAdapter<Comment> {
 
     public static final int COMMENT = 2;
     public static final int ISSUE = 3;
-    @Bind(R.id.tv_issue_title)
-    TextView mTvIssueTitle;
-    @Bind(R.id.tv_issue_body)
-    TextView mTvIssueBody;
 
+    private View mIssueContentHeadView;
 
     public CommentAdapter(List<Comment> entities, Context context) {
         super(context, entities);
@@ -39,19 +36,23 @@ public class CommentAdapter extends BaseAdapter<Comment> {
     public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CommentViewHolder) {
             CommentViewHolder viewHolder = (CommentViewHolder) holder;
-            Comment comment = getItem(position);
+            Comment comment = getItem(position - 1);
 
             Glide.with(context).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
                     bitmapTransform(new CropCircleTransformation(context)).into(viewHolder.avatarImage);
             viewHolder.tvUserName.setText(comment.getUser().getLogin());
             viewHolder.tvCommentBody.setText(comment.getBody());
             viewHolder.tvCommentUpdate.setText(TimeUtils.getRelativeTime(comment.getUpdated_at()));
-        }else if (holder instanceof IssueHeadViewHolder) {
-            IssueHeadViewHolder viewHolder = (IssueHeadViewHolder) holder;
-            Comment comment = getItem(position);
-            viewHolder.mTvIssueTitle.setText(context.getString(R.string.issue) + ": " + comment.getIssue_url());
-            viewHolder.mTvIssueBody.setText(comment.getBody());
         }
+    }
+
+    @Override
+    public int getDataCount() {
+        return super.getDataCount() + 1;
+    }
+
+    public void addIssueContentHeadView(View view) {
+        mIssueContentHeadView = view;
     }
 
     @Override
@@ -61,16 +62,14 @@ public class CommentAdapter extends BaseAdapter<Comment> {
             View convertView = mInflater.inflate(R.layout.item_comment, parent, false);
             viewHolder = new CommentViewHolder(convertView);
         } else {
-            View convertView = mInflater.inflate(R.layout.item_issue_head, parent, false);
-            viewHolder = new IssueHeadViewHolder(convertView);
+            viewHolder = new IssueHeadViewHolder(mIssueContentHeadView);
         }
         return viewHolder;
     }
 
     @Override
     public int getDataViewType(int position) {
-        Comment comment = getItem(position);
-        if (comment.getId() == -1) {
+        if (position == 0) {
             return ISSUE;
         } else {
             return COMMENT;

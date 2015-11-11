@@ -14,7 +14,6 @@ import com.caij.codehub.presenter.IssueListPresent;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.IssueAdapter;
-import com.caij.codehub.ui.intf.IssueListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/11/3.
  */
-public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> implements IssueListUi {
+public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
 
     private IssueListPresent mIssueListPresent;
     private String mOwner;
@@ -98,7 +97,7 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> i
     @Override
     public void onItemClick(View view, int position) {
         Issue issue = getRecyclerViewAdapter().getItem(position);
-        Intent intent = IssueActivity.newIntent(this, mOwner, mRepo, String.valueOf(issue.getNumber()), issue.getTitle(), issue.getBody());
+        Intent intent = IssueInfoActivity.newIntent(this, mOwner, mRepo, String.valueOf(issue.getNumber()), issue.getTitle(), issue.getBody());
         startActivity(intent);
     }
 }

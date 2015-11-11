@@ -6,9 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.CodeHubPrefs;
-import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.event.Event;
@@ -17,13 +15,11 @@ import com.caij.codehub.bean.event.IssueCommentEvent;
 import com.caij.codehub.bean.event.IssuesEvent;
 import com.caij.codehub.presenter.EventsPresenter;
 import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.ui.activity.IssueActivity;
+import com.caij.codehub.ui.activity.IssueInfoActivity;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.EventsAdapter;
-import com.caij.codehub.ui.intf.EventsUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
-import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
 
 
@@ -33,7 +29,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/24.
  */
-public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> implements EventsUi {
+public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> {
 
     Page mPage;
     private EventsPresenter mEventsPresenter;
@@ -115,13 +111,13 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
         }else if (Event.ISSUE_COMMENT.equals(event.getType())) {
             IssueCommentEvent realEvent = (IssueCommentEvent) event.getRealEvent();
             String[] repoInfo =  event.getRepo().getName().split("/");
-            Intent intent = IssueActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
+            Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
                     String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
             startActivity(intent);
         }else if (Event.ISSUES.equals(event.getType())) {
             IssuesEvent realEvent = (IssuesEvent) event.getRealEvent();
             String[] repoInfo =  event.getRepo().getName().split("/");
-            Intent intent = IssueActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
+            Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
                     String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
             startActivity(intent);
         }else if (Event.MEMBER.equals(event.getType())) {

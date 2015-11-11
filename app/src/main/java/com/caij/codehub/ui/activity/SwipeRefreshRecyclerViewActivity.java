@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.codehub.ui.intf.ListUi;
+import com.caij.codehub.ui.callback.ListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
@@ -31,6 +31,11 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
         mContentContainer.setVisibility(View.GONE);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(
@@ -39,7 +44,6 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
                 getResources().getColor(R.color.gplus_color_3),
                 getResources().getColor(R.color.gplus_color_4));
     }
-
 
     @Override
     public void onFirstLoadSuccess(List<E> entities) {
@@ -87,8 +91,6 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
             showLoading();
         }
     }
-
-
 
     protected UiCallBack<List<E>> mFirstLoadUiCallBack = new UiCallBack<List<E>>() {
         @Override

@@ -19,7 +19,6 @@ import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.FileTreeAdapter;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.codehub.ui.intf.FileTreeUi;
 import com.caij.codehub.widgets.LinearBreadcrumb;
 import com.caij.lib.utils.LogUtil;
 
@@ -28,7 +27,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/11/2.
  */
-public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeItem> implements LinearBreadcrumb.SelectionCallback, FileTreeUi {
+public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeItem> implements LinearBreadcrumb.SelectionCallback {
 
     private FileTreePresent fileTreePresent;
     private String mOwner;
