@@ -10,13 +10,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
+import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Caij on 2015/10/31.
@@ -25,11 +25,13 @@ public class CommentAdapter extends BaseAdapter<Comment> {
 
     public static final int COMMENT = 2;
     public static final int ISSUE = 3;
+    private final CropCircleTransformation cropCircleTransformation;
 
     private View mIssueContentHeadView;
 
     public CommentAdapter(List<Comment> entities, Context context) {
         super(context, entities);
+        cropCircleTransformation = new CropCircleTransformation(context);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class CommentAdapter extends BaseAdapter<Comment> {
             Comment comment = getItem(position - 1);
 
             Glide.with(context).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
-                    bitmapTransform(new CropCircleTransformation(context)).into(viewHolder.avatarImage);
+                    bitmapTransform(cropCircleTransformation).into(viewHolder.avatarImage);
             viewHolder.tvUserName.setText(comment.getUser().getLogin());
             viewHolder.tvCommentBody.setText(comment.getBody());
             viewHolder.tvCommentUpdate.setText(TimeUtils.getRelativeTime(comment.getUpdated_at()));

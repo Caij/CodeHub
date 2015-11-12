@@ -10,12 +10,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
+import com.caij.codehub.utils.CropCircleTransformation;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Caij on 2015/9/24.

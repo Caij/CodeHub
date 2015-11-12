@@ -22,6 +22,7 @@ import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.FollowActionPresent;
 import com.caij.codehub.presenter.UserPresenter;
 import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
 import com.caij.lib.utils.CheckValueUtil;
 import com.caij.lib.utils.SPUtils;
@@ -29,7 +30,6 @@ import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Caij on 2015/9/19.

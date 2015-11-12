@@ -210,6 +210,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
     private UiCallBack<NetworkResponse> mStarUiCallback = new UiCallBack<NetworkResponse>() {
         @Override
         public void onSuccess(NetworkResponse networkResponse) {
+            hideLoading();
             ToastUtil.show(RepositoryInfoActivity.this, R.string.star_repo_success);
             mMenu.findItem(R.id.star).setTitle(getString(R.string.un_star));
         }
@@ -221,6 +222,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
 
         @Override
         public void onError(VolleyError error) {
+            hideLoading();
             ToastUtil.show(RepositoryInfoActivity.this, R.string.star_repo_error);
         }
     };
@@ -228,6 +230,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
     private UiCallBack<NetworkResponse> mUnStarUiCallback = new UiCallBack<NetworkResponse>() {
         @Override
         public void onSuccess(NetworkResponse networkResponse) {
+            hideLoading();
             ToastUtil.show(RepositoryInfoActivity.this, R.string.unstar_repo_success);
             mMenu.findItem(R.id.star).setTitle(getString(R.string.star));
         }
@@ -239,6 +242,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
 
         @Override
         public void onError(VolleyError error) {
+            hideLoading();
             ToastUtil.show(RepositoryInfoActivity.this, R.string.unstar_repo_error);
         }
     };
@@ -246,6 +250,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
     private UiCallBack<NetworkResponse> mForkUiCallBack = new UiCallBack<NetworkResponse>() {
         @Override
         public void onSuccess(NetworkResponse networkResponse) {
+            hideLoading();
             ToastUtil.show(RepositoryInfoActivity.this, R.string.fork_success);
         }
 
@@ -256,6 +261,7 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
 
         @Override
         public void onError(VolleyError error) {
+            hideLoading();
             ToastUtil.show(RepositoryInfoActivity.this, R.string.fork_error);
         }
     };

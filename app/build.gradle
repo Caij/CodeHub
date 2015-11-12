@@ -7,7 +7,7 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 def key_alias = properties.getProperty("keyAlias")
 def key_password = properties.getProperty("keyPassword")
 def store_password = properties.getProperty("storePassword")
-def key_store = properties.getProperty("keyStore")
+def key_store = properties.getProperty("keystore.dir")
 
 android {
     compileSdkVersion 23
@@ -70,6 +70,7 @@ android {
 
         wandoujia {}
         googleplay {}
+        github {}
 
         productFlavors.all { flavor ->
             flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
@@ -89,7 +90,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
 
     compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'jp.wasabeef:glide-transformations:1.2.1'
     compile 'com.github.bumptech.glide:okhttp-integration:1.3.0'
 
     compile 'com.umeng.analytics:analytics:latest.integration'

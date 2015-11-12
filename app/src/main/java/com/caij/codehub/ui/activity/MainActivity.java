@@ -24,12 +24,12 @@ import com.caij.codehub.presenter.UserPresenter;
 import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
+import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User> {
 

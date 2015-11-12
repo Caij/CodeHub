@@ -1,46 +1,33 @@
 package com.caij.codehub.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
 import com.caij.codehub.R;
-import com.caij.codehub.bean.event.CommitCommentEvent;
-import com.caij.codehub.bean.event.CreateEvent;
-import com.caij.codehub.bean.event.DeleteEvent;
-import com.caij.codehub.bean.event.DeploymentEvent;
-import com.caij.codehub.bean.event.DeploymentStatusEvent;
-import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.bean.event.EventWrap;
-import com.caij.codehub.bean.event.IssueCommentEvent;
-import com.caij.codehub.bean.event.IssuesEvent;
-import com.caij.codehub.bean.event.MemberEvent;
-import com.caij.codehub.bean.event.MembershipEvent;
-import com.caij.codehub.bean.event.PullRequestEvent;
-import com.caij.codehub.bean.event.PullRequestReviewCommentEvent;
-import com.caij.codehub.bean.event.PushEvent;
-import com.caij.codehub.bean.event.RepositoryEvent;
-import com.caij.codehub.bean.event.TeamAddEvent;
-import com.caij.codehub.bean.event.WatchEvent;
+import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
 
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Caij on 2015/9/24.
  */
 public class EventsAdapter extends BaseAdapter<EventWrap>{
 
+    private Transformation<Bitmap> mTransformation;
+
     public EventsAdapter(Context context, List<EventWrap> entities) {
         super(context, entities);
+        mTransformation = new CropCircleTransformation(context);
     }
 
     @Override
@@ -58,7 +45,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
     public void onBindViewHolderReal(ViewHolder holder, int position) {
         EventWrap event = getItem(position);
         Glide.with(context).load(event.getActor().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
-                bitmapTransform(new CropCircleTransformation(context)).into(holder.avatar);
+                bitmapTransform(mTransformation).into(holder.avatar);
         holder.happenTime.setText(TimeUtils.getRelativeTime(event.getCreated_at()));
         holder.event.setText(event.getAdapterTitle());
         holder.eventBody.setText(event.getAdapterBody());

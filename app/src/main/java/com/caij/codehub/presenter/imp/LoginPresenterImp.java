@@ -57,6 +57,7 @@ public class LoginPresenterImp implements LoginPresenter {
                     handlerLoginError(error, username, pwd, requestTag, uiCallBack);
                 }
             });
+            request.setShouldCache(false);
             VolleyManager.addRequest(request, requestTag);
         } catch (JSONException e) {
             uiCallBack.onError(null);
@@ -139,6 +140,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 uiCallBack.onError(error);
             }
         });
+        request.setShouldCache(false);
         VolleyManager.addRequest(request, requestTag);
     }
 
@@ -157,6 +159,7 @@ public class LoginPresenterImp implements LoginPresenter {
                 uiCallBack.onError(error);
             }
         });
+        request.setShouldCache(false);
         VolleyManager.addRequest(request, requestTag);
     }
 

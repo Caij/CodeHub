@@ -16,6 +16,14 @@
 #   public *;
 #}
 
+# GSON
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-keep class com.caij.codehub.bean.** { *; }
+
 #Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
@@ -38,3 +46,25 @@ public static final int *;
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+#butterknife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+##
+-dontwarn org.apache.http.**
+-dontwarn com.android.volley.toolbox.**
+
+-dontwarn java.nio.file.Files
+-dontwarn java.nio.file.Path
+-dontwarn java.nio.file.OpenOption
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement

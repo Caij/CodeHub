@@ -6,7 +6,6 @@ import com.caij.codehub.utils.OkHttpClientProvider;
 import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.stack.OkHttpStack;
-import com.squareup.leakcanary.LeakCanary;
 
 
 /**

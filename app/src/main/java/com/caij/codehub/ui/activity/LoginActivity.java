@@ -80,7 +80,6 @@ public class LoginActivity extends BaseCodeHubActivity implements UiCallBack<Tok
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLoginDialog.dismiss();
         mLoginDialog = null;
     }
 }
