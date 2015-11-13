@@ -13,12 +13,14 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.CodeHubApplication;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.RepositoryActionPresent;
 import com.caij.codehub.presenter.RepositoryInfoPresenter;
+import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.utils.TimeUtils;
 import com.caij.lib.utils.CheckValueUtil;
@@ -59,6 +61,12 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
     private Repository mRepository;
     private Menu mMenu;
 
+    private UiCallBack<Repository> mFirstLoadUiCallBack;
+    private UiCallBack<Boolean> mStarStateUiCallback;
+    private UiCallBack<NetworkResponse> mStarUiCallback;
+    private UiCallBack<NetworkResponse> mUnStarUiCallback;
+    private UiCallBack<NetworkResponse> mForkUiCallBack;
+
     public static Intent newInstance(Activity activity, String owner, String repo) {
         CheckValueUtil.check(owner);
         CheckValueUtil.check(repo);
@@ -76,30 +84,18 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
         Intent intent = getIntent();
         mOwner = intent.getStringExtra(Constant.USER_NAME);
         mRepo = intent.getStringExtra(Constant.REPO_NAME);
-        mToken = getToken();
+        mToken = CodeHubPrefs.get().getToken();
 
         setToolbarTitle(mRepo);
 
+        initLoadDataCallback();
         mRepositoryInfoPresenter = PresenterFactory.newPresentInstance(RepositoryInfoPresenter.class);
         mRepositoryInfoPresenter.getRepositoryInfo(mRepo, mOwner, mToken, getRequestTag(), mFirstLoadUiCallBack);
 
         mRepositoryActionPresent = PresenterFactory.newPresentInstance(RepositoryActionPresent.class);
-        mRepositoryActionPresent.hasStarRepo(mOwner, mRepo, mToken, getRequestTag(), new UiCallBack<Boolean>() {
-            @Override
-            public void onSuccess(Boolean aBoolean) {
-                getMenuInflater().inflate(R.menu.menu_repository_info, mMenu);
-                mMenu.findItem(R.id.star).setTitle(aBoolean ? getString(R.string.un_star) : getString(R.string.star));
-            }
-
-            @Override
-            public void onLoading() {
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-            }
-        });
+        mRepositoryActionPresent.hasStarRepo(mOwner, mRepo, mToken, getRequestTag(), mStarStateUiCallback);
     }
+
 
     @Override
     protected int getContentLayoutId() {
@@ -174,95 +170,111 @@ public class RepositoryInfoActivity extends BaseCodeHubActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private UiCallBack<Repository> mFirstLoadUiCallBack = new UiCallBack<Repository>() {
-        @Override
-        public void onSuccess(Repository repository) {
-            hideLoading();
-            mRepository = repository;
-            showContentContainer();
-            mRepositoryNameTextView.setText(repository.getName());
-            mRepositoryDescTextView.setText(repository.getDescription());
-            mRepositoryStarTextView.setText(String.valueOf(repository.getStargazers_count()));
-            mRepositoryForkTextView.setText(String.valueOf(repository.getForks_count()));
-            if (repository.isFork()) {
-                mRepositoryIcon.setText(getString(R.string.icon_fork));
-            } else {
-                mRepositoryIcon.setText(getString(R.string.icon_repo));
+    private void initLoadDataCallback(){
+        mForkUiCallBack = new DefaultUiCallBack<NetworkResponse>(this) {
+            @Override
+            public void onSuccess(NetworkResponse networkResponse) {
+                hideLoading();
+                ToastUtil.show(RepositoryInfoActivity.this, R.string.fork_success);
             }
-            mRepositoryLanguageTextView.setText(repository.getLanguage());
-            mRepositoryCreateTimeTextView.setText(TimeUtils.getStringTime(repository.getCreated_at()));
-            mRepositoryUpdateTimeTextView.setText(getString(R.string.update) + " " + TimeUtils.getRelativeTime(repository.getUpdated_at()));
-            mRepositoryCreateTextView.setText(repository.getOwner().getLogin());
-        }
 
-        @Override
-        public void onLoading() {
-            showLoading();
-        }
+            @Override
+            public void onLoading() {
+                showLoading();
+            }
 
-        @Override
-        public void onError(VolleyError error) {
-            hideLoading();
-            showError();
-        }
-    };
+            @Override
+            public void onDefaultError(VolleyError error) {
+                hideLoading();
+            }
+        };
 
-    private UiCallBack<NetworkResponse> mStarUiCallback = new UiCallBack<NetworkResponse>() {
-        @Override
-        public void onSuccess(NetworkResponse networkResponse) {
-            hideLoading();
-            ToastUtil.show(RepositoryInfoActivity.this, R.string.star_repo_success);
-            mMenu.findItem(R.id.star).setTitle(getString(R.string.un_star));
-        }
+        mUnStarUiCallback = new DefaultUiCallBack<NetworkResponse>(this) {
+            @Override
+            public void onSuccess(NetworkResponse networkResponse) {
+                hideLoading();
+                ToastUtil.show(RepositoryInfoActivity.this, R.string.unstar_repo_success);
+                mMenu.findItem(R.id.star).setTitle(getString(R.string.star));
+            }
 
-        @Override
-        public void onLoading() {
-            showLoading();
-        }
+            @Override
+            public void onLoading() {
+                showLoading();
+            }
 
-        @Override
-        public void onError(VolleyError error) {
-            hideLoading();
-            ToastUtil.show(RepositoryInfoActivity.this, R.string.star_repo_error);
-        }
-    };
+            @Override
+            public void onDefaultError(VolleyError error) {
+                hideLoading();
+            }
+        };
 
-    private UiCallBack<NetworkResponse> mUnStarUiCallback = new UiCallBack<NetworkResponse>() {
-        @Override
-        public void onSuccess(NetworkResponse networkResponse) {
-            hideLoading();
-            ToastUtil.show(RepositoryInfoActivity.this, R.string.unstar_repo_success);
-            mMenu.findItem(R.id.star).setTitle(getString(R.string.star));
-        }
+        mStarUiCallback = new DefaultUiCallBack<NetworkResponse>(this) {
+            @Override
+            public void onSuccess(NetworkResponse networkResponse) {
+                hideLoading();
+                ToastUtil.show(RepositoryInfoActivity.this, R.string.star_repo_success);
+                mMenu.findItem(R.id.star).setTitle(getString(R.string.un_star));
+            }
 
-        @Override
-        public void onLoading() {
-            showLoading();
-        }
+            @Override
+            public void onLoading() {
+                showLoading();
+            }
 
-        @Override
-        public void onError(VolleyError error) {
-            hideLoading();
-            ToastUtil.show(RepositoryInfoActivity.this, R.string.unstar_repo_error);
-        }
-    };
+            @Override
+            public void onDefaultError(VolleyError error) {
+                hideLoading();
+            }
+        };
 
-    private UiCallBack<NetworkResponse> mForkUiCallBack = new UiCallBack<NetworkResponse>() {
-        @Override
-        public void onSuccess(NetworkResponse networkResponse) {
-            hideLoading();
-            ToastUtil.show(RepositoryInfoActivity.this, R.string.fork_success);
-        }
+        mStarStateUiCallback = new UiCallBack<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                getMenuInflater().inflate(R.menu.menu_repository_info, mMenu);
+                mMenu.findItem(R.id.star).setTitle(aBoolean ? getString(R.string.un_star) : getString(R.string.star));
+            }
 
-        @Override
-        public void onLoading() {
-            showLoading();
-        }
+            @Override
+            public void onLoading() {}
 
-        @Override
-        public void onError(VolleyError error) {
-            hideLoading();
-            ToastUtil.show(RepositoryInfoActivity.this, R.string.fork_error);
-        }
-    };
+            @Override
+            public void onError(VolleyError error) {}
+
+        };
+
+        mFirstLoadUiCallBack = new DefaultUiCallBack<Repository>(this) {
+            @Override
+            public void onSuccess(Repository repository) {
+                hideLoading();
+                mRepository = repository;
+                showContentContainer();
+                mRepositoryNameTextView.setText(repository.getName());
+                mRepositoryDescTextView.setText(repository.getDescription());
+                mRepositoryStarTextView.setText(String.valueOf(repository.getStargazers_count()));
+                mRepositoryForkTextView.setText(String.valueOf(repository.getForks_count()));
+                if (repository.isFork()) {
+                    mRepositoryIcon.setText(getString(R.string.icon_fork));
+                } else {
+                    mRepositoryIcon.setText(getString(R.string.icon_repo));
+                }
+                mRepositoryLanguageTextView.setText(repository.getLanguage());
+                mRepositoryCreateTimeTextView.setText(TimeUtils.getStringTime(repository.getCreated_at()));
+                mRepositoryUpdateTimeTextView.setText(getString(R.string.update) + " " + TimeUtils.getRelativeTime(repository.getUpdated_at()));
+                mRepositoryCreateTextView.setText(repository.getOwner().getLogin());
+            }
+
+            @Override
+            public void onLoading() {
+                showLoading();
+            }
+
+            @Override
+            public void onDefaultError(VolleyError error) {
+                hideLoading();
+                showError();
+            }
+        };
+    }
+
+
 }

@@ -121,33 +121,4 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
     public void onReFreshBtnClick(View view) {
         hideError();
     }
-
-    protected void processVolleyError(VolleyError error) {
-        if (error instanceof ServerError || error instanceof JsonParseError) {
-            ToastUtil.show(getContext(), R.string.server_error_hint);
-        }else if(error instanceof NetworkError || error instanceof TimeoutError) {
-            ToastUtil.show(getContext(), R.string.network_error_hint);
-        }else if (error instanceof AuthFailureError) {
-            AppManager.getInstance().finishAllActivity();
-            CodeHubPrefs.get().logout();
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-            ToastUtil.show(getContext(), R.string.account_error_hint);
-        }else {
-            ToastUtil.show(getContext(), R.string.data_load_error_hint);
-        }
-    }
-
-    public String getToken() {
-        String token = SPUtils.getString(Constant.USER_TOKEN, "");
-        if (TextUtils.isEmpty(token)) {
-            AppManager.getInstance().finishAllActivity();
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-            //clear cahce data
-            CodeHubPrefs.get().logout();
-            ToastUtil.show(getActivity(), R.string.account_error_hint);
-        }
-        return token;
-    }
 }

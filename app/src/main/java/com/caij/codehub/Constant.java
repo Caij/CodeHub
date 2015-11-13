@@ -39,4 +39,8 @@ public interface Constant {
     String USER_PWD = "user_pwd";
 
     String TITLE = "title";
+
+    String TRENDING_REPOSITORY_CHECK_SINCE_ID = "trending_repository_check_since_id";
+
+    String TRENDING_REPOSITORY_CHECK_LANGUAGE_ID = "trending_repository_check_language_id";
 }

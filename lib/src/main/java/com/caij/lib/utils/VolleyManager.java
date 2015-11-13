@@ -35,6 +35,16 @@ public class VolleyManager {
         mQueue.cancelAll(tag);
     }
 
+    public static void cancelAllRequest() {
+        checkQueue();
+        mQueue.cancelAll(new RequestQueue.RequestFilter() {
+            @Override
+            public boolean apply(Request<?> request) {
+                return true;
+            }
+        });
+    }
+
     private static void checkQueue() {
         if (mQueue == null) {
             throw new IllegalArgumentException("RequestQueue not init");

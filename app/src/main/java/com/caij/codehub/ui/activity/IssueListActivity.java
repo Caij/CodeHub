@@ -59,6 +59,7 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
     @Override
     public void onFirstLoadSuccess(List<Issue> entities) {
         super.onFirstLoadSuccess(entities);
+        mPage.reset();
         mPage.next();
         getLoadMoreRecyclerView().setState(entities.size() < mPage.getPageDataCount() ? LoadMoreRecyclerView.STATE_NO_MORE : LoadMoreRecyclerView.STATE_NORMAL);
     }

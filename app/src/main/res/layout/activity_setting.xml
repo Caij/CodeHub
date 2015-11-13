@@ -13,7 +13,8 @@
         android:paddingTop="@dimen/standard_margin"
         android:paddingBottom="@dimen/standard_margin"
         android:paddingLeft="@dimen/small_big_margin"
-        android:paddingRight="@dimen/small_big_margin">
+        android:paddingRight="@dimen/small_big_margin"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"

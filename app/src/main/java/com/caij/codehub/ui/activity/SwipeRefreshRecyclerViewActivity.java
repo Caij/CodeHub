@@ -7,6 +7,7 @@ import android.view.View;
 import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
+import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.ui.callback.ListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
@@ -22,6 +23,10 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    protected UiCallBack<List<E>> mFirstLoadUiCallBack;
+    protected UiCallBack<List<E>> mLoadMoreUiCallBack;
+    protected UiCallBack<List<E>> mLoadRefreshUiCallBack;
 
     @Override
     protected int getContentLayoutId() {
@@ -43,7 +48,10 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
                 getResources().getColor(R.color.gplus_color_2),
                 getResources().getColor(R.color.gplus_color_3),
                 getResources().getColor(R.color.gplus_color_4));
+
+        initLoadDataCallback();
     }
+
 
     @Override
     public void onFirstLoadSuccess(List<E> entities) {
@@ -61,7 +69,7 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
     }
 
     @Override
-    public void onLoadMoreSuccess(List<E>  entities) {
+    public void onLoadMoreSuccess(List<E> entities) {
         getLoadMoreRecyclerView().completeLoading();
         getRecyclerViewAdapter().addEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
@@ -70,13 +78,11 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
     @Override
     public void onRefreshError(VolleyError error) {
         mSwipeRefreshLayout.setRefreshing(false);
-        processVolleyError(error);
     }
 
     @Override
     public void onLoadMoreError(VolleyError error) {
         getLoadMoreRecyclerView().setState(LoadMoreRecyclerView.STATE_NORMAL);
-        processVolleyError(error);
     }
 
     @Override
@@ -92,54 +98,58 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
         }
     }
 
-    protected UiCallBack<List<E>> mFirstLoadUiCallBack = new UiCallBack<List<E>>() {
-        @Override
-        public void onSuccess(List<E> entities) {
-            onFirstLoadSuccess(entities);
-        }
 
-        @Override
-        public void onLoading() {
-            onComnLoading(LOAD_FIRST);
-        }
+    protected void initLoadDataCallback() {
+        mLoadRefreshUiCallBack = new DefaultUiCallBack<List<E>>(this) {
+            @Override
+            public void onSuccess(List<E> entities) {
+                onRefreshSuccess(entities);
+            }
 
-        @Override
-        public void onError(VolleyError error) {
-            onFirstLoadError(error);
-        }
-    };
+            @Override
+            public void onLoading() {
+                onComnLoading(LOAD_REFRESH);
+            }
 
-    protected UiCallBack<List<E>> mLoadMoreUiCallBack = new UiCallBack<List<E>>() {
-        @Override
-        public void onSuccess(List<E> entities) {
-            onLoadMoreSuccess(entities);
-        }
+            @Override
+            public void onDefaultError(VolleyError error) {
+                onRefreshError(error);
+            }
+        };
 
-        @Override
-        public void onLoading() {
-            onComnLoading(LOAD_MORE);
-        }
+        mLoadMoreUiCallBack = new DefaultUiCallBack<List<E>>(this) {
+            @Override
+            public void onSuccess(List<E> entities) {
+                onLoadMoreSuccess(entities);
+            }
 
-        @Override
-        public void onError(VolleyError error) {
-            onLoadMoreError(error);
-        }
-    };
+            @Override
+            public void onLoading() {
+                onComnLoading(LOAD_MORE);
+            }
 
-    protected UiCallBack<List<E>> mLoadRefreshUiCallBack = new UiCallBack<List<E>>() {
-        @Override
-        public void onSuccess(List<E> entities) {
-            onRefreshSuccess(entities);
-        }
+            @Override
+            public void onDefaultError(VolleyError error) {
+                onLoadMoreError(error);
+            }
+        };
 
-        @Override
-        public void onLoading() {
-            onComnLoading(LOAD_REFRESH);
-        }
+        mFirstLoadUiCallBack = new DefaultUiCallBack<List<E>>(this) {
+            @Override
+            public void onSuccess(List<E> entities) {
+                onFirstLoadSuccess(entities);
+            }
 
-        @Override
-        public void onError(VolleyError error) {
-            onRefreshError(error);
-        }
-    };
+            @Override
+            public void onLoading() {
+                onComnLoading(LOAD_FIRST);
+            }
+
+
+            @Override
+            public void onDefaultError(VolleyError error) {
+                onFirstLoadError(error);
+            }
+        };
+    }
 }

@@ -9,11 +9,25 @@ import com.caij.lib.R;
  * Created by Caij on 2015/8/25.
  */
 public class ToastUtil {
+
+    private static Toast mToast ;
+
     public static void show(Context context, String msg) {
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        if (mToast ==  null) {
+            synchronized (ToastUtil.class) {
+                if (mToast ==  null) {
+                    mToast = Toast.makeText(context.getApplicationContext(), msg, Toast.LENGTH_SHORT);
+                }else {
+                    mToast.setText(msg);
+                }
+            }
+        }else {
+            mToast.setText(msg);
+        }
+        mToast.show();
     }
 
     public static void show(Context context, int id) {
-        Toast.makeText(context, context.getString(id), Toast.LENGTH_SHORT).show();
+        show(context, context.getString(id));
     }
 }

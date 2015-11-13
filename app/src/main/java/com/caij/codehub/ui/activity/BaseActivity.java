@@ -1,8 +1,5 @@
 package com.caij.codehub.ui.activity;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,15 +10,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkError;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
-import com.android.volley.VolleyError;
-import com.caij.codehub.CodeHubApplication;
-import com.caij.codehub.R;
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.SystemBarTintManager;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -35,7 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppManager.getInstance().add(this);
+        AppManager.getInstance().push(this);
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mScreenWidth = metrics.widthPixels;
@@ -43,6 +34,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 
     protected void setSystemBarTintColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

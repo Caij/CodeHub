@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.caij.codehub.CodeHubApplication;
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.presenter.PresenterFactory;
@@ -30,7 +31,7 @@ public class FollowingActivity extends UserListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
-        mToken = getToken();
+        mToken = CodeHubPrefs.get().getToken();
         setToolbarTitle(getString(R.string.following));
         mPresenter = PresenterFactory.newPresentInstance(UserListPresenter.class);
         mPresenter.getFollowing(mToken, mUsername, mPage, getRequestTag(), mFirstLoadUiCallBack);

@@ -11,28 +11,42 @@ public class AppManager {
 
     private static AppManager appManager = new AppManager();
 
-    private Stack<Activity> activityStack;
+    private Stack<Activity> mActivityStack;
 
     public static AppManager getInstance() {
         return appManager;
     }
 
     private AppManager() {
-        activityStack = new Stack<>();
+        mActivityStack = new Stack<>();
     }
 
-    public void add(Activity activity) {
-        activityStack.push(activity);
+    public void push(Activity activity) {
+        mActivityStack.push(activity);
+    }
+
+    public Activity pop() {
+        return mActivityStack.pop();
     }
 
     public void finishAllActivity() {
-        while (!activityStack.empty()) {
-            activityStack.pop().finish();
+        while (!mActivityStack.empty()) {
+            mActivityStack.pop().finish();
+        }
+    }
+
+    public void finishAllActivityExcept(Activity activity) {
+        Activity removeActivity;
+        while (!mActivityStack.empty()) {
+            removeActivity = mActivityStack.pop();
+            if (removeActivity != activity) {
+                removeActivity.finish();
+            }
         }
     }
 
     public void remove(Activity activity) {
-        activityStack.remove(activity);
+        mActivityStack.remove(activity);
     }
 
 }

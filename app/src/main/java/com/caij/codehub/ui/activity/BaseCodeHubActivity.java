@@ -64,17 +64,6 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
         mRequestTag = createRequestTag();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
 
     protected abstract int getContentLayoutId();
 
@@ -146,23 +135,6 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
         mContentContainer.setVisibility(View.VISIBLE);
     }
 
-    protected void processVolleyError(VolleyError error) {
-        if (error instanceof ServerError || error instanceof JsonParseError) {
-            ToastUtil.show(this, R.string.server_error_hint);
-        }else if(error instanceof NetworkError || error instanceof TimeoutError) {
-            ToastUtil.show(this, R.string.network_error_hint);
-        }else if (error instanceof AuthFailureError) {
-            AppManager.getInstance().finishAllActivity();
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            //clear cahce data
-            CodeHubPrefs.get().logout();
-            ToastUtil.show(this, R.string.account_error_hint);
-        }else {
-            ToastUtil.show(this, R.string.data_load_error_hint);
-        }
-    }
-
     protected void setToolbarTitle(String title) {
         if (title.length() > 12) {
             title = title.substring(0, 12) + "...";
@@ -170,16 +142,4 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
         getSupportActionBar().setTitle(title);
     }
 
-    public String getToken() {
-        String token = CodeHubPrefs.get().getToken();
-        if (TextUtils.isEmpty(token)) {
-            AppManager.getInstance().finishAllActivity();
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            //clear cahce data
-            CodeHubPrefs.get().logout();
-            ToastUtil.show(this, R.string.account_error_hint);
-        }
-        return token;
-    }
 }

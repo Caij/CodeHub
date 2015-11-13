@@ -57,7 +57,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为CodeHub_v1.0_2015-01-15_wandoujia.apk
+                        // CodeHub_v1.0_2015-01-15_wandoujia.apk
                         def fileName = "CodeHub_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }

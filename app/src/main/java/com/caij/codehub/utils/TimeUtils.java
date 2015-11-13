@@ -37,7 +37,6 @@ public class TimeUtils {
      * Get relative time for date
      *
      * @param date
-     * @return relative time
      */
     public static CharSequence getStringTime(final Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(PATTERN);

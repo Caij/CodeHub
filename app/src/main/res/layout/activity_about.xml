@@ -14,12 +14,13 @@
         android:paddingLeft="@dimen/small_big_margin"
         android:paddingRight="@dimen/small_big_margin"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Check For Updates"
+            android:text="Version"
             android:textSize="@dimen/big_body_text_size"
             android:textColor="@color/theme_color"
             />
@@ -49,7 +50,8 @@
         android:paddingLeft="@dimen/small_big_margin"
         android:paddingRight="@dimen/small_big_margin"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,7 +87,8 @@
         android:paddingLeft="@dimen/small_big_margin"
         android:paddingRight="@dimen/small_big_margin"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -121,7 +124,8 @@
         android:paddingLeft="@dimen/small_big_margin"
         android:paddingRight="@dimen/small_big_margin"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"

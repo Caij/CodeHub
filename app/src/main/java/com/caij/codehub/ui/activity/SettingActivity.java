@@ -12,7 +12,7 @@ import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.presenter.LoginPresenter;
 import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.lib.utils.AppManager;
 
 import butterknife.OnClick;
@@ -30,9 +30,9 @@ public class SettingActivity extends BaseCodeHubActivity implements DialogInterf
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setToolbarTitle("Setting");
+        setToolbarTitle(getString(R.string.action_settings));
         mLogoutConfirmDialog = new AlertDialog.Builder(this).
-                setMessage("Whether or not logout").
+                setMessage(R.string.wether_logout).
                 setPositiveButton(getString(R.string.ok), this).
                 setNegativeButton(getString(R.string.cancel), null).
                 create();
@@ -44,7 +44,7 @@ public class SettingActivity extends BaseCodeHubActivity implements DialogInterf
     }
 
     @OnClick(R.id.rl_login_out)
-    public void onLoginOutClick() {
+    public void onLogoutClick() {
         mLogoutConfirmDialog.show();
     }
 
@@ -53,7 +53,7 @@ public class SettingActivity extends BaseCodeHubActivity implements DialogInterf
         String tokenId = CodeHubPrefs.get().getTokenId();
         String username = CodeHubPrefs.get().getUsername();
         String pwd = CodeHubPrefs.get().getPwd();
-        loginPresenter.logout(username, pwd, tokenId, getRequestTag(), new UiCallBack<NetworkResponse>() {
+        loginPresenter.logout(username, pwd, tokenId, getRequestTag(), new DefaultUiCallBack<NetworkResponse>(this) {
             @Override
             public void onSuccess(NetworkResponse response) {
                 mLogoutLoadingDialog.dismiss();
@@ -67,13 +67,9 @@ public class SettingActivity extends BaseCodeHubActivity implements DialogInterf
             }
 
             @Override
-            public void onError(VolleyError error) {
+            public void onDefaultError(VolleyError error) {
                 mLogoutLoadingDialog.dismiss();
-                if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 404) {
-                    clearDataAndGotoLogin();
-                }else {
-                    processVolleyError(error);
-                }
+                clearDataAndGotoLogin();
             }
         });
     }

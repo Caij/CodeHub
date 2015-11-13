@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
@@ -21,6 +22,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.presenter.UserPresenter;
+import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
@@ -31,7 +33,7 @@ import butterknife.Bind;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User> {
+public class MainActivity extends BaseCodeHubActivity {
 
     @Bind(R.id.img_navigation_avatar)
     ImageView mNavigationAvatarImageView;
@@ -59,7 +61,7 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
         mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
-        mUserPresenter.getUserInfo(getToken(), CodeHubPrefs.get().getUsername(), getRequestTag(), this);
+        mUserPresenter.getUserInfo(CodeHubPrefs.get().getToken(), CodeHubPrefs.get().getUsername(), getRequestTag(), mUserUiCallback);
 
         mRepositoryPagesFragment = new RepositoryPagesFragment();
         mEventsFragment = new EventsFragment();
@@ -95,29 +97,12 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
     public void onUserOnClick() {
         if (mUser == null)  {
             ToastUtil.show(this, R.string.user_info_error);
-            mUserPresenter.getUserInfo(getToken(),  CodeHubPrefs.get().getUsername(), getRequestTag(), this);
+            mUserPresenter.getUserInfo(CodeHubPrefs.get().getToken(),  CodeHubPrefs.get().getUsername(), getRequestTag(), mUserUiCallback);
+            return;
         }
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         Intent intent = UserInfoActivity.newIntent(this, mUser.getLogin());
         startActivity(intent);
-    }
-
-    @Override
-    public void onSuccess(User user) {
-        mUser = user;
-        mNavigationUsernameTextView.setText(user.getLogin());
-        Glide.with(this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
-                bitmapTransform(new CropCircleTransformation(this)).into(mNavigationAvatarImageView);
-    }
-
-    @Override
-    public void onLoading() {
-
-    }
-
-    @Override
-    public void onError(VolleyError error) {
-        processVolleyError(error);
     }
 
     @OnCheckedChanged(R.id.rb_repository)
@@ -151,4 +136,24 @@ public class MainActivity extends BaseCodeHubActivity implements UiCallBack<User
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
+
+    private UiCallBack<User> mUserUiCallback = new DefaultUiCallBack<User>(this) {
+        @Override
+        public void onDefaultError(VolleyError error) {
+
+        }
+
+        @Override
+        public void onSuccess(User user) {
+            mUser = user;
+            mNavigationUsernameTextView.setText(user.getLogin());
+            Glide.with(MainActivity.this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+                    bitmapTransform(new CropCircleTransformation(MainActivity.this)).into(mNavigationAvatarImageView);
+        }
+
+        @Override
+        public void onLoading() {
+
+        }
+    };
 }

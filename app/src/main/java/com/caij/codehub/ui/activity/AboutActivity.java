@@ -33,26 +33,16 @@ public class AboutActivity extends BaseCodeHubActivity {
         setTitle(getString(R.string.about));
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            mTvVersion.setText(getString(R.string.check_update) + "：" + String.valueOf(packageInfo.versionName));
+            mTvVersion.setText(getString(R.string.current_version) + "：" + String.valueOf(packageInfo.versionName));
         } catch (PackageManager.NameNotFoundException e) {
         }
         mTvContact.setText("worldcaij@gmail.com");
-    }
-
-    @OnClick(R.id.ll_app_version)
-    public void onUpdateVersionClick() {
-
     }
 
     @OnClick(R.id.ll_open_source)
     public void onOpenSourceClick() {
         Intent intent = WebActivity.newIntent(this,  "CodeHub", API.PROJECT_README_URL);
         startActivity(intent);
-    }
-
-    @OnClick(R.id.ll_contact)
-    public void onContactClick() {
-
     }
 
     @OnClick(R.id.ll_source_code)

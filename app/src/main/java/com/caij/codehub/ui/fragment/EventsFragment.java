@@ -33,6 +33,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     Page mPage;
     private EventsPresenter mEventsPresenter;
+    private String mToken;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -40,17 +41,18 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
         setHasOptionsMenu(false);
         mPage = new Page();
         mEventsPresenter = PresenterFactory.newPresentInstance(EventsPresenter.class);
+        mToken = CodeHubPrefs.get().getToken();
     }
 
     @Override
     protected void onUserFirstVisible() {
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
                 mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
     @Override
     public void onRefresh() {
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
                 mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
     }
 
@@ -80,7 +82,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
         mPage.reset();
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
                 mPage, getRequestTag(), mFirstLoadUiCallBack);
     }
 
@@ -96,7 +98,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     public void onLoadMore() {
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), getToken(),
+        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
                 mPage, getRequestTag(), mLoadMoreUiCallBack);
     }
 
