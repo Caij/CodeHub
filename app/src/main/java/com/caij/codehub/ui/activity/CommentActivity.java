@@ -18,6 +18,7 @@ import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Caij on 2015/11/3.
@@ -42,13 +43,14 @@ public class CommentActivity extends BaseCodeHubToolBarActivity {
     }
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.activity_comment;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(getString(R.string.comment));
         mCommentActionPresent = PresenterFactory.newPresentInstance(CommentActionPresent.class);
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mIssueNumber = getIntent().getStringExtra(Constant.ISSUE_NUMBER);
@@ -56,42 +58,29 @@ public class CommentActivity extends BaseCodeHubToolBarActivity {
         mToken = CodeHubPrefs.get().getToken();
     }
 
+    @OnClick(R.id.btn_comment)
+    public void onCommentClick() {
+        mCommentActionPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken,
+                getRequestTag(), new DefaultUiCallBack<Comment>(this) {
+                    @Override
+                    public void onSuccess(Comment comment) {
+                        hideLoading();
+                        ToastUtil.show(CommentActivity.this, R.string.comment_success);
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.COMMENT, comment);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_issue, menu);
-        return true;
+                    @Override
+                    public void onLoading() {
+                        showLoading();
+                    }
+
+                    @Override
+                    public void onDefaultError(VolleyError error) {
+                        hideLoading();
+                    }});
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.comment) {
-            mCommentActionPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken,
-                    getRequestTag(), new DefaultUiCallBack<Comment>(this) {
-                @Override
-                public void onSuccess(Comment comment) {
-                    hideLoading();
-                    ToastUtil.show(CommentActivity.this, R.string.comment_success);
-                    Intent intent = new Intent();
-                    intent.putExtra(Constant.COMMENT, comment);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-
-                @Override
-                public void onLoading() {
-                    showLoading();
-                }
-
-                @Override
-                public void onDefaultError(VolleyError error) {
-                    hideLoading();
-                }});
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

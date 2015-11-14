@@ -35,7 +35,7 @@ public class WebActivity extends BaseCodeHubToolBarActivity {
 
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.activity_web;
     }
 

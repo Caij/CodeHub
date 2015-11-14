@@ -18,7 +18,7 @@ import java.util.Date;
 public class EventWrap extends Entity{
 
     /**
-     * 将Event 转化为EventWrap， 批量应在子线程中
+     * 将Event to EventWrap
      * @param event
      * @return
      */

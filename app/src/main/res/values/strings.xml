@@ -103,4 +103,6 @@
     <string name="email">Email</string>
     <string name="owner">Owner</string>
     <string name="blog">Blog</string>
+    <string name="source">Source</string>
+    <string name="comment">Comment</string>
 </resources>

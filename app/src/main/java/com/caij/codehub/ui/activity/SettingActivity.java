@@ -39,7 +39,7 @@ public class SettingActivity extends BaseCodeHubToolBarActivity implements Dialo
     }
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.activity_setting;
     }
 

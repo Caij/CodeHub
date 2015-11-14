@@ -97,7 +97,7 @@ public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity {
 
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.activity_repository_info;
     }
 

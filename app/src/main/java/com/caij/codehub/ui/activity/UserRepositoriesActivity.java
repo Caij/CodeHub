@@ -33,7 +33,7 @@ public class UserRepositoriesActivity extends BaseCodeHubToolBarActivity {
     }
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.activity_frame_layout;
     }
 

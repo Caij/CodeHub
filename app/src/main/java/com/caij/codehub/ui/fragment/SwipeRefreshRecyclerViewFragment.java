@@ -23,11 +23,8 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-
     protected UiCallBack<List<E>> mFirstLoadUiCallBack;
-
     protected UiCallBack<List<E>> mLoadMoreUiCallBack;
-
     protected UiCallBack<List<E>> mLoadRefreshUiCallBack;
 
     @Override
@@ -58,7 +55,7 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
             @Override
             public void onLoading() {
-                onComnLoading(LOAD_REFRESH);
+                onLoadingOfLoadType(LOAD_REFRESH);
             }
 
             @Override
@@ -75,7 +72,7 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
             @Override
             public void onLoading() {
-                onComnLoading(LOAD_MORE);
+                onLoadingOfLoadType(LOAD_MORE);
             }
 
             @Override
@@ -92,7 +89,7 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
             @Override
             public void onLoading() {
-                onComnLoading(LOAD_FIRST);
+                onLoadingOfLoadType(LOAD_FIRST);
             }
 
 
@@ -142,7 +139,7 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
     }
 
     @Override
-    public void onComnLoading(int loadType) {
+    public void onLoadingOfLoadType(int loadType) {
         if (loadType == LOAD_FIRST) {
             showLoading();
         }

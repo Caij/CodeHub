@@ -15,8 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <meta-data
-            android:name="com.caij.codehub.utils.MyGlideModule"
+        <meta-data android:name="com.caij.codehub.utils.MyGlideModule"
             android:value="GlideModule"/>
 
         <meta-data android:name="UMENG_APPKEY" android:value="563f147ce0f55ae895005ce3" />

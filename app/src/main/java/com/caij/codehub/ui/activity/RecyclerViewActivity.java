@@ -20,21 +20,19 @@ public abstract class RecyclerViewActivity<E extends Entity> extends BaseCodeHub
     public static final int LOAD_REFRESH = 2;
     public static final int LOAD_MORE = 3;
 
-
     @Bind(R.id.recycler_view)
     LoadMoreRecyclerView mLoadMoreLoadMoreRecyclerView;
 
     private BaseAdapter<E> mRecyclerViewAdapter;
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.include_recycle_view;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initView();
     }
 

@@ -38,7 +38,7 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UiCallB
     }
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.activity_login;
     }
 

@@ -29,7 +29,7 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
     protected UiCallBack<List<E>> mLoadRefreshUiCallBack;
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.include_refresh_recycle_view;
     }
 
@@ -92,7 +92,7 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
     }
 
     @Override
-    public void onComnLoading(int loadType) {
+    public void onLoadingOfLoadType(int loadType) {
         if (loadType == LOAD_FIRST) {
             showLoading();
         }
@@ -108,7 +108,7 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
 
             @Override
             public void onLoading() {
-                onComnLoading(LOAD_REFRESH);
+                onLoadingOfLoadType(LOAD_REFRESH);
             }
 
             @Override
@@ -125,7 +125,7 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
 
             @Override
             public void onLoading() {
-                onComnLoading(LOAD_MORE);
+                onLoadingOfLoadType(LOAD_MORE);
             }
 
             @Override
@@ -142,7 +142,7 @@ public abstract class SwipeRefreshRecyclerViewActivity<E extends Entity>  extend
 
             @Override
             public void onLoading() {
-                onComnLoading(LOAD_FIRST);
+                onLoadingOfLoadType(LOAD_FIRST);
             }
 
 

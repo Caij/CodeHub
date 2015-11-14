@@ -23,7 +23,7 @@ public class AboutActivity extends BaseCodeHubToolBarActivity {
     TextView mTvContact;
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.activity_about;
     }
 

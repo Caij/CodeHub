@@ -96,6 +96,11 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity {
         }
     }
 
+    @Override
+    protected int getAttachLayoutId() {
+        return R.layout.activity_user_info;
+    }
+
     protected void handlerData(User user) {
         mUser = user;
         showContentContainer();
@@ -111,11 +116,6 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity {
         mUserNameTextView.setText(user.getLogin());
         mUserNicknameTextView.setText(user.getName());
         mUserRepositoryTextView.setText(String.valueOf(user.getPublic_repos()));
-    }
-
-    @Override
-    protected int getContentLayoutId() {
-        return R.layout.activity_user_info;
     }
 
     @Override

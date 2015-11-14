@@ -23,6 +23,6 @@ public interface ListUi<E extends Entity> extends BaseUi {
 
     public void onFirstLoadError(VolleyError error);
 
-    public void onComnLoading(int loadType);
+    public void onLoadingOfLoadType(int loadType);
 
 }

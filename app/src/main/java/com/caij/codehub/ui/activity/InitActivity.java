@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.lib.utils.SPUtils;
@@ -18,9 +19,13 @@ public class InitActivity extends BaseCodeHubActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_init);
         setFullScreen();
         mHandler = new Handler();
+    }
+
+    @Override
+    protected int getAttachLayoutId() {
+        return R.layout.activity_init;
     }
 
     @Override
@@ -30,7 +35,7 @@ public class InitActivity extends BaseCodeHubActivity {
             @Override
             public void run() {
                 Intent intent;
-                if (TextUtils.isEmpty(SPUtils.getString(Constant.USER_TOKEN, ""))) {
+                if (TextUtils.isEmpty(CodeHubPrefs.get().getToken())) {
                     intent = new Intent(InitActivity.this, LoginActivity.class);
                 } else {
                     intent = new Intent(InitActivity.this, MainActivity.class);
