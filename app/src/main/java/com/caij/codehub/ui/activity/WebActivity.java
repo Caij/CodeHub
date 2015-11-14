@@ -18,7 +18,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/10/29.
  */
-public class WebActivity extends BaseCodeHubActivity {
+public class WebActivity extends BaseCodeHubToolBarActivity {
 
     private static final String TAG = "WebActivity";
 

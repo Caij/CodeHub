@@ -13,12 +13,10 @@
         android:id="@+id/filter"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
-        android:elevation="@dimen/z_fab"
         android:background="@drawable/fab"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
-        android:stateListAnimator="@animator/raise"
         android:src="@drawable/ic_add"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>

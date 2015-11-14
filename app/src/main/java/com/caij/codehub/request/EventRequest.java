@@ -8,14 +8,12 @@ import com.caij.codehub.bean.event.EventWrap;
 import com.caij.lib.utils.GsonUtils;
 import com.caij.lib.volley.request.GsonRequest;
 import com.caij.lib.volley.request.JsonParseError;
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;

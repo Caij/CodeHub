@@ -3,14 +3,11 @@ package com.caij.codehub.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
-import com.caij.codehub.bean.Repository;
-import com.caij.codehub.presenter.Present;
 import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.codehub.ui.callback.UiCallBack;
 

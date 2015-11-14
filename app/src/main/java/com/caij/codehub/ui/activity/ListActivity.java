@@ -20,7 +20,7 @@
 ///**
 // * Created by Caij on 2015/9/24.
 // */
-//public abstract class ListActivity<AP extends BaseAdapter<E>, E extends Entity> extends BaseCodeHubActivity implements LoadMoreListView.OnLoadMoreListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener , ListUi<E>{
+//public abstract class ListActivity<AP extends BaseAdapter<E>, E extends Entity> extends BaseCodeHubToolBarActivity implements LoadMoreListView.OnLoadMoreListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener , ListUi<E>{
 //
 //    @Bind(R.id.swipe_refresh_layout)
 //    SwipeRefreshLayout mSwipeRefreshLayout;

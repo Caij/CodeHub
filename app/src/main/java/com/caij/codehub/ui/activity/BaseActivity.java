@@ -34,17 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
 
     protected void setSystemBarTintColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -95,12 +85,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         AppManager.getInstance().remove(this);
     }
 
-    public void switchContent(Fragment from, Fragment to, int id) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (!to.isAdded()) {
-            transaction.hide(from).add(id, to).commit();
-        } else {
-            transaction.hide(from).show(to).commit();
-        }
-    }
+
 }

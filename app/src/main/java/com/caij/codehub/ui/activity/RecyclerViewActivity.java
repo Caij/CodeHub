@@ -14,7 +14,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/11/4.
  */
-public abstract class RecyclerViewActivity<E extends Entity> extends BaseCodeHubActivity implements LoadMoreRecyclerView.OnLoadMoreListener, RecyclerViewOnItemClickListener {
+public abstract class RecyclerViewActivity<E extends Entity> extends BaseCodeHubToolBarActivity implements LoadMoreRecyclerView.OnLoadMoreListener, RecyclerViewOnItemClickListener {
 
     public static final int LOAD_FIRST = 1;
     public static final int LOAD_REFRESH = 2;

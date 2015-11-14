@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
@@ -35,7 +34,7 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/9/19.
  */
-public class UserInfoActivity extends BaseCodeHubActivity {
+public class UserInfoActivity extends BaseCodeHubToolBarActivity {
 
     @Bind(R.id.img_user_avatar)
     ImageView mUserAvatarImageView;

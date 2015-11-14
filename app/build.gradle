@@ -82,10 +82,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project (':lib')
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.android.support:design:23.0.0'
-    compile 'com.android.support:cardview-v7:23.0.0'
-    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
 
     compile 'com.jakewharton:butterknife:7.0.1'
 

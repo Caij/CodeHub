@@ -3,8 +3,6 @@ package com.caij.lib.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.caij.lib.BuildConfig;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

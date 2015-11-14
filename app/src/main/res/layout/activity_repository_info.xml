@@ -223,7 +223,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/standard_margin"
-                        android:text="Owner"
+                        android:text="@string/owner"
                         android:textColor="@color/color_black"
                         android:textSize="@dimen/body_text_size" />
 
@@ -373,7 +373,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/standard_margin"
                         android:layout_weight="1"
-                        android:text="Readme"
+                        android:text="@string/readme"
                         android:textColor="@color/color_black"
                         android:textSize="@dimen/body_text_size" />
 
@@ -418,7 +418,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/standard_margin"
                         android:layout_weight="1"
-                        android:text="Website"
+                        android:text="@string/website"
                         android:textColor="@color/color_black"
                         android:textSize="@dimen/body_text_size" />
 

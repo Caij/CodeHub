@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 
-import com.caij.codehub.ui.adapter.BaseAdapter;
-import com.caij.lib.utils.LogUtil;
 
 /**
  * Created by Caij on 2015/11/4.

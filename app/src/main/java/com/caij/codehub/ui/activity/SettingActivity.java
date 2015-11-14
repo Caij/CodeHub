@@ -21,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/11/3.
  */
-public class SettingActivity extends BaseCodeHubActivity implements DialogInterface.OnClickListener{
+public class SettingActivity extends BaseCodeHubToolBarActivity implements DialogInterface.OnClickListener{
 
 
     private ProgressDialog mLogoutLoadingDialog;

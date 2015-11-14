@@ -5,10 +5,10 @@
 
     <group >
 
-        <item android:id="@+id/star" android:title="Star"
+        <item android:id="@+id/star" android:title="@string/star"
             android:orderInCategory="100" app:showAsAction="never" />
 
-        <item android:id="@+id/fork" android:title="Fork"
+        <item android:id="@+id/fork" android:title="@string/fork"
             android:orderInCategory="100" app:showAsAction="never" />
     </group>
 

@@ -1,7 +1,5 @@
 package com.caij.codehub;
 
-import android.content.Context;
-
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.bean.User;
 import com.caij.lib.utils.SPUtils;

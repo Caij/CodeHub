@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
@@ -12,11 +13,9 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
@@ -33,7 +32,7 @@ import butterknife.Bind;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseCodeHubActivity {
+public class MainActivity extends BaseCodeHubToolBarActivity {
 
     @Bind(R.id.img_navigation_avatar)
     ImageView mNavigationAvatarImageView;
@@ -48,6 +47,7 @@ public class MainActivity extends BaseCodeHubActivity {
     private RepositoryPagesFragment mRepositoryPagesFragment;
     private EventsFragment mEventsFragment;
     private UserPresenter mUserPresenter;
+    private UiCallBack<User> mUserUiCallback;
 
     public static Intent newIntent(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
@@ -60,6 +60,7 @@ public class MainActivity extends BaseCodeHubActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
+        initLoadDataCallback();
         mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
         mUserPresenter.getUserInfo(CodeHubPrefs.get().getToken(), CodeHubPrefs.get().getUsername(), getRequestTag(), mUserUiCallback);
 
@@ -70,6 +71,7 @@ public class MainActivity extends BaseCodeHubActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.main_content, mRepositoryPagesFragment).commit();
         mCurrentShowFragment = mRepositoryPagesFragment;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,23 +139,36 @@ public class MainActivity extends BaseCodeHubActivity {
         startActivity(intent);
     }
 
-    private UiCallBack<User> mUserUiCallback = new DefaultUiCallBack<User>(this) {
-        @Override
-        public void onDefaultError(VolleyError error) {
-
+    public void switchContent(Fragment from, Fragment to, int id) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!to.isAdded()) {
+            transaction.hide(from).add(id, to).commit();
+        } else {
+            transaction.hide(from).show(to).commit();
         }
+    }
 
-        @Override
-        public void onSuccess(User user) {
-            mUser = user;
-            mNavigationUsernameTextView.setText(user.getLogin());
-            Glide.with(MainActivity.this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
-                    bitmapTransform(new CropCircleTransformation(MainActivity.this)).into(mNavigationAvatarImageView);
-        }
 
-        @Override
-        public void onLoading() {
+    private void initLoadDataCallback() {
+        mUserUiCallback = new DefaultUiCallBack<User>(this) {
+            @Override
+            public void onDefaultError(VolleyError error) {
 
-        }
-    };
+            }
+
+            @Override
+            public void onSuccess(User user) {
+                mUser = user;
+                mNavigationUsernameTextView.setText(user.getLogin());
+                Glide.with(MainActivity.this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+                        bitmapTransform(new CropCircleTransformation(MainActivity.this)).into(mNavigationAvatarImageView);
+            }
+
+            @Override
+            public void onLoading() {
+
+            }
+        };
+    }
+
 }

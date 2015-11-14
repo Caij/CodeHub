@@ -3,8 +3,6 @@ package com.caij.lib.utils;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.caij.lib.R;
-
 /**
  * Created by Caij on 2015/8/25.
  */

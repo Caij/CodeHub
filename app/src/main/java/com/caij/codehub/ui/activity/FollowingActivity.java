@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;

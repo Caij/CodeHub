@@ -13,7 +13,7 @@ import com.caij.codehub.ui.fragment.UserRepositoriesFragment;
 /**
  * Created by Caij on 2015/9/24.
  */
-public class UserRepositoriesActivity extends BaseCodeHubActivity {
+public class UserRepositoriesActivity extends BaseCodeHubToolBarActivity {
 
 
     public static Intent newIntent(Activity activity, String username) {

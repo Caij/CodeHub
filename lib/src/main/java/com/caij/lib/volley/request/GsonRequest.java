@@ -1,13 +1,9 @@
 package com.caij.lib.volley.request;
 
-import android.nfc.Tag;
-import android.util.Log;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.caij.lib.utils.GsonUtils;
-import com.caij.lib.utils.LogUtil;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.ByteArrayInputStream;

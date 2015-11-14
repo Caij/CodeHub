@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
@@ -32,7 +31,7 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/9/19.
  */
-public class RepositoryInfoActivity extends BaseCodeHubActivity {
+public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity {
 
     @Bind(R.id.tv_repository_creater)
     TextView mRepositoryCreateTextView;

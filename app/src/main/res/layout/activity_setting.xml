@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Logout"
+            android:text="@string/logout"
             android:textSize="@dimen/big_body_text_size"
             android:textColor="@color/theme_color"
             />

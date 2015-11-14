@@ -90,4 +90,17 @@
 
     <string name="description_search">Search</string>
     <string name="wether_logout">Whether or not logout</string>
+    <string name="fork">Fork</string>
+    <string name="time">Time</string>
+    <string name="logout">Logout</string>
+    <string name="repository">Repository</string>
+    <string name="event">Event</string>
+    <string name="preferences">Preferences</string>
+    <string name="version">Version</string>
+    <string name="website">Website</string>
+    <string name="readme">Readme</string>
+    <string name="location">Location</string>
+    <string name="email">Email</string>
+    <string name="owner">Owner</string>
+    <string name="blog">Blog</string>
 </resources>

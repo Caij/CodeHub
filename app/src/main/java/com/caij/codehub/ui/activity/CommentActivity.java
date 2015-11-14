@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
-import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
@@ -16,7 +15,6 @@ import com.caij.codehub.bean.Comment;
 import com.caij.codehub.presenter.CommentActionPresent;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.callback.DefaultUiCallBack;
-import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
@@ -24,7 +22,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/11/3.
  */
-public class CommentActivity extends BaseCodeHubActivity {
+public class CommentActivity extends BaseCodeHubToolBarActivity {
 
     @Bind(R.id.edit_comment)
     EditText mEditComment;

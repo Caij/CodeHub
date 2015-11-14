@@ -1,15 +1,12 @@
 package com.caij.codehub.utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.integration.okhttp.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.GlideModule;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.io.InputStream;
 

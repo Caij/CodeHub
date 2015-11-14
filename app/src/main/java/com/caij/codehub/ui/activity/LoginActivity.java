@@ -3,20 +3,15 @@ package com.caij.codehub.ui.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialog;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
-import com.caij.codehub.CodeHubApplication;
 import com.caij.codehub.CodeHubPrefs;
-import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.presenter.LoginPresenter;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.callback.UiCallBack;
-import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
@@ -25,7 +20,7 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/8/26.
  */
-public class LoginActivity extends BaseCodeHubActivity implements UiCallBack<Token> {
+public class LoginActivity extends BaseCodeHubToolBarActivity implements UiCallBack<Token> {
 
     @Bind(R.id.edit_username)
     EditText mEditUsername;

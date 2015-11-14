@@ -1,15 +1,15 @@
-package com.caij.codehub.ui.fragment;
+package com.caij.codehub.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-
 
 import com.caij.codehub.R;
 import com.caij.lib.utils.VolleyManager;
@@ -18,14 +18,18 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by Caij on 2015/9/20.
+ * Created by Caij on 2015/9/19.
  */
-public abstract class BaseCodeHubFragment extends BaseFragment{
+public abstract class BaseCodeHubToolBarActivity extends BaseCodeHubActivity{
+
+    @Bind(R.id.toolbar)
+    protected Toolbar mToolbar;
 
     @Nullable
     @Bind(R.id.pb_content_loading)
     ProgressBar mLoadingProgressBar;
 
+    @Bind(R.id.vs_load_error)
     ViewStub mLoadErrorViewStub;
 
     LinearLayout mLoadErrorLinearLayout;
@@ -34,16 +38,18 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
 
     private Object mRequestTag;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_base_code_hub, container, false);
-        mContentContainer = (ViewGroup) view.findViewById(R.id.content);
-        getActivity().getLayoutInflater().inflate(getContentLayoutId(), mContentContainer, true);
-        mLoadErrorViewStub = (ViewStub) view.findViewById(R.id.vs_load_error);
-        ButterKnife.bind(this, view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setSystemBarTintColor(getResources().getColor(R.color.theme_color));
+        setContentView(R.layout.activity_base_toolbar);
+        mContentContainer = (ViewGroup) findViewById(R.id.base_code_hub_container);
+        getLayoutInflater().inflate(getContentLayoutId(), mContentContainer, true);
+        ButterKnife.bind(this);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRequestTag = createRequestTag();
-        return view;
     }
 
     protected abstract int getContentLayoutId();
@@ -57,12 +63,26 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         ButterKnife.unbind(this);
         if (mRequestTag != null) {
-            VolleyManager.cancelRequestByTag(this);
+            VolleyManager.cancelRequestByTag(mRequestTag);
         }
+    }
+
+    public void onReFreshBtnClick(View view) {
+        hideError();
     }
 
     protected  void hideError(){
@@ -100,12 +120,13 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
 
     public void showContentContainer() {
         mContentContainer.setVisibility(View.VISIBLE);
-//        ObjectAnimator animator = ObjectAnimator.ofFloat(mContentContainer, "alpha", 0.4f, 1f);
-//        animator.setDuration(800);
-//        animator.start();
     }
 
-    public void onReFreshBtnClick(View view) {
-        hideError();
+    protected void setToolbarTitle(String title) {
+        if (title.length() > 12) {
+            title = title.substring(0, 12) + "...";
+        }
+        getSupportActionBar().setTitle(title);
     }
+
 }

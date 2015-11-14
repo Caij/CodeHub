@@ -2,7 +2,6 @@ package com.caij.codehub.bean.event;
 
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.bean.Issue;
-import com.caij.codehub.bean.Repository;
 
 /**
  * Created by Caij on 2015/10/30.

@@ -9,7 +9,7 @@ import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.lib.utils.SPUtils;
 
-public class InitActivity extends BaseActivity {
+public class InitActivity extends BaseCodeHubActivity {
 
     public static final long SKIP_DELAY_TIME = 3000;
 

@@ -2,7 +2,6 @@ package com.caij.codehub.ui.callback;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;

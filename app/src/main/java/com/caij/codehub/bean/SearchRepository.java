@@ -1,7 +1,5 @@
 package com.caij.codehub.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**

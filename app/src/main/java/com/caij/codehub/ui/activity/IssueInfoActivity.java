@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 
-import com.android.volley.VolleyError;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
@@ -18,10 +17,8 @@ import com.caij.codehub.presenter.CommentsPresent;
 import com.caij.codehub.presenter.PresenterFactory;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.CommentAdapter;
-import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
-import java.util.List;
 
 /**
  * Created by Caij on 2015/10/31.

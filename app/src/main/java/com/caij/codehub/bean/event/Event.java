@@ -6,8 +6,6 @@ import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.User;
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONObject;
-
 import java.util.Date;
 
 /**

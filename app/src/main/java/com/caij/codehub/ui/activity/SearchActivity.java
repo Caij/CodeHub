@@ -27,7 +27,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.ui.fragment.SearchRepositoriesFragment;
 
 
-public class SearchActivity extends BaseCodeHubActivity {
+public class SearchActivity extends BaseCodeHubToolBarActivity {
 
     private final static String SCREEN_LABEL = "Search";
 

@@ -19,22 +19,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_repository"
-            android:title="Repository"
+            android:title="@string/repository"
             android:checked="true"/>
         <item
             android:id="@+id/nav_events"
-            android:title="Events" />
+            android:title="@string/event" />
 
     </group>
 
-    <item android:title="Preferences">
+    <item android:title="@string/preferences">
         <menu>
             <item
                 android:id="@+id/nav_setting"
-                android:title="Setting" />
+                android:title="@string/action_settings" />
             <item
                 android:id="@+id/nav_about"
-                android:title="About" />
+                android:title="@string/about" />
         </menu>
     </item>
 

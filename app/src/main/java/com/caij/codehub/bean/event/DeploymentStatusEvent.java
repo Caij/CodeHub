@@ -2,8 +2,6 @@ package com.caij.codehub.bean.event;
 
 import com.caij.codehub.bean.Deployment;
 import com.caij.codehub.bean.DeploymentStatus;
-import com.caij.codehub.bean.Repository;
-import com.caij.codehub.bean.User;
 
 /**
  * Created by Caij on 2015/10/30.

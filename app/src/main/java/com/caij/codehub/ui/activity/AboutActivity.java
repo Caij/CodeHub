@@ -15,7 +15,7 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/11/7.
  */
-public class AboutActivity extends BaseCodeHubActivity {
+public class AboutActivity extends BaseCodeHubToolBarActivity {
 
     @Bind(R.id.tv_version)
     TextView mTvVersion;

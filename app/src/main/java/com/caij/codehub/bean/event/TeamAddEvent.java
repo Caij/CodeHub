@@ -1,7 +1,6 @@
 package com.caij.codehub.bean.event;
 
 import com.caij.codehub.bean.Org;
-import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.Team;
 
 /**
