@@ -10,5 +10,5 @@ import com.caij.codehub.ui.callback.UiCallBack;
 public interface LoginPresenter extends Present {
     public void login(String username, String pwd, Object requestTag, UiCallBack<Token> uiCallBack);
 
-    public void logout(String username, String pwd, String tokenId, Object requestTag, UiCallBack<NetworkResponse> uiCallBack);
+    public void logout(String base64UsernameAndPwd, String tokenId, Object requestTag, UiCallBack<NetworkResponse> uiCallBack);
 }

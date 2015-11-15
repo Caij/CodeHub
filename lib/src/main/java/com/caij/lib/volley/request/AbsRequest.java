@@ -22,8 +22,8 @@ public abstract class AbsRequest<T> extends Request<T>{
     protected final String mBodyContentType;
     protected final String mParams;
 
-    public static final String JSON_BODY_CONTENT_TYPE = "application/json; charset=";
-    public static final String FORM_BODY_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=";
+    public static final String JSON_BODY_CONTENT_TYPE = "application/json";
+    public static final String FORM_BODY_CONTENT_TYPE = "application/x-www-form-urlencoded";
 
     public AbsRequest(int method, String url, Response.ErrorListener listener) {
         this(method, url, Collections.<String, String>emptyMap(), listener);
@@ -110,7 +110,8 @@ public abstract class AbsRequest<T> extends Request<T>{
 
     @Override
     public String getBodyContentType() {
-        return mBodyContentType + getParamsEncoding();
+        String contentType = new StringBuilder(mBodyContentType).append("; charset=").append(getParamsEncoding()).toString();
+        return contentType;
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.caij.lib.utils.GsonUtils;
+import com.caij.lib.utils.LogUtil;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.ByteArrayInputStream;
@@ -18,6 +19,7 @@ import java.util.Map;
  */
 public class GsonRequest<T> extends AbsRequest<T>{
 
+    private static final String TAG = "GsonRequest";
     protected Type mType;
     protected Response.Listener<T> mResponse;
 
@@ -72,20 +74,27 @@ public class GsonRequest<T> extends AbsRequest<T>{
 
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
+        logResult(response);
         T result;
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.data);
         try {
             result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, HttpHeaderParser.parseCharset(response.headers)), mType);
             return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
-        } catch (JsonSyntaxException e) {
-            return Response.error(new JsonParseError());
-        }catch (UnsupportedEncodingException e) {
+        } catch (UnsupportedEncodingException e) {
+            result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, Charset.defaultCharset()), mType);
+            return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
+        }
+    }
+
+    private void logResult(NetworkResponse response) {
+        if (LogUtil.LOG_DEBUG) {
+            String result;
             try {
-                result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, Charset.forName("UTF-8")), mType);
-                return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
-            }catch (JsonSyntaxException je) {
-                return Response.error(new JsonParseError());
+                result = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            } catch (UnsupportedEncodingException e) {
+                result = new String(response.data, Charset.defaultCharset());
             }
+            LogUtil.json(TAG, result);
         }
     }
 

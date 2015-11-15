@@ -6,6 +6,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.Volley;
+import com.caij.lib.volley.request.AbsRequest;
 
 /**
  * Created by Caij on 2015/8/25.

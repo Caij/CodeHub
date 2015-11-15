@@ -3,6 +3,7 @@ package com.caij.codehub;
 import android.app.Application;
 
 import com.caij.codehub.utils.OkHttpClientProvider;
+import com.caij.lib.utils.LogUtil;
 import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.stack.OkHttpStack;
@@ -20,8 +21,9 @@ public class CodeHubApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-        VolleyManager.init(this, new OkHttpStack(OkHttpClientProvider.getOkHttpClient()), VOLLEY_DISK_MAX_SIZE);
         SPUtils.init(this, SP_FILE_NAME);
+        LogUtil.LOG_DEBUG = BuildConfig.LOG_DEBUG;
+        VolleyManager.init(this, new OkHttpStack(OkHttpClientProvider.getOkHttpClient()), VOLLEY_DISK_MAX_SIZE);
     }
 
 }

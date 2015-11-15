@@ -28,7 +28,6 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
         NetworkResponseRequest responseRequest = new NetworkResponseRequest(Request.Method.GET, url, "", head,  new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 uiCallBack.onSuccess(response.statusCode == 204);
             }
         }, new Response.ErrorListener() {
@@ -55,7 +54,6 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
         NetworkResponseRequest responseRequest = new NetworkResponseRequest(Request.Method.PUT, url, params, head,  new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 if (response.statusCode == 204) {
                     uiCallBack.onSuccess(response);
                 }else {
@@ -80,7 +78,6 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
         NetworkResponseRequest responseRequest = new NetworkResponseRequest(Request.Method.DELETE, url, "", head,  new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 if (response.statusCode == 204) {
                     uiCallBack.onSuccess(response);
                 }else {
@@ -107,7 +104,6 @@ public class RepositoryActionPresentImp implements RepositoryActionPresent {
         NetworkResponseRequest responseRequest = new NetworkResponseRequest(Request.Method.POST, url, " ", head, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                LogUtil.d("RepositoryActionPresentImp", String.valueOf(response.statusCode));
                 if (response.statusCode == 204) {
                     uiCallBack.onSuccess(response);
                 }else {

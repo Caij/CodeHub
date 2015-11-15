@@ -105,4 +105,5 @@
     <string name="blog">Blog</string>
     <string name="source">Source</string>
     <string name="comment">Comment</string>
+    <string name="password_error">username or password is incorrect</string>
 </resources>

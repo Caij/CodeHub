@@ -51,9 +51,8 @@ public class SettingActivity extends BaseCodeHubToolBarActivity implements Dialo
     private void logout() {
         LoginPresenter loginPresenter = PresenterFactory.newPresentInstance(LoginPresenter.class);
         String tokenId = CodeHubPrefs.get().getTokenId();
-        String username = CodeHubPrefs.get().getUsername();
-        String pwd = CodeHubPrefs.get().getPwd();
-        loginPresenter.logout(username, pwd, tokenId, getRequestTag(), new DefaultUiCallBack<NetworkResponse>(this) {
+        String baseUsernameAndPwd = CodeHubPrefs.get().getBase64UsernameAndPwd();
+        loginPresenter.logout(baseUsernameAndPwd, tokenId, getRequestTag(), new DefaultUiCallBack<NetworkResponse>(this) {
             @Override
             public void onSuccess(NetworkResponse response) {
                 mLogoutLoadingDialog.dismiss();
@@ -69,7 +68,6 @@ public class SettingActivity extends BaseCodeHubToolBarActivity implements Dialo
             @Override
             public void onDefaultError(VolleyError error) {
                 mLogoutLoadingDialog.dismiss();
-                clearDataAndGotoLogin();
             }
         });
     }

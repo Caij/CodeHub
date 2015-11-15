@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
@@ -52,8 +53,7 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UiCallB
     public void onSuccess(Token token) {
         mLoginDialog.dismiss();
         CodeHubPrefs.get().setToken(token);
-        CodeHubPrefs.get().setPwd(mEditPassword.getText().toString());
-        CodeHubPrefs.get().setUsername(mEditUsername.getText().toString());
+        CodeHubPrefs.get().setUsernameAndPwd(mEditUsername.getText().toString(), mEditPassword.getText().toString());
         Intent intent = MainActivity.newIntent(this);
         startActivity(intent);
         finish();
@@ -68,8 +68,11 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UiCallB
 
     @Override
     public void onError(VolleyError error) {
-        mLoginDialog.dismiss();
-        ToastUtil.show(this, R.string.login_error);
+        if (error instanceof AuthFailureError) {
+            ToastUtil.show(this, R.string.password_error);
+        }else {
+            ToastUtil.show(this, R.string.login_error);
+        }
     }
 
     @Override

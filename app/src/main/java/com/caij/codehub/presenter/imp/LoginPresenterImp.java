@@ -1,16 +1,15 @@
 package com.caij.codehub.presenter.imp;
 
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.utils.Base64;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.presenter.LoginPresenter;
 import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.utils.Base64;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;
 import com.caij.lib.volley.request.GsonRequest;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Administrator on 2015/8/25.
+ * Created by Caij on 2015/8/25.
  */
 
 public class LoginPresenterImp implements LoginPresenter {
@@ -60,13 +59,13 @@ public class LoginPresenterImp implements LoginPresenter {
             request.setShouldCache(false);
             VolleyManager.addRequest(request, requestTag);
         } catch (JSONException e) {
-            uiCallBack.onError(null);
+            uiCallBack.onError(new VolleyError(e));
         }
     }
 
     @Override
-    public void logout(String username, String pwd, String tokenId, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
-        removeToken(username, pwd, tokenId, requestTag, uiCallBack);
+    public void logout(String base64UsernameAndPwd, String tokenId, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+        removeToken(base64UsernameAndPwd, tokenId, requestTag, uiCallBack);
     }
 
     private void handlerLoginError(VolleyError error, String username, String pwd, Object requestTag, final UiCallBack<Token> uiCallBack) {
@@ -91,7 +90,7 @@ public class LoginPresenterImp implements LoginPresenter {
             public void onSuccess(List<Token> tokens) {
                 for (Token token : tokens) {
                     if (token != null && API.TOKEN_NOTE.equals(token.getNote())) {
-                        removeToken(username, pwd, String.valueOf(token.getId()), requestTag, new UiCallBack<NetworkResponse>() {
+                        removeToken(Base64.encode(username + ":" + pwd), String.valueOf(token.getId()), requestTag, new UiCallBack<NetworkResponse>() {
                             @Override
                             public void onSuccess(NetworkResponse networkResponse) {
                                 login(username, pwd, requestTag, uiCallBack);
@@ -120,10 +119,10 @@ public class LoginPresenterImp implements LoginPresenter {
         });
     }
 
-    public void removeToken(final String username, final String pwd, String id, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+    public void removeToken(final String base64UsernameAndPwd, String id, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
         uiCallBack.onLoading();
         Map<String, String> head = new HashMap<>();
-        addAuthorizationHead(head, username, pwd);
+        addAuthorizationHead(head, base64UsernameAndPwd);
         final NetworkResponseRequest request = new NetworkResponseRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, "", head,
                 new Response.Listener<NetworkResponse>() {
             @Override
@@ -161,6 +160,11 @@ public class LoginPresenterImp implements LoginPresenter {
         });
         request.setShouldCache(false);
         VolleyManager.addRequest(request, requestTag);
+    }
+
+    private static Map<String, String> addAuthorizationHead(Map<String, String> head, String base64UsernameAndPwd) {
+        head.put(API.AUTHORIZATION, "Basic " + base64UsernameAndPwd);
+        return head;
     }
 
     private static Map<String, String> addAuthorizationHead(Map<String, String> head, String username, final String pwd) {
