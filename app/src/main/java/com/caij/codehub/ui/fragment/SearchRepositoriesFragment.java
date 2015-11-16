@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.caij.codehub.bean.Page;
-import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.presenter.RepositoryListPresenter;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.interactor.RepositoryListInteractor;
+import com.caij.codehub.present.LoadType;
+import com.caij.codehub.present.RepositoriesPresent;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 import com.caij.lib.utils.VolleyManager;
 
@@ -19,13 +21,13 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
     private String mRepoSearchQ;
     private String mRepoSort;
     private String mOrder;
-    private RepositoryListPresenter mPresenter;
+    private RepositoriesPresent mRepositoriesPresent;
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class);
+        mRepositoriesPresent = new RepositoriesPresent(this);
     }
 
     @Override
@@ -49,22 +51,22 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
         VolleyManager.cancelRequestByTag(getRequestTag());
         mPage = new Page();
         hideError();
-        mPresenter.getSearchRepository(mRepoSearchQ, mRepoSort, mOrder, mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mRepositoriesPresent.getSearchRepository(LoadType.FIRST, mRepoSearchQ, mRepoSort, mOrder, mPage);
     }
 
     @Override
     public void onLoadMore() {
-        mPresenter.getSearchRepository(mRepoSearchQ, mRepoSort, mOrder, mPage, getRequestTag(), mLoadMoreUiCallBack);
+        mRepositoriesPresent.getSearchRepository(LoadType.MORE, mRepoSearchQ, mRepoSort, mOrder, mPage);
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.getSearchRepository(mRepoSearchQ, mRepoSort, mOrder, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
+        mRepositoriesPresent.getSearchRepository(LoadType.REFRESH, mRepoSearchQ, mRepoSort, mOrder, mPage.createRefreshPage());
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mPresenter.getSearchRepository(mRepoSearchQ, mRepoSort, mOrder, mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mRepositoriesPresent.getSearchRepository(LoadType.FIRST, mRepoSearchQ, mRepoSort, mOrder, mPage);
     }
 }

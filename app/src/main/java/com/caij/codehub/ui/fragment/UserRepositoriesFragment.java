@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
-import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.presenter.RepositoryListPresenter;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.interactor.RepositoryListInteractor;
+import com.caij.codehub.present.LoadType;
+import com.caij.codehub.present.RepositoriesPresent;
 import com.caij.lib.utils.CheckValueUtil;
 import com.caij.lib.utils.SPUtils;
 
@@ -17,7 +20,7 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
 
     protected String mUsername;
     protected String mToken;
-    private RepositoryListPresenter mRepositoryListPresenter;
+    private RepositoriesPresent mRepositoriesPresent;
 
     public static RepositoriesFragment newInstance(String username) {
         CheckValueUtil.check(username);
@@ -32,28 +35,28 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUsername = getArguments().getString(Constant.USER_NAME);
-        mToken = SPUtils.getString(Constant.USER_TOKEN, "");
-        mRepositoryListPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class);
+        mToken = CodeHubPrefs.get().getToken();
+        mRepositoriesPresent = new RepositoriesPresent(this);
     }
 
     @Override
     protected void onUserFirstVisible() {
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mRepositoriesPresent.getUserRepositories(LoadType.FIRST, mUsername, mToken, mPage);
     }
 
     @Override
     public void onRefresh() {
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
+        mRepositoriesPresent.getUserRepositories(LoadType.REFRESH, mUsername, mToken, mPage.createRefreshPage());
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mRepositoriesPresent.getUserRepositories(LoadType.FIRST, mUsername, mToken, mPage);
     }
 
     @Override
     public void onLoadMore() {
-        mRepositoryListPresenter.getUserRepositories(mUsername, mToken, mPage, getRequestTag(), mLoadMoreUiCallBack);
+        mRepositoriesPresent.getUserRepositories(LoadType.MORE, mUsername, mToken, mPage);
     }
 }

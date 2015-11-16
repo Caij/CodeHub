@@ -20,6 +20,9 @@ import butterknife.ButterKnife;
  */
 public class RepositoryAdapter extends BaseAdapter<Repository>{
 
+    public RepositoryAdapter(Context context) {
+        this(context, null);
+    }
 
     public RepositoryAdapter(Context context, List<Repository> repositories) {
         super(context, repositories);

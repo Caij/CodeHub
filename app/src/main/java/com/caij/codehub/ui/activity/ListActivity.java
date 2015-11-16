@@ -8,7 +8,7 @@
 //import com.android.volley.VolleyError;
 //import com.caij.codehub.R;
 //import com.caij.codehub.bean.Entity;
-//import com.caij.codehub.presenter.Present;
+//import com.caij.codehub.presenter.Interactor;
 //import com.caij.codehub.ui.adapter.BaseAdapter;
 //import com.caij.codehub.ui.listener.ListUi;
 //import com.caij.codehub.widgets.LoadMoreListView;
@@ -97,19 +97,19 @@
 //
 //    @Override
 //    public void onComnLoading(int loadType) {
-//        if (loadType == Present.LoadType.FIRSTLOAD) {
+//        if (loadType == Interactor.LoadType.FIRSTLOAD) {
 //            showLoading();
-//        }else if (loadType == Present.LoadType.REFRESH) {
-//        }else if (loadType == Present.LoadType.LOADMOER) {
+//        }else if (loadType == Interactor.LoadType.REFRESH) {
+//        }else if (loadType == Interactor.LoadType.LOADMOER) {
 //        }
 //    }
 //
 //    @Override
 //    public void onLoaded(int loadType) {
-//        if (loadType == Present.LoadType.FIRSTLOAD) {
+//        if (loadType == Interactor.LoadType.FIRSTLOAD) {
 //            hideLoading();
-//        }else if (loadType == Present.LoadType.REFRESH) {
-//        }else if (loadType == Present.LoadType.LOADMOER) {
+//        }else if (loadType == Interactor.LoadType.REFRESH) {
+//        }else if (loadType == Interactor.LoadType.LOADMOER) {
 //        }
 //    }
 //}

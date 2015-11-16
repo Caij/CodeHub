@@ -13,8 +13,10 @@ import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.bean.event.IssueCommentEvent;
 import com.caij.codehub.bean.event.IssuesEvent;
-import com.caij.codehub.presenter.EventsPresenter;
-import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.interactor.EventsInteractor;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.present.EventsPresent;
+import com.caij.codehub.present.LoadType;
 import com.caij.codehub.ui.activity.IssueInfoActivity;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
@@ -32,28 +34,26 @@ import java.util.List;
 public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> {
 
     Page mPage;
-    private EventsPresenter mEventsPresenter;
     private String mToken;
+    private EventsPresent mEventsPresent;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(false);
         mPage = new Page();
-        mEventsPresenter = PresenterFactory.newPresentInstance(EventsPresenter.class);
+        mEventsPresent = new EventsPresent(this);
         mToken = CodeHubPrefs.get().getToken();
     }
 
     @Override
     protected void onUserFirstVisible() {
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
-                mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mEventsPresent.getReceivedEvents(LoadType.FIRST, CodeHubPrefs.get().getUsername(), mToken, mPage);
     }
 
     @Override
     public void onRefresh() {
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
-                mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
+        mEventsPresent.getReceivedEvents(LoadType.REFRESH, CodeHubPrefs.get().getUsername(), mToken, mPage.createRefreshPage());
     }
 
     @Override
@@ -82,13 +82,12 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
         mPage.reset();
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
-                mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mEventsPresent.getReceivedEvents(LoadType.FIRST, CodeHubPrefs.get().getUsername(), mToken, mPage);
     }
 
     @Override
     protected BaseAdapter<EventWrap> createRecyclerViewAdapter() {
-        return new EventsAdapter(getActivity(), null);
+        return new EventsAdapter(getActivity());
     }
 
     @Override
@@ -98,8 +97,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     public void onLoadMore() {
-        mEventsPresenter.getReceivedEvents(CodeHubPrefs.get().getUsername(), mToken,
-                mPage, getRequestTag(), mLoadMoreUiCallBack);
+        mEventsPresent.getReceivedEvents(LoadType.MORE, CodeHubPrefs.get().getUsername(), mToken, mPage);
     }
 
     @Override

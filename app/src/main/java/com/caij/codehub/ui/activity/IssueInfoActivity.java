@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
-import com.caij.codehub.presenter.CommentsPresent;
-import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.interactor.CommentsInteractor;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.present.CommentsPresent;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.CommentAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
@@ -27,8 +28,8 @@ public class IssueInfoActivity extends SwipeRefreshRecyclerViewActivity<Comment>
 
     private String mRepo;
     private String mIssueNumber;
-    private CommentsPresent mCommentsPresent;
     private String mOwner;
+    private CommentsPresent mCommentsPresent;
 
     public static Intent newIntent(Activity activity, String owner, String repo, String issueNumber, String issueTitle, String issueBody) {
         Intent intent = new Intent(activity, IssueInfoActivity.class);
@@ -49,9 +50,8 @@ public class IssueInfoActivity extends SwipeRefreshRecyclerViewActivity<Comment>
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
 
         setToolbarTitle(mRepo + "  #" + mIssueNumber);
-
-        mCommentsPresent = PresenterFactory.newPresentInstance(CommentsPresent.class);
-        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), mFirstLoadUiCallBack);
+        mCommentsPresent = new CommentsPresent(this);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class IssueInfoActivity extends SwipeRefreshRecyclerViewActivity<Comment>
         String issueTitle = getIntent().getStringExtra(Constant.ISSUE_TITLE);
         String issueBody = getIntent().getStringExtra(Constant.ISSUE_BODY);
         View issueContentHeadView = getLayoutInflater().inflate(R.layout.item_issue_head, null, false);
-        CommentAdapter adapter = new CommentAdapter(null, this);
+        CommentAdapter adapter = new CommentAdapter(this);
         TextView tvIssueTitle = (TextView) issueContentHeadView.findViewById(R.id.tv_issue_title);
         TextView tvIssueBody = (TextView) issueContentHeadView.findViewById(R.id.tv_issue_body);
         tvIssueTitle.setText(issueTitle);
@@ -76,7 +76,7 @@ public class IssueInfoActivity extends SwipeRefreshRecyclerViewActivity<Comment>
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber, getRequestTag(), mFirstLoadUiCallBack);
+        mCommentsPresent.getIssuesComments(mOwner, mRepo, mIssueNumber);
     }
 
     @Override

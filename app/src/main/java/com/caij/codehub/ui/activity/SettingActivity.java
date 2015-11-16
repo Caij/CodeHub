@@ -10,8 +10,8 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
-import com.caij.codehub.presenter.LoginPresenter;
-import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.interactor.LoginInteractor;
+import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.lib.utils.AppManager;
 
@@ -49,10 +49,10 @@ public class SettingActivity extends BaseCodeHubToolBarActivity implements Dialo
     }
 
     private void logout() {
-        LoginPresenter loginPresenter = PresenterFactory.newPresentInstance(LoginPresenter.class);
+        LoginInteractor loginInteractor = InteractorFactory.newPresentInstance(LoginInteractor.class);
         String tokenId = CodeHubPrefs.get().getTokenId();
         String baseUsernameAndPwd = CodeHubPrefs.get().getBase64UsernameAndPwd();
-        loginPresenter.logout(baseUsernameAndPwd, tokenId, getRequestTag(), new DefaultUiCallBack<NetworkResponse>(this) {
+        loginInteractor.logout(baseUsernameAndPwd, tokenId, getRequestTag(), new DefaultUiCallBack<NetworkResponse>(this) {
             @Override
             public void onSuccess(NetworkResponse response) {
                 mLogoutLoadingDialog.dismiss();

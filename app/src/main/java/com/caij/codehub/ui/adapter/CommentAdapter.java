@@ -29,6 +29,10 @@ public class CommentAdapter extends BaseAdapter<Comment> {
 
     private View mIssueContentHeadView;
 
+    public CommentAdapter(Context context) {
+        this(null, context);
+    }
+
     public CommentAdapter(List<Comment> entities, Context context) {
         super(context, entities);
         cropCircleTransformation = new CropCircleTransformation(context);

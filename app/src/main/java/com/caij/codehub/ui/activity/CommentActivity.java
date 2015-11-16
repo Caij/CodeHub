@@ -3,8 +3,6 @@ package com.caij.codehub.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
@@ -12,8 +10,8 @@ import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
-import com.caij.codehub.presenter.CommentActionPresent;
-import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.interactor.CommentActionInteractor;
+import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.lib.utils.ToastUtil;
 
@@ -28,7 +26,7 @@ public class CommentActivity extends BaseCodeHubToolBarActivity {
     @Bind(R.id.edit_comment)
     EditText mEditComment;
 
-    private CommentActionPresent mCommentActionPresent;
+    private CommentActionInteractor mCommentActionInteractor;
     private String mRepo;
     private String mIssueNumber;
     private String mOwner;
@@ -51,7 +49,7 @@ public class CommentActivity extends BaseCodeHubToolBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.comment));
-        mCommentActionPresent = PresenterFactory.newPresentInstance(CommentActionPresent.class);
+        mCommentActionInteractor = InteractorFactory.newPresentInstance(CommentActionInteractor.class);
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mIssueNumber = getIntent().getStringExtra(Constant.ISSUE_NUMBER);
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
@@ -60,7 +58,7 @@ public class CommentActivity extends BaseCodeHubToolBarActivity {
 
     @OnClick(R.id.btn_comment)
     public void onCommentClick() {
-        mCommentActionPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken,
+        mCommentActionInteractor.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken,
                 getRequestTag(), new DefaultUiCallBack<Comment>(this) {
                     @Override
                     public void onSuccess(Comment comment) {

@@ -1,5 +1,6 @@
 package com.caij.codehub.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,7 +10,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
+import com.caij.codehub.present.ui.BaseUi;
+import com.caij.lib.utils.AppManager;
+import com.caij.lib.utils.ToastUtil;
 import com.caij.lib.utils.VolleyManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -22,7 +27,7 @@ import butterknife.ButterKnife;
  * Date:    2015/11/13
  * Description:
  */
-public abstract class BaseCodeHubActivity extends BaseActivity{
+public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi{
 
     @Nullable
     @Bind(R.id.pb_content_loading)
@@ -85,7 +90,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
         mLoadErrorLinearLayout.setVisibility(View.VISIBLE);
     }
 
-    protected void showLoading() {
+    public void showLoading() {
         if (mLoadingProgressBar != null) {
             mLoadingProgressBar.setVisibility(View.VISIBLE);
         }
@@ -122,4 +127,22 @@ public abstract class BaseCodeHubActivity extends BaseActivity{
         }
     }
 
+    @Override
+    public void onAuthError() {
+        CodeHubPrefs.get().logout();
+        AppManager.getInstance().finishAllActivityExcept(this);
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void showError(int msgId) {
+        ToastUtil.show(this, msgId);
+    }
+
+    @Override
+    public void showErrorView() {
+        showError();
+    }
 }

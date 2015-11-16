@@ -24,6 +24,10 @@ public class UserAdapter extends BaseAdapter<User> {
 
     private final CropCircleTransformation cropCircleTransformation;
 
+    public UserAdapter(Context context) {
+        this(context, null);
+    }
+
     public UserAdapter(Context context, List<User> entities) {
         super(context, entities);
         cropCircleTransformation = new CropCircleTransformation(context);

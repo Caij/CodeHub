@@ -25,6 +25,10 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
 
     private Transformation<Bitmap> mTransformation;
 
+    public EventsAdapter(Context context) {
+        this(context, null);
+    }
+
     public EventsAdapter(Context context, List<EventWrap> entities) {
         super(context, entities);
         mTransformation = new CropCircleTransformation(context);

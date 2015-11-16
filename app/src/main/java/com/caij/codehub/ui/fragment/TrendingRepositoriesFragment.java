@@ -10,8 +10,10 @@ import android.widget.RadioGroup;
 
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.presenter.RepositoryListPresenter;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.interactor.RepositoryListInteractor;
+import com.caij.codehub.present.LoadType;
+import com.caij.codehub.present.RepositoriesPresent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,15 +25,14 @@ import butterknife.OnClick;
  */
 public class TrendingRepositoriesFragment extends RepositoriesFragment {
 
-    private RepositoryListPresenter mRepositoryListPresenter;
     private AlertDialog mDialog;
-
     private int mSinceCheckRadioId;
     private int mLanguageCheckRadioId;
     private Map<Integer, String> mFilters = new HashMap<>();
     private RadioGroup mSinceRadioGroup;
     private RadioGroup mLanguageRadioGroup;
     private View mFilterDialogView;
+    private RepositoriesPresent mRepositoriesPresent;
 
     public static RepositoriesFragment newInstance() {
         RepositoriesFragment fragment = new TrendingRepositoriesFragment();
@@ -43,7 +44,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         getLoadMoreRecyclerView().setLoadMoreEnable(false);
-        mRepositoryListPresenter = PresenterFactory.newPresentInstance(RepositoryListPresenter.class);
+        mRepositoriesPresent = new RepositoriesPresent(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         mFilterDialogView = View.inflate(getContext(), R.layout.dialog_repository_filter, null);
@@ -58,7 +59,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
                 String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
 
                 mSwipeRefreshLayout.setRefreshing(true);
-                mRepositoryListPresenter.getTrendingRepository(since, language, getRequestTag() , mLoadRefreshUiCallBack);
+                mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language, mPage);
             }
         }).setNegativeButton(R.string.cancel, null).setView(mFilterDialogView);
         mDialog = builder.create();
@@ -103,14 +104,14 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
     protected void onUserFirstVisible() {
         String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
         String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
-        mRepositoryListPresenter.getTrendingRepository(since, language, getRequestTag(), mFirstLoadUiCallBack);
+        mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language, mPage);
     }
 
     @Override
     public void onRefresh() {
         String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
         String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
-        mRepositoryListPresenter.getTrendingRepository(since, language, getRequestTag(), mLoadRefreshUiCallBack);
+        mRepositoriesPresent.getTrendingRepository(LoadType.REFRESH, since, language, mPage.createRefreshPage());
     }
 
     @Override
@@ -118,7 +119,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
         super.onReFreshBtnClick(view);
         String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
         String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
-        mRepositoryListPresenter.getTrendingRepository(since, language, getRequestTag(), mFirstLoadUiCallBack);
+        mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language, mPage);
     }
 
 

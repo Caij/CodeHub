@@ -23,6 +23,9 @@ import butterknife.ButterKnife;
  */
 public class IssueAdapter extends BaseAdapter<Issue> {
 
+    public IssueAdapter(Context context) {
+        this(context, null);
+    }
 
     public IssueAdapter(Context context, List<Issue> entities) {
         super(context, entities);

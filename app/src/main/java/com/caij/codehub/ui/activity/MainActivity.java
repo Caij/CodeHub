@@ -14,15 +14,13 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
-import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.presenter.UserPresenter;
-import com.caij.codehub.ui.callback.DefaultUiCallBack;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.present.MainPresent;
+import com.caij.codehub.present.ui.MainUi;
+import com.caij.codehub.present.ui.UserUi;
 import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
 import com.caij.codehub.utils.CropCircleTransformation;
@@ -32,7 +30,7 @@ import butterknife.Bind;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseCodeHubToolBarActivity {
+public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
 
     @Bind(R.id.img_navigation_avatar)
     ImageView mNavigationAvatarImageView;
@@ -46,8 +44,7 @@ public class MainActivity extends BaseCodeHubToolBarActivity {
     private Fragment mCurrentShowFragment;
     private RepositoryPagesFragment mRepositoryPagesFragment;
     private EventsFragment mEventsFragment;
-    private UserPresenter mUserPresenter;
-    private UiCallBack<User> mUserUiCallback;
+    private MainPresent mMainPresent;
 
     public static Intent newIntent(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
@@ -60,9 +57,8 @@ public class MainActivity extends BaseCodeHubToolBarActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
-        initLoadDataCallback();
-        mUserPresenter = PresenterFactory.newPresentInstance(UserPresenter.class);
-        mUserPresenter.getUserInfo(CodeHubPrefs.get().getToken(), CodeHubPrefs.get().getUsername(), getRequestTag(), mUserUiCallback);
+        mMainPresent = new MainPresent(this);
+        mMainPresent.getUserInfo(CodeHubPrefs.get().getToken(), CodeHubPrefs.get().getUsername());
 
         mRepositoryPagesFragment = new RepositoryPagesFragment();
         mEventsFragment = new EventsFragment();
@@ -70,6 +66,14 @@ public class MainActivity extends BaseCodeHubToolBarActivity {
 
         getSupportFragmentManager().beginTransaction().add(R.id.main_content, mRepositoryPagesFragment).commit();
         mCurrentShowFragment = mRepositoryPagesFragment;
+    }
+
+    @Override
+    public void onGetUserInfoSuccess(User user) {
+        mUser = user;
+        mNavigationUsernameTextView.setText(user.getLogin());
+        Glide.with(MainActivity.this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+                bitmapTransform(new CropCircleTransformation(MainActivity.this)).into(mNavigationAvatarImageView);
     }
 
 
@@ -91,6 +95,12 @@ public class MainActivity extends BaseCodeHubToolBarActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mMainPresent.onDeath();
+    }
+
+    @Override
     protected int getAttachLayoutId() {
         return R.layout.activity_main;
     }
@@ -99,7 +109,7 @@ public class MainActivity extends BaseCodeHubToolBarActivity {
     public void onUserOnClick() {
         if (mUser == null)  {
             ToastUtil.show(this, R.string.user_info_error);
-            mUserPresenter.getUserInfo(CodeHubPrefs.get().getToken(),  CodeHubPrefs.get().getUsername(), getRequestTag(), mUserUiCallback);
+            mMainPresent.getUserInfo(CodeHubPrefs.get().getToken(),  CodeHubPrefs.get().getUsername());
             return;
         }
         mDrawerLayout.closeDrawer(Gravity.LEFT);
@@ -146,29 +156,6 @@ public class MainActivity extends BaseCodeHubToolBarActivity {
         } else {
             transaction.hide(from).show(to).commit();
         }
-    }
-
-
-    private void initLoadDataCallback() {
-        mUserUiCallback = new DefaultUiCallBack<User>(this) {
-            @Override
-            public void onDefaultError(VolleyError error) {
-
-            }
-
-            @Override
-            public void onSuccess(User user) {
-                mUser = user;
-                mNavigationUsernameTextView.setText(user.getLogin());
-                Glide.with(MainActivity.this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
-                        bitmapTransform(new CropCircleTransformation(MainActivity.this)).into(mNavigationAvatarImageView);
-            }
-
-            @Override
-            public void onLoading() {
-
-            }
-        };
     }
 
 }

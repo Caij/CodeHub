@@ -16,6 +16,10 @@ import java.util.List;
  */
 public class FileTreeAdapter extends BaseAdapter<FileTreeItem>{
 
+    public FileTreeAdapter(Context context) {
+        this(context, null);
+    }
+
     public FileTreeAdapter(Context context, List<FileTreeItem> entities) {
         super(context, entities);
     }

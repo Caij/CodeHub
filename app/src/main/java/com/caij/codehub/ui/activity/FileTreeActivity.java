@@ -14,8 +14,9 @@ import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.FileTreeItem;
 import com.caij.codehub.bean.Tree;
-import com.caij.codehub.presenter.FileTreePresent;
-import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.interactor.FileTreeInteractor;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.present.FileTreePresent;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.FileTreeAdapter;
 import com.caij.codehub.ui.callback.DefaultUiCallBack;
@@ -30,13 +31,11 @@ import butterknife.Bind;
  */
 public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeItem> implements LinearBreadcrumb.SelectionCallback {
 
-    private FileTreePresent fileTreePresent;
     private String mOwner;
     private String mRepoName;
     private String mSha;
     private String mBran;
-
-    private UiCallBack<Tree> mUiCallBack;
+    private FileTreePresent mFileTreePresent;
 
     public static Intent newIntent(Activity activity, String owner, String repo, String bran) {
         Intent intent = new Intent(activity, FileTreeActivity.class);
@@ -62,22 +61,20 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         getLoadMoreRecyclerView().setLoadMoreEnable(false);
         breadCrumbs.initRootCrumb();
         breadCrumbs.setCallback(this);
-
+        mFileTreePresent = new FileTreePresent(this);
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
         mRepoName = getIntent().getStringExtra(Constant.REPO_NAME);
         mSha =  getIntent().getStringExtra(Constant.REPO_BRAN);
         mBran =  getIntent().getStringExtra(Constant.REPO_BRAN);
 
-        initTreeDataCallback();
-        fileTreePresent = PresenterFactory.newPresentInstance(FileTreePresent.class);
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
+        mFileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
     }
 
 
 
     @Override
     protected BaseAdapter<FileTreeItem> createRecyclerViewAdapter() {
-        return new FileTreeAdapter(this, null);
+        return new FileTreeAdapter(this);
     }
 
     @Override
@@ -104,7 +101,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         getRecyclerViewAdapter().notifyDataSetChanged();
 
         this.mSha = crumb.getmAttachMsg();
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
+        mFileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
     }
 
 
@@ -113,13 +110,13 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
         getRecyclerViewAdapter().clearEntites();
         getRecyclerViewAdapter().notifyDataSetChanged();
         breadCrumbs.addCrumb(new LinearBreadcrumb.Crumb(item.getPath(), item.getSha()), true);
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
+        mFileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
+        mFileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
     }
 
     @Override
@@ -141,7 +138,7 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
             getRecyclerViewAdapter().notifyDataSetChanged();
 
             this.mSha = crumb.getmAttachMsg();
-            fileTreePresent.loadFileTree(mOwner, mRepoName, mSha, getRequestTag(), mUiCallBack);
+            mFileTreePresent.loadFileTree(mOwner, mRepoName, mSha);
         }
     }
 
@@ -168,25 +165,5 @@ public class FileTreeActivity extends SwipeRefreshRecyclerViewActivity<FileTreeI
                 Intent intent = WebActivity.newIntent(this, treeItem.getPath(), url);
                 startActivity(intent);
         }
-    }
-
-    private void initTreeDataCallback() {
-        mUiCallBack = new DefaultUiCallBack<Tree>(this) {
-            @Override
-            public void onSuccess(Tree tree) {
-                onFirstLoadSuccess(tree.getTree());
-            }
-
-            @Override
-            public void onLoading() {
-                onLoadingOfLoadType(LOAD_FIRST);
-            }
-
-
-            @Override
-            public void onDefaultError(VolleyError error) {
-                onFirstLoadError(error);
-            }
-        };
     }
 }

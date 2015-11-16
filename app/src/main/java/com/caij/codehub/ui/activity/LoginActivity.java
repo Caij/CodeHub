@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.VolleyError;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Token;
-import com.caij.codehub.presenter.LoginPresenter;
-import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.present.UserLoginPresent;
+import com.caij.codehub.present.ui.UserLoginUi;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
@@ -21,21 +18,25 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/8/26.
  */
-public class LoginActivity extends BaseCodeHubToolBarActivity implements UiCallBack<Token> {
+public class LoginActivity extends BaseCodeHubToolBarActivity implements UserLoginUi {
 
     @Bind(R.id.edit_username)
     EditText mEditUsername;
     @Bind(R.id.edit_pwd)
     EditText mEditPassword;
-    private LoginPresenter mPresenter;
     private ProgressDialog mLoginDialog;
+    private UserLoginPresent mLoginPresent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setToolbarTitle(getString(R.string.action_login));
-        mPresenter = PresenterFactory.newPresentInstance(LoginPresenter.class);
+        mLoginPresent = new UserLoginPresent(this);
+        mLoginDialog = new ProgressDialog(this);
+        mLoginDialog.setMessage(getString(R.string.logining));
+        mLoginDialog.setCancelable(false);
+        mLoginDialog.setProgressStyle(R.style.AppCompatAlertDialogStyle);
     }
 
     @Override
@@ -45,13 +46,11 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UiCallB
 
     @OnClick(R.id.button_login)
     public void onSubmit() {
-        mPresenter.login(mEditUsername.getText().toString(), mEditPassword.getText().toString(), getRequestTag(), this);
+        mLoginPresent.login(mEditUsername.getText().toString(), mEditPassword.getText().toString());
     }
 
-
     @Override
-    public void onSuccess(Token token) {
-        mLoginDialog.dismiss();
+    public void onLoginSuccess(Token token) {
         CodeHubPrefs.get().setToken(token);
         CodeHubPrefs.get().setUsernameAndPwd(mEditUsername.getText().toString(), mEditPassword.getText().toString());
         Intent intent = MainActivity.newIntent(this);
@@ -59,25 +58,22 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UiCallB
         finish();
     }
 
+
     @Override
-    public void onLoading() {
-        mLoginDialog = ProgressDialog.show(this , null, getString(R.string.logining), true);
-        mLoginDialog.setProgressStyle(R.style.AppCompatAlertDialogStyle);
-        mLoginDialog.setCancelable(false);
+    public void hideLoading() {
+        mLoginDialog.dismiss();
     }
 
     @Override
-    public void onError(VolleyError error) {
-        if (error instanceof AuthFailureError) {
-            ToastUtil.show(this, R.string.password_error);
-        }else {
-            ToastUtil.show(this, R.string.login_error);
-        }
+    public void showLoading() {
+        mLoginDialog.show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mLoginDialog = null;
+        mLoginPresent.onDeath();
     }
+
 }

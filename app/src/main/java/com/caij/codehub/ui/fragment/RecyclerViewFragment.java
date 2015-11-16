@@ -16,7 +16,7 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/9/23.
  */
-public abstract class RecyclerViewFragment<E extends Entity> extends LazyFragment implements ListUi<E>, LoadMoreRecyclerView.OnLoadMoreListener, RecyclerViewOnItemClickListener {
+public abstract class RecyclerViewFragment<E extends Entity> extends LazyFragment implements LoadMoreRecyclerView.OnLoadMoreListener, RecyclerViewOnItemClickListener {
 
     public static final int LOAD_FIRST = 1;
     public static final int LOAD_REFRESH = 2;

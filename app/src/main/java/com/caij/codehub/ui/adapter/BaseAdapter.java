@@ -30,6 +30,10 @@ public abstract class BaseAdapter<E extends Entity> extends LoadMoreRecyclerView
 
     private List<E> mEntities;
 
+    public BaseAdapter(Context context) {
+        super(context);
+    }
+
     public BaseAdapter(Context context, List<E> entities) {
         super(context);
         mEntities = entities;

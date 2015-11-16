@@ -1,5 +1,6 @@
 package com.caij.codehub.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,7 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 
+import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
+import com.caij.codehub.present.ui.BaseUi;
+import com.caij.codehub.ui.activity.LoginActivity;
+import com.caij.lib.utils.AppManager;
+import com.caij.lib.utils.ToastUtil;
 import com.caij.lib.utils.VolleyManager;
 
 import butterknife.Bind;
@@ -20,7 +26,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Caij on 2015/9/20.
  */
-public abstract class BaseCodeHubFragment extends BaseFragment{
+public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi{
 
     @Nullable
     @Bind(R.id.pb_content_loading)
@@ -86,12 +92,14 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
         mLoadErrorLinearLayout.setVisibility(View.VISIBLE);
     }
 
-    protected void showLoading() {
+    @Override
+    public void showLoading() {
         if (mLoadingProgressBar != null) {
             mLoadingProgressBar.setVisibility(View.VISIBLE);
         }
     }
 
+    @Override
     public void hideLoading() {
         if (mLoadingProgressBar != null) {
             mLoadingProgressBar.setVisibility(View.GONE);
@@ -107,5 +115,25 @@ public abstract class BaseCodeHubFragment extends BaseFragment{
 
     public void onReFreshBtnClick(View view) {
         hideError();
+    }
+
+
+    @Override
+    public void onAuthError() {
+        CodeHubPrefs.get().logout();
+        AppManager.getInstance().finishAllActivityExcept(getActivity());
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+    @Override
+    public void showError(int msgId) {
+        ToastUtil.show(getActivity(), msgId);
+    }
+
+    @Override
+    public void showErrorView() {
+        showError();
     }
 }

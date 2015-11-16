@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/24.
  */
-public abstract class UserListActivity extends SwipeRefreshRecyclerViewActivity<User> implements ListUi<User> {
+public abstract class UserListActivity extends SwipeRefreshRecyclerViewActivity<User> {
 
     Page mPage;
 
@@ -35,7 +35,7 @@ public abstract class UserListActivity extends SwipeRefreshRecyclerViewActivity<
 
     @Override
     protected BaseAdapter<User> createRecyclerViewAdapter() {
-        return new UserAdapter(this, null);
+        return new UserAdapter(this);
     }
 
     @Override

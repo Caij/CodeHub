@@ -7,8 +7,10 @@ import android.view.View;
 
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.codehub.presenter.PresenterFactory;
-import com.caij.codehub.presenter.UserListPresenter;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.interactor.UserListInteractor;
+import com.caij.codehub.present.LoadType;
+import com.caij.codehub.present.UsersPresent;
 import com.caij.lib.utils.SPUtils;
 
 /**
@@ -18,7 +20,7 @@ public class FollowersActivity extends UserListActivity{
 
     private String mUsername;
     private String mToken;
-    private UserListPresenter mPresenter;
+    private UsersPresent mUsersPresent;
 
     public static Intent newIntent(Activity activity, String username) {
         Intent intent = new Intent(activity, FollowersActivity.class);
@@ -32,23 +34,29 @@ public class FollowersActivity extends UserListActivity{
         mUsername = getIntent().getStringExtra(Constant.USER_NAME);
         mToken = SPUtils.getString(Constant.USER_TOKEN, "");
         setToolbarTitle(getString(R.string.follows));
-        mPresenter = PresenterFactory.newPresentInstance(UserListPresenter.class);
-        mPresenter.getFollowers(mToken, mUsername, mPage, this, mFirstLoadUiCallBack);
+        mUsersPresent = new UsersPresent(this);
+        mUsersPresent.getFollowers(LoadType.FIRST, mToken, mUsername, mPage);
     }
 
     @Override
     public void onRefresh() {
-        mPresenter.getFollowers(mToken, mUsername, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
+        mUsersPresent.getFollowers(LoadType.REFRESH, mToken, mUsername, mPage.createRefreshPage());
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mPresenter.getFollowers(mToken, mUsername,mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mUsersPresent.getFollowers(LoadType.FIRST, mToken, mUsername,mPage);
     }
 
     @Override
     public void onLoadMore() {
-        mPresenter.getFollowers(mToken, mUsername, mPage, getRequestTag(), mLoadMoreUiCallBack);
+        mUsersPresent.getFollowers(LoadType.MORE, mToken, mUsername, mPage);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mUsersPresent.onDeath();
     }
 }

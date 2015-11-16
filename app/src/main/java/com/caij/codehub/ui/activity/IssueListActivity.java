@@ -10,8 +10,10 @@ import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Issue;
 import com.caij.codehub.bean.Page;
-import com.caij.codehub.presenter.IssueListPresent;
-import com.caij.codehub.presenter.PresenterFactory;
+import com.caij.codehub.interactor.IssueListInteractor;
+import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.present.IssuesPresent;
+import com.caij.codehub.present.LoadType;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.IssueAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
@@ -23,10 +25,11 @@ import java.util.List;
  */
 public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
 
-    private IssueListPresent mIssueListPresent;
     private String mOwner;
     private String mRepo;
     private Page mPage;
+
+    private IssuesPresent mIssuesPresent;
 
     public static Intent newIntent(Activity activity, String owner, String repo) {
         Intent intent = new Intent(activity, IssueListActivity.class);
@@ -42,13 +45,14 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
         mOwner = getIntent().getStringExtra(Constant.USER_NAME);
         mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
         mPage = new Page();
-        mIssueListPresent = PresenterFactory.newPresentInstance(IssueListPresent.class);
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, getRequestTag(), mFirstLoadUiCallBack);
+
+        mIssuesPresent= new IssuesPresent(this);
+        mIssuesPresent.getIssueList(LoadType.FIRST, mOwner, mRepo, mPage);
     }
 
     @Override
     protected BaseAdapter<Issue> createRecyclerViewAdapter() {
-        return new IssueAdapter(this, null);
+        return new IssueAdapter(this);
     }
 
     @Override
@@ -81,18 +85,18 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
 
     @Override
     public void onRefresh() {
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage.createRefreshPage(), getRequestTag(), mLoadRefreshUiCallBack);
+        mIssuesPresent.getIssueList(LoadType.REFRESH, mOwner, mRepo, mPage.createRefreshPage());
     }
 
     @Override
     public void onLoadMore() {
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, getRequestTag(), mLoadMoreUiCallBack);
+        mIssuesPresent.getIssueList(LoadType.MORE, mOwner, mRepo, mPage);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mIssueListPresent.getIssueList(mOwner, mRepo, mPage, getRequestTag(), mFirstLoadUiCallBack);
+        mIssuesPresent.getIssueList(LoadType.FIRST, mOwner, mRepo, mPage);
     }
 
     @Override
@@ -100,5 +104,11 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
         Issue issue = getRecyclerViewAdapter().getItem(position);
         Intent intent = IssueInfoActivity.newIntent(this, mOwner, mRepo, String.valueOf(issue.getNumber()), issue.getTitle(), issue.getBody());
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mIssuesPresent.onDeath();
     }
 }
