@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  */
 public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
-    public static final int TYPE_LOADING = 1;
+    public static final int TYPE_LOADING = Integer.MIN_VALUE;
 
     protected Context context;
 
@@ -129,7 +129,7 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
         TextView mHint;
         @Bind(R.id.loading)
         ProgressBar mLoading;
-        @Bind(R.id.content)
+        @Bind(R.id.fl_content)
         View mView;
 
         LoadingMoreHolder(View view) {

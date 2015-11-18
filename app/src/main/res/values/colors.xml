@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="theme_color">#333</color>
+    <color name="color_primary">#333</color>
+    <color name="color_primary_dark">#333</color>
     <color name="color_black">#000000</color>
     <color name="color_accent">#2196f3</color>
 
@@ -30,4 +31,6 @@
     <color name="mid_grey">#40808080</color>
     <color name="scrim">#99323232</color>
     <color name="item_select">#CCCCCC</color>
+
+    <color name="blue_link_color">#0e71af</color>
 </resources>

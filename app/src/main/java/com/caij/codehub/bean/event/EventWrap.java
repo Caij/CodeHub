@@ -28,7 +28,7 @@ public class EventWrap extends Entity{
         String adapterBody = null;
         if (Event.COMMIT_COMMENT.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), CommitCommentEvent.class);
-            builder.append(" ").append("commit comment");
+            builder.append(" ").append("commit comment").append(" in ");
             adapterBody = "";
         }else if (Event.CREATE.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), CreateEvent.class);
@@ -53,13 +53,13 @@ public class EventWrap extends Entity{
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), IssueCommentEvent.class);
             IssueCommentEvent issueCommentEvent = (IssueCommentEvent) realEvent;
             builder.append(" ").append("comment").append(" on issue ")
-                    .append(processHtmlString("#" + issueCommentEvent.getIssue().getNumber()));
+                    .append(processHtmlString("#" + issueCommentEvent.getIssue().getNumber())).append(" in ");
             adapterBody = issueCommentEvent.getComment().getBody();
         }else if (Event.ISSUES.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), IssuesEvent.class);
             IssuesEvent issuesEvent = (IssuesEvent) realEvent;
             builder.append(" ").append(issuesEvent.getAction()).append(" issue ")
-                    .append(processHtmlString("#" + issuesEvent.getIssue().getNumber()));
+                    .append(processHtmlString("#" + issuesEvent.getIssue().getNumber())).append(" in ");
             adapterBody = issuesEvent.getIssue().getTitle();
         }else if (Event.MEMBER.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), MemberEvent.class);
@@ -74,7 +74,7 @@ public class EventWrap extends Entity{
             PullRequestEvent pullRequestEvent = (PullRequestEvent) realEvent;
             String[] urlSp = pullRequestEvent.getPull_request().getUrl().split("/");
             builder.append(" ").append(pullRequestEvent.getAction()).
-                    append(" pull request ").append(processHtmlString("#" + urlSp[urlSp.length - 1]));
+                    append(" pull request ").append(processHtmlString("#" + urlSp[urlSp.length - 1])).append(" in ");
             adapterBody = pullRequestEvent.getPull_request().getTitle();
         }else if (Event.PULL_REQUEST_REVIEW_COMMENT.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), PullRequestReviewCommentEvent.class);
@@ -94,14 +94,15 @@ public class EventWrap extends Entity{
             builder.append(" ").append("team add");
             adapterBody = "";
         }else if (Event.WATCH.equals(event.getType())) {
-            realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), WatchEvent.class);
-            builder.append(" ").append("watch");
+            WatchEvent watchEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), WatchEvent.class);
+            realEvent = watchEvent;
+            builder.append(" ").append(watchEvent.getAction());
             adapterBody = "";
         }else {
-            builder.append(" ").append("unsupport event item");
+            builder.append(" unsupport event item");
             adapterBody = "";
         }
-        builder.append(" in ").append(processHtmlString(event.getRepo().getName()));
+        builder.append(" ").append(processHtmlString(event.getRepo().getName()));
         Spanned adapterTitle  = Html.fromHtml(builder.toString());
         return new EventWrap(event.getType(), event.getPublicX(), event.getRepo(), event.getActor(), event.getOrg(),
                 event.getCreated_at(), event.getId(), realEvent, adapterTitle, adapterBody);

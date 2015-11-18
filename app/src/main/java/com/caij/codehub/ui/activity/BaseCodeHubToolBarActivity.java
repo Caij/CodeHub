@@ -1,5 +1,6 @@
 package com.caij.codehub.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -19,10 +20,14 @@ public abstract class BaseCodeHubToolBarActivity extends BaseCodeHubActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setSystemBarTintColor(getResources().getColor(R.color.theme_color));
+        setSystemBarTintColor(getResources().getColor(R.color.color_primary_dark));
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        handleIntent(getIntent());
     }
+
+    protected abstract void handleIntent(Intent intent);
 
     @Override
     protected int getContentViewId() {
@@ -37,16 +42,6 @@ public abstract class BaseCodeHubToolBarActivity extends BaseCodeHubActivity{
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    protected void setToolbarTitle(String title) {
-        if (!TextUtils.isEmpty(title) && getSupportActionBar() != null) {
-            if (title.length() > 12) {
-                title = title.substring(0, 12) + "...";
-            }
-            getSupportActionBar().setTitle(title);
-        }
     }
 
 }

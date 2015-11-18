@@ -23,18 +23,17 @@ public class UserRepositoriesActivity extends BaseCodeHubToolBarActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String username = getIntent().getStringExtra(Constant.USER_NAME);
-        getSupportActionBar().setTitle(username);
+    protected void handleIntent(Intent intent) {
+        String username = intent.getStringExtra(Constant.USER_NAME);
+        setTitle(username);
         Fragment fragment =  UserRepositoriesFragment.newInstance(username);
         fragment.setUserVisibleHint(true);
-        getSupportFragmentManager().beginTransaction().add(R.id.content, fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.base_code_hub_container, fragment).commit();
     }
 
     @Override
     protected int getAttachLayoutId() {
-        return R.layout.activity_frame_layout;
+        return 0;
     }
 
 }

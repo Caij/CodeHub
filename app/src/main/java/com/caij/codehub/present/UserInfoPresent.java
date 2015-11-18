@@ -6,7 +6,6 @@ import com.caij.codehub.interactor.FollowActionInteractor;
 import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.interactor.UserInteractor;
 import com.caij.codehub.present.ui.UserInfoUi;
-import com.caij.lib.utils.VolleyManager;
 
 /**
  * Author Caij
@@ -15,41 +14,39 @@ import com.caij.lib.utils.VolleyManager;
  */
 public class UserInfoPresent extends Present<UserInfoUi>{
 
-    private final Object requestTag;
     private final FollowActionInteractor mFollowActionInteractor;
-    private UserInteractor mUserInterctor;
+    private final UserInteractor mUserInterctor;
 
     public UserInfoPresent(UserInfoUi ui) {
         super(ui);
-        requestTag = new Object();
-        mUserInterctor = InteractorFactory.newPresentInstance(UserInteractor.class);
-        mFollowActionInteractor = InteractorFactory.newPresentInstance(FollowActionInteractor.class);
+        mUserInterctor = InteractorFactory.newInteractorInstance(UserInteractor.class);
+        mFollowActionInteractor = InteractorFactory.newInteractorInstance(FollowActionInteractor.class);
     }
 
     public void getUserInfo(String token, String username) {
-        mUserInterctor.getUserInfo(token, username, requestTag, new DefaultInteractorCallback<User>(mUi) {
+        mUserInterctor.getUserInfo(token, username, this, new DefaultInteractorCallback<User>(mUi) {
             @Override
             public void onError(int msgId) {
-                mUi.hideLoading();
-                mUi.showErrorView();
+                mUi.showContentAnimLoading(false);
+                mUi.showContentError();
                 mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(User user) {
-                mUi.hideLoading();
+                mUi.showContentAnimLoading(false);
                 mUi.onGetUserInfoSuccess(user);
             }
 
             @Override
             public void onLoading() {
-                mUi.showLoading();
+                mUi.showContentAnimLoading(true);
             }
         });
     }
 
     public void getFollowState(String token, String username) {
-        mFollowActionInteractor.getFollowState(token, username, requestTag, new DefaultInteractorCallback<Boolean>(mUi) {
+        mFollowActionInteractor.getFollowState(token, username, this, new DefaultInteractorCallback<Boolean>(mUi) {
             @Override
             public void onError(int msgId) {
 
@@ -68,49 +65,45 @@ public class UserInfoPresent extends Present<UserInfoUi>{
     }
 
     public void followUser(String token, String username) {
-        mFollowActionInteractor.followUser(token, username, requestTag, new DefaultInteractorCallback<NetworkResponse>(mUi) {
+        mFollowActionInteractor.followUser(token, username, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onError(int msgId) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.onFollowSuccess();
             }
 
             @Override
             public void onLoading() {
-                mUi.showLoading();
+                mUi.showProgressBarLoading(true);
             }
         });
     }
 
     public void unfollowUser(String token, String username) {
-        mFollowActionInteractor.unfollowUser(token, username, requestTag, new DefaultInteractorCallback<NetworkResponse>(mUi) {
+        mFollowActionInteractor.unfollowUser(token, username, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onError(int msgId) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(true);
                 mUi.onUnfollowSuccess();
             }
 
             @Override
             public void onLoading() {
-                mUi.showLoading();
+                mUi.showProgressBarLoading(false);
             }
         });
     }
 
-    @Override
-    public void onDeath() {
-        VolleyManager.cancelRequestByTag(requestTag);
-    }
 }

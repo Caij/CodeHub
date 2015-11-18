@@ -7,7 +7,7 @@ import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Token;
-import com.caij.codehub.interactor.LoginInteractor;
+import com.caij.codehub.interactor.AuthenticationInteractor;
 import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.utils.Base64;
 import com.caij.lib.utils.VolleyManager;
@@ -28,7 +28,7 @@ import java.util.Map;
  * Created by Caij on 2015/8/25.
  */
 
-public class LoginInteractorImp implements LoginInteractor {
+public class AuthenticationInteractorImp implements AuthenticationInteractor {
 
     private final static String SCOPES = "scopes";
     private final static String NOTE = "note";

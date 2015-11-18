@@ -26,6 +26,8 @@ public interface Constant {
 
     public static final String REPO_BRAN = "repo_bran";
 
+    public static final String REPO_SHA= "repo_sha";
+
     public static final int ISSUE_COMMENT_REQUEST_CODE = 100;
 
     String COMMENT = "comment";

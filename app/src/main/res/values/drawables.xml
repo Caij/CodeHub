@@ -17,7 +17,7 @@
 
 <resources>
 
-    <drawable name="theme_primary">@color/theme_color</drawable>
+    <drawable name="theme_primary">@color/color_primary</drawable>
     <drawable name="transparent">@android:color/transparent</drawable>
 
 </resources>

@@ -11,7 +11,9 @@
 
     </FrameLayout>
 
-    <include layout="@layout/include_loading"
+    <ViewStub
+        android:id="@+id/vs_anim_loading"
+        android:layout="@layout/include_anim_loading"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"/>
@@ -19,6 +21,13 @@
     <ViewStub
         android:id="@+id/vs_load_error"
         android:layout="@layout/include_load_error"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"/>
+
+    <ViewStub
+        android:id="@+id/vs_progress_bar_loading"
+        android:layout="@layout/include_progress_bar_loading"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"/>

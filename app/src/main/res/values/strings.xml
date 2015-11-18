@@ -37,7 +37,7 @@
     <string name="icon_website" translatable="false">\uf007</string>
 
     <string name="refresh">Refresh</string>
-    <string name="data_load_error">error</string>
+    <string name="data_load_error">error !</string>
     <string name="add_comment">Add Comment</string>
     <string name="issue">Issue</string>
 

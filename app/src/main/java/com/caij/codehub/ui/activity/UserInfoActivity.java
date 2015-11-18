@@ -73,12 +73,11 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void handleIntent(Intent intent) {
         mContentContainer.setVisibility(View.GONE);
-        mToken = SPUtils.getString(Constant.USER_TOKEN, "");
-        mUsername = getIntent().getStringExtra(Constant.USER_NAME);
-        getSupportActionBar().setTitle(mUsername);
+        mToken = CodeHubPrefs.get().getToken();
+        mUsername = intent.getStringExtra(Constant.USER_NAME);
+        setTitle(mUsername);
 
         mUserInfoPresent = new UserInfoPresent(this);
         mUserInfoPresent.getUserInfo(mToken, mUsername);
@@ -167,7 +166,6 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
 
     @Override
     public void onGetUserInfoSuccess(User user) {
-        hideLoading();
         handlerData(user);
     }
 

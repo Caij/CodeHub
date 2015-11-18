@@ -52,8 +52,7 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void handleIntent(Intent intent) {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);

@@ -2,7 +2,6 @@ package com.caij.codehub.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.EditText;
 
 import com.caij.codehub.CodeHubPrefs;
@@ -10,7 +9,6 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.present.UserLoginPresent;
 import com.caij.codehub.present.ui.UserLoginUi;
-import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -28,10 +26,9 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UserLog
     private UserLoginPresent mLoginPresent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void handleIntent(Intent intent) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        setToolbarTitle(getString(R.string.action_login));
+        setTitle(getString(R.string.action_login));
         mLoginPresent = new UserLoginPresent(this);
         mLoginDialog = new ProgressDialog(this);
         mLoginDialog.setMessage(getString(R.string.logining));
@@ -60,14 +57,15 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UserLog
 
 
     @Override
-    public void hideLoading() {
-        mLoginDialog.dismiss();
+    public void showProgressBarLoading(boolean isVisible) {
+        if (isVisible) {
+            mLoginDialog.show();
+        }else {
+            mLoginDialog.dismiss();
+        }
     }
 
-    @Override
-    public void showLoading() {
-        mLoginDialog.show();
-    }
+
 
     @Override
     protected void onDestroy() {

@@ -16,6 +16,7 @@ public abstract class Present<UI extends BaseUi> {
 
     public void onDeath() {
         VolleyManager.cancelRequestByTag(this);
+        mUi = null;
     }
 
 }

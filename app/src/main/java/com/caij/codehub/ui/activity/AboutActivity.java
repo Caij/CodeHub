@@ -28,8 +28,7 @@ public class AboutActivity extends BaseCodeHubToolBarActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void handleIntent(Intent intent) {
         setTitle(getString(R.string.about));
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);

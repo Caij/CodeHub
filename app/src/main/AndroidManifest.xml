@@ -79,7 +79,7 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.IssueListActivity"
+            android:name=".ui.activity.RepoIssuesActivity"
             android:screenOrientation="portrait">
         </activity>
 

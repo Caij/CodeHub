@@ -59,4 +59,10 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
     public void onLoadMore() {
         mRepositoriesPresent.getUserRepositories(LoadType.MORE, mUsername, mToken, mPage);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mRepositoriesPresent.onDeath();
+    }
 }

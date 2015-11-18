@@ -1,47 +1,50 @@
-package com.caij.codehub.ui.activity;
+package com.caij.codehub.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
+import com.caij.codehub.ui.activity.UserInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.UserAdapter;
-import com.caij.codehub.ui.callback.ListUi;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
-
 
 import java.util.List;
 
 /**
- * Created by Caij on 2015/9/24.
+ * Author Caij
+ * Email worldcaij@gmail.com
+ * Created by Caij on 2015/11/18.
  */
-public abstract class UserListActivity extends SwipeRefreshRecyclerViewActivity<User> {
+public abstract class UsersFragment extends SwipeRefreshRecyclerViewFragment<User>{
 
     Page mPage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mPage = new Page();
     }
 
     @Override
     protected LoadMoreRecyclerView.LayoutManager createRecyclerViewLayoutManager() {
-        return new LinearLayoutManager(this);
+        return new LinearLayoutManager(getActivity());
     }
 
     @Override
     protected BaseAdapter<User> createRecyclerViewAdapter() {
-        return new UserAdapter(this);
+        return new UserAdapter(getActivity());
     }
 
     @Override
     public void onItemClick(View view, int position) {
         User user =getRecyclerViewAdapter().getItem(position);
-        Intent intent = UserInfoActivity.newIntent(this, user.getLogin());
+        Intent intent = UserInfoActivity.newIntent(getActivity(), user.getLogin());
         startActivity(intent);
     }
 

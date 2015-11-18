@@ -48,7 +48,6 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
         mRepoSort = "stars";
         mOrder = "desc";
 
-        VolleyManager.cancelRequestByTag(getRequestTag());
         mPage = new Page();
         hideError();
         mRepositoriesPresent.getSearchRepository(LoadType.FIRST, mRepoSearchQ, mRepoSort, mOrder, mPage);
@@ -68,5 +67,11 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
         mRepositoriesPresent.getSearchRepository(LoadType.FIRST, mRepoSearchQ, mRepoSort, mOrder, mPage);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mRepositoriesPresent.onDeath();
     }
 }

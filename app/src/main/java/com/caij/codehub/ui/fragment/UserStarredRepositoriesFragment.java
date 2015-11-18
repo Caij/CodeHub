@@ -61,4 +61,10 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
     public void onLoadMore() {
         mRepositoriesPresent.getUserStarredRepositories(LoadType.MORE, mUsername, mToken, mPage);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mRepositoriesPresent.onDeath();
+    }
 }

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/version"
             android:textSize="@dimen/big_body_text_size"
-            android:textColor="@color/theme_color"
+            android:textColor="@color/color_primary"
             />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:text="Contact"
             android:textSize="@dimen/big_body_text_size"
-            android:textColor="@color/theme_color"
+            android:textColor="@color/color_primary"
             />
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:text="Source Code"
             android:textSize="@dimen/big_body_text_size"
-            android:textColor="@color/theme_color"
+            android:textColor="@color/color_primary"
             />
 
         <TextView
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:text="Open Source Licenses"
             android:textSize="@dimen/big_body_text_size"
-            android:textColor="@color/theme_color"
+            android:textColor="@color/color_primary"
             />
 
     </LinearLayout>

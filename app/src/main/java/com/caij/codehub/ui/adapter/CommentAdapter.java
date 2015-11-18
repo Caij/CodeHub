@@ -54,7 +54,10 @@ public class CommentAdapter extends BaseAdapter<Comment> {
 
     @Override
     public int getDataCount() {
-        return super.getDataCount() + 1;
+        if (mIssueContentHeadView != null) {
+            return super.getDataCount() + 1;
+        }
+        return super.getDataCount();
     }
 
     public void addIssueContentHeadView(View view) {
@@ -75,7 +78,7 @@ public class CommentAdapter extends BaseAdapter<Comment> {
 
     @Override
     public int getDataViewType(int position) {
-        if (position == 0) {
+        if (mIssueContentHeadView != null && position == 0) {
             return ISSUE;
         } else {
             return COMMENT;

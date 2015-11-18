@@ -6,7 +6,6 @@ import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.interactor.RepositoryActionInteractor;
 import com.caij.codehub.interactor.RepositoryInfoInteractor;
 import com.caij.codehub.present.ui.RepositoryInfoUi;
-import com.caij.lib.utils.VolleyManager;
 
 /**
  * Author Caij
@@ -15,41 +14,39 @@ import com.caij.lib.utils.VolleyManager;
  */
 public class RepositoryInfoPresent extends Present<RepositoryInfoUi>{
 
-    public final Object requestTag;
     public final RepositoryInfoInteractor mRepositoryInfoInteractor;
     public final RepositoryActionInteractor mRepositoryActionInteractor;
 
     public RepositoryInfoPresent(RepositoryInfoUi ui) {
         super(ui);
-        requestTag = new Object();
-        mRepositoryInfoInteractor = InteractorFactory.newPresentInstance(RepositoryInfoInteractor.class);
-        mRepositoryActionInteractor = InteractorFactory.newPresentInstance(RepositoryActionInteractor.class);
+        mRepositoryInfoInteractor = InteractorFactory.newInteractorInstance(RepositoryInfoInteractor.class);
+        mRepositoryActionInteractor = InteractorFactory.newInteractorInstance(RepositoryActionInteractor.class);
     }
 
     public void getRepositoryInfo(String repositoryName, String owner, String token) {
-        mRepositoryInfoInteractor.getRepositoryInfo(repositoryName, owner, token, requestTag, new DefaultInteractorCallback<Repository>(mUi) {
+        mRepositoryInfoInteractor.getRepositoryInfo(repositoryName, owner, token, this, new DefaultInteractorCallback<Repository>(mUi) {
             @Override
             public void onError(int msgId) {
-                mUi.hideLoading();
+                mUi.showContentAnimLoading(false);
                 mUi.showError(msgId);
-                mUi.showErrorView();
+                mUi.showContentError();
             }
 
             @Override
             public void onSuccess(Repository repository) {
-                mUi.hideLoading();
+                mUi.showContentAnimLoading(false);
                 mUi.getRepositoryInfoSuccess(repository);
             }
 
             @Override
             public void onLoading() {
-                mUi.showLoading();
+                mUi.showContentAnimLoading(true);
             }
         });
     }
 
     public void hasStarRepo(String owner, String repo, String token){
-        mRepositoryActionInteractor.hasStarRepo(owner, repo, token, requestTag, new DefaultInteractorCallback<Boolean>(mUi) {
+        mRepositoryActionInteractor.hasStarRepo(owner, repo, token, this, new DefaultInteractorCallback<Boolean>(mUi) {
             @Override
             public void onError(int msgId) {
 
@@ -68,70 +65,66 @@ public class RepositoryInfoPresent extends Present<RepositoryInfoUi>{
     }
 
     public void starRepo(String owner, String repo, String token){
-        mRepositoryActionInteractor.starRepo(owner, repo, token, requestTag, new DefaultInteractorCallback<NetworkResponse>(mUi) {
+        mRepositoryActionInteractor.starRepo(owner, repo, token, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.starSuccess();
             }
 
             @Override
             public void onLoading() {
-                mUi.showLoading();
+                mUi.showProgressBarLoading(true);
             }
 
             @Override
             public void onError(int msgId) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.showError(msgId);
             }
         });
     }
 
     public void unstarRepo(String owner, String repo, String token){
-        mRepositoryActionInteractor.unstarRepo(owner, repo, token, requestTag, new DefaultInteractorCallback<NetworkResponse>(mUi) {
+        mRepositoryActionInteractor.unstarRepo(owner, repo, token, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.unstarSuccess();
             }
 
             @Override
             public void onLoading() {
-                mUi.showLoading();
+                mUi.showProgressBarLoading(true);
             }
 
             @Override
             public void onError(int msgId) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.showError(msgId);
             }
         });
     }
 
     public void forkRepo(String owner, String repo, String token){
-        mRepositoryActionInteractor.forkRepo(owner, repo, token, requestTag, new DefaultInteractorCallback<NetworkResponse>(mUi) {
+        mRepositoryActionInteractor.forkRepo(owner, repo, token, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.forkSuccess();
             }
 
             @Override
             public void onLoading() {
-                mUi.showLoading();
+                mUi.showProgressBarLoading(true);
             }
 
             @Override
             public void onError(int msgId) {
-                mUi.hideLoading();
+                mUi.showProgressBarLoading(false);
                 mUi.showError(msgId);
             }
         });
     }
 
-    @Override
-    public void onDeath() {
-        VolleyManager.cancelRequestByTag(requestTag);
-    }
 }

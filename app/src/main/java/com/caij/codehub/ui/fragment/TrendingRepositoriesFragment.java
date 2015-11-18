@@ -135,4 +135,10 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
     public void onLoadMore() {
 
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mRepositoriesPresent.onDeath();
+    }
 }

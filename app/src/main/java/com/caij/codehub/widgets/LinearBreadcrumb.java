@@ -292,8 +292,8 @@ public class LinearBreadcrumb extends HorizontalScrollView implements View.OnCli
 
     public String getAbsolutePath(Crumb crumb, @NonNull String separator) {
         StringBuilder builder = new StringBuilder();
-        if (size() > 1) {
-            List<Crumb> crumbs = mCrumbs.subList(1, size());
+        if (size() > 0) {
+            List<Crumb> crumbs = mCrumbs.subList(0, size());
             for (Crumb mCrumb : crumbs) {
                 builder.append(mCrumb.getPath());
                 builder.append(separator);

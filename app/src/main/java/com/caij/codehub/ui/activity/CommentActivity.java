@@ -12,6 +12,8 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.interactor.CommentActionInteractor;
 import com.caij.codehub.interactor.InteractorFactory;
+import com.caij.codehub.present.CommentPresent;
+import com.caij.codehub.present.ui.CommentUi;
 import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.lib.utils.ToastUtil;
 
@@ -21,12 +23,12 @@ import butterknife.OnClick;
 /**
  * Created by Caij on 2015/11/3.
  */
-public class CommentActivity extends BaseCodeHubToolBarActivity {
+public class CommentActivity extends BaseCodeHubToolBarActivity implements CommentUi {
 
     @Bind(R.id.edit_comment)
     EditText mEditComment;
 
-    private CommentActionInteractor mCommentActionInteractor;
+    private CommentPresent mCommentPresent;
     private String mRepo;
     private String mIssueNumber;
     private String mOwner;
@@ -46,39 +48,32 @@ public class CommentActivity extends BaseCodeHubToolBarActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void handleIntent(Intent intent) {
         setTitle(getString(R.string.comment));
-        mCommentActionInteractor = InteractorFactory.newPresentInstance(CommentActionInteractor.class);
-        mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
-        mIssueNumber = getIntent().getStringExtra(Constant.ISSUE_NUMBER);
-        mOwner = getIntent().getStringExtra(Constant.USER_NAME);
+        mCommentPresent = new CommentPresent(this);
+        mRepo = intent.getStringExtra(Constant.REPO_NAME);
+        mIssueNumber = intent.getStringExtra(Constant.ISSUE_NUMBER);
+        mOwner = intent.getStringExtra(Constant.USER_NAME);
         mToken = CodeHubPrefs.get().getToken();
     }
 
     @OnClick(R.id.btn_comment)
     public void onCommentClick() {
-        mCommentActionInteractor.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken,
-                getRequestTag(), new DefaultUiCallBack<Comment>(this) {
-                    @Override
-                    public void onSuccess(Comment comment) {
-                        hideLoading();
-                        ToastUtil.show(CommentActivity.this, R.string.comment_success);
-                        Intent intent = new Intent();
-                        intent.putExtra(Constant.COMMENT, comment);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onLoading() {
-                        showLoading();
-                    }
-
-                    @Override
-                    public void onDefaultError(VolleyError error) {
-                        hideLoading();
-                    }});
+        mCommentPresent.createCommentForIssue(mEditComment.getText().toString(), mOwner, mRepo, mIssueNumber, mToken);
     }
 
+    @Override
+    public void commentSuccess(Comment comment) {
+        ToastUtil.show(CommentActivity.this, R.string.comment_success);
+        Intent intent = new Intent();
+        intent.putExtra(Constant.COMMENT, comment);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCommentPresent.onDeath();
+    }
 }

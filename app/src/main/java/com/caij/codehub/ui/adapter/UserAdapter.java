@@ -46,7 +46,7 @@ public class UserAdapter extends BaseAdapter<User> {
     }
 
     public void onBindViewHolderReal(UserViewHolder holder, int i) {
-        User user = (User) getItem(i);
+        User user = getItem(i);
         holder.tvUserName.setText(user.getLogin());
         Glide.with(context).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
                 bitmapTransform(cropCircleTransformation).into(holder.imgUserAvatar);

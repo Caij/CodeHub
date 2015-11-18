@@ -17,6 +17,7 @@ package com.caij.codehub.ui.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
@@ -29,17 +30,13 @@ import com.caij.codehub.ui.fragment.SearchRepositoriesFragment;
 
 public class SearchActivity extends BaseCodeHubToolBarActivity {
 
-    private final static String SCREEN_LABEL = "Search";
-
-
     SearchView mSearchView = null;
     String mQuery = "";
     private SearchRepositoriesFragment mSearchRepositoriesFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setToolbarTitle(getString(R.string.description_search));
+    protected void handleIntent(Intent intent) {
+        setTitle(getString(R.string.description_search));
         mSearchRepositoriesFragment =  new SearchRepositoriesFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.search_content, mSearchRepositoriesFragment).commit();
     }

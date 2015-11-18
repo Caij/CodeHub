@@ -2,27 +2,19 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Repository;
-import com.caij.codehub.interactor.InteractorFactory;
-import com.caij.codehub.interactor.RepositoryActionInteractor;
-import com.caij.codehub.interactor.RepositoryInfoInteractor;
 import com.caij.codehub.present.RepositoryInfoPresent;
 import com.caij.codehub.present.ui.RepositoryInfoUi;
-import com.caij.codehub.ui.callback.DefaultUiCallBack;
-import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.utils.TimeUtils;
 import com.caij.lib.utils.CheckValueUtil;
 import com.caij.lib.utils.ToastUtil;
@@ -61,7 +53,6 @@ public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity implement
     private Repository mRepository;
     private Menu mMenu;
 
-
     public static Intent newInstance(Activity activity, String owner, String repo) {
         CheckValueUtil.check(owner);
         CheckValueUtil.check(repo);
@@ -72,22 +63,18 @@ public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity implement
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void handleIntent(Intent intent) {
         mContentContainer.setVisibility(View.GONE);
-
-        Intent intent = getIntent();
         mOwner = intent.getStringExtra(Constant.USER_NAME);
         mRepo = intent.getStringExtra(Constant.REPO_NAME);
         mToken = CodeHubPrefs.get().getToken();
 
-        setToolbarTitle(mRepo);
+        setTitle(mRepo);
 
         mRepositoryInfoPresent = new RepositoryInfoPresent(this);
         mRepositoryInfoPresent.getRepositoryInfo(mRepo, mOwner, mToken);
         mRepositoryInfoPresent.hasStarRepo(mOwner, mRepo, mToken);
     }
-
 
     @Override
     protected int getAttachLayoutId() {
@@ -125,7 +112,7 @@ public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity implement
 
     @OnClick(R.id.ll_issue)
     public void onIssueClick() {
-        Intent intent = IssueListActivity.newIntent(this, mOwner, mRepo);
+        Intent intent = RepoIssuesActivity.newIntent(this, mOwner, mRepo);
         startActivity(intent);
     }
 
@@ -209,4 +196,5 @@ public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity implement
         super.onDestroy();
         mRepositoryInfoPresent.onDeath();
     }
+
 }

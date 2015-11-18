@@ -33,9 +33,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         mScreenHeight = metrics.heightPixels;
     }
 
-
-
-
     protected void setSystemBarTintColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);

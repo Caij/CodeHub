@@ -19,7 +19,7 @@ public class EventsPresent extends ListPresent<ListUi<EventWrap>, EventWrap>{
 
     public EventsPresent(ListUi<EventWrap> ui) {
         super(ui);
-        mEventsInteractor = InteractorFactory.newPresentInstance(EventsInteractor.class);
+        mEventsInteractor = InteractorFactory.newInteractorInstance(EventsInteractor.class);
     }
 
     public void getReceivedEvents(final LoadType loadType, String username, String token, Page page) {

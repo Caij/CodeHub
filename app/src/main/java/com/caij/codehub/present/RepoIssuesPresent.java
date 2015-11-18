@@ -13,13 +13,13 @@ import java.util.List;
  * Email worldcaij@gmail.com
  * Created by Caij on 2015/11/16.
  */
-public class IssuesPresent extends ListPresent<ListUi<Issue>, Issue>{
+public class RepoIssuesPresent extends ListPresent<ListUi<Issue>, Issue>{
 
     private IssueListInteractor mIssueListInteractor;
 
-    public IssuesPresent(ListUi<Issue> ui) {
+    public RepoIssuesPresent(ListUi<Issue> ui) {
         super(ui);
-        mIssueListInteractor = InteractorFactory.newPresentInstance(IssueListInteractor.class);
+        mIssueListInteractor = InteractorFactory.newInteractorInstance(IssueListInteractor.class);
     }
 
     public void getIssueList(final LoadType loadType, String owner, String repoName, Page page) {

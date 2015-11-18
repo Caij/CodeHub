@@ -1,22 +1,25 @@
 package com.caij.codehub.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.present.ui.BaseUi;
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.ToastUtil;
-import com.caij.lib.utils.VolleyManager;
 import com.umeng.analytics.MobclickAgent;
+
+import javax.annotation.Nullable;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,25 +32,26 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi{
 
-    @Nullable
-    @Bind(R.id.pb_content_loading)
-    ProgressBar mLoadingProgressBar;
-    @Bind(R.id.vs_load_error)
+    ViewStub mAnimLoadingViewStub;
+    ViewStub mProLoadingViewStub;
     ViewStub mLoadErrorViewStub;
     LinearLayout mLoadErrorLinearLayout;
+    RelativeLayout mLoadingRelativeLayout;
+    ImageView mAnimLoadingImage;
+    ProgressBar mLoadingProgressBar;
     ViewGroup mContentContainer;
-
-    private Object mRequestTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRequestTag = createRequestTag();
         setContentView(getContentViewId());
         mContentContainer = (ViewGroup) findViewById(R.id.base_code_hub_container);
         if (getAttachLayoutId() != 0) {
             getLayoutInflater().inflate(getAttachLayoutId(), mContentContainer, true);
         }
+        mLoadErrorViewStub = (ViewStub) findViewById(R.id.vs_load_error);
+        mAnimLoadingViewStub = (ViewStub) findViewById(R.id.vs_anim_loading);
+        mProLoadingViewStub = (ViewStub) findViewById(R.id.vs_progress_bar_loading);
         ButterKnife.bind(this);
     }
 
@@ -56,14 +60,6 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     }
 
     protected abstract int getAttachLayoutId();
-
-    protected Object getRequestTag() {
-        return mRequestTag;
-    }
-
-    protected Object createRequestTag() {
-        return new Object();
-    }
 
     public void onReFreshBtnClick(View view) {
         hideError();
@@ -90,20 +86,45 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
         mLoadErrorLinearLayout.setVisibility(View.VISIBLE);
     }
 
-    public void showLoading() {
-        if (mLoadingProgressBar != null) {
-            mLoadingProgressBar.setVisibility(View.VISIBLE);
+    @Override
+    public void showContentAnimLoading(boolean isVisible) {
+        if (isVisible) {
+            if (mLoadingRelativeLayout == null) {
+                View view = mAnimLoadingViewStub.inflate();
+                mLoadingRelativeLayout = (RelativeLayout) view.findViewById(R.id.rl_anim_loading);
+                mAnimLoadingImage = (ImageView) mLoadingRelativeLayout.findViewById(R.id.iv_anim_loading);
+            }
+            mLoadingRelativeLayout.setVisibility(View.VISIBLE);
+            ((AnimationDrawable) mAnimLoadingImage.getDrawable()).start();
+        }else {
+            if (mLoadingRelativeLayout != null) {
+                ((AnimationDrawable) mAnimLoadingImage.getDrawable()).stop();
+                mLoadingRelativeLayout.setVisibility(View.GONE);
+            }
         }
     }
 
-    public void hideLoading() {
-        if (mLoadingProgressBar != null) {
-            mLoadingProgressBar.setVisibility(View.GONE);
+    @Override
+    public void showProgressBarLoading(boolean isVisible) {
+        if (isVisible) {
+            if (mLoadingProgressBar == null) {
+                View view = mProLoadingViewStub.inflate();
+                mLoadingProgressBar = (ProgressBar) view.findViewById(R.id.pb_content_loading);
+            }
+            mLoadingProgressBar.setVisibility(View.VISIBLE);
+        }else {
+            if (mLoadingRelativeLayout != null) {
+                mLoadingProgressBar.setVisibility(View.GONE);
+            }
         }
     }
 
     public void showContentContainer() {
         mContentContainer.setVisibility(View.VISIBLE);
+    }
+
+    public void hideContentContainer() {
+        mContentContainer.setVisibility(View.GONE);
     }
 
     @Override
@@ -122,9 +143,6 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-        if (mRequestTag != null) {
-            VolleyManager.cancelRequestByTag(mRequestTag);
-        }
     }
 
     @Override
@@ -142,7 +160,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     }
 
     @Override
-    public void showErrorView() {
+    public void showContentError() {
         showError();
     }
 }

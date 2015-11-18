@@ -18,7 +18,7 @@ public class CommentsPresent extends ListPresent<ListUi<Comment>, Comment>{
 
     public CommentsPresent(ListUi<Comment> ui) {
         super(ui);
-        mCommentsInteractor = InteractorFactory.newPresentInstance(CommentsInteractor.class);
+        mCommentsInteractor = InteractorFactory.newInteractorInstance(CommentsInteractor.class);
     }
 
     public void getIssuesComments(String owner, String repo, String issueNumber) {

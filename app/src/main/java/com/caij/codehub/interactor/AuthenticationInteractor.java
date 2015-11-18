@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/8/25.
  */
-public interface LoginInteractor extends Interactor {
+public interface AuthenticationInteractor extends Interactor {
     public void login(String username, String pwd, Object requestTag, UiCallBack<Token> uiCallBack);
 
     public void logout(String base64UsernameAndPwd, String tokenId, Object requestTag, UiCallBack<NetworkResponse> uiCallBack);

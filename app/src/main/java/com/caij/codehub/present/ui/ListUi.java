@@ -15,4 +15,9 @@ public interface ListUi<E extends Entity> extends BaseUi {
 
     public void onLoadMoreSuccess(List<E> entities);
 
+    public void onFirstLoadError(int msgId);
+
+    public void onRefreshError(int msgId);
+
+    public void onLoadMoreError(int msgId);
 }

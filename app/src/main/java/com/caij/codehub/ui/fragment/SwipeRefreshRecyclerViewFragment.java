@@ -44,7 +44,6 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
     @Override
     public void onFirstLoadSuccess(List<E> entities) {
-        hideLoading();
         showContentContainer();
         getRecyclerViewAdapter().setEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
@@ -64,5 +63,22 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
         getRecyclerViewAdapter().notifyDataSetChanged();
     }
 
+
+    @Override
+    public void onFirstLoadError(int msgId) {
+        showError(msgId);
+    }
+
+    @Override
+    public void onRefreshError(int msgId) {
+        showError(msgId);
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onLoadMoreError(int msgId) {
+        showError(msgId);
+        getLoadMoreRecyclerView().completeLoading();
+    }
 
 }

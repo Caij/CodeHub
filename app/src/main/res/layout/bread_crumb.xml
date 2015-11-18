@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         tools:text="Storage"
         tools:textColor="#000"
-        android:textAllCaps="true"
         android:textSize="@dimen/body_text_size"
         android:textColor="#fff" />
 

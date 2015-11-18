@@ -102,46 +102,51 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     public void onItemClick(View view, int position) {
-        EventWrap event = getRecyclerViewAdapter().getItem(position);
-        if (Event.COMMIT_COMMENT.equals(event.getType())) {
-        }else if (Event.CREATE.equals(event.getType())) {
-        }else if (Event.DELETE.equals(event.getType())) {
-        }else if (Event.DEPLOYMENT.equals(event.getType())) {
-        }else if (Event.DEPLOYMENT_STATUS.equals(event.getType())) {
-        }else if (Event.ISSUE_COMMENT.equals(event.getType())) {
-            IssueCommentEvent realEvent = (IssueCommentEvent) event.getRealEvent();
-            String[] repoInfo =  event.getRepo().getName().split("/");
-            Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
-                    String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
-            startActivity(intent);
-        }else if (Event.ISSUES.equals(event.getType())) {
-            IssuesEvent realEvent = (IssuesEvent) event.getRealEvent();
-            String[] repoInfo =  event.getRepo().getName().split("/");
-            Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
-                    String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
-            startActivity(intent);
-        }else if (Event.MEMBER.equals(event.getType())) {
-        }else if (Event.MEMBERSHIP.equals(event.getType())) {
-        }else if (Event.PULL_REQUEST.equals(event.getType())) {
-            try {
+        try {
+            EventWrap event = getRecyclerViewAdapter().getItem(position);
+            if (Event.COMMIT_COMMENT.equals(event.getType())) {
+            }else if (Event.CREATE.equals(event.getType())) {
+            }else if (Event.DELETE.equals(event.getType())) {
+            }else if (Event.DEPLOYMENT.equals(event.getType())) {
+            }else if (Event.DEPLOYMENT_STATUS.equals(event.getType())) {
+            }else if (Event.ISSUE_COMMENT.equals(event.getType())) {
+                IssueCommentEvent realEvent = (IssueCommentEvent) event.getRealEvent();
+                String[] repoInfo =  event.getRepo().getName().split("/");
+                Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
+                        String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
+                startActivity(intent);
+            }else if (Event.ISSUES.equals(event.getType())) {
+                IssuesEvent realEvent = (IssuesEvent) event.getRealEvent();
+                String[] repoInfo =  event.getRepo().getName().split("/");
+                Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
+                        String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
+                startActivity(intent);
+            }else if (Event.MEMBER.equals(event.getType())) {
+            }else if (Event.MEMBERSHIP.equals(event.getType())) {
+            }else if (Event.PULL_REQUEST.equals(event.getType())) {
                 String[] repoInfo =  event.getRepo().getName().split("/");
                 Intent intent = RepositoryInfoActivity.newInstance(getActivity(), repoInfo[0], repoInfo[1]);
                 startActivity(intent);
-            }catch (Exception e) {
-                ToastUtil.show(getActivity(), R.string.data_analysis_error);
-            }
-        }else if (Event.PULL_REQUEST_REVIEW_COMMENT.equals(event.getType())) {
-        }else if (Event.PUSH.equals(event.getType())) {
-            try {
+            }else if (Event.PULL_REQUEST_REVIEW_COMMENT.equals(event.getType())) {
+            }else if (Event.PUSH.equals(event.getType())) {
                 String[] repoInfo =  event.getRepo().getName().split("/");
                 Intent intent = RepositoryInfoActivity.newInstance(getActivity(), repoInfo[0], repoInfo[1]);
                 startActivity(intent);
-            }catch (Exception e) {
-                ToastUtil.show(getActivity(), R.string.data_analysis_error);
+            }else if (Event.REPOSITORY.equals(event.getType())) {
+            }else if (Event.TEAM_ADD.equals(event.getType())) {
+            }else if (Event.WATCH.equals(event.getType())) {
+                String[] repoInfo =  event.getRepo().getName().split("/");
+                Intent intent = RepositoryInfoActivity.newInstance(getActivity(), repoInfo[0], repoInfo[1]);
+                startActivity(intent);
             }
-        }else if (Event.REPOSITORY.equals(event.getType())) {
-        }else if (Event.TEAM_ADD.equals(event.getType())) {
-        }else if (Event.WATCH.equals(event.getType())) {
+        } catch (Exception e) {
+            ToastUtil.show(getActivity(), R.string.data_analysis_error);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mEventsPresent.onDeath();
     }
 }

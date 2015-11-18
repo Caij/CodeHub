@@ -5,7 +5,7 @@ import com.caij.codehub.interactor.imp.CommentsInteractorImp;
 import com.caij.codehub.interactor.imp.FileTreeInteractorImp;
 import com.caij.codehub.interactor.imp.IssueListInteractorImp;
 import com.caij.codehub.interactor.imp.IssueInteractorImp;
-import com.caij.codehub.interactor.imp.LoginInteractorImp;
+import com.caij.codehub.interactor.imp.AuthenticationInteractorImp;
 import com.caij.codehub.interactor.imp.EventsInteractorImp;
 import com.caij.codehub.interactor.imp.RepositoryActionInteractorImp;
 import com.caij.codehub.interactor.imp.RepositoryInfoInteractorImp;
@@ -20,14 +20,13 @@ import java.util.Map;
 
 /**
  * Created by Caij on 2015/10/31.
- * 简易版生成PresentImp，Dagger不熟悉。
  */
 public class InteractorFactory {
 
     private static Map<Class, Class> pclazzs = new HashMap<>();
 
     static {
-        pclazzs.put(LoginInteractor.class, LoginInteractorImp.class);
+        pclazzs.put(AuthenticationInteractor.class, AuthenticationInteractorImp.class);
         pclazzs.put(EventsInteractor.class, EventsInteractorImp.class);
         pclazzs.put(RepositoryInfoInteractor.class, RepositoryInfoInteractorImp.class);
         pclazzs.put(RepositoryListInteractor.class, RepositoryListInteractorImp.class);
@@ -42,8 +41,8 @@ public class InteractorFactory {
         pclazzs.put(CommentActionInteractor.class, CommentActionInteractorImp.class);
     }
 
-    public static <P extends Interactor> P newPresentInstance(Class<P> pClass) {
-        Class<P> tClass = pclazzs.get(pClass);
+    public static <P extends Interactor> P newInteractorInstance(Class<P> iClass) {
+        Class<P> tClass = pclazzs.get(iClass);
         if (tClass != null) {
             try {
                 return  tClass.newInstance();

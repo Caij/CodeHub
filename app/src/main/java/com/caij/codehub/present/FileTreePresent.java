@@ -17,7 +17,7 @@ public class FileTreePresent extends ListPresent<ListUi<FileTreeItem>, FileTreeI
 
     public FileTreePresent(ListUi<FileTreeItem> ui) {
         super(ui);
-        mFileTreeInteractor = InteractorFactory.newPresentInstance(FileTreeInteractor.class);
+        mFileTreeInteractor = InteractorFactory.newInteractorInstance(FileTreeInteractor.class);
     }
 
     public void loadFileTree(String name, String repo, String ref) {

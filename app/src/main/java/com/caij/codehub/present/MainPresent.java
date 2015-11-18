@@ -4,8 +4,6 @@ import com.caij.codehub.bean.User;
 import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.interactor.UserInteractor;
 import com.caij.codehub.present.ui.MainUi;
-import com.caij.codehub.present.ui.UserUi;
-import com.caij.lib.utils.VolleyManager;
 
 /**
  * Author Caij
@@ -14,17 +12,15 @@ import com.caij.lib.utils.VolleyManager;
  */
 public class MainPresent extends Present<MainUi>{
 
-    protected final Object requestTag;
     protected final UserInteractor mUserInterctor;
 
     public MainPresent(MainUi ui) {
         super(ui);
-        requestTag = new Object();
-        mUserInterctor = InteractorFactory.newPresentInstance(UserInteractor.class);
+        mUserInterctor = InteractorFactory.newInteractorInstance(UserInteractor.class);
     }
 
     public void getUserInfo(String token, String username) {
-        mUserInterctor.getUserInfo(token, username, requestTag, new DefaultInteractorCallback<User>(mUi) {
+        mUserInterctor.getUserInfo(token, username, this, new DefaultInteractorCallback<User>(mUi) {
             @Override
             public void onSuccess(User user) {
                 mUi.onGetUserInfoSuccess(user);
@@ -42,8 +38,4 @@ public class MainPresent extends Present<MainUi>{
         });
     }
 
-    @Override
-    public void onDeath() {
-        VolleyManager.cancelRequestByTag(requestTag);
-    }
 }

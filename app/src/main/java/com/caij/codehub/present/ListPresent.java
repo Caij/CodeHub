@@ -1,7 +1,6 @@
 package com.caij.codehub.present;
 
 import com.caij.codehub.bean.Entity;
-import com.caij.codehub.present.ui.BaseUi;
 import com.caij.codehub.present.ui.ListUi;
 
 import java.util.List;
@@ -18,17 +17,27 @@ public abstract class ListPresent<UI extends ListUi<E>, E extends Entity> extend
     }
 
     protected void defaultDealWithError(int msgId, LoadType loadType) {
-        mUi.hideLoading();
-        if (loadType == LoadType.FIRST) {
-            mUi.showErrorView();
+        switch (loadType) {
+            case FIRST:
+                mUi.showContentAnimLoading(false);
+                mUi.showContentError();
+                mUi.onFirstLoadError(msgId);
+                break;
+
+            case REFRESH:
+                mUi.onRefreshError(msgId);
+                break;
+
+            case MORE:
+                mUi.onLoadMoreError(msgId);
+                break;
         }
-        mUi.showError(msgId);
     }
 
     protected void defaultDealWithSuccess(List<E> entities, LoadType loadType) {
-        mUi.hideLoading();
         switch (loadType) {
             case FIRST:
+                mUi.showContentAnimLoading(false);
                 mUi.onFirstLoadSuccess(entities);
                 break;
 
@@ -45,7 +54,7 @@ public abstract class ListPresent<UI extends ListUi<E>, E extends Entity> extend
     protected void defaultDealWithLoading(LoadType loadType) {
         switch (loadType) {
             case FIRST:
-                mUi.showLoading();
+                mUi.showContentAnimLoading(true);
                 break;
 
             case REFRESH:

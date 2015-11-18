@@ -7,12 +7,12 @@ public interface BaseUi {
 
     public void onAuthError();
 
-    public void showLoading();
-
-    public void hideLoading();
+    public void showContentAnimLoading(boolean isVisible);
 
     public void showError(int msgId);
 
-    public void showErrorView();
+    public void showContentError();
+
+    public void showProgressBarLoading(boolean isVisible);
 
 }

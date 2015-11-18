@@ -42,7 +42,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/standard_margin"
             android:layout_marginRight="@dimen/standard_margin"
-            android:background="@color/theme_color" />
+            android:background="@color/color_primary" />
 
         <LinearLayout
             android:layout_width="match_parent"

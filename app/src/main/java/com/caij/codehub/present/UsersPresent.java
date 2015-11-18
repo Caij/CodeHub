@@ -19,7 +19,7 @@ public class UsersPresent extends ListPresent<ListUi<User>, User>{
 
     public UsersPresent(ListUi<User> ui) {
         super(ui);
-        mUserListInteractor = InteractorFactory.newPresentInstance(UserListInteractor.class);
+        mUserListInteractor = InteractorFactory.newInteractorInstance(UserListInteractor.class);
     }
 
     public void getFollowers(final LoadType loadType, String token, String username, Page page) {

@@ -3,7 +3,6 @@ package com.caij.codehub.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -40,10 +39,8 @@ public class WebActivity extends BaseCodeHubToolBarActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        String title = getIntent().getStringExtra(Constant.TITLE);
+    protected void handleIntent(Intent intent) {
+        String title = intent.getStringExtra(Constant.TITLE);
         setTitle(title);
 
         mWebview.getSettings().setJavaScriptEnabled(true);
@@ -76,13 +73,13 @@ public class WebActivity extends BaseCodeHubToolBarActivity {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            showLoading();
+            showProgressBarLoading(true);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            hideLoading();
+            showProgressBarLoading(false);
         }
     }
 

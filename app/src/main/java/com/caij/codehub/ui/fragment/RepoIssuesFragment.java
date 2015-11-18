@@ -1,19 +1,17 @@
-package com.caij.codehub.ui.activity;
+package com.caij.codehub.ui.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.caij.codehub.Constant;
-import com.caij.codehub.R;
 import com.caij.codehub.bean.Issue;
 import com.caij.codehub.bean.Page;
-import com.caij.codehub.interactor.IssueListInteractor;
-import com.caij.codehub.interactor.InteractorFactory;
-import com.caij.codehub.present.IssuesPresent;
+import com.caij.codehub.present.RepoIssuesPresent;
 import com.caij.codehub.present.LoadType;
+import com.caij.codehub.ui.activity.IssueInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.IssueAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
@@ -21,43 +19,50 @@ import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 import java.util.List;
 
 /**
- * Created by Caij on 2015/11/3.
+ * Author Caij
+ * Email worldcaij@gmail.com
+ * Created by Caij on 2015/11/18.
  */
-public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
+public class RepoIssuesFragment extends SwipeRefreshRecyclerViewFragment<Issue>{
 
+
+    private Page mPage;
+    private RepoIssuesPresent mRepoIssuesPresent;
     private String mOwner;
     private String mRepo;
-    private Page mPage;
 
-    private IssuesPresent mIssuesPresent;
-
-    public static Intent newIntent(Activity activity, String owner, String repo) {
-        Intent intent = new Intent(activity, IssueListActivity.class);
-        intent.putExtra(Constant.USER_NAME, owner);
-        intent.putExtra(Constant.REPO_NAME, repo);
-        return intent;
+    public static RepoIssuesFragment newInstance(String owner, String repo) {
+        RepoIssuesFragment fragment = new RepoIssuesFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.USER_NAME, owner);
+        bundle.putString(Constant.REPO_NAME, repo);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setToolbarTitle(getString(R.string.issue));
-        mOwner = getIntent().getStringExtra(Constant.USER_NAME);
-        mRepo = getIntent().getStringExtra(Constant.REPO_NAME);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        mOwner = bundle.getString(Constant.USER_NAME);
+        mRepo = bundle.getString(Constant.REPO_NAME);
         mPage = new Page();
+        mRepoIssuesPresent = new RepoIssuesPresent(this);
+    }
 
-        mIssuesPresent= new IssuesPresent(this);
-        mIssuesPresent.getIssueList(LoadType.FIRST, mOwner, mRepo, mPage);
+    @Override
+    protected void onUserFirstVisible() {
+        mRepoIssuesPresent.getIssueList(LoadType.FIRST, mOwner, mRepo, mPage);
     }
 
     @Override
     protected BaseAdapter<Issue> createRecyclerViewAdapter() {
-        return new IssueAdapter(this);
+        return new IssueAdapter(getActivity());
     }
 
     @Override
     protected LoadMoreRecyclerView.LayoutManager createRecyclerViewLayoutManager() {
-        return new LinearLayoutManager(this);
+        return new LinearLayoutManager(getActivity());
     }
 
     @Override
@@ -85,30 +90,30 @@ public class IssueListActivity extends SwipeRefreshRecyclerViewActivity<Issue> {
 
     @Override
     public void onRefresh() {
-        mIssuesPresent.getIssueList(LoadType.REFRESH, mOwner, mRepo, mPage.createRefreshPage());
+        mRepoIssuesPresent.getIssueList(LoadType.REFRESH, mOwner, mRepo, mPage.createRefreshPage());
     }
 
     @Override
     public void onLoadMore() {
-        mIssuesPresent.getIssueList(LoadType.MORE, mOwner, mRepo, mPage);
+        mRepoIssuesPresent.getIssueList(LoadType.MORE, mOwner, mRepo, mPage);
     }
 
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mIssuesPresent.getIssueList(LoadType.FIRST, mOwner, mRepo, mPage);
+        mRepoIssuesPresent.getIssueList(LoadType.FIRST, mOwner, mRepo, mPage);
     }
 
     @Override
     public void onItemClick(View view, int position) {
         Issue issue = getRecyclerViewAdapter().getItem(position);
-        Intent intent = IssueInfoActivity.newIntent(this, mOwner, mRepo, String.valueOf(issue.getNumber()), issue.getTitle(), issue.getBody());
+        Intent intent = IssueInfoActivity.newIntent(getActivity(), mOwner, mRepo, String.valueOf(issue.getNumber()), issue.getTitle(), issue.getBody());
         startActivity(intent);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mIssuesPresent.onDeath();
+    public void onDestroyView() {
+        super.onDestroyView();
+        mRepoIssuesPresent.onDeath();
     }
 }
