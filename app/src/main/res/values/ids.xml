@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="glide_view_tag_id" type="id"/>
+
+    <item name="avatar_view_tag_id" type="id"/>
+
+    <item name="recycler_view_item_tag_id" type="id"/>
+
+</resources>

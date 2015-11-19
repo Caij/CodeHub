@@ -106,4 +106,7 @@
     <string name="source">Source</string>
     <string name="comment">Comment</string>
     <string name="password_error">username or password is incorrect</string>
+    <string name="about_me_github">https://github.com/Caij</string>
+    <string name="my_email">worldcaij@gmail.com</string>
+    <string name="about_me">About Me</string>
 </resources>

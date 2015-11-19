@@ -7,6 +7,8 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.integration.okhttp.OkHttpUrlLoader;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.GlideModule;
+import com.bumptech.glide.request.target.ViewTarget;
+import com.caij.codehub.R;
 
 import java.io.InputStream;
 
@@ -18,6 +20,7 @@ public class MyGlideModule implements GlideModule {
 
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
+        ViewTarget.setTagId(R.id.glide_view_tag_id);
     }
 
     @Override

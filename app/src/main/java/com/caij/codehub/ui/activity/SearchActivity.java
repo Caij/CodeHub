@@ -30,7 +30,6 @@ import com.caij.codehub.ui.fragment.SearchRepositoriesFragment;
 
 public class SearchActivity extends BaseCodeHubToolBarActivity {
 
-    SearchView mSearchView = null;
     String mQuery = "";
     private SearchRepositoriesFragment mSearchRepositoriesFragment;
 
@@ -49,7 +48,6 @@ public class SearchActivity extends BaseCodeHubToolBarActivity {
         if (searchItem != null) {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final SearchView view = (SearchView) searchItem.getActionView();
-            mSearchView = view;
             if (view == null) {
             } else {
                 view.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));

@@ -1,6 +1,6 @@
 package com.caij.codehub.ui.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,29 +26,39 @@ public class CommentAdapter extends BaseAdapter<Comment> {
     public static final int COMMENT = 2;
     public static final int ISSUE = 3;
     private final CropCircleTransformation cropCircleTransformation;
+    private final Activity mActivity;
 
     private View mIssueContentHeadView;
 
-    public CommentAdapter(Context context) {
-        this(null, context);
+    public CommentAdapter(Activity activity) {
+        this(null, activity);
     }
 
-    public CommentAdapter(List<Comment> entities, Context context) {
-        super(context, entities);
+    public CommentAdapter(List<Comment> entities, Activity activity) {
+        super(activity, entities);
         cropCircleTransformation = new CropCircleTransformation(context);
+        this.mActivity = activity;
     }
 
     @Override
     public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CommentViewHolder) {
             CommentViewHolder viewHolder = (CommentViewHolder) holder;
-            Comment comment = getItem(position - 1);
+            Comment comment = getItem(position);
 
             Glide.with(context).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
                     bitmapTransform(cropCircleTransformation).into(viewHolder.avatarImage);
             viewHolder.tvUserName.setText(comment.getUser().getLogin());
             viewHolder.tvCommentBody.setText(comment.getBody());
             viewHolder.tvCommentUpdate.setText(TimeUtils.getRelativeTime(comment.getUpdated_at()));
+
+            AvatarOnClickListener listener = (AvatarOnClickListener) viewHolder.avatarImage.getTag(R.id.avatar_view_tag_id);
+            if (listener == null) {
+                listener = new AvatarOnClickListener(mActivity);
+                listener.setUser(comment.getUser());
+            }
+            viewHolder.avatarImage.setOnClickListener(listener);
+            viewHolder.avatarImage.setTag(R.id.avatar_view_tag_id, listener);
         }
     }
 
@@ -58,6 +68,15 @@ public class CommentAdapter extends BaseAdapter<Comment> {
             return super.getDataCount() + 1;
         }
         return super.getDataCount();
+    }
+
+    @Override
+    public Comment getItem(int i) {
+        if (mIssueContentHeadView == null) {
+            return super.getItem(i);
+        } else {
+            return super.getItem(i - 1);
+        }
     }
 
     public void addIssueContentHeadView(View view) {

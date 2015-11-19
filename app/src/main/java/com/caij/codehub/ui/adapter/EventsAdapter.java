@@ -61,6 +61,14 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
         holder.happenTime.setText(TimeUtils.getRelativeTime(event.getCreated_at()));
         holder.event.setText(event.getAdapterTitle());
         holder.eventBody.setText(event.getAdapterBody());
+
+        AvatarOnClickListener listener = (AvatarOnClickListener) holder.avatar.getTag(R.id.avatar_view_tag_id);
+        if (listener == null) {
+            listener = new AvatarOnClickListener(mActivity);
+            listener.setUser(event.getActor());
+        }
+        holder.avatar.setOnClickListener(listener);
+        holder.avatar.setTag(R.id.avatar_view_tag_id, listener);
     }
 
 

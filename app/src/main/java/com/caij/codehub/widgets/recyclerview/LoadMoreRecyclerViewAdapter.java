@@ -12,6 +12,7 @@ import com.caij.codehub.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 
 /**
  * Created by Caij on 2015/11/5.
@@ -24,7 +25,7 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     protected LayoutInflater mInflater;
 
-    private int mState;
+    private int mState = LoadMoreRecyclerView.STATE_NO_MORE;
 
     private LoadingMoreHolder mLoadingMoreHolder;
     private RecyclerViewOnItemClickListener onItemClickListener;
@@ -46,18 +47,17 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        if (position == getDataCount()) {
+        if (TYPE_LOADING == getItemViewType(position)) {
             onBindLoadingViewHolder(holder, position);
         } else {
             onBindDataViewHolder(holder, position);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, position);
-                    }
-                }
-            });
+            OnItemClickListener listener = (OnItemClickListener) holder.itemView.getTag(R.id.recycler_view_item_tag_id);
+            if (listener == null) {
+                listener = new OnItemClickListener();
+            }
+            listener.setPosition(position);
+            holder.itemView.setOnClickListener(listener);
+            holder.itemView.setTag(R.id.recycler_view_item_tag_id, listener);
         }
     }
 
@@ -82,7 +82,7 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
 
     @Override
     public final int getItemViewType(int position) {
-        if (position == getDataCount()) {
+        if (position == getItemCount() - 1) {
             return TYPE_LOADING;
         }
         return getDataViewType(position);
@@ -115,6 +115,22 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
                 mLoadingMoreHolder.mLoading.setVisibility(View.GONE);
                 break;
 
+        }
+    }
+
+    private class OnItemClickListener implements View.OnClickListener {
+
+        private int position;
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, position);
+            }
+        }
+
+        public void setPosition(int positoin) {
+            this.position = positoin;
         }
     }
 

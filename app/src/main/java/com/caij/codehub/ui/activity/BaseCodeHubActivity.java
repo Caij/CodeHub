@@ -113,7 +113,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
             }
             mLoadingProgressBar.setVisibility(View.VISIBLE);
         }else {
-            if (mLoadingRelativeLayout != null) {
+            if (mLoadingProgressBar != null) {
                 mLoadingProgressBar.setVisibility(View.GONE);
             }
         }

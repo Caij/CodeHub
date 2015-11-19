@@ -28,6 +28,7 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRepositoriesPresent = new RepositoriesPresent(this);
+        showContentContainer();
     }
 
     @Override
@@ -50,7 +51,8 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
 
         mPage = new Page();
         hideError();
-        mRepositoriesPresent.getSearchRepository(LoadType.FIRST, mRepoSearchQ, mRepoSort, mOrder, mPage);
+        mSwipeRefreshLayout.setRefreshing(true);
+        mRepositoriesPresent.getSearchRepository(LoadType.REFRESH, mRepoSearchQ, mRepoSort, mOrder, mPage);
     }
 
     @Override
@@ -66,7 +68,8 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
     @Override
     public void onReFreshBtnClick(View view) {
         super.onReFreshBtnClick(view);
-        mRepositoriesPresent.getSearchRepository(LoadType.FIRST, mRepoSearchQ, mRepoSort, mOrder, mPage);
+        mSwipeRefreshLayout.setRefreshing(true);
+        mRepositoriesPresent.getSearchRepository(LoadType.REFRESH, mRepoSearchQ, mRepoSort, mOrder, mPage);
     }
 
     @Override
