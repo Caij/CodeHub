@@ -10,7 +10,7 @@ import com.caij.codehub.bean.Token;
 import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.interactor.AuthenticationInteractor;
 import com.caij.codehub.present.ui.UserLoginUi;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.interactor.UiCallBack;
 import com.caij.codehub.utils.Base64;
 
 import java.util.List;

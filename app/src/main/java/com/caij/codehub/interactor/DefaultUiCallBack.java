@@ -1,4 +1,4 @@
-package com.caij.codehub.ui.callback;
+package com.caij.codehub.interactor;
 
 import android.app.Activity;
 import android.content.Intent;

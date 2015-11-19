@@ -1,7 +1,6 @@
 package com.caij.codehub.interactor;
 
 import com.caij.codehub.bean.Repository;
-import com.caij.codehub.ui.callback.UiCallBack;
 
 /**
  * Created by Caij on 2015/9/19.

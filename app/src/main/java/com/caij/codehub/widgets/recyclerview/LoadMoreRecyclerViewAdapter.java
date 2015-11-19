@@ -12,7 +12,6 @@ import com.caij.codehub.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 
 /**
  * Created by Caij on 2015/11/5.
@@ -145,7 +144,7 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
         TextView mHint;
         @Bind(R.id.loading)
         ProgressBar mLoading;
-        @Bind(R.id.fl_content)
+        @Bind(R.id.fl_content_container)
         View mView;
 
         LoadingMoreHolder(View view) {

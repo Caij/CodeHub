@@ -8,7 +8,7 @@ import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.interactor.EventsInteractor;
 import com.caij.codehub.request.EventRequest;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.interactor.UiCallBack;
 import com.caij.lib.utils.VolleyManager;
 
 import java.util.HashMap;
@@ -28,7 +28,7 @@ public class EventsInteractorImp implements EventsInteractor {
         Map<String, String> params = new HashMap<>();
         params.put(API.PAGE, String.valueOf(page.getPageIndex()));
         params.put(API.PER_PAGE, String.valueOf(page.getPageDataCount()));
-        EventRequest request = new EventRequest(Request.Method.GET, url, params, head,new Response.Listener<List<EventWrap>>() {
+        EventRequest request = new EventRequest(Request.Method.GET, url, params, head, new Response.Listener<List<EventWrap>>() {
             @Override
             public void onResponse(List<EventWrap> response) {
                uiCallBack.onSuccess(response);

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 
 import com.caij.codehub.CodeHubPrefs;
@@ -22,7 +21,6 @@ import com.caij.codehub.ui.activity.LoginActivity;
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.ToastUtil;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -34,7 +32,7 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
     ViewStub mProLoadingViewStub;
     ViewStub mLoadErrorViewStub;
     LinearLayout mLoadErrorLinearLayout;
-    RelativeLayout mLoadingRelativeLayout;
+    LinearLayout mLoadingLinearLayout;
     ImageView mAnimLoadingImage;
     ProgressBar mLoadingProgressBar;
     ViewGroup mContentContainer;
@@ -43,8 +41,10 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_base_code_hub, container, false);
-        mContentContainer = (ViewGroup) view.findViewById(R.id.fl_content);
-        getActivity().getLayoutInflater().inflate(getContentLayoutId(), mContentContainer, true);
+        mContentContainer = (ViewGroup) view.findViewById(R.id.fl_content_container);
+        if (getAttachLayoutId() !=  0) {
+            getActivity().getLayoutInflater().inflate(getAttachLayoutId(), mContentContainer, true);
+        }
         mLoadErrorViewStub = (ViewStub) view.findViewById(R.id.vs_load_error);
         mAnimLoadingViewStub = (ViewStub) view.findViewById(R.id.vs_anim_loading);
         mProLoadingViewStub = (ViewStub) view.findViewById(R.id.vs_progress_bar_loading);
@@ -52,7 +52,7 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
         return view;
     }
 
-    protected abstract int getContentLayoutId();
+    protected abstract int getAttachLayoutId();
 
     @Override
     public void onDestroyView() {
@@ -84,17 +84,17 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
     @Override
     public void showContentAnimLoading(boolean isVisible) {
         if (isVisible) {
-            if (mLoadingRelativeLayout == null) {
+            if (mLoadingLinearLayout == null) {
                 View view = mAnimLoadingViewStub.inflate();
-                mLoadingRelativeLayout = (RelativeLayout) view.findViewById(R.id.rl_anim_loading);
-                mAnimLoadingImage = (ImageView) mLoadingRelativeLayout.findViewById(R.id.iv_anim_loading);
+                mLoadingLinearLayout = (LinearLayout) view.findViewById(R.id.rl_anim_loading);
+                mAnimLoadingImage = (ImageView) mLoadingLinearLayout.findViewById(R.id.iv_anim_loading);
             }
-            mLoadingRelativeLayout.setVisibility(View.VISIBLE);
+            mLoadingLinearLayout.setVisibility(View.VISIBLE);
             ((AnimationDrawable) mAnimLoadingImage.getDrawable()).start();
         }else {
-            if (mLoadingRelativeLayout != null) {
+            if (mLoadingLinearLayout != null) {
                 ((AnimationDrawable) mAnimLoadingImage.getDrawable()).stop();
-                mLoadingRelativeLayout.setVisibility(View.GONE);
+                mLoadingLinearLayout.setVisibility(View.GONE);
             }
         }
     }
@@ -108,7 +108,7 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
             }
             mLoadingProgressBar.setVisibility(View.VISIBLE);
         }else {
-            if (mLoadingRelativeLayout != null) {
+            if (mLoadingLinearLayout != null) {
                 mLoadingProgressBar.setVisibility(View.GONE);
             }
         }

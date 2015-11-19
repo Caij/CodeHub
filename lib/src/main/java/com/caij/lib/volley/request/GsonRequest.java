@@ -81,12 +81,12 @@ public class GsonRequest<T> extends AbsRequest<T>{
             result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, HttpHeaderParser.parseCharset(response.headers)), mType);
             return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
-            result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, Charset.defaultCharset()), mType);
+            result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream), mType);
             return Response.success(result, HttpHeaderParser.parseCacheHeaders(response));
         }
     }
 
-    private void logResult(NetworkResponse response) {
+    protected void logResult(NetworkResponse response) {
         if (LogUtil.LOG_DEBUG) {
             String result;
             try {

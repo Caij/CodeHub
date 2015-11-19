@@ -80,6 +80,10 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
         return new LinearLayoutManager(getActivity());
     }
 
+    @Override
+    public void showEmptyView(boolean isVisible) {
+
+    }
 
     @Override
     protected void onUserFirstVisible() {

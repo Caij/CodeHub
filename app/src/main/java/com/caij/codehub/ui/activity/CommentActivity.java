@@ -2,19 +2,14 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.widget.EditText;
 
-import com.android.volley.VolleyError;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
-import com.caij.codehub.interactor.CommentActionInteractor;
-import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.present.CommentPresent;
 import com.caij.codehub.present.ui.CommentUi;
-import com.caij.codehub.ui.callback.DefaultUiCallBack;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;

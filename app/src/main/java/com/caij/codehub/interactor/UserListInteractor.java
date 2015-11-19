@@ -2,7 +2,6 @@ package com.caij.codehub.interactor;
 
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
-import com.caij.codehub.ui.callback.UiCallBack;
 
 import java.util.List;
 

@@ -59,7 +59,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
                 String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
 
                 mSwipeRefreshLayout.setRefreshing(true);
-                mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language, mPage);
+                mRepositoriesPresent.getTrendingRepository(LoadType.REFRESH, since, language, mPage);
             }
         }).setNegativeButton(R.string.cancel, null).setView(mFilterDialogView);
         mDialog = builder.create();
@@ -81,7 +81,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
     }
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.fragment_trending;
     }
 

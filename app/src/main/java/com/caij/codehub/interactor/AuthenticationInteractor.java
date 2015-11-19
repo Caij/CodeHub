@@ -2,7 +2,6 @@ package com.caij.codehub.interactor;
 
 import com.android.volley.NetworkResponse;
 import com.caij.codehub.bean.Token;
-import com.caij.codehub.ui.callback.UiCallBack;
 
 import java.util.List;
 

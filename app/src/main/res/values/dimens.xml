@@ -29,4 +29,6 @@
     <dimen name="breadcrumb_height">42dp</dimen>
     <dimen name="fab_size">48dp</dimen>
     <dimen name="z_fab">6dp</dimen>
+
+    <dimen name="page_hint_image">60dp</dimen>
 </resources>

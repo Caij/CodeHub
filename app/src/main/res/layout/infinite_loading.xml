@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fl_content"
+        android:id="@+id/fl_content_container"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center"

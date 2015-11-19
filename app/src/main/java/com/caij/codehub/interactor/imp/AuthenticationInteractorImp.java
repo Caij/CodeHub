@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.interactor.AuthenticationInteractor;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.interactor.UiCallBack;
 import com.caij.codehub.utils.Base64;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;

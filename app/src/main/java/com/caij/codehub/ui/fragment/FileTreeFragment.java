@@ -74,7 +74,7 @@ public class FileTreeFragment extends SwipeRefreshRecyclerViewFragment<FileTreeI
 
     @Override
     public void onRefresh() {
-        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

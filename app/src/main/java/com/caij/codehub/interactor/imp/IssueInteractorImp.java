@@ -6,7 +6,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Issue;
 import com.caij.codehub.interactor.IssueInteractor;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.interactor.UiCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;

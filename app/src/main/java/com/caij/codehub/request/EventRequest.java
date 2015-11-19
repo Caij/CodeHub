@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,8 @@ import java.util.Map;
  * Created by Caij on 2015/10/30.
  */
 public class EventRequest extends GsonRequest<List<EventWrap>>{
-    public EventRequest(int method, String url,Response.Listener<List<EventWrap>> response, Response.ErrorListener listener) {
+
+    public EventRequest(int method, String url, Response.Listener<List<EventWrap>> response, Response.ErrorListener listener) {
         super(method, url, null, response, listener);
     }
 
@@ -31,7 +33,15 @@ public class EventRequest extends GsonRequest<List<EventWrap>>{
         super(method, url, params, null, response, listener);
     }
 
+    public EventRequest(int method, String url, String params,Response.Listener<List<EventWrap>> response, Response.ErrorListener listener) {
+        super(method, url, params, null, response, listener);
+    }
+
     public EventRequest(int method, String url, Map<String, String> params, Map<String, String> head, Response.Listener<List<EventWrap>> response, Response.ErrorListener listener) {
+        super(method, url, params, head, null, response, listener);
+    }
+
+    public EventRequest(int method, String url, String params, Map<String, String> head, Response.Listener<List<EventWrap>> response, Response.ErrorListener listener) {
         super(method, url, params, head, null, response, listener);
     }
 
@@ -39,28 +49,24 @@ public class EventRequest extends GsonRequest<List<EventWrap>>{
         super(method, url, params, head, bodyContentType, null, response, listener);
     }
 
-    public EventRequest(int method, String url, String body, Map<String, String> head, String bodyContentType, Response.Listener<List<EventWrap>> response, Response.ErrorListener listener) {
-        super(method, url, body, head, bodyContentType, null, response, listener);
+    public EventRequest(int method, String url, String params, Map<String, String> head, String bodyContentType, Response.Listener<List<EventWrap>> response, Response.ErrorListener listener) {
+        super(method, url, params, head, bodyContentType, null, response, listener);
     }
 
     @Override
     protected Response<List<EventWrap>> parseNetworkResponse(NetworkResponse response) {
+        logResult(response);
         List<Event> result;
+        List<EventWrap> eventWraps;
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response.data);
         try {
-            result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, HttpHeaderParser.parseCharset(response.headers)), new TypeToken<List< Event>>(){}.getType());
-            List<EventWrap> eventWraps = convert(result);
+            result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, HttpHeaderParser.parseCharset(response.headers)), new TypeToken<List<Event>>(){}.getType());
+            eventWraps = convert(result);
             return Response.success(eventWraps, HttpHeaderParser.parseCacheHeaders(response));
-        } catch (JsonSyntaxException e) {
-            return Response.error(new JsonParseError());
-        }catch (UnsupportedEncodingException e) {
-            try {
-                result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream, Charset.forName("UTF-8")), mType);
-                List<EventWrap> eventWraps = convert(result);
-                return Response.success(eventWraps, HttpHeaderParser.parseCacheHeaders(response));
-            }catch (JsonSyntaxException je) {
-                return Response.error(new JsonParseError());
-            }
+        } catch (UnsupportedEncodingException e) {
+            result = GsonUtils.getGson().fromJson(new InputStreamReader(byteArrayInputStream), new TypeToken<List<Event>>(){}.getType());
+            eventWraps = convert(result);
+            return Response.success(eventWraps, HttpHeaderParser.parseCacheHeaders(response));
         }
     }
 

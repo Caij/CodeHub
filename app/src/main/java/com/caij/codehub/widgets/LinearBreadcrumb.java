@@ -244,6 +244,11 @@ public class LinearBreadcrumb extends HorizontalScrollView implements View.OnCli
             iv.setVisibility(View.GONE);
         else if (allowArrowVisible)
             iv.setVisibility(View.VISIBLE);
+
+        if (isActive) {
+            iv.setVisibility(View.GONE);
+        }
+
         return tv;
     }
 

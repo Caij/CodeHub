@@ -50,7 +50,7 @@ public class FileTreeActivity extends BaseCodeHubToolBarActivity implements Line
         breadCrumbs.addCrumb(new LinearBreadcrumb.Crumb(mBran, mBran), true);
         FileTreeFragment fragment = FileTreeFragment.newInstance(mOwner, mRepoName, mBran);
         fragment.setUserVisibleHint(true);
-        getSupportFragmentManager().beginTransaction().add(R.id.fl_file_tree, fragment, mBran).addToBackStack(mBran).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fl_file_tree, fragment, mBran).commit();
 
     }
 
@@ -94,8 +94,6 @@ public class FileTreeActivity extends BaseCodeHubToolBarActivity implements Line
             LinearBreadcrumb.Crumb crumb = breadCrumbs.getCrumb(breadCrumbs.size() - 2);
             breadCrumbs.setActive(crumb);
             breadCrumbs.removeCrumbAt(breadCrumbs.size() - 1);
-        }else {
-            finish();
         }
     }
 

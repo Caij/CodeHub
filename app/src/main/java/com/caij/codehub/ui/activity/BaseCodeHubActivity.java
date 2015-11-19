@@ -19,9 +19,6 @@ import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
-import javax.annotation.Nullable;
-
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -36,7 +33,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     ViewStub mProLoadingViewStub;
     ViewStub mLoadErrorViewStub;
     LinearLayout mLoadErrorLinearLayout;
-    RelativeLayout mLoadingRelativeLayout;
+    LinearLayout mLoadingLinearLayout;
     ImageView mAnimLoadingImage;
     ProgressBar mLoadingProgressBar;
     ViewGroup mContentContainer;
@@ -89,17 +86,17 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     @Override
     public void showContentAnimLoading(boolean isVisible) {
         if (isVisible) {
-            if (mLoadingRelativeLayout == null) {
+            if (mLoadingLinearLayout == null) {
                 View view = mAnimLoadingViewStub.inflate();
-                mLoadingRelativeLayout = (RelativeLayout) view.findViewById(R.id.rl_anim_loading);
-                mAnimLoadingImage = (ImageView) mLoadingRelativeLayout.findViewById(R.id.iv_anim_loading);
+                mLoadingLinearLayout = (LinearLayout) view.findViewById(R.id.rl_anim_loading);
+                mAnimLoadingImage = (ImageView) mLoadingLinearLayout.findViewById(R.id.iv_anim_loading);
             }
-            mLoadingRelativeLayout.setVisibility(View.VISIBLE);
+            mLoadingLinearLayout.setVisibility(View.VISIBLE);
             ((AnimationDrawable) mAnimLoadingImage.getDrawable()).start();
         }else {
-            if (mLoadingRelativeLayout != null) {
+            if (mLoadingLinearLayout != null) {
                 ((AnimationDrawable) mAnimLoadingImage.getDrawable()).stop();
-                mLoadingRelativeLayout.setVisibility(View.GONE);
+                mLoadingLinearLayout.setVisibility(View.GONE);
             }
         }
     }

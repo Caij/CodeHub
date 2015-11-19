@@ -109,4 +109,5 @@
     <string name="about_me_github">https://github.com/Caij</string>
     <string name="my_email">worldcaij@gmail.com</string>
     <string name="about_me">About Me</string>
+    <string name="page_nothing">There\'s nothing</string>
 </resources>

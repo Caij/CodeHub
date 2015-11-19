@@ -2,7 +2,6 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,22 +9,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.bumptech.glide.Glide;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
-import com.caij.codehub.interactor.FollowActionInteractor;
-import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.present.UserInfoPresent;
 import com.caij.codehub.present.ui.UserInfoUi;
 import com.caij.codehub.present.ui.UserUi;
-import com.caij.codehub.ui.callback.UiCallBack;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
 import com.caij.lib.utils.CheckValueUtil;
-import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;

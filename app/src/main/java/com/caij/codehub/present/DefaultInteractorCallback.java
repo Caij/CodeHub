@@ -5,10 +5,9 @@ import com.android.volley.NetworkError;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.present.ui.BaseUi;
-import com.caij.codehub.ui.callback.UiCallBack;
+import com.caij.codehub.interactor.UiCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.JsonParseError;
 

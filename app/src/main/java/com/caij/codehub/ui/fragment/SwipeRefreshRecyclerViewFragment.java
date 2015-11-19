@@ -2,15 +2,14 @@ package com.caij.codehub.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.widget.FrameLayout;
 
-import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
 import com.caij.codehub.present.ui.ListUi;
-import com.caij.codehub.ui.callback.DefaultUiCallBack;
-import com.caij.codehub.ui.callback.UiCallBack;
 
 import java.util.List;
 
@@ -23,9 +22,10 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    View mEmptyView;
 
     @Override
-    protected int getContentLayoutId() {
+    protected int getAttachLayoutId() {
         return R.layout.include_refresh_recycle_view;
     }
 
@@ -41,10 +41,25 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
     }
 
+    public void showEmptyView(boolean isVisible) {
+        if (isVisible) {
+            if (mEmptyView == null) {
+                getActivity().getLayoutInflater().inflate(R.layout.include_empty_view, mContentContainer, true);
+                mEmptyView = mContentContainer.findViewById(R.id.ll_empty_view);
+            }
+            mEmptyView.setVisibility(View.VISIBLE);
+        }else {
+            if (mEmptyView != null) {
+                mEmptyView.setVisibility(View.GONE);
+            }
+        }
+    }
+
 
     @Override
     public void onFirstLoadSuccess(List<E> entities) {
         showContentContainer();
+        showEmptyView(entities.size() ==  0);
         getRecyclerViewAdapter().setEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
     }
@@ -52,6 +67,7 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
     @Override
     public void onRefreshSuccess(List<E> entities) {
         mSwipeRefreshLayout.setRefreshing(false);
+        showEmptyView(entities.size() ==  0);
         getRecyclerViewAdapter().setEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
     }
