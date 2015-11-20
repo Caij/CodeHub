@@ -25,4 +25,5 @@
             android:textSize="@dimen/big_body_text_size" />
 
     </LinearLayout>
+
 </LinearLayout>

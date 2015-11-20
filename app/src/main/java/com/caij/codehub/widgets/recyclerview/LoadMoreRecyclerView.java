@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.widget.FrameLayout;
 
 
 /**
@@ -12,14 +13,16 @@ import android.util.AttributeSet;
  */
 public class LoadMoreRecyclerView extends RecyclerView {
 
+    private static final String TAG = "RecyclerView";
+
     public static final int STATE_NORMAL = 1;
     public static final int STATE_LOADING = 2;
     public static final int STATE_NO_MORE = 3;
-    private static final String TAG = "RecyclerView";
 
     private OnLoadMoreListener mOnLoadMoreListener;
-    private int mState = STATE_NORMAL;
+    private LoadMoreRecyclerViewAdapter mLoadMoreRecyclerViewAdapter;
     private boolean mIsLoadMoreEnable = true;
+
 
     public LoadMoreRecyclerView(Context context) {
         super(context);
@@ -44,8 +47,14 @@ public class LoadMoreRecyclerView extends RecyclerView {
         this.mOnLoadMoreListener = onLoadMoreListener;
     }
 
+    @Override
+    public void setAdapter(Adapter adapter) {
+        super.setAdapter(adapter);
+        mLoadMoreRecyclerViewAdapter = (LoadMoreRecyclerViewAdapter) adapter;
+    }
+
     private void onLoadMore() {
-        if (mState == STATE_NORMAL && mOnLoadMoreListener != null) {
+        if (mIsLoadMoreEnable && mLoadMoreRecyclerViewAdapter.getState() == STATE_NORMAL && mOnLoadMoreListener != null) {
             setState(STATE_LOADING);
             mOnLoadMoreListener.onLoadMore();
         }
@@ -61,11 +70,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
     public void setState(int state) {
         if (mIsLoadMoreEnable) {
-            this.mState = state;
-            if (getAdapter() instanceof LoadMoreRecyclerViewAdapter) {
-                LoadMoreRecyclerViewAdapter baseAdapter = (LoadMoreRecyclerViewAdapter) getAdapter();
-                baseAdapter.setState(state);
-            }
+            mLoadMoreRecyclerViewAdapter.setState(state);
         }
     }
 
@@ -79,7 +84,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            if (mState != STATE_NORMAL && !mIsLoadMoreEnable) return;
+            if (!mIsLoadMoreEnable && mLoadMoreRecyclerViewAdapter.getState() != STATE_NORMAL) return;
 
             LayoutManager layoutManager = getLayoutManager();
             final int visibleItemCount = getChildCount();
@@ -93,8 +98,8 @@ public class LoadMoreRecyclerView extends RecyclerView {
                 }
             }else if (layoutManager instanceof StaggeredGridLayoutManager) {
                 StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-                int lastVisiblePisitoin = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(null)[1];
-                if (lastVisiblePisitoin == totalItemCount) {
+                int lastVisiblePosition = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(null)[1];
+                if (lastVisiblePosition == totalItemCount) {
                     onLoadMore();
                 }
             }

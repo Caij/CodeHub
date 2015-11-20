@@ -113,8 +113,11 @@ public abstract class LoadMoreRecyclerViewAdapter extends RecyclerView.Adapter<R
                 mLoadingMoreHolder.mHint.setVisibility(View.GONE);
                 mLoadingMoreHolder.mLoading.setVisibility(View.GONE);
                 break;
-
         }
+    }
+
+    public int getState() {
+        return mState;
     }
 
     private class OnItemClickListener implements View.OnClickListener {
