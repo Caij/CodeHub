@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.Theme">
+    <style name="AppTheme" parent="SwipeBack.Theme">
         <!-- Customize your theme here. -->
     </style>
 
@@ -13,7 +13,14 @@
         <item name="colorAccent">@color/color_accent</item>
         <!--<item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>-->
         <!--<item name="android:windowBackground">@color/window_background</item>-->
+    </style>
 
+    <style name="No.SwipeBack.Theme" parent="Base.Theme">
+        <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="SwipeBack.Theme" parent="Base.Theme">
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="MenuItemText">
@@ -46,6 +53,14 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_black</item>
         <item name="android:background">@color/white</item>
+    </style>
+
+
+    <style name="SwipeBackLayout">
+        <item name="edge_size">50dip</item>
+        <item name="shadow_left">@drawable/shadow_left</item>
+        <item name="shadow_right">@drawable/shadow_right</item>
+        <item name="shadow_bottom">@drawable/shadow_bottom</item>
     </style>
 
 </resources>

@@ -24,6 +24,11 @@ public class InitActivity extends BaseCodeHubActivity {
     }
 
     @Override
+    protected boolean isSwipeBackEnable() {
+        return false;
+    }
+
+    @Override
     protected int getAttachLayoutId() {
         return R.layout.activity_init;
     }

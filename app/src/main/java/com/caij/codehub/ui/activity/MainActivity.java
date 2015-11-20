@@ -24,6 +24,7 @@ import com.caij.codehub.present.ui.UserUi;
 import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
 import com.caij.codehub.utils.CropCircleTransformation;
+import com.caij.lib.utils.LogUtil;
 import com.caij.lib.utils.ToastUtil;
 
 import butterknife.Bind;
@@ -75,7 +76,6 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
                 bitmapTransform(new CropCircleTransformation(MainActivity.this)).into(mNavigationAvatarImageView);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -97,6 +97,11 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
     protected void onDestroy() {
         super.onDestroy();
         mMainPresent.onDeath();
+    }
+
+    @Override
+    protected boolean isSwipeBackEnable() {
+        return false;
     }
 
     @Override

@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <FrameLayout
-        android:id="@+id/base_code_hub_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
 
     <ViewStub
         android:id="@+id/vs_anim_loading"
         android:layout="@layout/include_anim_loading"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_gravity="center"/>
 
     <ViewStub
         android:id="@+id/vs_load_error"
         android:layout="@layout/include_load_error"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_gravity="center"/>
 
     <ViewStub
         android:id="@+id/vs_progress_bar_loading"
         android:layout="@layout/include_progress_bar_loading"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_gravity="center"/>
 
-</RelativeLayout>
+</merge>

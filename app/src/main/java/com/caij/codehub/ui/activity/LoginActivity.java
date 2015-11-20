@@ -47,6 +47,11 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UserLog
     }
 
     @Override
+    protected boolean isSwipeBackEnable() {
+        return false;
+    }
+
+    @Override
     public void onLoginSuccess(Token token) {
         CodeHubPrefs.get().setToken(token);
         CodeHubPrefs.get().setUsernameAndPwd(mEditUsername.getText().toString(), mEditPassword.getText().toString());

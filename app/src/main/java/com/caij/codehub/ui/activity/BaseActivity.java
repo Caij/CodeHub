@@ -2,8 +2,6 @@ package com.caij.codehub.ui.activity;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -12,7 +10,7 @@ import android.view.WindowManager;
 
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.SystemBarTintManager;
-import com.umeng.analytics.MobclickAgent;
+
 
 
 /**

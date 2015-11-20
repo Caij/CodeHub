@@ -30,8 +30,18 @@ public abstract class BaseCodeHubToolBarActivity extends BaseCodeHubActivity{
     protected abstract void handleIntent(Intent intent);
 
     @Override
-    protected int getContentViewId() {
+    protected int getContentLayoutId() {
         return R.layout.activity_base_codehub_toolbar;
+    }
+
+    @Override
+    protected int getContentContainerViewId() {
+        return R.id.base_code_hub_container;
+    }
+
+    @Override
+    protected boolean isSwipeBackEnable() {
+        return true;
     }
 
     @Override

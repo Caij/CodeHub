@@ -10,11 +10,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.present.ui.BaseUi;
+import com.caij.codehub.widgets.swipeback.app.SwipeBackActivity;
 import com.caij.lib.utils.AppManager;
 import com.caij.lib.utils.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * Date:    2015/11/13
  * Description:
  */
-public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi{
+public abstract class BaseCodeHubActivity extends SwipeBackActivity implements BaseUi{
 
     ViewStub mAnimLoadingViewStub;
     ViewStub mProLoadingViewStub;
@@ -41,8 +41,8 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentViewId());
-        mContentContainer = (ViewGroup) findViewById(R.id.base_code_hub_container);
+        setContentView(getContentLayoutId());
+        mContentContainer = (ViewGroup) findViewById(getContentContainerViewId());
         if (getAttachLayoutId() != 0) {
             getLayoutInflater().inflate(getAttachLayoutId(), mContentContainer, true);
         }
@@ -52,11 +52,16 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
         ButterKnife.bind(this);
     }
 
-    protected int getContentViewId() {
+    protected int getContentLayoutId() {
         return R.layout.activity_base_codehub;
     }
 
     protected abstract int getAttachLayoutId();
+
+    protected int getContentContainerViewId() {
+        return android.R.id.content;
+    }
+
 
     public void onReFreshBtnClick(View view) {
         hideError();

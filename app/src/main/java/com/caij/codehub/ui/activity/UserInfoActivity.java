@@ -68,7 +68,7 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
 
     @Override
     protected void handleIntent(Intent intent) {
-        mContentContainer.setVisibility(View.GONE);
+        hideContentContainer();
         mToken = CodeHubPrefs.get().getToken();
         mUsername = intent.getStringExtra(Constant.USER_NAME);
         setTitle(mUsername);
