@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.caij.codehub.R;
 import com.caij.codehub.bean.FileTreeItem;
+import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
 
 import java.util.List;
 
@@ -24,19 +25,7 @@ public class FileTreeAdapter extends BaseAdapter<FileTreeItem>{
         super(context, entities);
     }
 
-    @Override
-    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
-        onBindViewHolderReal((ViewHolder) holder, position);
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
-        View convertView = mInflater.inflate(R.layout.item_treelist, parent, false);
-        ViewHolder viewHolder  = new ViewHolder(convertView);
-        return viewHolder;
-    }
-
-    public void onBindViewHolderReal(ViewHolder holder, int position) {
+    public void onBindViewHolderReal(FileItemViewHolder holder, int position) {
         FileTreeItem treeItem = getItem(position);
         holder.treeItemName.setText(treeItem.getPath());
         if(treeItem.getType().equals(FileTreeItem.MODE_BLOB)){
@@ -46,15 +35,27 @@ public class FileTreeAdapter extends BaseAdapter<FileTreeItem>{
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View convertView = mInflater.inflate(R.layout.item_treelist, parent, false);
+        FileItemViewHolder viewHolder  = new FileItemViewHolder(convertView, mOnItemClickListener);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onBindViewHolderReal((FileItemViewHolder) holder, position);
+    }
+
+    public static class FileItemViewHolder extends ViewHolder{
 
         public TextView treeItemImg;
         public TextView treeItemName;
 
-        public ViewHolder(View view){
-            super(view);
-            treeItemImg = (TextView) view.findViewById(R.id.treeItemImg);
-            treeItemName = (TextView) view.findViewById(R.id.treeItemName);
+        public FileItemViewHolder(View itemView, RecyclerViewOnItemClickListener onItemClickListener) {
+            super(itemView, onItemClickListener);
+            treeItemImg = (TextView) itemView.findViewById(R.id.treeItemImg);
+            treeItemName = (TextView) itemView.findViewById(R.id.treeItemName);
         }
     }
 }

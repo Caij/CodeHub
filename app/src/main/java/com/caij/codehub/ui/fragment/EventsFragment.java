@@ -19,6 +19,8 @@ import com.caij.codehub.present.EventsPresent;
 import com.caij.codehub.present.LoadType;
 import com.caij.codehub.ui.activity.IssueInfoActivity;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
+import com.caij.codehub.ui.activity.UserInfoActivity;
+import com.caij.codehub.ui.adapter.AvatarOnClickListener;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.EventsAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
@@ -31,7 +33,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/24.
  */
-public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> {
+public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> implements AvatarOnClickListener {
 
     Page mPage;
     private String mToken;
@@ -87,7 +89,16 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     protected BaseAdapter<EventWrap> createRecyclerViewAdapter() {
-        return new EventsAdapter(getActivity());
+        EventsAdapter adapter = new EventsAdapter(getActivity());
+        adapter.setAvatarOnClickListener(this);
+        return adapter;
+    }
+
+    @Override
+    public void onAvatarClick(View view, int position) {
+        EventWrap eventWrap = getRecyclerViewAdapter().getItem(position);
+        Intent intent = UserInfoActivity.newIntent(getActivity(), eventWrap.getActor().getLogin());
+        startActivity(intent);
     }
 
     @Override
@@ -149,4 +160,5 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
         super.onDestroyView();
         mEventsPresent.onDeath();
     }
+
 }

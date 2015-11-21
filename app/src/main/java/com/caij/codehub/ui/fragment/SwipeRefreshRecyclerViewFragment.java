@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
 import com.caij.codehub.present.ui.ListUi;
+import com.caij.codehub.present.ui.SwipeRefreshUi;
 
 import java.util.List;
 
@@ -19,11 +20,10 @@ import butterknife.Bind;
 /**
  * Created by Caij on 2015/11/4.
  */
-public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends RecyclerViewFragment<E> implements ListUi<E>, SwipeRefreshLayout.OnRefreshListener {
+public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends RecyclerViewFragment<E> implements SwipeRefreshUi<E>, ListUi<E>, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
-    View mEmptyView;
 
     @Override
     protected int getAttachLayoutId() {
@@ -42,29 +42,6 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
 
     }
 
-    public void showEmptyView(boolean isVisible) {
-        if (isVisible) {
-            if (mEmptyView == null) {
-                getActivity().getLayoutInflater().inflate(R.layout.include_empty_view, mContentContainer, true);
-                mEmptyView = mContentContainer.findViewById(R.id.ll_empty_view);
-            }
-            mEmptyView.setVisibility(View.VISIBLE);
-        }else {
-            if (mEmptyView != null) {
-                mEmptyView.setVisibility(View.GONE);
-            }
-        }
-    }
-
-
-    @Override
-    public void onFirstLoadSuccess(List<E> entities) {
-        showContentContainer();
-        showEmptyView(entities.size() ==  0);
-        getRecyclerViewAdapter().setEntities(entities);
-        getRecyclerViewAdapter().notifyDataSetChanged();
-    }
-
     @Override
     public void onRefreshSuccess(List<E> entities) {
         mSwipeRefreshLayout.setRefreshing(false);
@@ -74,28 +51,9 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
     }
 
     @Override
-    public void onLoadMoreSuccess(List<E>  entities) {
-        getLoadMoreRecyclerView().completeLoading();
-        getRecyclerViewAdapter().addEntities(entities);
-        getRecyclerViewAdapter().notifyDataSetChanged();
-    }
-
-
-    @Override
-    public void onFirstLoadError(int msgId) {
-        showError(msgId);
-    }
-
-    @Override
     public void onRefreshError(int msgId) {
         showError(msgId);
         mSwipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void onLoadMoreError(int msgId) {
-        showError(msgId);
-        getLoadMoreRecyclerView().completeLoading();
     }
 
 }

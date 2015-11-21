@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Repository;
+import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
 
 import java.util.List;
 
@@ -26,18 +27,6 @@ public class RepositoryAdapter extends BaseAdapter<Repository>{
 
     public RepositoryAdapter(Context context, List<Repository> repositories) {
         super(context, repositories);
-    }
-
-    @Override
-    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
-        onBindViewHolderReal((RepositoryViewHolder) holder, position);
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_repository, parent, false);
-        RepositoryViewHolder holder = new RepositoryViewHolder(view);
-        return holder;
     }
 
     public void onBindViewHolderReal(RepositoryViewHolder viewHolder, int i) {
@@ -58,8 +47,20 @@ public class RepositoryAdapter extends BaseAdapter<Repository>{
         }
     }
 
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.item_repository, parent, false);
+        RepositoryViewHolder holder = new RepositoryViewHolder(view, mOnItemClickListener);
+        return holder;
+    }
 
-    public static class RepositoryViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        onBindViewHolderReal((RepositoryViewHolder) holder, position);
+    }
+
+
+    public static class RepositoryViewHolder extends ViewHolder{
 
         @Bind(R.id.tv_repository_icon)
         TextView tvRepositoryIcon;
@@ -76,9 +77,8 @@ public class RepositoryAdapter extends BaseAdapter<Repository>{
         @Bind(R.id.tv_repository_desc)
         TextView tvRepositoryDesc;
 
-
-        public RepositoryViewHolder(View itemView) {
-            super(itemView);
+        public RepositoryViewHolder(View itemView, RecyclerViewOnItemClickListener onItemClickListener) {
+            super(itemView, onItemClickListener);
             ButterKnife.bind(this, itemView);
         }
     }

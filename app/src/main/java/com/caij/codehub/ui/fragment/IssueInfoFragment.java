@@ -17,8 +17,11 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.present.CommentsPresent;
 import com.caij.codehub.ui.activity.CommentActivity;
+import com.caij.codehub.ui.activity.UserInfoActivity;
+import com.caij.codehub.ui.adapter.AvatarOnClickListener;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.CommentAdapter;
+import com.caij.codehub.widgets.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 /**
@@ -26,7 +29,7 @@ import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
  * Email worldcaij@gmail.com
  * Created by Caij on 2015/11/18.
  */
-public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>{
+public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment> implements AvatarOnClickListener {
 
     private String mIssueTitle;
     private String mIssueBody;
@@ -63,8 +66,8 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
         TextView tvIssueBody = (TextView) issueContentHeadView.findViewById(R.id.tv_issue_body);
         tvIssueTitle.setText(mIssueTitle);
         tvIssueBody.setText(mIssueBody);
-        CommentAdapter adapter = (CommentAdapter) getRecyclerViewAdapter();
-        adapter.addIssueContentHeadView(issueContentHeadView);
+        HeaderAndFooterRecyclerViewAdapter adapter = (HeaderAndFooterRecyclerViewAdapter) getLoadMoreRecyclerView().getAdapter();
+        adapter.addHeaderView(issueContentHeadView);
         getLoadMoreRecyclerView().setLoadMoreEnable(false);
 
         mCommentsPresent = new CommentsPresent(this);
@@ -72,7 +75,9 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
 
     @Override
     protected BaseAdapter<Comment> createRecyclerViewAdapter() {
-        return new CommentAdapter(getActivity());
+        CommentAdapter adapter = new CommentAdapter(getActivity());
+        adapter.setAvatarOnClickListener(this);
+        return adapter;
     }
 
     @Override
@@ -105,6 +110,13 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
 
     }
 
+
+    @Override
+    public void onAvatarClick(View view, int position) {
+        Comment comment = getRecyclerViewAdapter().getItem(position);
+        Intent intent = UserInfoActivity.newIntent(getActivity(), comment.getUser().getLogin());
+        startActivity(intent);
+    }
 
     @Override
     public void onReFreshBtnClick(View view) {
@@ -147,4 +159,5 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
         super.onDestroyView();
         mCommentsPresent.onDeath();
     }
+
 }

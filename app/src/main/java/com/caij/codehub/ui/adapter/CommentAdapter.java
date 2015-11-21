@@ -12,6 +12,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
+import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
 
 import java.util.List;
 
@@ -23,12 +24,8 @@ import butterknife.ButterKnife;
  */
 public class CommentAdapter extends BaseAdapter<Comment> {
 
-    public static final int COMMENT = 2;
-    public static final int ISSUE = 3;
     private final CropCircleTransformation cropCircleTransformation;
-    private final Activity mActivity;
-
-    private View mIssueContentHeadView;
+    private AvatarOnClickListener mAvatarOnClickListener;
 
     public CommentAdapter(Activity activity) {
         this(null, activity);
@@ -37,11 +34,17 @@ public class CommentAdapter extends BaseAdapter<Comment> {
     public CommentAdapter(List<Comment> entities, Activity activity) {
         super(activity, entities);
         cropCircleTransformation = new CropCircleTransformation(context);
-        this.mActivity = activity;
     }
 
     @Override
-    public void onBindDataViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View convertView = mInflater.inflate(R.layout.item_comment, parent, false);
+        RecyclerView.ViewHolder  viewHolder = new CommentViewHolder(convertView, mOnItemClickListener, mAvatarOnClickListener);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CommentViewHolder) {
             CommentViewHolder viewHolder = (CommentViewHolder) holder;
             Comment comment = getItem(position);
@@ -51,60 +54,14 @@ public class CommentAdapter extends BaseAdapter<Comment> {
             viewHolder.tvUserName.setText(comment.getUser().getLogin());
             viewHolder.tvCommentBody.setText(comment.getBody());
             viewHolder.tvCommentUpdate.setText(TimeUtils.getRelativeTime(comment.getUpdated_at()));
-
-            AvatarOnClickListener listener = (AvatarOnClickListener) viewHolder.avatarImage.getTag(R.id.avatar_view_tag_id);
-            if (listener == null) {
-                listener = new AvatarOnClickListener(mActivity);
-                listener.setUser(comment.getUser());
-            }
-            viewHolder.avatarImage.setOnClickListener(listener);
-            viewHolder.avatarImage.setTag(R.id.avatar_view_tag_id, listener);
         }
     }
 
-    @Override
-    public int getDataCount() {
-        if (mIssueContentHeadView != null) {
-            return super.getDataCount() + 1;
-        }
-        return super.getDataCount();
+    public void setAvatarOnClickListener(AvatarOnClickListener avatarOnClickListener) {
+        this.mAvatarOnClickListener = avatarOnClickListener;
     }
 
-    @Override
-    public Comment getItem(int i) {
-        if (mIssueContentHeadView == null) {
-            return super.getItem(i);
-        } else {
-            return super.getItem(i - 1);
-        }
-    }
-
-    public void addIssueContentHeadView(View view) {
-        mIssueContentHeadView = view;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateDataViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
-        if (viewType == COMMENT) {
-            View convertView = mInflater.inflate(R.layout.item_comment, parent, false);
-            viewHolder = new CommentViewHolder(convertView);
-        } else {
-            viewHolder = new IssueHeadViewHolder(mIssueContentHeadView);
-        }
-        return viewHolder;
-    }
-
-    @Override
-    public int getDataViewType(int position) {
-        if (mIssueContentHeadView != null && position == 0) {
-            return ISSUE;
-        } else {
-            return COMMENT;
-        }
-    }
-
-    public static class CommentViewHolder extends RecyclerView.ViewHolder {
+    public static class CommentViewHolder extends ViewHolder {
 
         @Bind(R.id.avatar_image)
         ImageView avatarImage;
@@ -115,27 +72,17 @@ public class CommentAdapter extends BaseAdapter<Comment> {
         @Bind(R.id.tv_comment_body)
         TextView tvCommentBody;
 
-        public CommentViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
-    /**
-     * This class contains all butterknife-injected Views & Layouts from layout file 'item_issue_head.xml'
-     * for easy to all layout elements.
-     *
-     * @author ButterKnifeZelezny, plugin for Android Studio by Avast Developers (http://github.com/avast)
-     */
-    static class IssueHeadViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_issue_title)
-        TextView mTvIssueTitle;
-        @Bind(R.id.tv_issue_body)
-        TextView mTvIssueBody;
-
-        IssueHeadViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
+        public CommentViewHolder(View itemView, RecyclerViewOnItemClickListener onItemClickListener, final AvatarOnClickListener avatarOnClickListener) {
+            super(itemView, onItemClickListener);
+            ButterKnife.bind(this, itemView);
+            avatarImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (avatarOnClickListener != null) {
+                        avatarOnClickListener.onAvatarClick(v, getLayoutPosition());
+                    }
+                }
+            });
         }
     }
 }

@@ -5,48 +5,44 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.caij.codehub.R;
 import com.caij.codehub.bean.Entity;
-import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
-import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerViewAdapter;
-import com.caij.lib.utils.LogUtil;
+import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by Caij on 2015/9/22.
  */
-public abstract class BaseAdapter<E extends Entity> extends LoadMoreRecyclerViewAdapter {
+public abstract class BaseAdapter<E extends Entity> extends RecyclerView.Adapter implements IAdapter<E> {
 
     private static final String TAG = "BaseAdapter";
 
     private List<E> mEntities;
 
+    protected Context context;
+
+    protected LayoutInflater mInflater;
+
+    protected RecyclerViewOnItemClickListener mOnItemClickListener;
+
     public BaseAdapter(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public BaseAdapter(Context context, List<E> entities) {
-        super(context);
+        this.context = context;
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mEntities = entities;
+    }
+
+    public void setOnItemClickListener(RecyclerViewOnItemClickListener onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
     public E getItem(int i) {
         return mEntities.get(i);
-    }
-
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 
     public void setEntities(List<E> entities) {
@@ -90,8 +86,26 @@ public abstract class BaseAdapter<E extends Entity> extends LoadMoreRecyclerView
         }
     }
 
-    public int getDataCount() {
+    @Override
+    public int getItemCount() {
         return mEntities == null ? 0 : mEntities.size();
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private RecyclerViewOnItemClickListener mOnItemClickListener;
+
+        public ViewHolder(View itemView, RecyclerViewOnItemClickListener onItemClickListener) {
+            super(itemView);
+            itemView.setOnClickListener(this);
+            this.mOnItemClickListener = onItemClickListener;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mOnItemClickListener != null) {
+                mOnItemClickListener.onItemClick(v, getLayoutPosition());
+            }
+        }
+    }
 }

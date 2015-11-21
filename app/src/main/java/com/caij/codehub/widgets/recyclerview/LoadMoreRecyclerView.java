@@ -5,7 +5,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
+
+import com.caij.codehub.R;
 
 
 /**
@@ -20,8 +24,9 @@ public class LoadMoreRecyclerView extends RecyclerView {
     public static final int STATE_NO_MORE = 3;
 
     private OnLoadMoreListener mOnLoadMoreListener;
-    private LoadMoreRecyclerViewAdapter mLoadMoreRecyclerViewAdapter;
     private boolean mIsLoadMoreEnable = true;
+    private LoadMoreView mLoadMoreView;
+    private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
 
 
     public LoadMoreRecyclerView(Context context) {
@@ -49,19 +54,29 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
     @Override
     public void setAdapter(Adapter adapter) {
-        super.setAdapter(adapter);
-        mLoadMoreRecyclerViewAdapter = (LoadMoreRecyclerViewAdapter) adapter;
+        HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(adapter);
+        setAdapter(headerAndFooterRecyclerViewAdapter);
+    }
+
+    public void setAdapter(HeaderAndFooterRecyclerViewAdapter adapter)  {
+        mHeaderAndFooterRecyclerViewAdapter = adapter;
+        if (mIsLoadMoreEnable) {
+            mLoadMoreView = new LoadMoreView(getContext());
+            mHeaderAndFooterRecyclerViewAdapter.addFooterView(mLoadMoreView);
+        }
+        super.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
     }
 
     private void onLoadMore() {
-        if (mIsLoadMoreEnable && mLoadMoreRecyclerViewAdapter.getState() == STATE_NORMAL && mOnLoadMoreListener != null) {
-            setState(STATE_LOADING);
+        if (mIsLoadMoreEnable && mLoadMoreView != null && mLoadMoreView.getState() == LoadMoreView.STATE_NORMAL
+                && mOnLoadMoreListener != null) {
+            setState(LoadMoreView.STATE_LOADING);
             mOnLoadMoreListener.onLoadMore();
         }
     }
 
     public void completeLoading() {
-        setState(STATE_NORMAL);
+        setState(LoadMoreView.STATE_NORMAL);
     }
 
     public static interface OnLoadMoreListener {
@@ -69,13 +84,16 @@ public class LoadMoreRecyclerView extends RecyclerView {
     }
 
     public void setState(int state) {
-        if (mIsLoadMoreEnable) {
-            mLoadMoreRecyclerViewAdapter.setState(state);
+        if (mIsLoadMoreEnable && mLoadMoreView != null) {
+            mLoadMoreView.setState(state);
+        }
+        if (state == LoadMoreView.STATE_NO_MORE) {
+            mHeaderAndFooterRecyclerViewAdapter.removeFooterView(mLoadMoreView);
         }
     }
 
     public void setLoadMoreEnable(boolean enable) {
-        if (!enable) setState(STATE_NO_MORE);
+        if (!enable) setState(LoadMoreView.STATE_NO_MORE);
         this.mIsLoadMoreEnable = enable;
     }
 
@@ -84,7 +102,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            if (!mIsLoadMoreEnable && mLoadMoreRecyclerViewAdapter.getState() != STATE_NORMAL) return;
+            if (!mIsLoadMoreEnable && mLoadMoreView.getState() != LoadMoreView.STATE_NORMAL) return;
 
             LayoutManager layoutManager = getLayoutManager();
             final int visibleItemCount = getChildCount();

@@ -13,24 +13,8 @@ import com.caij.codehub.ui.activity.UserInfoActivity;
  * Date:    2015/11/19
  * Description:
  */
-public class AvatarOnClickListener implements View.OnClickListener{
+public interface AvatarOnClickListener {
 
-    private final Activity activity;
-    private User user;
+    public void onAvatarClick(View view, int position);
 
-    public AvatarOnClickListener(Activity activity) {
-        this.activity = activity;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (user != null) {
-            Intent intent = UserInfoActivity.newIntent(activity, user.getLogin());
-            activity.startActivity(intent);
-        }
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
