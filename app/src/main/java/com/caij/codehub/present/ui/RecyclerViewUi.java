@@ -17,4 +17,6 @@ public interface RecyclerViewUi<E> extends BaseUi{
     public void onLoadMoreSuccess(List<E> entities);
 
     public void onLoadMoreError(int msgId);
+
+    public void showEmptyView(boolean isVisible);
 }

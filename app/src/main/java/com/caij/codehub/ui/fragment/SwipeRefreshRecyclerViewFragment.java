@@ -45,7 +45,6 @@ public abstract class SwipeRefreshRecyclerViewFragment<E extends Entity> extends
     @Override
     public void onRefreshSuccess(List<E> entities) {
         mSwipeRefreshLayout.setRefreshing(false);
-        showEmptyView(entities.size() ==  0);
         getRecyclerViewAdapter().setEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
     }

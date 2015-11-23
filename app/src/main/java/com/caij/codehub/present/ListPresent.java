@@ -39,10 +39,20 @@ public abstract class ListPresent<UI extends ListUi<E>, E extends Entity> extend
             case FIRST:
                 mUi.showContentAnimLoading(false);
                 mUi.onFirstLoadSuccess(entities);
+                if (entities == null || entities.size() == 0) {
+                    mUi.showEmptyView(true);
+                }else {
+                    mUi.showEmptyView(false);
+                }
                 break;
 
             case REFRESH:
                 mUi.onRefreshSuccess(entities);
+                if (entities == null || entities.size() == 0) {
+                    mUi.showEmptyView(true);
+                }else {
+                    mUi.showEmptyView(false);
+                }
                 break;
 
             case MORE:

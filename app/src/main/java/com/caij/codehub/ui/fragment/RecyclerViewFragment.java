@@ -54,6 +54,7 @@ public abstract class RecyclerViewFragment<E extends Entity> extends LazyFragmen
         return mLoadMoreLoadMoreRecyclerView;
     }
 
+    @Override
     public void showEmptyView(boolean isVisible) {
         if (isVisible) {
             if (mEmptyView == null) {
@@ -71,7 +72,6 @@ public abstract class RecyclerViewFragment<E extends Entity> extends LazyFragmen
     @Override
     public void onFirstLoadSuccess(List<E> entities) {
         showContentContainer();
-        showEmptyView(entities.size() ==  0);
         getRecyclerViewAdapter().setEntities(entities);
         getRecyclerViewAdapter().notifyDataSetChanged();
     }
