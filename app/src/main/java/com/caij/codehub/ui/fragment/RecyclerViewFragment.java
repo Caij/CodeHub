@@ -34,7 +34,7 @@ public abstract class RecyclerViewFragment<E extends Entity> extends LazyFragmen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mContentContainer.setVisibility(View.GONE);
+        hideContentContainer();
         mRecyclerViewAdapter  = createRecyclerViewAdapter();
         mRecyclerViewAdapter.setOnItemClickListener(this);
         mLoadMoreLoadMoreRecyclerView.setLayoutManager(createRecyclerViewLayoutManager());

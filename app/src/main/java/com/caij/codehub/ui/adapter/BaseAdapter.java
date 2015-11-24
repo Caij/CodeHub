@@ -80,7 +80,7 @@ public abstract class BaseAdapter<E extends Entity> extends RecyclerView.Adapter
         }
     }
 
-    public void clearEntites() {
+    public void clearEntities() {
         if (mEntities != null) {
             mEntities.clear();
         }

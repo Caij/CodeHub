@@ -69,58 +69,7 @@ public class AuthenticationInteractorImp implements AuthenticationInteractor {
         removeToken(base64UsernameAndPwd, tokenId, requestTag, uiCallBack);
     }
 
-    private void handlerLoginError(VolleyError error, String username, String pwd, Object requestTag, final UiCallBack<Token> uiCallBack) {
-        if (error instanceof ServerError) {
-            NetworkResponse response = ((ServerError) error).networkResponse;
-            if (response != null) {
-                int statusCode = response.statusCode;
-                if (statusCode == 422) {
-                    removeTokenByLogin(username, pwd, requestTag, uiCallBack);
-                }else {
-                    uiCallBack.onError(error);
-                }
-            }
-        }else {
-            uiCallBack.onError(error);
-        }
-    }
-
-    private void removeTokenByLogin(final String username, final String pwd, final Object requestTag, final UiCallBack<Token> uiCallBack) {
-        getHaveTokens(username, pwd, requestTag, new UiCallBack<List<Token>>() {
-            @Override
-            public void onSuccess(List<Token> tokens) {
-                for (Token token : tokens) {
-                    if (token != null && API.TOKEN_NOTE.equals(token.getNote())) {
-                        removeToken(Base64.encode(username + ":" + pwd), String.valueOf(token.getId()), requestTag, new UiCallBack<NetworkResponse>() {
-                            @Override
-                            public void onSuccess(NetworkResponse networkResponse) {
-                                login(username, pwd, requestTag, uiCallBack);
-                            }
-
-                            @Override
-                            public void onLoading() {}
-
-                            @Override
-                            public void onError(VolleyError error) {
-                                uiCallBack.onError(error);
-                            }
-                        });
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onLoading() {}
-
-            @Override
-            public void onError(VolleyError error) {
-                uiCallBack.onError(error);
-            }
-        });
-    }
-
-    public void removeToken(final String base64UsernameAndPwd, String id, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+    private void removeToken(final String base64UsernameAndPwd, String id, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
         uiCallBack.onLoading();
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, base64UsernameAndPwd);
@@ -144,6 +93,7 @@ public class AuthenticationInteractorImp implements AuthenticationInteractor {
         VolleyManager.addRequest(request, requestTag);
     }
 
+    @Override
     public void getHaveTokens(final String username, final String pwd, Object requestTag, final UiCallBack<List<Token>> uiCallBack) {
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, username, pwd);

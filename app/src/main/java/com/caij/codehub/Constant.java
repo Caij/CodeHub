@@ -18,7 +18,8 @@ public interface Constant {
     public static final String REPO_SORT= "repo_sort";
 
     public static final String ORDER = "order";
-    String URL = "url";
+
+    public static final String URL = "url";
 
     public static final String ISSUE_NUMBER = "issue_number";
 
@@ -30,19 +31,19 @@ public interface Constant {
 
     public static final int ISSUE_COMMENT_REQUEST_CODE = 100;
 
-    String COMMENT = "comment";
+    public static final String COMMENT = "comment";
 
-    String ISSUE_TITLE = "issue_title";
+    public static final String ISSUE_TITLE = "issue_title";
 
-    String ISSUE_BODY = "issue_body";
+    public static final String ISSUE_BODY = "issue_body";
 
-    String USER_TOKEN_ID = "user_token_id";
+    public static final String USER_TOKEN_ID = "user_token_id";
 
-    String USER_PWD = "user_pwd";
+    public static final String USER_PWD = "user_pwd";
 
-    String TITLE = "title";
+    public static final String TITLE = "title";
 
-    String TRENDING_REPOSITORY_CHECK_SINCE_ID = "trending_repository_check_since_id";
+    public static final String TRENDING_REPOSITORY_CHECK_SINCE_ID = "trending_repository_check_since_id";
 
-    String TRENDING_REPOSITORY_CHECK_LANGUAGE_ID = "trending_repository_check_language_id";
+    public static final String TRENDING_REPOSITORY_CHECK_LANGUAGE_ID = "trending_repository_check_language_id";
 }

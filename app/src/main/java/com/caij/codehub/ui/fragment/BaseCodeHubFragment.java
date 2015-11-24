@@ -118,10 +118,13 @@ public abstract class BaseCodeHubFragment extends BaseFragment implements BaseUi
         mContentContainer.setVisibility(View.VISIBLE);
     }
 
+    public void hideContentContainer() {
+        mContentContainer.setVisibility(View.GONE);
+    }
+
     public void onReFreshBtnClick(View view) {
         hideError();
     }
-
 
     @Override
     public void onAuthError() {
