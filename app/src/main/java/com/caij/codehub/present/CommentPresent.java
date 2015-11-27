@@ -23,19 +23,28 @@ public class CommentPresent extends Present<CommentUi>{
         mCommentActionInteractor.createCommentForIssue(comment, owner, repo, num, token, this, new DefaultInteractorCallback<Comment>(mUi) {
             @Override
             public void onError(int msgId) {
-                mUi.showProgressBarLoading(false);
-                mUi.showError(msgId);
+                CommentUi ui = mUi.get();
+                if (ui != null) {
+                    ui.showProgressBarLoading(false);
+                    ui.showError(msgId);
+                }
             }
 
             @Override
             public void onSuccess(Comment comment) {
-                mUi.showProgressBarLoading(false);
-                mUi.commentSuccess(comment);
+                CommentUi ui = mUi.get();
+                if (ui != null) {
+                    ui.showProgressBarLoading(false);
+                    ui.commentSuccess(comment);
+                }
             }
 
             @Override
             public void onLoading() {
-                mUi.showProgressBarLoading(true);
+                CommentUi ui = mUi.get();
+                if (ui != null) {
+                    ui.showProgressBarLoading(true);
+                }
             }
         });
     }

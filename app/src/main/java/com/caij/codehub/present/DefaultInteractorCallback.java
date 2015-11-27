@@ -11,14 +11,16 @@ import com.caij.codehub.interactor.UiCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.JsonParseError;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by Caij on 2015/11/16.
  */
 public abstract class DefaultInteractorCallback<E> implements UiCallBack<E>{
 
-    private BaseUi mUi;
+    private WeakReference<? extends BaseUi> mUi;
 
-    public DefaultInteractorCallback(BaseUi ui) {
+    public DefaultInteractorCallback(WeakReference<? extends BaseUi> ui) {
         this.mUi = ui;
     }
 
@@ -36,7 +38,10 @@ public abstract class DefaultInteractorCallback<E> implements UiCallBack<E>{
         }else if (error instanceof AuthFailureError) {
             msgId = R.string.account_error_hint;
             VolleyManager.cancelAllRequest();
-            mUi.onAuthError();
+            BaseUi baseUi = mUi.get();
+            if (baseUi != null) {
+                baseUi.onAuthError();
+            }
         }else {
             msgId = R.string.data_load_error_hint;
         }

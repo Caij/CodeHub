@@ -17,61 +17,70 @@ public abstract class ListPresent<UI extends ListUi<E>, E extends Entity> extend
     }
 
     protected void defaultDealWithError(int msgId, LoadType loadType) {
-        switch (loadType) {
-            case FIRST:
-                mUi.showContentAnimLoading(false);
-                mUi.showContentError();
-                mUi.onFirstLoadError(msgId);
-                break;
+        ListUi listUi = mUi.get();
+        if (listUi != null) {
+            switch (loadType) {
+                case FIRST:
+                    listUi.showContentAnimLoading(false);
+                    listUi.showContentError();
+                    listUi.onFirstLoadError(msgId);
+                    break;
 
-            case REFRESH:
-                mUi.onRefreshError(msgId);
-                break;
+                case REFRESH:
+                    listUi.onRefreshError(msgId);
+                    break;
 
-            case MORE:
-                mUi.onLoadMoreError(msgId);
-                break;
+                case MORE:
+                    listUi.onLoadMoreError(msgId);
+                    break;
+            }
         }
     }
 
     protected void defaultDealWithSuccess(List<E> entities, LoadType loadType) {
-        switch (loadType) {
-            case FIRST:
-                mUi.showContentAnimLoading(false);
-                mUi.onFirstLoadSuccess(entities);
-                if (entities == null || entities.size() == 0) {
-                    mUi.showEmptyView(true);
-                }else {
-                    mUi.showEmptyView(false);
-                }
-                break;
+        ListUi listUi = mUi.get();
+        if (listUi != null) {
+            switch (loadType) {
+                case FIRST:
+                    listUi.showContentAnimLoading(false);
+                    listUi.onFirstLoadSuccess(entities);
+                    if (entities == null || entities.size() == 0) {
+                        listUi.showEmptyView(true);
+                    } else {
+                        listUi.showEmptyView(false);
+                    }
+                    break;
 
-            case REFRESH:
-                mUi.onRefreshSuccess(entities);
-                if (entities == null || entities.size() == 0) {
-                    mUi.showEmptyView(true);
-                }else {
-                    mUi.showEmptyView(false);
-                }
-                break;
+                case REFRESH:
+                    listUi.onRefreshSuccess(entities);
+                    if (entities == null || entities.size() == 0) {
+                        listUi.showEmptyView(true);
+                    } else {
+                        listUi.showEmptyView(false);
+                    }
+                    break;
 
-            case MORE:
-                mUi.onLoadMoreSuccess(entities);
-                break;
+                case MORE:
+                    listUi.onLoadMoreSuccess(entities);
+                    break;
+            }
         }
     }
 
     protected void defaultDealWithLoading(LoadType loadType) {
-        switch (loadType) {
-            case FIRST:
-                mUi.showContentAnimLoading(true);
-                break;
+        ListUi listUi = mUi.get();
+        if (listUi != null) {
+            switch (loadType) {
+                case FIRST:
+                    listUi.showContentAnimLoading(true);
+                    break;
 
-            case REFRESH:
-                break;
+                case REFRESH:
+                    break;
 
-            case MORE:
-                break;
+                case MORE:
+                    break;
+            }
         }
     }
 }

@@ -23,7 +23,10 @@ public class MainPresent extends Present<MainUi>{
         mUserInterctor.getUserInfo(token, username, this, new DefaultInteractorCallback<User>(mUi) {
             @Override
             public void onSuccess(User user) {
-                mUi.onGetUserInfoSuccess(user);
+                MainUi ui = mUi.get();
+                if (ui != null) {
+                    ui.onGetUserInfoSuccess(user);
+                }
             }
 
             @Override
@@ -33,7 +36,10 @@ public class MainPresent extends Present<MainUi>{
 
             @Override
             public void onError(int msgId) {
-                mUi.showError(msgId);
+                MainUi ui = mUi.get();
+                if (ui != null) {
+                    ui.showError(msgId);
+                }
             }
         });
     }

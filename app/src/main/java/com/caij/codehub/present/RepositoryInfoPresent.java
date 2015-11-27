@@ -27,20 +27,29 @@ public class RepositoryInfoPresent extends Present<RepositoryInfoUi>{
         mRepositoryInfoInteractor.getRepositoryInfo(repositoryName, owner, token, this, new DefaultInteractorCallback<Repository>(mUi) {
             @Override
             public void onError(int msgId) {
-                mUi.showContentAnimLoading(false);
-                mUi.showError(msgId);
-                mUi.showContentError();
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showContentAnimLoading(false);
+                    repositoryInfoUi.showError(msgId);
+                    repositoryInfoUi.showContentError();
+                }
             }
 
             @Override
             public void onSuccess(Repository repository) {
-                mUi.showContentAnimLoading(false);
-                mUi.getRepositoryInfoSuccess(repository);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showContentAnimLoading(false);
+                    repositoryInfoUi.getRepositoryInfoSuccess(repository);
+                }
             }
 
             @Override
             public void onLoading() {
-                mUi.showContentAnimLoading(true);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showContentAnimLoading(true);
+                }
             }
         });
     }
@@ -54,7 +63,10 @@ public class RepositoryInfoPresent extends Present<RepositoryInfoUi>{
 
             @Override
             public void onSuccess(Boolean aBoolean) {
-                mUi.getStarStateSuccess(aBoolean);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.getStarStateSuccess(aBoolean);
+                }
             }
 
             @Override
@@ -68,19 +80,28 @@ public class RepositoryInfoPresent extends Present<RepositoryInfoUi>{
         mRepositoryActionInteractor.starRepo(owner, repo, token, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.showProgressBarLoading(false);
-                mUi.starSuccess();
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(false);
+                    repositoryInfoUi.starSuccess();
+                }
             }
 
             @Override
             public void onLoading() {
-                mUi.showProgressBarLoading(true);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(true);
+                }
             }
 
             @Override
             public void onError(int msgId) {
-                mUi.showProgressBarLoading(false);
-                mUi.showError(msgId);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(false);
+                    repositoryInfoUi.showError(msgId);
+                }
             }
         });
     }
@@ -89,19 +110,28 @@ public class RepositoryInfoPresent extends Present<RepositoryInfoUi>{
         mRepositoryActionInteractor.unstarRepo(owner, repo, token, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.showProgressBarLoading(false);
-                mUi.unstarSuccess();
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(false);
+                    repositoryInfoUi.unstarSuccess();
+                }
             }
 
             @Override
             public void onLoading() {
-                mUi.showProgressBarLoading(true);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(true);
+                }
             }
 
             @Override
             public void onError(int msgId) {
-                mUi.showProgressBarLoading(false);
-                mUi.showError(msgId);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(false);
+                    repositoryInfoUi.showError(msgId);
+                }
             }
         });
     }
@@ -110,19 +140,28 @@ public class RepositoryInfoPresent extends Present<RepositoryInfoUi>{
         mRepositoryActionInteractor.forkRepo(owner, repo, token, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.showProgressBarLoading(false);
-                mUi.forkSuccess();
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(false);
+                    repositoryInfoUi.forkSuccess();
+                }
             }
 
             @Override
             public void onLoading() {
-                mUi.showProgressBarLoading(true);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(true);
+                }
             }
 
             @Override
             public void onError(int msgId) {
-                mUi.showProgressBarLoading(false);
-                mUi.showError(msgId);
+                RepositoryInfoUi repositoryInfoUi = mUi.get();
+                if (repositoryInfoUi != null) {
+                    repositoryInfoUi.showProgressBarLoading(false);
+                    repositoryInfoUi.showError(msgId);
+                }
             }
         });
     }

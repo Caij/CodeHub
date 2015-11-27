@@ -31,13 +31,19 @@ public class UserLoginPresent extends Present<UserLoginUi>{
         authenticationInteractor.login(username, pwd, this, new UiCallBack<Token>() {
             @Override
             public void onSuccess(Token token) {
-                mUi.showProgressBarLoading(false);
-                mUi.onLoginSuccess(token);
+                UserLoginUi loginUi = mUi.get();
+                if (loginUi != null) {
+                    loginUi.showProgressBarLoading(false);
+                    loginUi.onLoginSuccess(token);
+                }
             }
 
             @Override
             public void onLoading() {
-                mUi.showProgressBarLoading(true);
+                UserLoginUi loginUi = mUi.get();
+                if (loginUi != null) {
+                    loginUi.showProgressBarLoading(true);
+                }
             }
 
             @Override
@@ -55,16 +61,25 @@ public class UserLoginPresent extends Present<UserLoginUi>{
                 if (statusCode == 422) {
                     removeTokenByLogin(username, pwd);
                 }else {
-                    mUi.showError(R.string.login_error);
-                    mUi.showProgressBarLoading(false);
+                    UserLoginUi loginUi = mUi.get();
+                    if (loginUi != null) {
+                        loginUi.showError(R.string.login_error);
+                        loginUi.showProgressBarLoading(false);
+                    }
                 }
             }
         }else if (error instanceof AuthFailureError) {
-            mUi.showError(R.string.password_error);
-            mUi.showProgressBarLoading(false);
+            UserLoginUi loginUi = mUi.get();
+            if (loginUi != null) {
+                loginUi.showError(R.string.password_error);
+                loginUi.showProgressBarLoading(false);
+            }
         } else {
-            mUi.showError(R.string.login_error);
-            mUi.showProgressBarLoading(false);
+            UserLoginUi loginUi = mUi.get();
+            if (loginUi != null) {
+                loginUi.showError(R.string.login_error);
+                loginUi.showProgressBarLoading(false);
+            }
         }
     }
 
@@ -86,8 +101,11 @@ public class UserLoginPresent extends Present<UserLoginUi>{
 
                             @Override
                             public void onError(VolleyError error) {
-                                mUi.showError(R.string.login_error);
-                                mUi.showProgressBarLoading(false);
+                                UserLoginUi loginUi = mUi.get();
+                                if (loginUi != null) {
+                                    loginUi.showError(R.string.login_error);
+                                    loginUi.showProgressBarLoading(false);
+                                }
                             }
                         });
                         break;
@@ -101,8 +119,11 @@ public class UserLoginPresent extends Present<UserLoginUi>{
 
             @Override
             public void onError(VolleyError error) {
-                mUi.showError(R.string.login_error);
-                mUi.showProgressBarLoading(false);
+                UserLoginUi loginUi = mUi.get();
+                if (loginUi != null) {
+                    loginUi.showError(R.string.login_error);
+                    loginUi.showProgressBarLoading(false);
+                }
             }
         });
     }
