@@ -27,7 +27,7 @@ public abstract class SwipeBackActivity extends BaseActivity implements SwipeBac
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (mHelper != null) {
+        if (isSwipeBackEnable() && mHelper != null) {
             mHelper.onPostCreate();
         }
     }
