@@ -26,6 +26,7 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
         super.onViewCreated(view, savedInstanceState);
         mRepositoriesPresent = new RepositoriesPresent(this);
         showContentContainer();
+        getLoadMoreRecyclerView().setState(LoadMoreRecyclerView.STATE_NO_MORE);
     }
 
     @Override
@@ -46,10 +47,9 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
         mRepoSort = "stars";
         mOrder = "desc";
 
-        mPage = new Page();
         hideError();
         mSwipeRefreshLayout.setRefreshing(true);
-        mRepositoriesPresent.getSearchRepository(LoadType.REFRESH, mRepoSearchQ, mRepoSort, mOrder, mPage);
+        mRepositoriesPresent.getSearchRepository(LoadType.REFRESH, mRepoSearchQ, mRepoSort, mOrder, mPage.createRefreshPage());
     }
 
     @Override

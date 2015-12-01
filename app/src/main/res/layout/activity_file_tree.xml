@@ -3,15 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.caij.codehub.widgets.LinearBreadcrumb
         android:id="@+id/bread_crumbs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?colorPrimary"
         android:paddingLeft="@dimen/small_margin" />
-
-
 
     <FrameLayout
         android:layout_width="match_parent"

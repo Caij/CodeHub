@@ -24,20 +24,22 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.ui.fragment.SearchRepositoriesFragment;
 
 
 public class SearchActivity extends BaseCodeHubToolBarActivity {
 
-    String mQuery = "";
+    private String mQuery;
     private SearchRepositoriesFragment mSearchRepositoriesFragment;
 
     @Override
     protected void handleIntent(Intent intent) {
         setTitle(getString(R.string.description_search));
+        mQuery = intent.getStringExtra(Constant.REPO_SEARCH_Q);
         mSearchRepositoriesFragment =  new SearchRepositoriesFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.search_content, mSearchRepositoriesFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.base_code_hub_container, mSearchRepositoriesFragment).commit();
     }
 
     @Override
@@ -48,23 +50,23 @@ public class SearchActivity extends BaseCodeHubToolBarActivity {
         if (searchItem != null) {
             SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final SearchView view = (SearchView) searchItem.getActionView();
-            if (view == null) {
-            } else {
+            if (view != null) {
                 view.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
                 view.setIconified(false);
                 view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String s) {
-                        view.clearFocus();
+                        mSearchRepositoriesFragment.search(s);
                         return true;
                     }
 
                     @Override
-                    public boolean onQueryTextChange(String s) {
-                        mSearchRepositoriesFragment.search(s);
-                        return true;
+                    public boolean onQueryTextChange(String newText) {
+                        return false;
                     }
+
                 });
+
                 view.setOnCloseListener(new SearchView.OnCloseListener() {
                     @Override
                     public boolean onClose() {
@@ -72,10 +74,10 @@ public class SearchActivity extends BaseCodeHubToolBarActivity {
                         return false;
                     }
                 });
-            }
 
-            if (!TextUtils.isEmpty(mQuery)) {
-                view.setQuery(mQuery, false);
+                if (!TextUtils.isEmpty(mQuery)) {
+                    view.setQuery(mQuery, true);
+                }
             }
         }
         return true;
@@ -83,7 +85,7 @@ public class SearchActivity extends BaseCodeHubToolBarActivity {
 
     @Override
     protected int getAttachLayoutId() {
-        return R.layout.activity_search;
+        return 0;
     }
 
     @Override

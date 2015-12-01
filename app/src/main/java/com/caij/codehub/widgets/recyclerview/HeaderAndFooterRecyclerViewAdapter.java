@@ -1,5 +1,6 @@
 package com.caij.codehub.widgets.recyclerview;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -67,11 +68,6 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
      */
     public void setAdapter(RecyclerView.Adapter<RecyclerView.ViewHolder> adapter) {
 
-        if (adapter != null) {
-            if (!(adapter instanceof RecyclerView.Adapter))
-                throw new RuntimeException("your adapter must be a RecyclerView.Adapter");
-        }
-
         if (mInnerAdapter != null) {
             notifyItemRangeRemoved(getHeaderViewsCount(), mInnerAdapter.getItemCount());
             mInnerAdapter.unregisterAdapterDataObserver(mDataObserver);
@@ -106,18 +102,10 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         this.notifyDataSetChanged();
     }
 
-    /**
-     * 返回第一个FoView
-     * @return
-     */
     public View getFooterView() {
-        return  getFooterViewsCount()>0 ? mFooterViews.get(0) : null;
+        return  getFooterViewsCount() > 0 ? mFooterViews.get(0) : null;
     }
 
-    /**
-     * 返回第一个HeaderView
-     * @return
-     */
     public View getHeaderView() {
         return  getHeaderViewsCount()>0 ? mHeaderViews.get(0) : null;
     }
@@ -175,6 +163,21 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
     @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+        if(manager instanceof GridLayoutManager) {
+            final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+            gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return (isHeader(position)||  isFooter(position))? gridManager.getSpanCount() : 1;
+                }
+            });
+        }
+    }
+
+    @Override
     public int getItemCount() {
         return getHeaderViewsCount() + getFooterViewsCount() + mInnerAdapter.getItemCount();
     }
@@ -186,7 +189,6 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         if (position < headerViewsCountCount) {
             return TYPE_HEADER_VIEW + position;
         } else if (headerViewsCountCount <= position && position < headerViewsCountCount + innerCount) {
-
             int innerItemViewType = mInnerAdapter.getItemViewType(position - headerViewsCountCount);
             if(innerItemViewType >= Integer.MAX_VALUE / 2) {
                 throw new IllegalArgumentException("your adapter's return value of getViewTypeCount() must < Integer.MAX_VALUE / 2");

@@ -46,6 +46,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
     private void init(Context context) {
         addOnScrollListener(mOpOnScrollChangeListener);
+        mLoadMoreView = new LoadMoreView(context);
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
@@ -61,16 +62,14 @@ public class LoadMoreRecyclerView extends RecyclerView {
     public void setAdapter(HeaderAndFooterRecyclerViewAdapter adapter)  {
         mHeaderAndFooterRecyclerViewAdapter = adapter;
         if (mIsLoadMoreEnable) {
-            mLoadMoreView = new LoadMoreView(getContext());
             mHeaderAndFooterRecyclerViewAdapter.addFooterView(mLoadMoreView);
         }
         super.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
     }
 
     private void onLoadMore() {
-        if (mIsLoadMoreEnable && mLoadMoreView != null && mLoadMoreView.getState() == LoadMoreView.STATE_NORMAL
-                && mOnLoadMoreListener != null) {
-            setState(LoadMoreView.STATE_LOADING);
+        setState(LoadMoreView.STATE_LOADING);
+        if (mOnLoadMoreListener != null) {
             mOnLoadMoreListener.onLoadMore();
         }
     }
@@ -87,14 +86,19 @@ public class LoadMoreRecyclerView extends RecyclerView {
         if (mIsLoadMoreEnable && mLoadMoreView != null) {
             mLoadMoreView.setState(state);
         }
-        if (state == LoadMoreView.STATE_NO_MORE) {
-            mHeaderAndFooterRecyclerViewAdapter.removeFooterView(mLoadMoreView);
-        }
     }
 
     public void setLoadMoreEnable(boolean enable) {
-        if (!enable) setState(LoadMoreView.STATE_NO_MORE);
         this.mIsLoadMoreEnable = enable;
+        if (mHeaderAndFooterRecyclerViewAdapter != null) {
+            if (enable) {
+                mHeaderAndFooterRecyclerViewAdapter.removeFooterView(mLoadMoreView);
+                mHeaderAndFooterRecyclerViewAdapter.addFooterView(mLoadMoreView);
+                mLoadMoreView.setState(STATE_NORMAL);
+            }else {
+                mHeaderAndFooterRecyclerViewAdapter.removeFooterView(mLoadMoreView);
+            }
+        }
     }
 
     private OnScrollListener mOpOnScrollChangeListener = new OnScrollListener(){
@@ -102,26 +106,35 @@ public class LoadMoreRecyclerView extends RecyclerView {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            if (!mIsLoadMoreEnable && mLoadMoreView.getState() != LoadMoreView.STATE_NORMAL) return;
-
             LayoutManager layoutManager = getLayoutManager();
             final int visibleItemCount = getChildCount();
             final int totalItemCount = layoutManager.getItemCount();
+            int lastVisibleItemPosition = 0;
 
             if (layoutManager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
-                final int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-                if ((totalItemCount - visibleItemCount) <= firstVisibleItem ) {
-                    onLoadMore();
-                }
+                lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
             }else if (layoutManager instanceof StaggeredGridLayoutManager) {
                 StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-                int lastVisiblePosition = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(null)[1];
-                if (lastVisiblePosition == totalItemCount) {
-                    onLoadMore();
-                }
+                int[] into = new int[staggeredGridLayoutManager.getSpanCount()];
+                ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(into);
+                lastVisibleItemPosition = findMax(into);
+            }
+
+            if (lastVisibleItemPosition >= totalItemCount - 1 && mIsLoadMoreEnable && mLoadMoreView.getState() == STATE_NORMAL) {
+                onLoadMore();
             }
         }
     };
+
+    private int findMax(int[] lastPositions) {
+        int max = lastPositions[0];
+        for (int value : lastPositions) {
+            if (value > max) {
+                max = value;
+            }
+        }
+        return max;
+    }
 
 }

@@ -29,15 +29,12 @@ android {
         }
 
         release {
-
-            if (key_store == null) {
-                key_store = "default.keysotre"
+            if (key_store != null) {
+                storeFile file(key_store)
+                storePassword store_password
+                keyAlias key_alias
+                keyPassword key_password
             }
-
-            storeFile file(key_store)
-            storePassword store_password
-            keyAlias key_alias
-            keyPassword key_password
         }
     }
 
