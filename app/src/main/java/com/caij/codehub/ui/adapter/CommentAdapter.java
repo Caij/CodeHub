@@ -33,7 +33,7 @@ public class CommentAdapter extends BaseAdapter<Comment> {
 
     public CommentAdapter(List<Comment> entities, Activity activity) {
         super(activity, entities);
-        cropCircleTransformation = new CropCircleTransformation(context);
+        cropCircleTransformation = new CropCircleTransformation(activity);
     }
 
     @Override

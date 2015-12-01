@@ -100,11 +100,6 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
     }
 
     @Override
-    protected boolean isSwipeBackEnable() {
-        return false;
-    }
-
-    @Override
     protected int getAttachLayoutId() {
         return R.layout.activity_main;
     }

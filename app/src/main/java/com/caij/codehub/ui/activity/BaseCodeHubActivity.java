@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
  * Date:    2015/11/13
  * Description:
  */
-public abstract class BaseCodeHubActivity extends SwipeBackActivity implements BaseUi{
+public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi{
 
     ViewStub mAnimLoadingViewStub;
     ViewStub mProLoadingViewStub;

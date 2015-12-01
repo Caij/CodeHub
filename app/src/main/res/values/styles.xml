@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="SwipeBack.Theme">
+    <style name="AppTheme" parent="Base.Theme">
         <!-- Customize your theme here. -->
     </style>
 
