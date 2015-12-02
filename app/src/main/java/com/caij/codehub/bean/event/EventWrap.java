@@ -98,6 +98,11 @@ public class EventWrap extends Entity{
             realEvent = watchEvent;
             builder.append(" ").append(watchEvent.getAction());
             adapterBody = "";
+        }else if (Event.FORK.equals(event.getType())) {
+            ForkEvent forkEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), ForkEvent.class);
+            realEvent = forkEvent;
+            builder.append(" ").append("forked");
+            adapterBody = "";
         }else {
             builder.append(" unsupport event item");
             adapterBody = "";

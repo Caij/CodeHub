@@ -46,7 +46,7 @@ public class Event extends Entity {
     public static final String WATCH = "WatchEvent";
 
     //----------------------------------------------------------------
-    public static final String FORK = "fork";
+    public static final String FORK = "ForkEvent";
 
 
     /**

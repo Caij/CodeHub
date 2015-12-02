@@ -8,6 +8,8 @@
     <color name="white">#ffffff</color>
     <color name="gray_white">#eeeeee</color>
 
+    <color name="white_comment">#F0F0F0</color>
+
     <color name="root_view_bg">#EBEBEB</color>
 
     <color name="follow_btn_color_press">#009900</color>
@@ -33,4 +35,7 @@
     <color name="item_select">#CCCCCC</color>
 
     <color name="blue_link_color">#0e71af</color>
+
+    <color name="comment_btn_bg_normal">#71ca52</color>
+    <color name="comment_btn_bg_select">#569e3d</color>
 </resources>
