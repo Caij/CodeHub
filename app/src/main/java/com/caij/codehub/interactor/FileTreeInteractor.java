@@ -7,6 +7,6 @@ import com.caij.codehub.bean.Tree;
  */
 public interface FileTreeInteractor extends Interactor {
 
-    public void loadFileTree(String name, String repo, String ref, Object requestTag, UiCallBack<Tree> uiCallBack);
+    public void loadFileTree(String name, String repo, String ref, Object requestTag, InteractorCallBack<Tree> interactorCallBack);
 
 }

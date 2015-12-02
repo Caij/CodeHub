@@ -194,8 +194,8 @@ public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity implement
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mRepositoryInfoPresent.onDeath();
+        super.onDestroy();
     }
 
 }

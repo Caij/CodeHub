@@ -7,8 +7,8 @@ import com.caij.codehub.API;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.interactor.EventsInteractor;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.codehub.request.EventRequest;
-import com.caij.codehub.interactor.UiCallBack;
 import com.caij.lib.utils.VolleyManager;
 
 import java.util.HashMap;
@@ -20,8 +20,8 @@ import java.util.Map;
  */
 public class EventsInteractorImp implements EventsInteractor {
     @Override
-    public void getReceivedEvents(String username, String token, Page page, Object requestTag, final UiCallBack<List<EventWrap>> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getReceivedEvents(String username, String token, Page page, Object requestTag, final InteractorCallBack<List<EventWrap>> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/users/" + username + "/received_events";
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -31,12 +31,12 @@ public class EventsInteractorImp implements EventsInteractor {
         EventRequest request = new EventRequest(Request.Method.GET, url, params, head, new Response.Listener<List<EventWrap>>() {
             @Override
             public void onResponse(List<EventWrap> response) {
-               uiCallBack.onSuccess(response);
+               interactorCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               uiCallBack.onError(error);
+               interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);

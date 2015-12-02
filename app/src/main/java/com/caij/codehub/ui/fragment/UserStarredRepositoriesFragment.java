@@ -64,7 +64,7 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         mRepositoriesPresent.onDeath();
+        super.onDestroyView();
     }
 }

@@ -3,12 +3,11 @@ package com.caij.codehub.interactor.imp;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Token;
 import com.caij.codehub.interactor.AuthenticationInteractor;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.codehub.utils.Base64;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;
@@ -34,9 +33,9 @@ public class AuthenticationInteractorImp implements AuthenticationInteractor {
     private final static String NOTE = "note";
 
     @Override
-    public void login(final String username, final String pwd, final Object requestTag, final UiCallBack<Token> uiCallBack) {
+    public void login(final String username, final String pwd, final Object requestTag, final InteractorCallBack<Token> interactorCallBack) {
         try {
-            uiCallBack.onLoading();
+            interactorCallBack.onLoading();
             JSONObject json = new JSONObject();
             json.put(NOTE, API.TOKEN_NOTE);
             JSONArray jsonArray = new JSONArray(Arrays.asList(API.SCOPES));
@@ -48,29 +47,29 @@ public class AuthenticationInteractorImp implements AuthenticationInteractor {
                     new Response.Listener<Token>() {
                 @Override
                 public void onResponse(Token response) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 //                    handlerLoginError(error, username, pwd, requestTag, uiCallBack);
-                    uiCallBack.onError(error);
+                    interactorCallBack.onError(error);
                 }
             });
             request.setShouldCache(false);
             VolleyManager.addRequest(request, requestTag);
         } catch (JSONException e) {
-            uiCallBack.onError(new VolleyError(e));
+            interactorCallBack.onError(new VolleyError(e));
         }
     }
 
     @Override
-    public void logout(String base64UsernameAndPwd, String tokenId, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
-        removeToken(base64UsernameAndPwd, tokenId, requestTag, uiCallBack);
+    public void logout(String base64UsernameAndPwd, String tokenId, Object requestTag, final InteractorCallBack<NetworkResponse> interactorCallBack) {
+        removeToken(base64UsernameAndPwd, tokenId, requestTag, interactorCallBack);
     }
 
-    private void removeToken(final String base64UsernameAndPwd, String id, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
-        uiCallBack.onLoading();
+    private void removeToken(final String base64UsernameAndPwd, String id, Object requestTag, final InteractorCallBack<NetworkResponse> interactorCallBack) {
+        interactorCallBack.onLoading();
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, base64UsernameAndPwd);
         final NetworkResponseRequest request = new NetworkResponseRequest(Request.Method.DELETE, API.AUTHORIZATION_URL + "/" + id, "", head,
@@ -78,15 +77,15 @@ public class AuthenticationInteractorImp implements AuthenticationInteractor {
             @Override
             public void onResponse(NetworkResponse response) {
                 if (response.statusCode == 204) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         request.setShouldCache(false);
@@ -94,19 +93,19 @@ public class AuthenticationInteractorImp implements AuthenticationInteractor {
     }
 
     @Override
-    public void getHaveTokens(final String username, final String pwd, Object requestTag, final UiCallBack<List<Token>> uiCallBack) {
+    public void getHaveTokens(final String username, final String pwd, Object requestTag, final InteractorCallBack<List<Token>> interactorCallBack) {
         Map<String, String> head = new HashMap<>();
         addAuthorizationHead(head, username, pwd);
         GsonRequest<List<Token>> request = new GsonRequest<List<Token>>(Request.Method.GET, API.AUTHORIZATION_URL, "", head,
                 new TypeToken<List<Token>>(){}.getType(), new Response.Listener<List<Token>>() {
             @Override
             public void onResponse(List<Token> response) {
-                uiCallBack.onSuccess(response);
+                interactorCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         request.setShouldCache(false);

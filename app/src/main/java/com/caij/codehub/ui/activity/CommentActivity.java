@@ -68,7 +68,7 @@ public class CommentActivity extends BaseCodeHubToolBarActivity implements Comme
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mCommentPresent.onDeath();
+        super.onDestroy();
     }
 }

@@ -6,7 +6,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.interactor.RepositoryActionInteractor;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;
 
@@ -19,23 +19,23 @@ import java.util.Map;
 public class RepositoryActionInteractorImp implements RepositoryActionInteractor {
 
     @Override
-    public void hasStarRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<Boolean> uiCallBack) {
-        uiCallBack.onLoading();
+    public void hasStarRepo(String owner, String repo, String token, Object requestTag, final InteractorCallBack<Boolean> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/user/starred/" + owner + "/" +repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
         NetworkResponseRequest responseRequest = new NetworkResponseRequest(Request.Method.GET, url, "", head,  new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-                uiCallBack.onSuccess(response.statusCode == 204);
+                interactorCallBack.onSuccess(response.statusCode == 204);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 404) {
-                    uiCallBack.onSuccess(false);
+                    interactorCallBack.onSuccess(false);
                 }else {
-                    uiCallBack.onError(error);
+                    interactorCallBack.onError(error);
                 }
             }
         });
@@ -43,8 +43,8 @@ public class RepositoryActionInteractorImp implements RepositoryActionInteractor
     }
 
     @Override
-    public void starRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
-        uiCallBack.onLoading();
+    public void starRepo(String owner, String repo, String token, Object requestTag, final InteractorCallBack<NetworkResponse> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/user/starred/" + owner + "/" + repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -54,23 +54,23 @@ public class RepositoryActionInteractorImp implements RepositoryActionInteractor
             @Override
             public void onResponse(NetworkResponse response) {
                 if (response.statusCode == 204) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(responseRequest, requestTag);
     }
 
     @Override
-    public void unstarRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
-        uiCallBack.onLoading();
+    public void unstarRepo(String owner, String repo, String token, Object requestTag, final InteractorCallBack<NetworkResponse> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/user/starred/" + owner + "/" + repo;
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -78,25 +78,25 @@ public class RepositoryActionInteractorImp implements RepositoryActionInteractor
             @Override
             public void onResponse(NetworkResponse response) {
                 if (response.statusCode == 204) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(responseRequest, requestTag);
     }
 
     @Override
-    public void forkRepo(String owner, String repo, String token, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
+    public void forkRepo(String owner, String repo, String token, Object requestTag, final InteractorCallBack<NetworkResponse> interactorCallBack) {
 //        POST /repos/:owner/:repo/forks
 //        https://api.github.com/repos/81813780/AVLoadingIndicatorView/forks
-        uiCallBack.onLoading();
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/repos/" + owner + "/" + repo + "/forks";
         Map head = new HashMap();
         API.configAuthorizationHead(head, token);
@@ -104,15 +104,15 @@ public class RepositoryActionInteractorImp implements RepositoryActionInteractor
             @Override
             public void onResponse(NetworkResponse response) {
                 if (response.statusCode == 204) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(responseRequest, requestTag);

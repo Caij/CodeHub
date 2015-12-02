@@ -8,5 +8,5 @@ import com.caij.codehub.bean.Issue;
  */
 public interface IssueInteractor extends Interactor {
 
-    public void getIssue(String owner, String repo, String issueNumber, Object requestTag, UiCallBack<Issue> uiCallBack);
+    public void getIssue(String owner, String repo, String issueNumber, Object requestTag, InteractorCallBack<Issue> interactorCallBack);
 }

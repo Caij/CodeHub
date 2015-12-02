@@ -9,4 +9,6 @@ public interface SettingUi extends BaseUi{
 
     public void logoutSuccess();
 
+    public void showLogoutLoading(boolean isVisible);
+
 }

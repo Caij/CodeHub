@@ -23,28 +23,19 @@ public class SettingPresent extends Present<SettingUi>{
         mAuthenticationInteractor.logout(base64UsernameAndPwd, tokenId, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onError(int msgId) {
-                SettingUi settingUi = mUi.get();
-                if (settingUi != null) {
-                    settingUi.showProgressBarLoading(false);
-                    settingUi.showError(msgId);
-                }
+                mUi.showLogoutLoading(false);
+                mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(NetworkResponse response) {
-                SettingUi settingUi = mUi.get();
-                if (settingUi != null) {
-                    settingUi.showProgressBarLoading(false);
-                    settingUi.logoutSuccess();
-                }
+                mUi.showLogoutLoading(false);
+                mUi.logoutSuccess();
             }
 
             @Override
             public void onLoading() {
-                SettingUi settingUi = mUi.get();
-                if (settingUi != null) {
-                    settingUi.showProgressBarLoading(true);
-                }
+                mUi.showLogoutLoading(true);
             }
         });
     }

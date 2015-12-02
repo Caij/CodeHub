@@ -7,20 +7,18 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.caij.codehub.R;
 import com.caij.codehub.present.ui.BaseUi;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.JsonParseError;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Created by Caij on 2015/11/16.
  */
-public abstract class DefaultInteractorCallback<E> implements UiCallBack<E>{
+public abstract class DefaultInteractorCallback<E> implements InteractorCallBack<E> {
 
-    private WeakReference<? extends BaseUi> mUi;
+    private BaseUi mUi;
 
-    public DefaultInteractorCallback(WeakReference<? extends BaseUi> ui) {
+    public DefaultInteractorCallback(BaseUi ui) {
         this.mUi = ui;
     }
 
@@ -38,10 +36,7 @@ public abstract class DefaultInteractorCallback<E> implements UiCallBack<E>{
         }else if (error instanceof AuthFailureError) {
             msgId = R.string.account_error_hint;
             VolleyManager.cancelAllRequest();
-            BaseUi baseUi = mUi.get();
-            if (baseUi != null) {
-                baseUi.onAuthError();
-            }
+            mUi.onAuthError();
         }else {
             msgId = R.string.data_load_error_hint;
         }

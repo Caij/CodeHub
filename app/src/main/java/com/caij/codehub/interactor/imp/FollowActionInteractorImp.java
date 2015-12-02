@@ -6,7 +6,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.interactor.FollowActionInteractor;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.NetworkResponseRequest;
 
@@ -19,8 +19,8 @@ import java.util.Map;
 public class FollowActionInteractorImp implements FollowActionInteractor {
 
     @Override
-    public void getFollowState(String token, String username, Object requestTag, final UiCallBack<Boolean> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getFollowState(String token, String username, Object requestTag, final InteractorCallBack<Boolean> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/user/following/" + username;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -28,18 +28,18 @@ public class FollowActionInteractorImp implements FollowActionInteractor {
             @Override
             public void onResponse(NetworkResponse response) {
                 if (response != null && response.statusCode == 204) {
-                    uiCallBack.onSuccess(true);
+                    interactorCallBack.onSuccess(true);
                 }else {
-                    uiCallBack.onSuccess(false);
+                    interactorCallBack.onSuccess(false);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error != null && error.networkResponse != null && error.networkResponse.statusCode == 404) {
-                    uiCallBack.onSuccess(false);
+                    interactorCallBack.onSuccess(false);
                 }else {
-                    uiCallBack.onError(error);
+                    interactorCallBack.onError(error);
                 }
             }
         });
@@ -48,8 +48,8 @@ public class FollowActionInteractorImp implements FollowActionInteractor {
     }
 
     @Override
-    public void followUser(String token, String username, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
-        uiCallBack.onLoading();
+    public void followUser(String token, String username, Object requestTag, final InteractorCallBack<NetworkResponse> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/user/following/" + username;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -57,15 +57,15 @@ public class FollowActionInteractorImp implements FollowActionInteractor {
             @Override
             public void onResponse(NetworkResponse response) {
                 if (response != null && response.statusCode == 204) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
 
@@ -73,8 +73,8 @@ public class FollowActionInteractorImp implements FollowActionInteractor {
     }
 
     @Override
-    public void unfollowUser(String token, String username, Object requestTag, final UiCallBack<NetworkResponse> uiCallBack) {
-        uiCallBack.onLoading();
+    public void unfollowUser(String token, String username, Object requestTag, final InteractorCallBack<NetworkResponse> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/user/following/" + username;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -82,15 +82,15 @@ public class FollowActionInteractorImp implements FollowActionInteractor {
             @Override
             public void onResponse(NetworkResponse response) {
                 if (response != null && response.statusCode == 204) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               uiCallBack.onError(error);
+               interactorCallBack.onError(error);
             }
         });
 

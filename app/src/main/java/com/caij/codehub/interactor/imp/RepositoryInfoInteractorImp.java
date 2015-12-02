@@ -5,8 +5,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Repository;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.codehub.interactor.RepositoryInfoInteractor;
-import com.caij.codehub.interactor.UiCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -20,8 +20,8 @@ import java.util.Map;
 public class RepositoryInfoInteractorImp implements RepositoryInfoInteractor {
 
     @Override
-    public void getRepositoryInfo(String repositoryName, String owner, String token, Object requestTag, final UiCallBack<Repository> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getRepositoryInfo(String repositoryName, String owner, String token, Object requestTag, final InteractorCallBack<Repository> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + API.REPOSITORY_REPOS_URI + "/" + owner + "/" + repositoryName;
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -29,12 +29,12 @@ public class RepositoryInfoInteractorImp implements RepositoryInfoInteractor {
                 new Response.Listener<Repository>() {
                     @Override
                     public void onResponse(Repository response) {
-                        uiCallBack.onSuccess(response);
+                        interactorCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);

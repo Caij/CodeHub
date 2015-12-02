@@ -10,7 +10,7 @@ import com.caij.codehub.bean.Token;
 import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.interactor.AuthenticationInteractor;
 import com.caij.codehub.present.ui.UserLoginUi;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.codehub.utils.Base64;
 
 import java.util.List;
@@ -28,22 +28,16 @@ public class UserLoginPresent extends Present<UserLoginUi>{
     }
 
     public void login(final String username, final String pwd) {
-        authenticationInteractor.login(username, pwd, this, new UiCallBack<Token>() {
+        authenticationInteractor.login(username, pwd, this, new InteractorCallBack<Token>() {
             @Override
             public void onSuccess(Token token) {
-                UserLoginUi loginUi = mUi.get();
-                if (loginUi != null) {
-                    loginUi.showProgressBarLoading(false);
-                    loginUi.onLoginSuccess(token);
-                }
+                mUi.showProgressBarLoading(false);
+                mUi.onLoginSuccess(token);
             }
 
             @Override
             public void onLoading() {
-                UserLoginUi loginUi = mUi.get();
-                if (loginUi != null) {
-                    loginUi.showProgressBarLoading(true);
-                }
+                mUi.showProgressBarLoading(true);
             }
 
             @Override
@@ -61,35 +55,26 @@ public class UserLoginPresent extends Present<UserLoginUi>{
                 if (statusCode == 422) {
                     removeTokenByLogin(username, pwd);
                 }else {
-                    UserLoginUi loginUi = mUi.get();
-                    if (loginUi != null) {
-                        loginUi.showError(R.string.login_error);
-                        loginUi.showProgressBarLoading(false);
-                    }
+                    mUi.showError(R.string.login_error);
+                    mUi.showProgressBarLoading(false);
                 }
             }
         }else if (error instanceof AuthFailureError) {
-            UserLoginUi loginUi = mUi.get();
-            if (loginUi != null) {
-                loginUi.showError(R.string.password_error);
-                loginUi.showProgressBarLoading(false);
-            }
+            mUi.showError(R.string.password_error);
+            mUi.showProgressBarLoading(false);
         } else {
-            UserLoginUi loginUi = mUi.get();
-            if (loginUi != null) {
-                loginUi.showError(R.string.login_error);
-                loginUi.showProgressBarLoading(false);
-            }
+            mUi.showError(R.string.login_error);
+            mUi.showProgressBarLoading(false);
         }
     }
 
     private void removeTokenByLogin(final String username, final String pwd) {
-        authenticationInteractor.getHaveTokens(username, pwd, this, new UiCallBack<List<Token>>() {
+        authenticationInteractor.getHaveTokens(username, pwd, this, new InteractorCallBack<List<Token>>() {
             @Override
             public void onSuccess(List<Token> tokens) {
                 for (Token token : tokens) {
                     if (token != null && API.TOKEN_NOTE.equals(token.getNote())) {
-                        authenticationInteractor.logout(Base64.encode(username + ":" + pwd), String.valueOf(token.getId()), this, new UiCallBack<NetworkResponse>() {
+                        authenticationInteractor.logout(Base64.encode(username + ":" + pwd), String.valueOf(token.getId()), this, new InteractorCallBack<NetworkResponse>() {
                             @Override
                             public void onSuccess(NetworkResponse networkResponse) {
                                 login(username, pwd);
@@ -101,11 +86,8 @@ public class UserLoginPresent extends Present<UserLoginUi>{
 
                             @Override
                             public void onError(VolleyError error) {
-                                UserLoginUi loginUi = mUi.get();
-                                if (loginUi != null) {
-                                    loginUi.showError(R.string.login_error);
-                                    loginUi.showProgressBarLoading(false);
-                                }
+                                mUi.showError(R.string.login_error);
+                                mUi.showProgressBarLoading(false);
                             }
                         });
                         break;
@@ -119,11 +101,8 @@ public class UserLoginPresent extends Present<UserLoginUi>{
 
             @Override
             public void onError(VolleyError error) {
-                UserLoginUi loginUi = mUi.get();
-                if (loginUi != null) {
-                    loginUi.showError(R.string.login_error);
-                    loginUi.showProgressBarLoading(false);
-                }
+                mUi.showError(R.string.login_error);
+                mUi.showProgressBarLoading(false);
             }
         });
     }

@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface IssueListInteractor extends Interactor {
 
-    public void getIssueList(String owner, String repoName, Page page, Object requestTag, UiCallBack<List<Issue>> uiCallBack);
+    public void getIssueList(String owner, String repoName, Page page, Object requestTag, InteractorCallBack<List<Issue>> interactorCallBack);
 
 }

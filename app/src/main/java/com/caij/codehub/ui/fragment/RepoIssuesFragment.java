@@ -113,7 +113,7 @@ public class RepoIssuesFragment extends SwipeRefreshRecyclerViewFragment<Issue>{
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         mRepoIssuesPresent.onDeath();
+        super.onDestroyView();
     }
 }

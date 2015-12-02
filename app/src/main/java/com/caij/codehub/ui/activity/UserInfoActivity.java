@@ -165,8 +165,8 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mUserInfoPresent.onDeath();
+        super.onDestroy();
     }
 
     @Override

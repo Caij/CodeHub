@@ -7,10 +7,10 @@ import com.android.volley.NetworkResponse;
  */
 public interface FollowActionInteractor extends Interactor {
 
-    public void getFollowState(String token, String username, Object requestTag, UiCallBack<Boolean> uiCallBack);
+    public void getFollowState(String token, String username, Object requestTag, InteractorCallBack<Boolean> interactorCallBack);
 
-    public void followUser(String token, String username, Object requestTag, UiCallBack<NetworkResponse> uiCallBack);
+    public void followUser(String token, String username, Object requestTag, InteractorCallBack<NetworkResponse> interactorCallBack);
 
-    public void unfollowUser(String token, String username, Object requestTag, UiCallBack<NetworkResponse> uiCallBack);
+    public void unfollowUser(String token, String username, Object requestTag, InteractorCallBack<NetworkResponse> interactorCallBack);
 
 }

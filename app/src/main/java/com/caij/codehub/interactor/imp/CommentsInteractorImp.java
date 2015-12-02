@@ -6,7 +6,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.interactor.CommentsInteractor;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -20,8 +20,8 @@ public class CommentsInteractorImp implements CommentsInteractor {
 
 
     @Override
-    public void getIssuesComments(String owner, String repo, String issueNumber, Object requestTag, final UiCallBack<List<Comment>> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getIssuesComments(String owner, String repo, String issueNumber, Object requestTag, final InteractorCallBack<List<Comment>> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = new StringBuilder().append(API.API_HOST).append("/repos/")
                 .append(owner).append("/").append(repo).append("/issues/")
                 .append(issueNumber).append("/comments").toString();
@@ -30,12 +30,12 @@ public class CommentsInteractorImp implements CommentsInteractor {
                 new Response.Listener<List<Comment>>() {
                     @Override
                     public void onResponse(List<Comment> response) {
-                       uiCallBack.onSuccess(response);
+                       interactorCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);

@@ -95,8 +95,8 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mMainPresent.onDeath();
+        super.onDestroy();
     }
 
     @Override

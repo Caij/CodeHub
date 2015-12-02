@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface CommentsInteractor extends Interactor {
 
-    public void getIssuesComments(String owner, String repo, String issueNumber, Object requestTag, UiCallBack<List<Comment>> uiCallBack);
+    public void getIssuesComments(String owner, String repo, String issueNumber, Object requestTag, InteractorCallBack<List<Comment>> interactorCallBack);
 }

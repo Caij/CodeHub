@@ -113,8 +113,8 @@ public class FileTreeFragment extends SwipeRefreshRecyclerViewFragment<FileTreeI
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         mFileTreePresent.onDeath();
+        super.onDestroyView();
     }
 
 

@@ -27,29 +27,20 @@ public class UserInfoPresent extends Present<UserInfoUi>{
         mUserInterctor.getUserInfo(token, username, this, new DefaultInteractorCallback<User>(mUi) {
             @Override
             public void onError(int msgId) {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showContentAnimLoading(false);
-                    userInfoUi.showContentError();
-                    userInfoUi.showError(msgId);
-                }
+                mUi.showContentAnimLoading(false);
+                mUi.showContentError();
+                mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(User user) {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showContentAnimLoading(false);
-                    userInfoUi.onGetUserInfoSuccess(user);
-                }
+                mUi.showContentAnimLoading(false);
+                mUi.onGetUserInfoSuccess(user);
             }
 
             @Override
             public void onLoading() {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showContentAnimLoading(true);
-                }
+                mUi.showContentAnimLoading(true);
             }
         });
     }
@@ -63,10 +54,7 @@ public class UserInfoPresent extends Present<UserInfoUi>{
 
             @Override
             public void onSuccess(Boolean aBoolean) {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.onGetFollowStateSuccess(aBoolean);
-                }
+                mUi.onGetFollowStateSuccess(aBoolean);
             }
 
             @Override
@@ -80,28 +68,19 @@ public class UserInfoPresent extends Present<UserInfoUi>{
         mFollowActionInteractor.followUser(token, username, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onError(int msgId) {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showProgressBarLoading(false);
-                    userInfoUi.showError(msgId);
-                }
+                mUi.showProgressBarLoading(false);
+                mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(NetworkResponse response) {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showProgressBarLoading(false);
-                    userInfoUi.onFollowSuccess();
-                }
+                mUi.showProgressBarLoading(false);
+                mUi.onFollowSuccess();
             }
 
             @Override
             public void onLoading() {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showProgressBarLoading(true);
-                }
+                mUi.showProgressBarLoading(true);
             }
         });
     }
@@ -110,28 +89,19 @@ public class UserInfoPresent extends Present<UserInfoUi>{
         mFollowActionInteractor.unfollowUser(token, username, this, new DefaultInteractorCallback<NetworkResponse>(mUi) {
             @Override
             public void onError(int msgId) {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showProgressBarLoading(false);
-                    userInfoUi.showError(msgId);
-                }
+                mUi.showProgressBarLoading(false);
+                mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(NetworkResponse response) {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showProgressBarLoading(true);
-                    userInfoUi.onUnfollowSuccess();
-                }
+                mUi.showProgressBarLoading(true);
+                mUi.onUnfollowSuccess();
             }
 
             @Override
             public void onLoading() {
-                UserInfoUi userInfoUi = mUi.get();
-                if (userInfoUi != null) {
-                    userInfoUi.showProgressBarLoading(false);
-                }
+                mUi.showProgressBarLoading(false);
             }
         });
     }

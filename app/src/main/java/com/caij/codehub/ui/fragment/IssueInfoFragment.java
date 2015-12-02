@@ -156,8 +156,8 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         mCommentsPresent.onDeath();
+        super.onDestroyView();
     }
 
 }

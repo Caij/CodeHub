@@ -6,7 +6,7 @@ import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.interactor.CommentActionInteractor;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -24,9 +24,9 @@ public class CommentActionInteractorImp implements CommentActionInteractor {
 
 //    POST /repos/:owner/:repo/issues/:number/comments
     @Override
-    public void createCommentForIssue(String comment, String owner, String repo, final String num, String token, Object requestTag, final UiCallBack<Comment> uiCallBack) {
+    public void createCommentForIssue(String comment, String owner, String repo, final String num, String token, Object requestTag, final InteractorCallBack<Comment> interactorCallBack) {
         try {
-            uiCallBack.onLoading();
+            interactorCallBack.onLoading();
             StringBuilder builder = new StringBuilder(API.API_HOST);
             builder.append("/repos/").append(owner).append("/").append(repo).append("/issues").append("/").append(num).append("/comments");
             String url = builder.toString();
@@ -39,20 +39,20 @@ public class CommentActionInteractorImp implements CommentActionInteractor {
                         @Override
                         public void onResponse(Comment response) {
                             if (response != null) {
-                                uiCallBack.onSuccess(response);
+                                interactorCallBack.onSuccess(response);
                             }else {
-                                uiCallBack.onError(new VolleyError());
+                                interactorCallBack.onError(new VolleyError());
                             }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    uiCallBack.onError(error);
+                    interactorCallBack.onError(error);
                 }
             });
             VolleyManager.addRequest(request, requestTag);
         } catch (JSONException e) {
-            uiCallBack.onError(new VolleyError(e));
+            interactorCallBack.onError(new VolleyError(e));
         }
     }
 

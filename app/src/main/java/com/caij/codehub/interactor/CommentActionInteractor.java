@@ -7,6 +7,6 @@ import com.caij.codehub.bean.Comment;
  */
 public interface CommentActionInteractor extends Interactor {
 
-    public void createCommentForIssue(String comment, String owner, String repo, String num, String token, Object requestTag, UiCallBack<Comment> uiCallBack);
+    public void createCommentForIssue(String comment, String owner, String repo, String num, String token, Object requestTag, InteractorCallBack<Comment> interactorCallBack);
 
 }

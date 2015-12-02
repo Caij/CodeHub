@@ -10,10 +10,11 @@ import java.lang.ref.WeakReference;
  */
 public abstract class Present<UI extends BaseUi> {
 
-    public WeakReference<UI> mUi;
+    public UI mUi;
 
     public Present(UI ui) {
-        this.mUi = new WeakReference<UI>(ui);
+        this.mUi = ui;
+        if (ui == null) throw new RuntimeException("ui is null");
     }
 
     public void onDeath() {

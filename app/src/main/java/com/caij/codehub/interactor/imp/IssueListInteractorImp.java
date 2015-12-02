@@ -7,7 +7,7 @@ import com.caij.codehub.API;
 import com.caij.codehub.bean.Issue;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.interactor.IssueListInteractor;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -22,8 +22,8 @@ import java.util.Map;
 public class IssueListInteractorImp implements IssueListInteractor {
 
     @Override
-    public void getIssueList(String owner, String repoName, Page page, Object requestTag, final UiCallBack<List<Issue>> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getIssueList(String owner, String repoName, Page page, Object requestTag, final InteractorCallBack<List<Issue>> interactorCallBack) {
+        interactorCallBack.onLoading();
         StringBuilder builder = new StringBuilder(API.API_HOST);
         builder.append("/repos/").append(owner).append("/").append(repoName).append("/").append("issues");
         String url = builder.toString();
@@ -37,12 +37,12 @@ public class IssueListInteractorImp implements IssueListInteractor {
                 new Response.Listener<List<Issue>>() {
                     @Override
                     public void onResponse(List<Issue> response) {
-                        uiCallBack.onSuccess(response);
+                        interactorCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               uiCallBack.onError(error);
+               interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);

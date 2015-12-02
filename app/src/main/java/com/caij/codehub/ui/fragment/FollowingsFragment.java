@@ -59,7 +59,7 @@ public class FollowingsFragment extends UsersFragment{
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         mUsersPresent.onDeath();
+        super.onDestroyView();
     }
 }

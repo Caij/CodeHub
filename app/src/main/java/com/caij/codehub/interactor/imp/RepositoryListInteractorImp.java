@@ -9,8 +9,8 @@ import com.caij.codehub.API;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.SearchRepository;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.codehub.interactor.RepositoryListInteractor;
-import com.caij.codehub.interactor.UiCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -25,20 +25,20 @@ import java.util.Map;
 public class RepositoryListInteractorImp implements RepositoryListInteractor {
 
     @Override
-    public void getUserStarredRepositories(String username, String token, Page page, Object requestTag, UiCallBack<List<Repository>> uiCallBack) {
+    public void getUserStarredRepositories(String username, String token, Page page, Object requestTag, InteractorCallBack<List<Repository>> interactorCallBack) {
         String url = API.API_HOST + "/users/" + username + API.REPOSITORY_STARRED_URI;
-        loadStarredOrUserRepository(url, token, page, requestTag, uiCallBack);
+        loadStarredOrUserRepository(url, token, page, requestTag, interactorCallBack);
     }
 
     @Override
-    public void getUserRepositories(String username, String token, Page page, Object requestTag, UiCallBack<List<Repository>> uiCallBack) {
+    public void getUserRepositories(String username, String token, Page page, Object requestTag, InteractorCallBack<List<Repository>> interactorCallBack) {
         String url = API.API_HOST + "/users/" + username + API.REPOSITORY_REPOS_URI;
-        loadStarredOrUserRepository(url, token, page, requestTag, uiCallBack);
+        loadStarredOrUserRepository(url, token, page, requestTag, interactorCallBack);
     }
 
     @Override
-    public void getSearchRepository(String q, String sort, String order, Page page, Object requestTag, final UiCallBack<List<Repository>> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getSearchRepository(String q, String sort, String order, Page page, Object requestTag, final InteractorCallBack<List<Repository>> interactorCallBack) {
+        interactorCallBack.onLoading();
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(q)) {
             params.put(API.Q, q);
@@ -55,23 +55,23 @@ public class RepositoryListInteractorImp implements RepositoryListInteractor {
             @Override
             public void onResponse(SearchRepository response) {
                 if (response != null) {
-                    uiCallBack.onSuccess(response.getItems());
+                    interactorCallBack.onSuccess(response.getItems());
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               uiCallBack.onError(error);
+               interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);
     }
 
     @Override
-    public void getTrendingRepository(String since, String language, Page page, Object requestTag, final UiCallBack<List<Repository>> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getTrendingRepository(String since, String language, Page page, Object requestTag, final InteractorCallBack<List<Repository>> interactorCallBack) {
+        interactorCallBack.onLoading();
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(language))
             params.put(API.TENDING_REPOSITORY_PARAM_LANGUAGE, language);
@@ -82,19 +82,19 @@ public class RepositoryListInteractorImp implements RepositoryListInteractor {
                 new TypeToken<List<Repository>>() {}.getType(), new Response.Listener<List<Repository>>() {
             @Override
             public void onResponse(List<Repository> response) {
-                uiCallBack.onSuccess(response);
+                interactorCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);
     }
 
-    private void loadStarredOrUserRepository(String url, String token, Page page, Object requestTag, final UiCallBack<List<Repository>> uiCallBack) {
-        uiCallBack.onLoading();
+    private void loadStarredOrUserRepository(String url, String token, Page page, Object requestTag, final InteractorCallBack<List<Repository>> interactorCallBack) {
+        interactorCallBack.onLoading();
         Map<String, String> params = new HashMap<>();
         params.put(API.PAGE, String.valueOf(page.getPageIndex()));
         params.put(API.PER_PAGE, String.valueOf(page.getPageDataCount()));
@@ -105,15 +105,15 @@ public class RepositoryListInteractorImp implements RepositoryListInteractor {
             @Override
             public void onResponse(List<Repository> response) {
                 if (response != null) {
-                    uiCallBack.onSuccess(response);
+                    interactorCallBack.onSuccess(response);
                 }else {
-                    uiCallBack.onError(null);
+                    interactorCallBack.onError(null);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);

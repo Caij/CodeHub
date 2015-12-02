@@ -75,7 +75,7 @@ public class SettingActivity extends BaseCodeHubToolBarActivity implements Dialo
     }
 
     @Override
-    public void showProgressBarLoading(boolean isVisible) {
+    public void showLogoutLoading(boolean isVisible) {
         if (isVisible) {
             mLogoutLoadingDialog.show();
         }else {
@@ -85,7 +85,7 @@ public class SettingActivity extends BaseCodeHubToolBarActivity implements Dialo
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mSettingPresent.onDeath();
+        super.onDestroy();
     }
 }

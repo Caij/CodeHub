@@ -7,7 +7,7 @@ import com.caij.codehub.API;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.interactor.UserListInteractor;
-import com.caij.codehub.interactor.UiCallBack;
+import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.request.GsonRequest;
 import com.google.gson.reflect.TypeToken;
@@ -22,8 +22,8 @@ import java.util.Map;
 public class UserListInteractorImp implements UserListInteractor {
 
     @Override
-    public void getFollowers(String token, String username, Page page, Object requestTag, final UiCallBack<List<User>> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getFollowers(String token, String username, Page page, Object requestTag, final InteractorCallBack<List<User>> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/users/" + username + "/followers";
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -37,20 +37,20 @@ public class UserListInteractorImp implements UserListInteractor {
                 new Response.Listener<List<User>>() {
                     @Override
                     public void onResponse(List<User> response) {
-                        uiCallBack.onSuccess(response);
+                        interactorCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);
     }
 
     @Override
-    public void getFollowing(String token, String username, Page page, Object requestTag, final UiCallBack<List<User>> uiCallBack) {
-        uiCallBack.onLoading();
+    public void getFollowing(String token, String username, Page page, Object requestTag, final InteractorCallBack<List<User>> interactorCallBack) {
+        interactorCallBack.onLoading();
         String url = API.API_HOST + "/users/" + username + "/following";
         Map<String, String> head = new HashMap<>();
         API.configAuthorizationHead(head, token);
@@ -64,12 +64,12 @@ public class UserListInteractorImp implements UserListInteractor {
                 new Response.Listener<List<User>>() {
                     @Override
                     public void onResponse(List<User> response) {
-                        uiCallBack.onSuccess(response);
+                        interactorCallBack.onSuccess(response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                uiCallBack.onError(error);
+                interactorCallBack.onError(error);
             }
         });
         VolleyManager.addRequest(request, requestTag);

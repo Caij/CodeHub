@@ -69,9 +69,9 @@ public class LoginActivity extends BaseCodeHubToolBarActivity implements UserLog
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mLoginDialog = null;
         mLoginPresent.onDeath();
+        super.onDestroy();
     }
 
 }

@@ -157,8 +157,8 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         mEventsPresent.onDeath();
+        super.onDestroyView();
     }
 
 }

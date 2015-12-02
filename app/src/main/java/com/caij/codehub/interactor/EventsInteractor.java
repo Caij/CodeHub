@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface EventsInteractor extends Interactor {
 
-    public void getReceivedEvents(String username, String token, Page page, Object requestTag, UiCallBack<List<EventWrap>> uiCallBack);
+    public void getReceivedEvents(String username, String token, Page page, Object requestTag, InteractorCallBack<List<EventWrap>> interactorCallBack);
 
 }
