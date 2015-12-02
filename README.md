@@ -1,10 +1,10 @@
 # CodeHub  
-Github Client For Android, support for the login, personal information , repository information. Hope other developer join this project if you are interested. thanks.
+Github client for android, include login, personal information , repository information, event, issue. Hope other developer join this project if you are interested. thanks.
  
 
-![main](introduce/main.png)   ![nav](introduce/nav.png)  
+![main](introduce/main.png)   ![nav](introduce/nav.png)  ![event](introduce/event.png)
 
-![repository](introduce/repository.png)   ![user](introduce/user.png) 
+![repository](introduce/repository.png)   ![user](introduce/user.png)  ![issue](introduce/issue.png)
 
 ###Thanks
 [CodeHub](https://github.com/thedillonb/CodeHub)
