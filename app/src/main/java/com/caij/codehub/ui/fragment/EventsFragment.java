@@ -120,7 +120,13 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
             }else if (Event.DELETE.equals(event.getType())) {
             }else if (Event.DEPLOYMENT.equals(event.getType())) {
             }else if (Event.DEPLOYMENT_STATUS.equals(event.getType())) {
-            }else if (Event.ISSUES.equals(event.getType()) || Event.ISSUE_COMMENT.equals(event.getType())) {
+            }else if (Event.ISSUE_COMMENT.equals(event.getType())) {
+                IssueCommentEvent realEvent = (IssueCommentEvent) event.getRealEvent();
+                String[] repoInfo =  event.getRepo().getName().split("/");
+                Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],
+                        String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
+                startActivity(intent);
+            }else if (Event.ISSUES.equals(event.getType())) {
                 IssuesEvent realEvent = (IssuesEvent) event.getRealEvent();
                 String[] repoInfo =  event.getRepo().getName().split("/");
                 Intent intent = IssueInfoActivity.newIntent(getActivity(), repoInfo[0], repoInfo[1],

@@ -1,12 +1,13 @@
 package com.caij.codehub.bean.event;
 
-import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
 import com.caij.codehub.bean.Entity;
 import com.caij.codehub.bean.Org;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.User;
+import com.caij.codehub.utils.EventSpannedUtils;
 import com.caij.lib.utils.GsonUtils;
 import com.google.gson.annotations.SerializedName;
 
@@ -24,7 +25,11 @@ public class EventWrap extends Entity{
      */
     public static EventWrap convert(Event event) {
         BaseEvent realEvent = null;
-        StringBuilder builder = new StringBuilder(processHtmlString(event.getActor().getLogin()));
+
+        EventSpannedUtils.EventBodySpannableStringBuild builder = new EventSpannedUtils.EventBodySpannableStringBuild();
+
+        EventSpannedUtils.parseUser(event.getActor().getLogin(), builder);
+
         String adapterBody = null;
         if (Event.COMMIT_COMMENT.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), CommitCommentEvent.class);
@@ -52,14 +57,14 @@ public class EventWrap extends Entity{
         }else if (Event.ISSUE_COMMENT.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), IssueCommentEvent.class);
             IssueCommentEvent issueCommentEvent = (IssueCommentEvent) realEvent;
-            builder.append(" ").append("comment").append(" on issue ")
-                    .append(processHtmlString("#" + issueCommentEvent.getIssue().getNumber())).append(" in ");
+            builder.append(" ").append("comment").append(" on issue ");
+            EventSpannedUtils.parseIssueNum("#" + issueCommentEvent.getIssue().getNumber(), builder).append(" in ");
             adapterBody = issueCommentEvent.getComment().getBody();
         }else if (Event.ISSUES.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), IssuesEvent.class);
             IssuesEvent issuesEvent = (IssuesEvent) realEvent;
-            builder.append(" ").append(issuesEvent.getAction()).append(" issue ")
-                    .append(processHtmlString("#" + issuesEvent.getIssue().getNumber())).append(" in ");
+            builder.append(" ").append(issuesEvent.getAction()).append(" issue ");
+            EventSpannedUtils.parseIssueNum("#" + issuesEvent.getIssue().getNumber(), builder).append(" in ");
             adapterBody = issuesEvent.getIssue().getTitle();
         }else if (Event.MEMBER.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), MemberEvent.class);
@@ -99,27 +104,27 @@ public class EventWrap extends Entity{
             builder.append(" ").append(watchEvent.getAction());
             adapterBody = "";
         }else if (Event.FORK.equals(event.getType())) {
-            ForkEvent forkEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), ForkEvent.class);
-            realEvent = forkEvent;
+            realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), ForkEvent.class);
             builder.append(" ").append("forked");
             adapterBody = "";
         }else {
             builder.append(" unsupport event item");
             adapterBody = "";
         }
-        builder.append(" ").append(processHtmlString(event.getRepo().getName()));
-        Spanned adapterTitle  = Html.fromHtml(builder.toString());
+        builder.append(" ");
+        EventSpannedUtils.parseRepository(event.getRepo().getName(), builder);
         return new EventWrap(event.getType(), event.getPublicX(), event.getRepo(), event.getActor(), event.getOrg(),
-                event.getCreated_at(), event.getId(), realEvent, adapterTitle, adapterBody);
+                event.getCreated_at(), event.getId(), realEvent, builder, adapterBody);
     }
 
     private static String processHtmlString(String content) {
         StringBuilder builder = new StringBuilder();
-        builder.append("<font color=\"#0066B3\">")
+        builder.append("<font color=\"").append(EventSpannedUtils.LINK_COLOR).append("\">")
                 .append(content)
                 .append("</font>");
         return builder.toString();
     }
+
 
     private String type;
     @SerializedName("public")
@@ -132,12 +137,12 @@ public class EventWrap extends Entity{
 
     private BaseEvent realEvent;
 
-    private Spanned adapterTitle;
+    private EventSpannedUtils.EventBodySpannableStringBuild adapterTitle;
 
     private String adapterBody;
 
     public EventWrap(String type, boolean publicX, Repository repo, User actor, Org org, Date created_at, String id, BaseEvent realEvent,
-                     Spanned adapterTitle, String adapterBody) {
+                     EventSpannedUtils.EventBodySpannableStringBuild adapterTitle, String adapterBody) {
         this.type = type;
         this.publicX = publicX;
         this.repo = repo;
@@ -214,11 +219,11 @@ public class EventWrap extends Entity{
         this.realEvent = realEvent;
     }
 
-    public Spanned getAdapterTitle() {
+    public EventSpannedUtils.EventBodySpannableStringBuild getAdapterTitle() {
         return adapterTitle;
     }
 
-    public void setAdapterTitle(Spanned adapterTitle) {
+    public void setAdapterTitle(EventSpannedUtils.EventBodySpannableStringBuild adapterTitle) {
         this.adapterTitle = adapterTitle;
     }
 

@@ -38,4 +38,6 @@
 
     <color name="comment_btn_bg_normal">#71ca52</color>
     <color name="comment_btn_bg_select">#569e3d</color>
+
+    <color name="link">#0066B3</color>
 </resources>
