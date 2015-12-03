@@ -112,7 +112,7 @@ public class EventWrap extends Entity{
             adapterBody = "";
         }
         builder.append(" ");
-        EventSpannedUtils.parseRepository(event.getRepo().getName(), builder);
+        EventSpannedUtils.parseRepository(event.getRepo().getName(), builder).append(" ");
         return new EventWrap(event.getType(), event.getPublicX(), event.getRepo(), event.getActor(), event.getOrg(),
                 event.getCreated_at(), event.getId(), realEvent, builder, adapterBody);
     }

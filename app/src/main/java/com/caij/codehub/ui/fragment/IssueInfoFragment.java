@@ -2,6 +2,7 @@ package com.caij.codehub.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.CommentAdapter;
 import com.caij.codehub.widgets.recyclerview.HeaderAndFooterRecyclerViewAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 /**
  * Author Caij
@@ -70,7 +72,19 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
         adapter.addHeaderView(issueContentHeadView);
         getLoadMoreRecyclerView().setLoadMoreEnable(false);
 
+        getLoadMoreRecyclerView().addItemDecoration(
+                new HorizontalDividerItemDecoration.Builder(getActivity()).color(getResources().getColor(R.color.divider))
+                        .size(getResources().getDimensionPixelSize(R.dimen.divider))
+                        .margin(getResources().getDimensionPixelSize(R.dimen.small_margin)).build());
+
+
         mCommentsPresent = new CommentsPresent(this);
+    }
+
+
+    @Override
+    protected int getAttachLayoutId() {
+        return R.layout.fragment_issue_info;
     }
 
     @Override

@@ -14,17 +14,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Transformation;
 import com.caij.codehub.R;
-import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.bean.event.EventWrap;
-import com.caij.codehub.bean.event.IssueCommentEvent;
-import com.caij.codehub.bean.event.IssuesEvent;
-import com.caij.codehub.present.ui.UserInfoUi;
-import com.caij.codehub.ui.activity.IssueInfoActivity;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.activity.UserInfoActivity;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.EventSpannedUtils;
 import com.caij.codehub.utils.TimeUtils;
+import com.caij.codehub.widgets.FixClickableSpanBugTextView;
 import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
 
 import java.util.List;
@@ -124,7 +120,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
         public EventViewHolder(View itemView, RecyclerViewOnItemClickListener onItemClickListener, final AvatarOnClickListener avatarOnClickListener) {
             super(itemView, onItemClickListener);
             ButterKnife.bind(this, itemView);
-            event.setMovementMethod(LinkMovementMethod.getInstance());
+            event.setMovementMethod(FixClickableSpanBugTextView.LocalLinkMovementMethod.getInstance());
             avatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
