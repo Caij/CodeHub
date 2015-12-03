@@ -31,5 +31,5 @@
     <dimen name="z_fab">6dp</dimen>
 
     <dimen name="page_hint_image">60dp</dimen>
-    <dimen name="divider">2px</dimen>
+    <dimen name="divider">1px</dimen>
 </resources>
