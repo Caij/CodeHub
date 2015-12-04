@@ -2,6 +2,9 @@ package com.caij.codehub;
 
 import android.test.AndroidTestCase;
 
+import com.caij.codehub.utils.AvatarUrlUtil;
+import com.caij.lib.utils.LogUtil;
+
 /**
  * Created by Administrator on 2015/8/24.
  */
@@ -18,8 +21,9 @@ public class DataTest extends AndroidTestCase{
 
     public final static String REPO = "user/repos";
 
-    public void testCreateToken() {
-
+    public void testAvatarUrlUtil() {
+        String url = AvatarUrlUtil.restoreAvatarUrl("https://avatars.githubusercontent.com/u/10348598?v=2");
+        LogUtil.d("AndroidTestCase", url);
     }
 
 }

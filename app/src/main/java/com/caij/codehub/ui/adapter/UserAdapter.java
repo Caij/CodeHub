@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
+import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
 
@@ -37,7 +39,7 @@ public class UserAdapter extends BaseAdapter<User> {
     public void onBindViewHolderReal(UserViewHolder holder, int i) {
         User user = getItem(i);
         holder.tvUserName.setText(user.getLogin());
-        Glide.with(context).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+        Glide.with(context).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(cropCircleTransformation).into(holder.imgUserAvatar);
     }
 

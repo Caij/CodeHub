@@ -31,7 +31,6 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
     private Map<Integer, String> mFilters = new HashMap<>();
     private RadioGroup mSinceRadioGroup;
     private RadioGroup mLanguageRadioGroup;
-    private View mFilterDialogView;
     private RepositoriesPresent mRepositoriesPresent;
 
     public static RepositoriesFragment newInstance() {
@@ -47,7 +46,7 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
         mRepositoriesPresent = new RepositoriesPresent(this);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        mFilterDialogView = View.inflate(getContext(), R.layout.dialog_repository_filter, null);
+        View filterDialogView = View.inflate(getContext(), R.layout.dialog_repository_filter, null);
         builder.setTitle(getString(R.string.filter)).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -61,10 +60,10 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
                 mSwipeRefreshLayout.setRefreshing(true);
                 mRepositoriesPresent.getTrendingRepository(LoadType.REFRESH, since, language, mPage);
             }
-        }).setNegativeButton(R.string.cancel, null).setView(mFilterDialogView);
+        }).setNegativeButton(R.string.cancel, null).setView(filterDialogView);
         mDialog = builder.create();
-        mSinceRadioGroup = (RadioGroup) mFilterDialogView.findViewById(R.id.time);
-        mLanguageRadioGroup = (RadioGroup) mFilterDialogView.findViewById(R.id.languages);
+        mSinceRadioGroup = (RadioGroup) filterDialogView.findViewById(R.id.time);
+        mLanguageRadioGroup = (RadioGroup) filterDialogView.findViewById(R.id.languages);
 
         initFilterData();
         if (savedInstanceState != null) {

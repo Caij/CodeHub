@@ -3,5 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.caij.codehub.ui.activity.InitActivity">
     <item android:id="@+id/follow" android:title="@string/follow"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

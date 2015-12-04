@@ -46,4 +46,6 @@ public interface Constant {
     public static final String TRENDING_REPOSITORY_CHECK_SINCE_ID = "trending_repository_check_since_id";
 
     public static final String TRENDING_REPOSITORY_CHECK_LANGUAGE_ID = "trending_repository_check_language_id";
+
+    public static final String TRANSIT_PIC = "transit_pic";
 }

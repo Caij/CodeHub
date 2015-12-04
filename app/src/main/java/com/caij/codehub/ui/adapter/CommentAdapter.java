@@ -8,8 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
+import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
 import com.caij.codehub.widgets.recyclerview.RecyclerViewOnItemClickListener;
@@ -49,7 +51,8 @@ public class CommentAdapter extends BaseAdapter<Comment> {
             CommentViewHolder viewHolder = (CommentViewHolder) holder;
             Comment comment = getItem(position);
 
-            Glide.with(context).load(comment.getUser().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+            Glide.with(context).load(AvatarUrlUtil.restoreAvatarUrl(comment.getUser().getAvatar_url())).placeholder(R.drawable.default_circle_head_image)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).
                     bitmapTransform(cropCircleTransformation).into(viewHolder.avatarImage);
             viewHolder.tvUserName.setText(comment.getUser().getLogin());
             viewHolder.tvCommentBody.setText(comment.getBody());
@@ -79,7 +82,7 @@ public class CommentAdapter extends BaseAdapter<Comment> {
                 @Override
                 public void onClick(View v) {
                     if (avatarOnClickListener != null) {
-                        avatarOnClickListener.onAvatarClick(v, getLayoutPosition());
+                        avatarOnClickListener.onAvatarClick(v, getLayoutPosition() - 1);
                     }
                 }
             });

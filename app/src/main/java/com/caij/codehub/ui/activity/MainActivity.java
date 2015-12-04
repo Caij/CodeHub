@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.User;
@@ -23,6 +24,7 @@ import com.caij.codehub.present.ui.MainUi;
 import com.caij.codehub.present.ui.UserUi;
 import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
+import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.lib.utils.LogUtil;
 import com.caij.lib.utils.ToastUtil;
@@ -72,7 +74,8 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
     public void onGetUserInfoSuccess(User user) {
         mUser = user;
         mNavigationUsernameTextView.setText(user.getLogin());
-        Glide.with(MainActivity.this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+        Glide.with(MainActivity.this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).
+                placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(new CropCircleTransformation(MainActivity.this)).into(mNavigationAvatarImageView);
     }
 

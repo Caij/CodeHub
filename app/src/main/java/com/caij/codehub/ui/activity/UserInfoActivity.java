@@ -2,6 +2,8 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
@@ -17,6 +20,7 @@ import com.caij.codehub.bean.User;
 import com.caij.codehub.present.UserInfoPresent;
 import com.caij.codehub.present.ui.UserInfoUi;
 import com.caij.codehub.present.ui.UserUi;
+import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
 import com.caij.lib.utils.CheckValueUtil;
@@ -89,8 +93,9 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
     protected void handlerData(User user) {
         mUser = user;
         showContentContainer();
-        Glide.with(this).load(user.getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+        Glide.with(this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(new CropCircleTransformation(this)).into(mUserAvatarImageView);
+//        Picasso.with(this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).fit().centerCrop().into(mUserAvatarImageView);
         mUserFollowersTextView.setText(String.valueOf(user.getFollowers()));
         mUserFollowingTextView.setText(String.valueOf(user.getFollowing()));
         mUserLocationTextView.setText(user.getLocation());
@@ -156,6 +161,16 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
             Intent intent = WebActivity.newIntent(this, "Blog", blogUrl);
             startActivity(intent);
         }
+    }
+
+    @OnClick(R.id.img_user_avatar)
+    public void onUserAvatarClick(View view) {
+        Intent intent = PictureReviewActivity.newIntent(this, AvatarUrlUtil.restoreAvatarUrl(mUser.getAvatar_url()));
+        ActivityOptionsCompat optionsCompat
+                = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                this, view, Constant.TRANSIT_PIC);
+        ActivityCompat.startActivity(this, intent,
+                optionsCompat.toBundle());
     }
 
     @Override

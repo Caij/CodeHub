@@ -159,12 +159,10 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == Constant.ISSUE_COMMENT_REQUEST_CODE) {
-                Comment comment = (Comment) data.getSerializableExtra(Constant.COMMENT);
-                getRecyclerViewAdapter().addEntity(comment);
-                getRecyclerViewAdapter().notifyDataSetChanged();
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == Constant.ISSUE_COMMENT_REQUEST_CODE) {
+            Comment comment = (Comment) data.getSerializableExtra(Constant.COMMENT);
+            getRecyclerViewAdapter().addEntity(comment);
+            getRecyclerViewAdapter().notifyDataSetChanged();
         }
     }
 

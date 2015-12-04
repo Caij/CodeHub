@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.activity.UserInfoActivity;
+import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.EventSpannedUtils;
 import com.caij.codehub.utils.TimeUtils;
@@ -34,7 +36,7 @@ import butterknife.ButterKnife;
  */
 public class EventsAdapter extends BaseAdapter<EventWrap>{
 
-    private Transformation<Bitmap> mTransformation;
+    private final CropCircleTransformation mTransformation;
     private AvatarOnClickListener mAvatarOnClickListener;
     private Activity mActivity;
 
@@ -50,7 +52,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
 
     public void onBindViewHolderReal(EventViewHolder holder, final int position) {
         final EventWrap event = getItem(position);
-        Glide.with(context).load(event.getActor().getAvatar_url()).placeholder(R.drawable.default_circle_head_image).
+        Glide.with(context).load(AvatarUrlUtil.restoreAvatarUrl(event.getActor().getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(mTransformation).into(holder.avatar);
         holder.happenTime.setText(TimeUtils.getRelativeTime(event.getCreated_at()));
         final EventSpannedUtils.EventBodySpannableStringBuild build = event.getAdapterTitle();
