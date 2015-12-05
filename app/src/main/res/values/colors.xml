@@ -4,6 +4,7 @@
     <color name="color_primary_dark">#333</color>
     <color name="color_black">#000000</color>
     <color name="color_accent">#2196f3</color>
+    <color name="accent_color">#FF4081</color>
 
     <color name="white">#ffffff</color>
     <color name="gray_white">#eeeeee</color>
@@ -41,4 +42,7 @@
 
     <color name="link">#0066B3</color>
     <color name="divider">#CCCCCC</color>
+
+    <color name="fab_select">#0066B3</color>
+    <color name="background_light">#fafafa</color>
 </resources>

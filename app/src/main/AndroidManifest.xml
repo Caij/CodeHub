@@ -113,6 +113,12 @@
             android:theme="@style/AppTheme.Image">
         </activity>
 
+        <activity
+            android:name=".ui.activity.TrendingFilterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Dialog">
+        </activity>
+
     </application>
 
 </manifest>

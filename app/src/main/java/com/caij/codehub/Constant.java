@@ -31,6 +31,8 @@ public interface Constant {
 
     public static final int ISSUE_COMMENT_REQUEST_CODE = 100;
 
+    public static final int FILTER_REQUEST_CODE  = 101;
+
     public static final String COMMENT = "comment";
 
     public static final String ISSUE_TITLE = "issue_title";
@@ -48,4 +50,5 @@ public interface Constant {
     public static final String TRENDING_REPOSITORY_CHECK_LANGUAGE_ID = "trending_repository_check_language_id";
 
     public static final String TRANSIT_PIC = "transit_pic";
+
 }

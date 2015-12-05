@@ -80,8 +80,8 @@ public class RepositoriesPresent extends ListPresent<ListUi<Repository>, Reposit
         });
     }
 
-    public void getTrendingRepository(final LoadType loadType, String since, String language, Page page) {
-        mRepositoryListInteractor.getTrendingRepository(since, language, page, this, new DefaultInteractorCallback<List<Repository>>(mUi) {
+    public void getTrendingRepository(final LoadType loadType, String since, String language) {
+        mRepositoryListInteractor.getTrendingRepository(since, language, this, new DefaultInteractorCallback<List<Repository>>(mUi) {
             @Override
             public void onError(int msgId) {
                 defaultDealWithError(msgId, loadType);

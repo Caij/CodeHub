@@ -52,7 +52,7 @@
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_black</item>
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@drawable/dialog_background</item>
     </style>
 
 
@@ -67,6 +67,14 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.Dialog" parent="Base.Theme">
+        <item name="colorAccent">@color/accent_color</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/scrim</item>
         <item name="android:windowContentOverlay">@android:color/transparent</item>
     </style>
 

@@ -29,6 +29,8 @@ import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.lib.utils.LogUtil;
 import com.caij.lib.utils.ToastUtil;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -160,4 +162,12 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragments) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

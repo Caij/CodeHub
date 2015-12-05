@@ -16,6 +16,6 @@ public interface RepositoryListInteractor extends Interactor {
 
     public void getSearchRepository(String q, String sort, String order, Page page, Object requestTag, InteractorCallBack<List<Repository>> interactorCallBack);
 
-    public void getTrendingRepository(String since, String language, Page page, Object requestTag, InteractorCallBack<List<Repository>> interactorCallBack);
+    public void getTrendingRepository(String since, String language,Object requestTag, InteractorCallBack<List<Repository>> interactorCallBack);
 
 }

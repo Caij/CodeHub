@@ -1,8 +1,13 @@
 package com.caij.codehub.ui.fragment;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RadioButton;
@@ -10,10 +15,10 @@ import android.widget.RadioGroup;
 
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.codehub.interactor.InteractorFactory;
-import com.caij.codehub.interactor.RepositoryListInteractor;
 import com.caij.codehub.present.LoadType;
 import com.caij.codehub.present.RepositoriesPresent;
+import com.caij.codehub.ui.activity.TrendingFilterActivity;
+import com.caij.codehub.ui.transitions.FabDialogMorphSetup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,15 +55,11 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
         builder.setTitle(getString(R.string.filter)).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                mSinceCheckRadioId = mSinceRadioGroup.getCheckedRadioButtonId();
-                mLanguageCheckRadioId = mLanguageRadioGroup.getCheckedRadioButtonId();
-
-                String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
-                String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
-
-                mSwipeRefreshLayout.setRefreshing(true);
-                mRepositoriesPresent.getTrendingRepository(LoadType.REFRESH, since, language, mPage);
+                int sinceCheckId = mSinceRadioGroup.getCheckedRadioButtonId();
+                int languageCheckId = mLanguageRadioGroup.getCheckedRadioButtonId();
+                if (sinceCheckId != mSinceCheckRadioId || languageCheckId != mLanguageCheckRadioId) {
+                    setFilterResult(mSinceRadioGroup.getCheckedRadioButtonId(), mLanguageRadioGroup.getCheckedRadioButtonId());
+                }
             }
         }).setNegativeButton(R.string.cancel, null).setView(filterDialogView);
         mDialog = builder.create();
@@ -103,14 +104,14 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
     protected void onUserFirstVisible() {
         String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
         String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
-        mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language, mPage);
+        mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language);
     }
 
     @Override
     public void onRefresh() {
         String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
         String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
-        mRepositoriesPresent.getTrendingRepository(LoadType.REFRESH, since, language, mPage.createRefreshPage());
+        mRepositoriesPresent.getTrendingRepository(LoadType.REFRESH, since, language);
     }
 
     @Override
@@ -118,16 +119,38 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
         super.onReFreshBtnClick(view);
         String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
         String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
-        mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language, mPage);
+        mRepositoriesPresent.getTrendingRepository(LoadType.FIRST, since, language);
     }
-
 
 
     @OnClick(R.id.filter)
     public void onFilterClick(View view) {
-        ((RadioButton) mSinceRadioGroup.findViewById(mSinceCheckRadioId)).setChecked(true);
-        ((RadioButton) mLanguageRadioGroup.findViewById(mLanguageCheckRadioId)).setChecked(true);
-        mDialog.show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent intent = new Intent(getActivity(), TrendingFilterActivity.class);
+            ActivityOptionsCompat optionsCompat
+                    = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    getActivity(), view, Constant.TRANSIT_PIC);
+            intent.putExtra(FabDialogMorphSetup.EXTRA_SHARED_ELEMENT_START_COLOR,
+                    ContextCompat.getColor(getActivity(), R.color.color_accent));
+            intent.putExtra(Constant.TRENDING_REPOSITORY_CHECK_SINCE_ID, mSinceCheckRadioId);
+            intent.putExtra(Constant.TRENDING_REPOSITORY_CHECK_LANGUAGE_ID, mLanguageCheckRadioId);
+            getActivity().startActivityForResult(intent, Constant.FILTER_REQUEST_CODE, optionsCompat.toBundle());
+        }else {
+            ((RadioButton) mSinceRadioGroup.findViewById(mSinceCheckRadioId)).setChecked(true);
+            ((RadioButton) mLanguageRadioGroup.findViewById(mLanguageCheckRadioId)).setChecked(true);
+            mDialog.show();
+        }
+    }
+
+    private void setFilterResult(int sinceId, int languageId) {
+        mSinceCheckRadioId = sinceId;
+        mLanguageCheckRadioId = languageId;
+
+        String since = mFilters.get(mSinceCheckRadioId).toLowerCase();
+        String language = mFilters.get(mLanguageCheckRadioId).toLowerCase();
+
+        mSwipeRefreshLayout.setRefreshing(true);
+        mRepositoriesPresent.getTrendingRepository(LoadType.REFRESH, since, language);
     }
 
     @Override
@@ -136,8 +159,19 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constant.FILTER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            int sinceCheckId = data.getIntExtra(Constant.TRENDING_REPOSITORY_CHECK_SINCE_ID, R.id.daily);
+            int languageCheckId = data.getIntExtra(Constant.TRENDING_REPOSITORY_CHECK_LANGUAGE_ID, R.id.all);
+            setFilterResult(sinceCheckId, languageCheckId);
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         mRepositoriesPresent.onDeath();
         super.onDestroyView();
     }
+
 }

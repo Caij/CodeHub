@@ -13,7 +13,7 @@
         android:id="@+id/filter"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
-        android:background="@drawable/fab"
+        android:background="@drawable/fab_selector"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"

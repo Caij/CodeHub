@@ -1,5 +1,6 @@
 package com.caij.codehub.bean.event;
 
+import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 
@@ -33,8 +34,9 @@ public class EventWrap extends Entity{
         String adapterBody = null;
         if (Event.COMMIT_COMMENT.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), CommitCommentEvent.class);
-            builder.append(" ").append("commit comment").append(" in ");
-            adapterBody = "";
+            CommitCommentEvent commitCommentEvent = (CommitCommentEvent) realEvent;
+            builder.append(" ").append("commented on commit");
+            adapterBody = commitCommentEvent.getComment().getBody();
         }else if (Event.CREATE.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), CreateEvent.class);
             builder.append(" ")
@@ -78,8 +80,14 @@ public class EventWrap extends Entity{
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), PullRequestEvent.class);
             PullRequestEvent pullRequestEvent = (PullRequestEvent) realEvent;
             String[] urlSp = pullRequestEvent.getPull_request().getUrl().split("/");
-            builder.append(" ").append(pullRequestEvent.getAction()).
-                    append(" pull request ").append(processHtmlString("#" + urlSp[urlSp.length - 1])).append(" in ");
+            String action = "";
+            if ("closed".equals(pullRequestEvent.getAction())) {
+                action = "merged";
+            }else {
+                action = pullRequestEvent.getAction();
+            }
+            builder.append(" ").append(action).
+                    append(" pull request ").append(Html.fromHtml(processHtmlString("#" + urlSp[urlSp.length - 1]))).append(" in ");
             adapterBody = pullRequestEvent.getPull_request().getTitle();
         }else if (Event.PULL_REQUEST_REVIEW_COMMENT.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), PullRequestReviewCommentEvent.class);
@@ -88,7 +96,7 @@ public class EventWrap extends Entity{
         }else if (Event.PUSH.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), PushEvent.class);
             PushEvent pushEvent = (PushEvent) realEvent;
-            builder.append(" ").append("push to ").append(processHtmlString("master"));
+            builder.append(" ").append("push to ").append(Html.fromHtml(processHtmlString("master"))).append(" at");
             adapterBody = pushEvent.getBase_ref();
         }else if (Event.REPOSITORY.equals(event.getType())) {
             realEvent = GsonUtils.getGson().fromJson(GsonUtils.getGson().toJson(event.getPayload()), RepositoryEvent.class);

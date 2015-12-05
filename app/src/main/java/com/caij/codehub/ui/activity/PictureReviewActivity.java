@@ -9,9 +9,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 
@@ -24,6 +21,7 @@ import butterknife.OnClick;
  */
 public class PictureReviewActivity extends BaseCodeHubActivity{
 
+    private static final float SQUARE_RATIO_MARGIN = 0.05f;
     @Bind(R.id.imageview)
     ImageView mImageView;
 
@@ -41,12 +39,7 @@ public class PictureReviewActivity extends BaseCodeHubActivity{
         ButterKnife.bind(this);
         ViewCompat.setTransitionName(mImageView, Constant.TRANSIT_PIC);
         String url = getIntent().getStringExtra(Constant.URL);
-        Glide.with(PictureReviewActivity.this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).skipMemoryCache(true).into(new GlideDrawableImageViewTarget(mImageView){
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
-                mImageView.setImageDrawable(resource);
-            }
-        });
+        Glide.with(PictureReviewActivity.this).load(url).diskCacheStrategy(DiskCacheStrategy.ALL).dontAnimate().into(mImageView);
     }
 
     @Override

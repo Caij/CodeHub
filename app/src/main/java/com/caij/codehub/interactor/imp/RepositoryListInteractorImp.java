@@ -70,7 +70,7 @@ public class RepositoryListInteractorImp implements RepositoryListInteractor {
     }
 
     @Override
-    public void getTrendingRepository(String since, String language, Page page, Object requestTag, final InteractorCallBack<List<Repository>> interactorCallBack) {
+    public void getTrendingRepository(String since, String language, Object requestTag, final InteractorCallBack<List<Repository>> interactorCallBack) {
         interactorCallBack.onLoading();
         Map<String, String> params = new HashMap<>();
         if (!TextUtils.isEmpty(language))
