@@ -19,8 +19,10 @@ package com.caij.codehub.ui.transitions;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.transition.ChangeBounds;
@@ -38,6 +40,7 @@ import com.caij.codehub.utils.AnimUtils;
 /**
  * A transition that morphs a rectangle into a circle, changing it's background color.
  */
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class MorphDialogToFab extends ChangeBounds {
 
     private static final String PROPERTY_COLOR = "plaid:rectMorph:color";
@@ -48,11 +51,13 @@ public class MorphDialogToFab extends ChangeBounds {
     };
     private @ColorInt int endColor = Color.TRANSPARENT;
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public MorphDialogToFab(@ColorInt int endColor) {
         super();
         setEndColor(endColor);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MorphDialogToFab(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -66,6 +71,7 @@ public class MorphDialogToFab extends ChangeBounds {
         return TRANSITION_PROPERTIES;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void captureStartValues(TransitionValues transitionValues) {
         super.captureStartValues(transitionValues);
@@ -79,6 +85,7 @@ public class MorphDialogToFab extends ChangeBounds {
                 .getDimensionPixelSize(R.dimen.dialog_corners));
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void captureEndValues(TransitionValues transitionValues) {
         super.captureEndValues(transitionValues);
@@ -90,6 +97,7 @@ public class MorphDialogToFab extends ChangeBounds {
         transitionValues.values.put(PROPERTY_CORNER_RADIUS, view.getHeight() / 2);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public Animator createAnimator(final ViewGroup sceneRoot,
                                    TransitionValues startValues,

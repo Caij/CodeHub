@@ -21,7 +21,6 @@ import butterknife.OnClick;
  */
 public class PictureReviewActivity extends BaseCodeHubActivity{
 
-    private static final float SQUARE_RATIO_MARGIN = 0.05f;
     @Bind(R.id.imageview)
     ImageView mImageView;
 
