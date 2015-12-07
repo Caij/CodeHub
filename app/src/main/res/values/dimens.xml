@@ -8,7 +8,7 @@
 
     <dimen name="big_user_info_image">256dp</dimen>
     <dimen name="user_info_avatar_image">60dp</dimen>
-    <dimen name="comn_avatar_image">40dp</dimen>
+    <dimen name="comn_avatar_image">45dp</dimen>
 
     <dimen name="small_avatar_image">30dp</dimen>
 

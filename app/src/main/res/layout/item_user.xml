@@ -4,8 +4,8 @@
     android:background="?android:attr/selectableItemBackground"
     android:layout_height="match_parent"
     android:gravity="center_vertical"
-    android:paddingTop="@dimen/small_margin"
-    android:paddingBottom="@dimen/small_margin"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
     android:paddingLeft="@dimen/standard_margin"
     android:paddingRight="@dimen/standard_margin"
     android:clickable="true">

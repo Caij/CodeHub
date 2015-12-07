@@ -95,7 +95,6 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
         showContentContainer();
         Glide.with(this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(new CropCircleTransformation(this)).into(mUserAvatarImageView);
-//        Picasso.with(this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).fit().centerCrop().into(mUserAvatarImageView);
         mUserFollowersTextView.setText(String.valueOf(user.getFollowers()));
         mUserFollowingTextView.setText(String.valueOf(user.getFollowing()));
         mUserLocationTextView.setText(user.getLocation());

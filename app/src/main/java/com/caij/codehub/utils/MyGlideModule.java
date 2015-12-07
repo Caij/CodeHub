@@ -14,7 +14,7 @@ import java.io.InputStream;
 
 
 /**
- * Created by zhongweiguang on 15/8/14.
+ * Created by Caij on 15/8/14.
  */
 public class MyGlideModule implements GlideModule {
 
