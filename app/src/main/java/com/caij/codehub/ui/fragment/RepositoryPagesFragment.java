@@ -48,9 +48,8 @@ public class RepositoryPagesFragment extends BaseFragment {
         String username = SPUtils.getString(Constant.USER_NAME, "");
         fragments.add(UserRepositoriesFragment.newInstance(username));
         fragments.add(UserStarredRepositoriesFragment.newInstance(username));
-//        fragments.add(SearchRepositoriesFragment.provideNewsPresenter("language:java", "stars", "desc"));
         fragments.add(TrendingRepositoriesFragment.newInstance());
-        RepositoryPageAdapter adapter = new RepositoryPageAdapter(getFragmentManager(), fragments);
+        RepositoryPageAdapter adapter = new RepositoryPageAdapter(getChildFragmentManager(), fragments);
         mViewpager.setOffscreenPageLimit(fragments.size());
         mViewpager.setAdapter(adapter);
         mTabs.setupWithViewPager(mViewpager);
