@@ -312,4 +312,10 @@ public class User extends Entity implements Serializable{
     public Date getUpdated_at() {
         return updated_at;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        User user = (User) o;
+        return user.getLogin().equals(login) && user.getAvatar_url().equals(avatar_url) && user.getName().equals(name);
+    }
 }

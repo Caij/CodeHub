@@ -92,8 +92,12 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
 
     protected void handlerData(User user) {
         mUser = user;
+        if (user.getLogin().equals(CodeHubPrefs.get().getUsername())) {
+            CodeHubPrefs.get().setUser(user);
+        }
         showContentContainer();
-        Glide.with(this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
+        Glide.with(this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).
+                placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(new CropCircleTransformation(this)).into(mUserAvatarImageView);
         mUserFollowersTextView.setText(String.valueOf(user.getFollowers()));
         mUserFollowingTextView.setText(String.valueOf(user.getFollowing()));

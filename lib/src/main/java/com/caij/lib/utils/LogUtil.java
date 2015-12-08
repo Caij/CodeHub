@@ -55,6 +55,42 @@ public class LogUtil {
         }
     }
 
+    public static void e(Object tag, String msg) {
+        if (LOG_DEBUG) {
+            Log.e(tag.getClass().getSimpleName(), msg);
+        }
+    }
+
+    public static void i(Object tag, String msg) {
+        if (LOG_DEBUG) {
+            Log.i(tag.getClass().getSimpleName(), msg);
+        }
+    }
+
+    public static void d(Object tag, String msg) {
+        if (LOG_DEBUG) {
+            Log.d(tag.getClass().getSimpleName(), msg);
+        }
+    }
+
+    public static void v(Object tag, String msg) {
+        if (LOG_DEBUG) {
+            Log.v(tag.getClass().getSimpleName(), msg);
+        }
+    }
+
+    public static void w(Object tag, String msg) {
+        if (LOG_DEBUG) {
+            Log.w(tag.getClass().getSimpleName(), msg);
+        }
+    }
+
+    public static void wtf(Object tag, String msg) {
+        if (LOG_DEBUG) {
+            Log.wtf(tag.getClass().getSimpleName(), msg);
+        }
+    }
+
     public static void json(String tag, String msg) {
         if (LOG_DEBUG) {
             if (TextUtils.isEmpty(msg)) {

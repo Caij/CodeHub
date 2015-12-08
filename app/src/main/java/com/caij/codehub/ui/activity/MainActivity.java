@@ -62,7 +62,6 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
         toggle.syncState();
         mDrawerLayout.setDrawerListener(toggle);
         mMainPresent = new MainPresent(this);
-        mMainPresent.getUserInfo(CodeHubPrefs.get().getToken(), CodeHubPrefs.get().getUsername());
 
         mRepositoryPagesFragment = new RepositoryPagesFragment();
         mEventsFragment = new EventsFragment();
@@ -70,11 +69,19 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
 
         getSupportFragmentManager().beginTransaction().add(R.id.main_content, mRepositoryPagesFragment).commit();
         mCurrentShowFragment = mRepositoryPagesFragment;
+
+        User user = CodeHubPrefs.get().getUser();
+        if (user == null) {
+            mMainPresent.getUserInfo(CodeHubPrefs.get().getToken(), CodeHubPrefs.get().getUsername());
+        }else {
+            onGetUserInfoSuccess(user);
+        }
     }
 
     @Override
     public void onGetUserInfoSuccess(User user) {
         mUser = user;
+        CodeHubPrefs.get().setUser(user);
         mNavigationUsernameTextView.setText(user.getLogin());
         Glide.with(MainActivity.this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).
                 placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
