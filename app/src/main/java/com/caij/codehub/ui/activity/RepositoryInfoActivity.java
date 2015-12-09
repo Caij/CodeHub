@@ -84,7 +84,7 @@ public class RepositoryInfoActivity extends BaseCodeHubToolBarActivity implement
 
     @OnClick(R.id.ll_create)
     public void onCreaterClick() {
-        Intent intent = UserInfoActivity.newIntent(this, mRepository.getOwner().getLogin());
+        Intent intent = UserInfoActivity.newIntent(this, mRepository.getOwner().getLogin(), mRepository.getOwner().getAvatar_url());
         startActivity(intent);
     }
 

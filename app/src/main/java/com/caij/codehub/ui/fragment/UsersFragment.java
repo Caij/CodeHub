@@ -3,15 +3,21 @@ package com.caij.codehub.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.caij.codehub.Constant;
+import com.caij.codehub.R;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.User;
+import com.caij.codehub.ui.activity.PictureReviewActivity;
 import com.caij.codehub.ui.activity.UserInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.UserAdapter;
+import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
 
 import java.util.List;
@@ -44,8 +50,12 @@ public abstract class UsersFragment extends SwipeRefreshRecyclerViewFragment<Use
     @Override
     public void onItemClick(View view, int position) {
         User user =getRecyclerViewAdapter().getItem(position);
-        Intent intent = UserInfoActivity.newIntent(getActivity(), user.getLogin());
-        startActivity(intent);
+        Intent intent = UserInfoActivity.newIntent(getActivity(), user.getLogin(), user.getAvatar_url());
+        ActivityOptionsCompat optionsCompat
+                = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(), view, getString(R.string.user_info));
+        ActivityCompat.startActivity(getActivity(), intent,
+                optionsCompat.toBundle());
     }
 
     @Override

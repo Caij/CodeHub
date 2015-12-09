@@ -59,7 +59,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     protected abstract int getAttachLayoutId();
 
     protected int getContentContainerViewId() {
-        return android.R.id.content;
+        return R.id.fl_content_container;
     }
 
 

@@ -4,6 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/fl_content_container"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        >
+
+        </FrameLayout>
+
     <ViewStub
         android:id="@+id/vs_anim_loading"
         android:layout="@layout/include_anim_loading"

@@ -110,4 +110,7 @@
     <string name="my_email">worldcaij@gmail.com</string>
     <string name="about_me">About Me</string>
     <string name="page_nothing">There\'s nothing</string>
+    <string name="user_info">user_info</string>
+    <string name="user_info_avatar">user_info_avatar</string>
+    <string name="follow_info_error">follow status erro, load again.</string>
 </resources>

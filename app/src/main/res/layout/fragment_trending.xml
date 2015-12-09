@@ -18,6 +18,7 @@
         android:layout_marginRight="@dimen/standard_margin"
         android:layout_marginBottom="@dimen/standard_margin"
         android:src="@drawable/ic_add"
+        android:tint="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
 

@@ -6,12 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.caij.codehub.R;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.RepositoryAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
@@ -27,6 +29,11 @@ public abstract class RepositoriesFragment extends SwipeRefreshRecyclerViewFragm
         super.onViewCreated(view, savedInstanceState);
 
         mPage = new Page();
+        getLoadMoreRecyclerView().addItemDecoration(
+                new HorizontalDividerItemDecoration.Builder(getActivity()).color(getResources().getColor(R.color.divider))
+                        .size(getResources().getDimensionPixelSize(R.dimen.divider))
+                        .margin(getResources().getDimensionPixelSize(R.dimen.repository_divider_margin_left),
+                                getResources().getDimensionPixelSize(R.dimen.small_margin)).build());
     }
 
     @Override

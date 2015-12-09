@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -128,8 +130,12 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
     @Override
     public void onAvatarClick(View view, int position) {
         Comment comment = getRecyclerViewAdapter().getItem(position);
-        Intent intent = UserInfoActivity.newIntent(getActivity(), comment.getUser().getLogin());
-        startActivity(intent);
+        Intent intent = UserInfoActivity.newIntent(getActivity(), comment.getUser().getLogin(), comment.getUser().getAvatar_url());
+        ActivityOptionsCompat optionsCompat
+                = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(), view, getString(R.string.user_info_avatar));
+        ActivityCompat.startActivity(getActivity(), intent,
+                optionsCompat.toBundle());
     }
 
     @Override

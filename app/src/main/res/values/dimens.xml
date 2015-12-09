@@ -33,4 +33,6 @@
     <dimen name="page_hint_image">60dp</dimen>
     <dimen name="divider">1px</dimen>
     <dimen name="dialog_corners">2dp</dimen>
+
+    <dimen name="repository_divider_margin_left">58dp</dimen>
 </resources>

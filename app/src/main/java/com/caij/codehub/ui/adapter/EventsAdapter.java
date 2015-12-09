@@ -50,7 +50,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
         mTransformation = new CropCircleTransformation(context);
     }
 
-    public void onBindViewHolderReal(EventViewHolder holder, final int position) {
+    public void onBindViewHolderReal(final EventViewHolder holder, final int position) {
         final EventWrap event = getItem(position);
         Glide.with(context).load(AvatarUrlUtil.restoreAvatarUrl(event.getActor().getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(mTransformation).into(holder.avatar);
@@ -61,8 +61,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
             build.setUserClickListener(new EventSpannedUtils.OnClickableSpannedClickListener() {
                 @Override
                 public void onClick(View view, String content) {
-                    Intent intent = UserInfoActivity.newIntent(mActivity, content);
-                    mActivity.startActivity(intent);
+                    mAvatarOnClickListener.onAvatarClick(holder.avatar, position);
                 }
             });
         }

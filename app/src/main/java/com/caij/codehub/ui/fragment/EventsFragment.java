@@ -3,10 +3,13 @@ package com.caij.codehub.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.caij.codehub.CodeHubPrefs;
+import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.event.Event;
@@ -97,8 +100,12 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     @Override
     public void onAvatarClick(View view, int position) {
         EventWrap eventWrap = getRecyclerViewAdapter().getItem(position);
-        Intent intent = UserInfoActivity.newIntent(getActivity(), eventWrap.getActor().getLogin());
-        startActivity(intent);
+        Intent intent = UserInfoActivity.newIntent(getActivity(), eventWrap.getActor().getLogin(), eventWrap.getActor().getAvatar_url());
+        ActivityOptionsCompat optionsCompat
+                = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                getActivity(), view, getString(R.string.user_info_avatar));
+        ActivityCompat.startActivity(getActivity(), intent,
+                optionsCompat.toBundle());
     }
 
     @Override

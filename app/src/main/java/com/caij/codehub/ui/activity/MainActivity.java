@@ -124,7 +124,7 @@ public class MainActivity extends BaseCodeHubToolBarActivity implements MainUi {
             return;
         }
         mDrawerLayout.closeDrawer(Gravity.LEFT);
-        Intent intent = UserInfoActivity.newIntent(this, mUser.getLogin());
+        Intent intent = UserInfoActivity.newIntent(this, mUser.getLogin(), mUser.getAvatar_url());
         startActivity(intent);
     }
 

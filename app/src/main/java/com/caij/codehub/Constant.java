@@ -51,4 +51,5 @@ public interface Constant {
 
     public static final String TRANSIT_PIC = "transit_pic";
 
+    public static final String AVATAR_URL = "AVATAR_URL";
 }
