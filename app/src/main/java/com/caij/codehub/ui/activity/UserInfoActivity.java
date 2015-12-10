@@ -138,6 +138,7 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
 
         if (id == android.R.id.home) {
             onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

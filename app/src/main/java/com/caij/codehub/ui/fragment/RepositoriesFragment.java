@@ -38,7 +38,7 @@ public abstract class RepositoriesFragment extends SwipeRefreshRecyclerViewFragm
 
     @Override
     protected BaseAdapter<Repository> createRecyclerViewAdapter() {
-        return new RepositoryAdapter(getContext());
+        return new RepositoryAdapter(getActivity());
     }
 
     @Override

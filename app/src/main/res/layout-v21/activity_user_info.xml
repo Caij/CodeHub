@@ -350,7 +350,8 @@
             android:clickable="true"
             app:layout_anchor="@id/appbar"
             app:layout_anchorGravity="bottom|right|end"
-            android:tint="@color/white"/>
+            android:tint="@color/white"
+            android:layout_marginRight="@dimen/small_big_margin"/>
 
     </android.support.design.widget.CoordinatorLayout>
 
