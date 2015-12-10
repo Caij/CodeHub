@@ -71,14 +71,15 @@ public class EventRequest extends GsonRequest<List<EventWrap>>{
     }
 
     public List<EventWrap> convert(List<Event> events) {
-        List<EventWrap> eventWraps = new ArrayList<>();
         if (events != null) {
+            List<EventWrap> eventWraps = new ArrayList<>(events.size());
             EventWrap eventWrap = null;
             for (Event event : events) {
                 eventWrap = EventWrap.convert(event);
                 eventWraps.add(eventWrap);
             }
+            return eventWraps;
         }
-        return eventWraps;
+        return null;
     }
 }

@@ -44,7 +44,7 @@ public class RepositoryPagesFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<BaseFragment> fragments = new ArrayList<>();
+        List<BaseFragment> fragments = new ArrayList<>(3);
         String username = SPUtils.getString(Constant.USER_NAME, "");
         fragments.add(UserRepositoriesFragment.newInstance(username));
         fragments.add(UserStarredRepositoriesFragment.newInstance(username));

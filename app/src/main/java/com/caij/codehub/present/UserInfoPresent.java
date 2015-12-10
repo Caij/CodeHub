@@ -95,13 +95,13 @@ public class UserInfoPresent extends Present<UserInfoUi>{
 
             @Override
             public void onSuccess(NetworkResponse response) {
-                mUi.showProgressBarLoading(true);
+                mUi.showProgressBarLoading(false);
                 mUi.onUnfollowSuccess();
             }
 
             @Override
             public void onLoading() {
-                mUi.showProgressBarLoading(false);
+                mUi.showProgressBarLoading(true);
             }
         });
     }
