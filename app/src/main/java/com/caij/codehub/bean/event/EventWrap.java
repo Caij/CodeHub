@@ -24,7 +24,7 @@ public class EventWrap extends Entity{
      * @param event
      * @return
      */
-    public static EventWrap convert(Event event) {
+    public static Event convert(Event event) {
         BaseEvent realEvent = null;
 
         EventSpannedUtils.EventBodySpannableStringBuild builder = new EventSpannedUtils.EventBodySpannableStringBuild();
@@ -121,8 +121,12 @@ public class EventWrap extends Entity{
         }
         builder.append(" ");
         EventSpannedUtils.parseRepository(event.getRepo().getName(), builder).append(" ");
-        return new EventWrap(event.getType(), event.getPublicX(), event.getRepo(), event.getActor(), event.getOrg(),
-                event.getCreated_at(), event.getId(), realEvent, builder, adapterBody);
+
+        event.setRealEvent(realEvent);
+        event.setAdapterBody(adapterBody);
+        event.setAdapterTitle(builder);
+
+        return event;
     }
 
     private static String processHtmlString(String content) {
@@ -131,111 +135,5 @@ public class EventWrap extends Entity{
                 .append(content)
                 .append("</font>");
         return builder.toString();
-    }
-
-
-    private String type;
-    @SerializedName("public")
-    private boolean publicX;
-    private Repository repo;
-    private User actor;
-    private Org org;
-    private Date created_at;
-    private String id;
-
-    private BaseEvent realEvent;
-
-    private EventSpannedUtils.EventBodySpannableStringBuild adapterTitle;
-
-    private String adapterBody;
-
-    public EventWrap(String type, boolean publicX, Repository repo, User actor, Org org, Date created_at, String id, BaseEvent realEvent,
-                     EventSpannedUtils.EventBodySpannableStringBuild adapterTitle, String adapterBody) {
-        this.type = type;
-        this.publicX = publicX;
-        this.repo = repo;
-        this.actor = actor;
-        this.org = org;
-        this.created_at = created_at;
-        this.id = id;
-        this.realEvent = realEvent;
-        this.adapterTitle = adapterTitle;
-        this.adapterBody = adapterBody;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setPublicX(boolean publicX) {
-        this.publicX = publicX;
-    }
-
-    public void setRepo(Repository repo) {
-        this.repo = repo;
-    }
-
-    public void setActor(User actor) {
-        this.actor = actor;
-    }
-
-    public void setOrg(Org org) {
-        this.org = org;
-    }
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public boolean getPublicX() {
-        return publicX;
-    }
-
-    public Repository getRepo() {
-        return repo;
-    }
-
-    public User getActor() {
-        return actor;
-    }
-
-    public Org getOrg() {
-        return org;
-    }
-
-    public Date getCreated_at() {
-        return created_at;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public BaseEvent getRealEvent() {
-        return realEvent;
-    }
-
-    public void setRealEvent(BaseEvent realEvent) {
-        this.realEvent = realEvent;
-    }
-
-    public EventSpannedUtils.EventBodySpannableStringBuild getAdapterTitle() {
-        return adapterTitle;
-    }
-
-    public void setAdapterTitle(EventSpannedUtils.EventBodySpannableStringBuild adapterTitle) {
-        this.adapterTitle = adapterTitle;
-    }
-
-    public String getAdapterBody() {
-        return adapterBody;
     }
 }

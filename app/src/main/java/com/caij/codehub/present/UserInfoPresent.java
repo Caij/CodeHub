@@ -27,20 +27,19 @@ public class UserInfoPresent extends Present<UserInfoUi>{
         mUserInterctor.getUserInfo(token, username, this, new DefaultInteractorCallback<User>(mUi) {
             @Override
             public void onError(int msgId) {
-                mUi.showContentAnimLoading(false);
-                mUi.showContentError();
+                mUi.showProgressBarLoading(false);
                 mUi.showError(msgId);
             }
 
             @Override
             public void onSuccess(User user) {
-                mUi.showContentAnimLoading(false);
+                mUi.showProgressBarLoading(false);
                 mUi.onGetUserInfoSuccess(user);
             }
 
             @Override
             public void onLoading() {
-                mUi.showContentAnimLoading(true);
+                mUi.showProgressBarLoading(true);
             }
         });
     }

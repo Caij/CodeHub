@@ -4,6 +4,7 @@ import com.caij.codehub.bean.Entity;
 import com.caij.codehub.bean.Org;
 import com.caij.codehub.bean.Repository;
 import com.caij.codehub.bean.User;
+import com.caij.codehub.utils.EventSpannedUtils;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -70,6 +71,12 @@ public class Event extends Entity {
     private String id;
     private Object payload;
 
+    private BaseEvent realEvent;
+
+    private EventSpannedUtils.EventBodySpannableStringBuild adapterTitle;
+
+    private String adapterBody;
+
     public void setType(String type) {
         this.type = type;
     }
@@ -132,5 +139,29 @@ public class Event extends Entity {
 
     public void setPayload(Object payload) {
         this.payload = payload;
+    }
+
+    public BaseEvent getRealEvent() {
+        return realEvent;
+    }
+
+    public void setRealEvent(BaseEvent realEvent) {
+        this.realEvent = realEvent;
+    }
+
+    public EventSpannedUtils.EventBodySpannableStringBuild getAdapterTitle() {
+        return adapterTitle;
+    }
+
+    public void setAdapterTitle(EventSpannedUtils.EventBodySpannableStringBuild adapterTitle) {
+        this.adapterTitle = adapterTitle;
+    }
+
+    public String getAdapterBody() {
+        return adapterBody;
+    }
+
+    public void setAdapterBody(String adapterBody) {
+        this.adapterBody = adapterBody;
     }
 }

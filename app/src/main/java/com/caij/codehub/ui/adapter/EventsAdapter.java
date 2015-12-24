@@ -15,7 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.R;
+import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.bean.event.EventWrap;
+import com.caij.codehub.bean.event.IssueCommentEvent;
+import com.caij.codehub.ui.activity.IssueInfoActivity;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
 import com.caij.codehub.ui.activity.UserInfoActivity;
 import com.caij.codehub.utils.AvatarUrlUtil;
@@ -34,7 +37,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Caij on 2015/9/24.
  */
-public class EventsAdapter extends BaseAdapter<EventWrap>{
+public class EventsAdapter extends BaseAdapter<Event>{
 
     private final CropCircleTransformation mTransformation;
     private AvatarOnClickListener mAvatarOnClickListener;
@@ -45,26 +48,24 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
         mActivity = activity;
     }
 
-    public EventsAdapter(Context context, List<EventWrap> entities) {
+    public EventsAdapter(Context context, List<Event> entities) {
         super(context, entities);
         mTransformation = new CropCircleTransformation(context);
     }
 
     public void onBindViewHolderReal(final EventViewHolder holder, final int position) {
-        final EventWrap event = getItem(position);
+        final Event event = getItem(position);
         Glide.with(context).load(AvatarUrlUtil.restoreAvatarUrl(event.getActor().getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(mTransformation).into(holder.avatar);
         holder.happenTime.setText(TimeUtils.getRelativeTime(event.getCreated_at()));
         final EventSpannedUtils.EventBodySpannableStringBuild build = event.getAdapterTitle();
 
-        if (build.getUserClickListener() == null) {
-            build.setUserClickListener(new EventSpannedUtils.OnClickableSpannedClickListener() {
-                @Override
-                public void onClick(View view, String content) {
-                    mAvatarOnClickListener.onAvatarClick(holder.avatar, position);
-                }
-            });
-        }
+        build.setUserClickListener(new EventSpannedUtils.OnClickableSpannedClickListener() {
+            @Override
+            public void onClick(View view, String content) {
+                mAvatarOnClickListener.onAvatarClick(holder.avatar, position);
+            }
+        });
 
         if (build.getRepositoryClickListener() == null) {
             build.setRepositoryClickListener(new EventSpannedUtils.OnClickableSpannedClickListener() {
@@ -77,11 +78,17 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
             });
         }
 
-        if (build.isSupportIssueClickListener() && build.getIssueClickListener() == null) {
+        if (build.isSupportIssueClickListener()) {
             build.setIssueClickListener(new EventSpannedUtils.OnClickableSpannedClickListener() {
                 @Override
                 public void onClick(View view, String content) {
-                    mOnItemClickListener.onItemClick(view, position);
+                    if (Event.ISSUE_COMMENT.equals(event.getType())) {
+                        IssueCommentEvent realEvent = (IssueCommentEvent) event.getRealEvent();
+                        String[] repoInfo = event.getRepo().getName().split("/");
+                        Intent intent = IssueInfoActivity.newIntent(mActivity, repoInfo[0], repoInfo[1],
+                                String.valueOf(realEvent.getIssue().getNumber()), realEvent.getIssue().getTitle(), realEvent.getIssue().getBody());
+                        mActivity.startActivity(intent);
+                    }
                 }
             });
         }
@@ -93,8 +100,7 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_event, parent, false);
-        EventViewHolder holder = new EventViewHolder(view, mOnItemClickListener, mAvatarOnClickListener);
-        return holder;
+        return new EventViewHolder(view, mOnItemClickListener, mAvatarOnClickListener);
     }
 
     @Override
@@ -105,7 +111,6 @@ public class EventsAdapter extends BaseAdapter<EventWrap>{
     public void setAvatarOnClickListener(AvatarOnClickListener avatarOnClickListener) {
         this.mAvatarOnClickListener = avatarOnClickListener;
     }
-
 
     public static class EventViewHolder extends ViewHolder{
 

@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by Caij on 2015/9/24.
  */
-public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> implements AvatarOnClickListener {
+public class EventsFragment extends SwipeRefreshRecyclerViewFragment<Event> implements AvatarOnClickListener {
 
     Page mPage;
     private String mToken;
@@ -62,14 +62,14 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     }
 
     @Override
-    public void onFirstLoadSuccess(List<EventWrap> entities) {
+    public void onFirstLoadSuccess(List<Event> entities) {
         super.onFirstLoadSuccess(entities);
         mPage.next();
         getLoadMoreRecyclerView().setState(entities.size() < mPage.getPageDataCount() ? LoadMoreRecyclerView.STATE_NO_MORE : LoadMoreRecyclerView.STATE_NORMAL);
     }
 
     @Override
-    public void onRefreshSuccess(List<EventWrap> entities) {
+    public void onRefreshSuccess(List<Event> entities) {
         super.onRefreshSuccess(entities);
         mPage.reset();
         mPage.next();
@@ -77,7 +77,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     }
 
     @Override
-    public void onLoadMoreSuccess(List<EventWrap> entities) {
+    public void onLoadMoreSuccess(List<Event> entities) {
         super.onLoadMoreSuccess(entities);
         mPage.next();
         getLoadMoreRecyclerView().setState(entities.size() < mPage.getPageDataCount() ? LoadMoreRecyclerView.STATE_NO_MORE : LoadMoreRecyclerView.STATE_NORMAL);
@@ -91,7 +91,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     }
 
     @Override
-    protected BaseAdapter<EventWrap> createRecyclerViewAdapter() {
+    protected BaseAdapter<Event> createRecyclerViewAdapter() {
         EventsAdapter adapter = new EventsAdapter(getActivity());
         adapter.setAvatarOnClickListener(this);
         return adapter;
@@ -99,7 +99,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
 
     @Override
     public void onAvatarClick(View view, int position) {
-        EventWrap eventWrap = getRecyclerViewAdapter().getItem(position);
+        Event eventWrap = getRecyclerViewAdapter().getItem(position);
         Intent intent = UserInfoActivity.newIntent(getActivity(), eventWrap.getActor().getLogin(), eventWrap.getActor().getAvatar_url());
         ActivityOptionsCompat optionsCompat
                 = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -121,7 +121,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<EventWrap> 
     @Override
     public void onItemClick(View view, int position) {
         try {
-            EventWrap event = getRecyclerViewAdapter().getItem(position);
+            Event event = getRecyclerViewAdapter().getItem(position);
             if (Event.COMMIT_COMMENT.equals(event.getType())) {
             }else if (Event.CREATE.equals(event.getType())) {
             }else if (Event.DELETE.equals(event.getType())) {

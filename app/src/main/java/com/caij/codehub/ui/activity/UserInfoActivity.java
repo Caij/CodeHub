@@ -144,7 +144,7 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
     }
 
     @Override
-    public void showContentAnimLoading(boolean isVisible) {
+    public void showProgressBarLoading(boolean isVisible) {
         if (isVisible) {
             pbLoading.setVisibility(View.VISIBLE);
         } else {
@@ -253,7 +253,4 @@ public class UserInfoActivity extends BaseCodeHubActivity implements UserUi, Use
         mFabStart.setImageResource(R.drawable.heart_like);
     }
 
-    @Override
-    protected void showError() {
-    }
 }

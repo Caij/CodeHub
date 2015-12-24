@@ -64,28 +64,28 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
 
 
     public void onReFreshBtnClick(View view) {
-        hideError();
+        showError(false);
     }
 
-    protected  void hideError(){
-        if (mLoadErrorLinearLayout != null) {
-            mLoadErrorLinearLayout.setVisibility(View.GONE);
+    protected void showError(boolean isVisible) {
+        if (isVisible) {
+            if (mLoadErrorLinearLayout == null) {
+                View view = mLoadErrorViewStub.inflate();
+                mLoadErrorLinearLayout = (LinearLayout) view.findViewById(R.id.ll_load_error);
+                Button btnRefresh = (Button) view.findViewById(R.id.btn_refresh);
+                btnRefresh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onReFreshBtnClick(view);
+                    }
+                });
+            }
+            mLoadErrorLinearLayout.setVisibility(View.VISIBLE);
+        }else {
+            if (mLoadErrorLinearLayout != null) {
+                mLoadErrorLinearLayout.setVisibility(View.GONE);
+            }
         }
-    }
-
-    protected void showError() {
-        if (mLoadErrorLinearLayout == null) {
-            View view = mLoadErrorViewStub.inflate();
-            mLoadErrorLinearLayout = (LinearLayout) view.findViewById(R.id.ll_load_error);
-            Button btnRefresh = (Button) view.findViewById(R.id.btn_refresh);
-            btnRefresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onReFreshBtnClick(view);
-                }
-            });
-        }
-        mLoadErrorLinearLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -163,6 +163,6 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
 
     @Override
     public void showContentError() {
-        showError();
+        showError(true);
     }
 }

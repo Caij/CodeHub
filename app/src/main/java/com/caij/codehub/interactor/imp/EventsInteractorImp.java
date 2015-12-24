@@ -5,7 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.caij.codehub.API;
 import com.caij.codehub.bean.Page;
-import com.caij.codehub.bean.event.EventWrap;
+import com.caij.codehub.bean.event.Event;
 import com.caij.codehub.interactor.EventsInteractor;
 import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.codehub.request.EventRequest;
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class EventsInteractorImp implements EventsInteractor {
     @Override
-    public void getReceivedEvents(String username, String token, Page page, Object requestTag, final InteractorCallBack<List<EventWrap>> interactorCallBack) {
+    public void getReceivedEvents(String username, String token, Page page, Object requestTag, final InteractorCallBack<List<Event>> interactorCallBack) {
         interactorCallBack.onLoading();
         String url = API.API_HOST + "/users/" + username + "/received_events";
         Map<String, String> head = new HashMap<>();
@@ -28,9 +28,9 @@ public class EventsInteractorImp implements EventsInteractor {
         Map<String, String> params = new HashMap<>();
         params.put(API.PAGE, String.valueOf(page.getPageIndex()));
         params.put(API.PER_PAGE, String.valueOf(page.getPageDataCount()));
-        EventRequest request = new EventRequest(Request.Method.GET, url, params, head, new Response.Listener<List<EventWrap>>() {
+        EventRequest request = new EventRequest(Request.Method.GET, url, params, head, new Response.Listener<List<Event>>() {
             @Override
-            public void onResponse(List<EventWrap> response) {
+            public void onResponse(List<Event> response) {
                interactorCallBack.onSuccess(response);
             }
         }, new Response.ErrorListener() {

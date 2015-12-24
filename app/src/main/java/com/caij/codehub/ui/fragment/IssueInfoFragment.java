@@ -35,8 +35,6 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
  */
 public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment> implements AvatarOnClickListener {
 
-    private String mIssueTitle;
-    private String mIssueBody;
     private String mRepo;
     private String mIssueNumber;
     private String mOwner;
@@ -59,8 +57,8 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         Bundle bundle = getArguments();
-        mIssueTitle = bundle.getString(Constant.ISSUE_TITLE);
-        mIssueBody = bundle.getString(Constant.ISSUE_BODY);
+        String issueTitle = bundle.getString(Constant.ISSUE_TITLE);
+        String issueBody = bundle.getString(Constant.ISSUE_BODY);
         mRepo = bundle.getString(Constant.REPO_NAME);
         mIssueNumber = bundle.getString(Constant.ISSUE_NUMBER);
         mOwner = bundle.getString(Constant.USER_NAME);
@@ -68,8 +66,8 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
         View issueContentHeadView = getActivity().getLayoutInflater().inflate(R.layout.item_issue_head, getLoadMoreRecyclerView(), false);
         TextView tvIssueTitle = (TextView) issueContentHeadView.findViewById(R.id.tv_issue_title);
         TextView tvIssueBody = (TextView) issueContentHeadView.findViewById(R.id.tv_issue_body);
-        tvIssueTitle.setText(mIssueTitle);
-        tvIssueBody.setText(mIssueBody);
+        tvIssueTitle.setText(issueTitle);
+        tvIssueBody.setText(issueBody);
         HeaderAndFooterRecyclerViewAdapter adapter = (HeaderAndFooterRecyclerViewAdapter) getLoadMoreRecyclerView().getAdapter();
         adapter.addHeaderView(issueContentHeadView);
         getLoadMoreRecyclerView().setLoadMoreEnable(false);
@@ -84,10 +82,10 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
     }
 
 
-    @Override
-    protected int getAttachLayoutId() {
-        return R.layout.fragment_issue_info;
-    }
+//    @Override
+//    protected int getAttachLayoutId() {
+//        return R.layout.fragment_issue_info;
+//    }
 
     @Override
     protected BaseAdapter<Comment> createRecyclerViewAdapter() {
