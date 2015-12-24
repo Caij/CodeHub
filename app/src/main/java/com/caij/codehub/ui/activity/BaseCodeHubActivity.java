@@ -43,7 +43,7 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
         super.onCreate(savedInstanceState);
         setContentView(getContentLayoutId());
         mContentContainer = (ViewGroup) findViewById(getContentContainerViewId());
-        if (getAttachLayoutId() != 0) {
+        if ((getAttachLayoutId() >>> 24) >= 2) {  //is resource id.
             getLayoutInflater().inflate(getAttachLayoutId(), mContentContainer, true);
         }
         mLoadErrorViewStub = (ViewStub) findViewById(R.id.vs_load_error);
