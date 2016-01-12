@@ -82,7 +82,7 @@ public class CommentAdapter extends BaseAdapter<Comment> {
                 @Override
                 public void onClick(View v) {
                     if (avatarOnClickListener != null) {
-                        avatarOnClickListener.onAvatarClick(v, getLayoutPosition() - 1);
+                        avatarOnClickListener.onAvatarClick(v, getLayoutPosition());
                     }
                 }
             });

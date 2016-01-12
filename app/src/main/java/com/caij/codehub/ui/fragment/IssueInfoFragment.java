@@ -127,7 +127,8 @@ public class IssueInfoFragment extends SwipeRefreshRecyclerViewFragment<Comment>
 
     @Override
     public void onAvatarClick(View view, int position) {
-        Comment comment = getRecyclerViewAdapter().getItem(position);
+        //have head
+        Comment comment = getRecyclerViewAdapter().getItem(position - 1);
         Intent intent = UserInfoActivity.newIntent(getActivity(), comment.getUser().getLogin(), comment.getUser().getAvatar_url());
         ActivityOptionsCompat optionsCompat
                 = ActivityOptionsCompat.makeSceneTransitionAnimation(
