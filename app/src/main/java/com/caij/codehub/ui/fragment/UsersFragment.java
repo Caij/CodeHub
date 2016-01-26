@@ -50,12 +50,8 @@ public abstract class UsersFragment extends SwipeRefreshRecyclerViewFragment<Use
     @Override
     public void onItemClick(View view, int position) {
         User user =getRecyclerViewAdapter().getItem(position);
-        Intent intent = UserInfoActivity.newIntent(getActivity(), user.getLogin(), user.getAvatar_url());
-        ActivityOptionsCompat optionsCompat
-                = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                getActivity(), view, getString(R.string.user_info));
-        ActivityCompat.startActivity(getActivity(), intent,
-                optionsCompat.toBundle());
+        Intent intent = UserInfoActivity.newIntent(getActivity(), user.getLogin());
+        startActivity(intent);
     }
 
     @Override

@@ -100,12 +100,8 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<Event> impl
     @Override
     public void onAvatarClick(View view, int position) {
         Event eventWrap = getRecyclerViewAdapter().getItem(position);
-        Intent intent = UserInfoActivity.newIntent(getActivity(), eventWrap.getActor().getLogin(), eventWrap.getActor().getAvatar_url());
-        ActivityOptionsCompat optionsCompat
-                = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                getActivity(), view, getString(R.string.user_info_avatar));
-        ActivityCompat.startActivity(getActivity(), intent,
-                optionsCompat.toBundle());
+        Intent intent = UserInfoActivity.newIntent(getActivity(), eventWrap.getActor().getLogin());
+        startActivity(intent);
     }
 
     @Override

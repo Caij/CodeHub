@@ -50,8 +50,7 @@
         </activity>
         <activity
             android:name=".ui.activity.UserInfoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.User">
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ui.activity.FollowersActivity"
