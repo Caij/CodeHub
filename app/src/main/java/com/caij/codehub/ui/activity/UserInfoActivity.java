@@ -97,7 +97,7 @@ public class UserInfoActivity extends BaseCodeHubToolBarActivity implements User
         }
         showContentContainer();
         Glide.with(this).load(AvatarUrlUtil.restoreAvatarUrl(user.getAvatar_url())).
-                placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
+                placeholder(R.drawable.ic_default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(new CropCircleTransformation(this)).into(mUserAvatarImageView);
         mUserFollowersTextView.setText(String.valueOf(user.getFollowers()));
         mUserFollowingTextView.setText(String.valueOf(user.getFollowing()));

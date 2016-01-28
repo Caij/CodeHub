@@ -44,7 +44,7 @@ public class FollowersFragment extends UsersFragment{
 
     @Override
     public void onLoadMore() {
-        mUsersPresent.getFollowers(LoadType.MORE, mToken, mUsername, mPage);
+        mUsersPresent.getFollowers(LoadType.LOADMORE, mToken, mUsername, mPage);
     }
 
     @Override

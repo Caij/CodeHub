@@ -75,9 +75,9 @@ public class TrendingRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         outState.putInt(Constant.TRENDING_REPOSITORY_CHECK_SINCE_ID, mSinceCheckRadioId);
         outState.putInt(Constant.TRENDING_REPOSITORY_CHECK_LANGUAGE_ID, mSinceCheckRadioId);
+        super.onSaveInstanceState(outState);
     }
 
     @Override

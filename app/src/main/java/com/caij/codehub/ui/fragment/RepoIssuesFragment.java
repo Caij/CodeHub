@@ -95,7 +95,7 @@ public class RepoIssuesFragment extends SwipeRefreshRecyclerViewFragment<Issue>{
 
     @Override
     public void onLoadMore() {
-        mRepoIssuesPresent.getIssueList(LoadType.MORE, mOwner, mRepo, mPage);
+        mRepoIssuesPresent.getIssueList(LoadType.LOADMORE, mOwner, mRepo, mPage);
     }
 
     @Override

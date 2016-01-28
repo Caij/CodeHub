@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/data_load_error"
+        android:src="@drawable/source_data_load_error"
         android:scaleType="centerCrop"/>
 
     <TextView

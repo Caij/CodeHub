@@ -3,21 +3,15 @@ package com.caij.codehub.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.caij.codehub.CodeHubPrefs;
-import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.Page;
 import com.caij.codehub.bean.event.Event;
-import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.bean.event.IssueCommentEvent;
 import com.caij.codehub.bean.event.IssuesEvent;
-import com.caij.codehub.interactor.EventsInteractor;
-import com.caij.codehub.interactor.InteractorFactory;
 import com.caij.codehub.present.EventsPresent;
 import com.caij.codehub.present.LoadType;
 import com.caij.codehub.ui.activity.IssueInfoActivity;
@@ -111,7 +105,7 @@ public class EventsFragment extends SwipeRefreshRecyclerViewFragment<Event> impl
 
     @Override
     public void onLoadMore() {
-        mEventsPresent.getReceivedEvents(LoadType.MORE, CodeHubPrefs.get().getUsername(), mToken, mPage);
+        mEventsPresent.getReceivedEvents(LoadType.LOADMORE, CodeHubPrefs.get().getUsername(), mToken, mPage);
     }
 
     @Override

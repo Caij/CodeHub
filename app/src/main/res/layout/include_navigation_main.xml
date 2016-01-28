@@ -30,7 +30,7 @@
             android:id="@+id/img_navigation_avatar"
             android:layout_width="@dimen/user_info_avatar_image"
             android:layout_height="@dimen/user_info_avatar_image"
-            android:src="@drawable/default_circle_head_image" />
+            android:src="@drawable/ic_default_circle_head_image" />
 
         <TextView
             android:id="@+id/tv_navigation_username"

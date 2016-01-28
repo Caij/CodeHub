@@ -38,7 +38,7 @@ public class FabDialogMorphSetup {
     private FabDialogMorphSetup() { }
 
     /**
-     * Configure the shared element transitions for morphin from a fab <-> dialog. We need to do
+     * Configure the shared element transitions for morphin from a fab_normal <-> dialog. We need to do
      * this in code rather than declaratively as we need to supply the color to transition from/to
      * and the dialog corner radius which is dynamically supplied depending upon where this screen
      * is launched from.

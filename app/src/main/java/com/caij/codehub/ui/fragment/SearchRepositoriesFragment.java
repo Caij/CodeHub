@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.caij.codehub.bean.Page;
 import com.caij.codehub.present.LoadType;
 import com.caij.codehub.present.RepositoriesPresent;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
@@ -54,7 +53,7 @@ public class SearchRepositoriesFragment extends RepositoriesFragment{
 
     @Override
     public void onLoadMore() {
-        mRepositoriesPresent.getSearchRepository(LoadType.MORE, mRepoSearchQ, mRepoSort, mOrder, mPage);
+        mRepositoriesPresent.getSearchRepository(LoadType.LOADMORE, mRepoSearchQ, mRepoSort, mOrder, mPage);
     }
 
     @Override

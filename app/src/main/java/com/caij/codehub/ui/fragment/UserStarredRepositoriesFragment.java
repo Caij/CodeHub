@@ -6,12 +6,9 @@ import android.view.View;
 
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
-import com.caij.codehub.interactor.InteractorFactory;
-import com.caij.codehub.interactor.RepositoryListInteractor;
 import com.caij.codehub.present.LoadType;
 import com.caij.codehub.present.RepositoriesPresent;
 import com.caij.lib.utils.CheckValueUtil;
-import com.caij.lib.utils.SPUtils;
 
 
 /**
@@ -59,7 +56,7 @@ public class UserStarredRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onLoadMore() {
-        mRepositoriesPresent.getUserStarredRepositories(LoadType.MORE, mUsername, mToken, mPage);
+        mRepositoriesPresent.getUserStarredRepositories(LoadType.LOADMORE, mUsername, mToken, mPage);
     }
 
     @Override

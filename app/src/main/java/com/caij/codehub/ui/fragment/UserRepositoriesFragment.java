@@ -6,12 +6,9 @@ import android.view.View;
 
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
-import com.caij.codehub.interactor.InteractorFactory;
-import com.caij.codehub.interactor.RepositoryListInteractor;
 import com.caij.codehub.present.LoadType;
 import com.caij.codehub.present.RepositoriesPresent;
 import com.caij.lib.utils.CheckValueUtil;
-import com.caij.lib.utils.SPUtils;
 
 /**
  * Created by Caij on 2015/9/21.
@@ -57,7 +54,7 @@ public class UserRepositoriesFragment extends RepositoriesFragment {
 
     @Override
     public void onLoadMore() {
-        mRepositoriesPresent.getUserRepositories(LoadType.MORE, mUsername, mToken, mPage);
+        mRepositoriesPresent.getUserRepositories(LoadType.LOADMORE, mUsername, mToken, mPage);
     }
 
     @Override

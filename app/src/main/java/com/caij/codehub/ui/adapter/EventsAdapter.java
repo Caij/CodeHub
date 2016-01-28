@@ -3,24 +3,19 @@ package com.caij.codehub.ui.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.event.Event;
-import com.caij.codehub.bean.event.EventWrap;
 import com.caij.codehub.bean.event.IssueCommentEvent;
 import com.caij.codehub.ui.activity.IssueInfoActivity;
 import com.caij.codehub.ui.activity.RepositoryInfoActivity;
-import com.caij.codehub.ui.activity.UserInfoActivity;
 import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.EventSpannedUtils;
@@ -55,7 +50,7 @@ public class EventsAdapter extends BaseAdapter<Event>{
 
     public void onBindViewHolderReal(final EventViewHolder holder, final int position) {
         final Event event = getItem(position);
-        Glide.with(context).load(AvatarUrlUtil.restoreAvatarUrl(event.getActor().getAvatar_url())).placeholder(R.drawable.default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
+        Glide.with(context).load(AvatarUrlUtil.restoreAvatarUrl(event.getActor().getAvatar_url())).placeholder(R.drawable.ic_default_circle_head_image).diskCacheStrategy(DiskCacheStrategy.ALL).
                 bitmapTransform(mTransformation).into(holder.avatar);
         holder.happenTime.setText(TimeUtils.getRelativeTime(event.getCreated_at()));
         final EventSpannedUtils.EventBodySpannableStringBuild build = event.getAdapterTitle();

@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/no_data_image"/>
+        android:src="@drawable/source_no_data_image"/>
 
     <TextView
         android:layout_width="wrap_content"

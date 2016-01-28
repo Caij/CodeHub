@@ -58,9 +58,9 @@
 
     <style name="SwipeBackLayout">
         <item name="edge_size">50dip</item>
-        <item name="shadow_left">@drawable/shadow_left</item>
-        <item name="shadow_right">@drawable/shadow_right</item>
-        <item name="shadow_bottom">@drawable/shadow_bottom</item>
+        <item name="shadow_left">@drawable/bg_shadow_left</item>
+        <item name="shadow_right">@drawable/bg_shadow_right</item>
+        <item name="shadow_bottom">@drawable/bg_shadow_bottom</item>
     </style>
 
     <style name="AppTheme.Image" parent="Base.Theme">

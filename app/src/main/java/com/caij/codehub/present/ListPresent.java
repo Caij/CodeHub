@@ -28,7 +28,7 @@ public abstract class ListPresent<UI extends ListUi<E>, E extends Entity> extend
                 mUi.onRefreshError(msgId);
                 break;
 
-            case MORE:
+            case LOADMORE:
                 mUi.onLoadMoreError(msgId);
                 break;
         }
@@ -55,7 +55,7 @@ public abstract class ListPresent<UI extends ListUi<E>, E extends Entity> extend
                 }
                 break;
 
-            case MORE:
+            case LOADMORE:
                 mUi.onLoadMoreSuccess(entities);
                 break;
         }
@@ -70,7 +70,7 @@ public abstract class ListPresent<UI extends ListUi<E>, E extends Entity> extend
             case REFRESH:
                 break;
 
-            case MORE:
+            case LOADMORE:
                 break;
         }
     }
