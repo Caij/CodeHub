@@ -17,13 +17,16 @@ import java.util.Map;
  */
 public abstract class AbsRequest<T> extends Request<T>{
 
-    private static final String TAG = "AbsRequest";
-    protected final Map<String, String> mHead;
-    protected final String mBodyContentType;
-    protected final String mParams;
+    public interface ContentType {
+        public static final String JSON_BODY_CONTENT_TYPE = "application/json";
+        public static final String FORM_BODY_CONTENT_TYPE = "application/x-www-form-urlencoded";
+    }
 
-    public static final String JSON_BODY_CONTENT_TYPE = "application/json";
-    public static final String FORM_BODY_CONTENT_TYPE = "application/x-www-form-urlencoded";
+    private static final String TAG = "AbsRequest";
+    protected Map<String, String> mHead;
+    protected String mBodyContentType;
+    protected String mParams;
+    protected String mCacheKey;
 
     public AbsRequest(int method, String url, Response.ErrorListener listener) {
         this(method, url, Collections.<String, String>emptyMap(), listener);
@@ -38,35 +41,39 @@ public abstract class AbsRequest<T> extends Request<T>{
     }
 
     public AbsRequest(int method, String url, Map<String, String> params, Map<String, String> head, Response.ErrorListener listener) {
-        this(method, url, params, head, FORM_BODY_CONTENT_TYPE, listener);
+        this(method, url, params, head, ContentType.FORM_BODY_CONTENT_TYPE, listener);
     }
 
     public AbsRequest(int method, String url, String params, Map<String, String> head, Response.ErrorListener listener) {
-        this(method, url, params, head, FORM_BODY_CONTENT_TYPE, listener);
+        this(method, url, params, head, ContentType.FORM_BODY_CONTENT_TYPE, listener);
     }
 
     public AbsRequest(int method, String url, String params, Map<String, String> head, String bodyContentType,  Response.ErrorListener listener) {
         super(method, url, listener);
-        mHead = head;
-        if (TextUtils.isEmpty(bodyContentType)) {
-            mBodyContentType = FORM_BODY_CONTENT_TYPE;
-        }else {
-            mBodyContentType = bodyContentType;
-        }
-        mParams = params;
-
-        logRequest();
+        init(params, head, bodyContentType);
     }
 
     public AbsRequest(int method, String url, Map<String, String> params, Map<String, String> head, String bodyContentType,  Response.ErrorListener listener) {
         super(method, url, listener);
-        mHead = head;
+        init(parameters2String(params, getParamsEncoding()), head, bodyContentType);
+    }
+
+    private void init(String params, Map<String, String> head, String bodyContentType) {
         if (TextUtils.isEmpty(bodyContentType)) {
-            mBodyContentType = FORM_BODY_CONTENT_TYPE;
+            mBodyContentType = ContentType.FORM_BODY_CONTENT_TYPE;
         }else {
             mBodyContentType = bodyContentType;
         }
-        mParams = parameters2String(params, getParamsEncoding());
+
+        if (head == null) {
+            mHead = Collections.<String, String>emptyMap();
+        }else {
+            mHead = head;
+        }
+
+        mParams = params;
+
+        mCacheKey = createCacheKey();
 
         logRequest();
     }
@@ -90,7 +97,7 @@ public abstract class AbsRequest<T> extends Request<T>{
 
     @Override
     public String getCacheKey() {
-        return createCacheKey() ;
+        return mCacheKey ;
     }
 
     protected String createCacheKey() {
@@ -105,13 +112,12 @@ public abstract class AbsRequest<T> extends Request<T>{
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         if (mHead != null) return mHead;
-        else return super.getHeaders();
+        else return Collections.<String, String>emptyMap();
     }
 
     @Override
     public String getBodyContentType() {
-        String contentType = new StringBuilder(mBodyContentType).append("; charset=").append(getParamsEncoding()).toString();
-        return contentType;
+        return new StringBuilder(mBodyContentType).append("; charset=").append(getParamsEncoding()).toString();
     }
 
     @Override
@@ -128,7 +134,7 @@ public abstract class AbsRequest<T> extends Request<T>{
         }
     }
 
-    protected String parameters2String(Map<String, String> params, String paramsEncoding) {
+    protected static String parameters2String(Map<String, String> params, String paramsEncoding) {
         if (params != null && params.size() > 0) {
             try {
                 StringBuilder encodedParams = new StringBuilder();

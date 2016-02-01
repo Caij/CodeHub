@@ -43,7 +43,7 @@ public class AuthenticationInteractorImp implements AuthenticationInteractor {
             Map<String, String> head = new HashMap<>();
             addAuthorizationHead(head, username, pwd);
             GsonRequest<Token> request = new GsonRequest<Token>(Request.Method.POST, API.AUTHORIZATION_URL, json.toString(), head,
-                    GsonRequest.JSON_BODY_CONTENT_TYPE, new TypeToken<Token>(){}.getType(),
+                    GsonRequest.ContentType.JSON_BODY_CONTENT_TYPE, new TypeToken<Token>(){}.getType(),
                     new Response.Listener<Token>() {
                 @Override
                 public void onResponse(Token response) {

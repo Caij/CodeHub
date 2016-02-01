@@ -17,7 +17,7 @@ public class AvatarUrlUtil {
             sb.append(url.getProtocol()).append("://").append(url.getHost()).append(url.getPath());
             return sb.toString();
         } catch (MalformedURLException e) {
-            throw new RuntimeException("url malformedURLException");
+            return stringUrl;
         }
     }
 
