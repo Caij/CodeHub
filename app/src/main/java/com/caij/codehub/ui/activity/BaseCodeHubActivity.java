@@ -150,10 +150,9 @@ public abstract class BaseCodeHubActivity extends BaseActivity implements BaseUi
     @Override
     public void onAuthError() {
         CodeHubPrefs.get().logout();
-        AppManager.getInstance().finishAllActivityExcept(this);
+        AppManager.getInstance().finishAllActivity();
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-        finish();
     }
 
     @Override
