@@ -32,8 +32,9 @@ public class AboutActivity extends BaseCodeHubToolBarActivity {
         setTitle(getString(R.string.about));
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            mTvVersion.setText(getString(R.string.current_version) + "：" + String.valueOf(packageInfo.versionName));
+            mTvVersion.setText(getString(R.string.current_version) + "：" + packageInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
+            mTvVersion.setText(getString(R.string.current_version) + "：" + "UnKnow");
         }
         mTvContact.setText(R.string.my_email);
     }
