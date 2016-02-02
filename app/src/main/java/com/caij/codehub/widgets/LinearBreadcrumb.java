@@ -208,6 +208,15 @@ public class LinearBreadcrumb extends HorizontalScrollView implements View.OnCli
         return success;
     }
 
+    public boolean setActive(int index) {
+        mActive = index;
+        invalidateActivatedAll();
+        boolean success = mActive > -1;
+        if (success)
+            requestLayout();
+        return success;
+    }
+
     private void invalidateActivatedAll() {
         for (int i = 0; i < mCrumbs.size(); i++) {
             Crumb crumb = mCrumbs.get(i);
@@ -216,9 +225,9 @@ public class LinearBreadcrumb extends HorizontalScrollView implements View.OnCli
         }
     }
 
-    public void removeCrumbAt(int index) {
-        mCrumbs.remove(index);
+    public Crumb removeCrumbAt(int index) {
         mChildFrame.removeViewAt(index);
+        return mCrumbs.remove(index);
     }
 
     private void updateIndices() {

@@ -67,8 +67,7 @@ public class FileTreeActivity extends BaseCodeHubToolBarActivity implements Line
         LogUtil.i(TAG, "index = " + index);
         LinearBreadcrumb.Crumb indexCrumb;
         for (int i = index + 1; i < count; i++) {
-            indexCrumb = breadCrumbs.getCrumb(breadCrumbs.size() - 1);
-            breadCrumbs.removeCrumbAt(breadCrumbs.size() - 1);
+            indexCrumb = breadCrumbs.removeCrumbAt(breadCrumbs.size() - 1);
             Fragment fragment = getSupportFragmentManager().findFragmentByTag(indexCrumb.getmAttachMsg());
             if (fragment != null && fragment.isAdded()) {
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
@@ -91,13 +90,10 @@ public class FileTreeActivity extends BaseCodeHubToolBarActivity implements Line
     public void onBackPressed() {
         super.onBackPressed();
         if (breadCrumbs.size() > 1) {
-            LinearBreadcrumb.Crumb crumb = breadCrumbs.getCrumb(breadCrumbs.size() - 2);
-            breadCrumbs.setActive(crumb);
             breadCrumbs.removeCrumbAt(breadCrumbs.size() - 1);
+            breadCrumbs.setActive(breadCrumbs.size() - 1);
         }
     }
-
-
 }
 
 
