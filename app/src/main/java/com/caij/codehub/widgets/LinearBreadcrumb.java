@@ -62,7 +62,7 @@ public class LinearBreadcrumb extends HorizontalScrollView implements View.OnCli
             return (mPath != null && mPath.equals("/")) ? "ROOT" : mPath;
         }
 
-        public String getmAttachMsg() {
+        public String getAttachMsg() {
             return mAttachMsg;
         }
 
