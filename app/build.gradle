@@ -87,13 +87,17 @@ android {
     }
 }
 
+ext {
+    supportVersion = "23.1.1"
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project (':lib')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile "com.android.support:appcompat-v7:${supportVersion}"
+    compile "com.android.support:design:${supportVersion}"
+    compile "com.android.support:cardview-v7:${supportVersion}"
+    compile "com.android.support:recyclerview-v7:${supportVersion}"
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
 
     compile 'com.jakewharton:butterknife:7.0.1'
