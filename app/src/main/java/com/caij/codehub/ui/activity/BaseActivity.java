@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.caij.lib.utils.AppManager;
-import com.caij.lib.utils.SystemBarTintManager;
-
+import com.caij.util.AppManager;
+import com.caij.util.SystemBarTintManager;
 
 
 /**

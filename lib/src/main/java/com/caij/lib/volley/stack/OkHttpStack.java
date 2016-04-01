@@ -26,14 +26,6 @@ package com.caij.lib.volley.stack;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.HttpStack;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Protocol;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -47,6 +39,15 @@ import org.apache.http.message.BasicStatusLine;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 
 /**
@@ -68,14 +69,14 @@ public class OkHttpStack implements HttpStack {
     @Override
     public HttpResponse performRequest(Request<?> request, Map<String, String> additionalHeaders)
             throws IOException, AuthFailureError {
-
-        OkHttpClient client = mClient.clone();
+        OkHttpClient.Builder builder =  mClient.newBuilder();
         int timeoutMs = request.getTimeoutMs();
-        client.setConnectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
-        client.setReadTimeout(timeoutMs, TimeUnit.MILLISECONDS);
-        client.setWriteTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        builder.connectTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        builder.readTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        builder.writeTimeout(timeoutMs, TimeUnit.MILLISECONDS);
+        OkHttpClient client = builder.build();
 
-        com.squareup.okhttp.Request.Builder okHttpRequestBuilder = new com.squareup.okhttp.Request.Builder();
+        okhttp3.Request.Builder okHttpRequestBuilder = new okhttp3.Request.Builder();
         okHttpRequestBuilder.url(request.getUrl());
 
         Map<String, String> headers = request.getHeaders();
@@ -88,7 +89,7 @@ public class OkHttpStack implements HttpStack {
 
         setConnectionParametersForRequest(okHttpRequestBuilder, request);
 
-        com.squareup.okhttp.Request okHttpRequest = okHttpRequestBuilder.build();
+        okhttp3.Request okHttpRequest = okHttpRequestBuilder.build();
         Call okHttpCall = client.newCall(okHttpRequest);
         Response okHttpResponse = okHttpCall.execute();
 
@@ -122,7 +123,7 @@ public class OkHttpStack implements HttpStack {
     }
 
     @SuppressWarnings("deprecation")
-    private static void setConnectionParametersForRequest(com.squareup.okhttp.Request.Builder builder, Request<?> request)
+    private static void setConnectionParametersForRequest(okhttp3.Request.Builder builder, Request<?> request)
             throws IOException, AuthFailureError {
         switch (request.getMethod()) {
             case Request.Method.DEPRECATED_GET_OR_POST:

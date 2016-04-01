@@ -8,7 +8,7 @@ import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.Constant;
 import com.caij.codehub.present.LoadType;
 import com.caij.codehub.present.RepositoriesPresent;
-import com.caij.lib.utils.CheckValueUtil;
+import com.caij.util.CheckValueUtil;
 
 /**
  * Created by Caij on 2015/9/21.

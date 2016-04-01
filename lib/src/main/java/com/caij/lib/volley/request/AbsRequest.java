@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.caij.lib.utils.LogUtil;
+import com.caij.util.LogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

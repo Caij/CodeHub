@@ -8,7 +8,7 @@ import java.util.Map;
 public class API {
 
     public final static String API_HOST ="https://api.github.com";
-    public final static String TOKEN_NOTE = "Github APP Token";
+    public final static String TOKEN_NOTE = "Caij CodeHub APP Token";
     public final static String[] SCOPES = {"public_repo","repo", "user", "gist"};
     public final static String AUTHORIZATION_URL = API_HOST + "/authorizations"; // POST
 

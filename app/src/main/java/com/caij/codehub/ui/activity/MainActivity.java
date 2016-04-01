@@ -24,7 +24,7 @@ import com.caij.codehub.ui.fragment.EventsFragment;
 import com.caij.codehub.ui.fragment.RepositoryPagesFragment;
 import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
-import com.caij.lib.utils.ToastUtil;
+import com.caij.util.ToastUtil;
 
 import java.util.List;
 

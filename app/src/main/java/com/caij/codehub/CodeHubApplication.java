@@ -3,10 +3,10 @@ package com.caij.codehub;
 import android.app.Application;
 
 import com.caij.codehub.utils.OkHttpClientProvider;
-import com.caij.lib.utils.LogUtil;
-import com.caij.lib.utils.SPUtils;
 import com.caij.lib.utils.VolleyManager;
 import com.caij.lib.volley.stack.OkHttpStack;
+import com.caij.util.LogUtil;
+import com.caij.util.SPUtils;
 
 
 /**

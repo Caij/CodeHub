@@ -2,15 +2,13 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
 import com.caij.codehub.bean.FileTreeItem;
 import com.caij.codehub.ui.fragment.FileTreeFragment;
 import com.caij.codehub.widgets.LinearBreadcrumb;
-import com.caij.lib.utils.LogUtil;
+import com.caij.util.LogUtil;
 
 import butterknife.Bind;
 

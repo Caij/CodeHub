@@ -1,110 +1,93 @@
 package com.caij.codehub.present;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
 import com.caij.codehub.API;
-import com.caij.codehub.R;
+import com.caij.codehub.bean.AuthorizationParameters;
 import com.caij.codehub.bean.Token;
-import com.caij.codehub.interactor.InteractorFactory;
-import com.caij.codehub.interactor.AuthenticationInteractor;
+import com.caij.codehub.network.NetWork;
+import com.caij.codehub.network.api.Login;
 import com.caij.codehub.present.ui.UserLoginUi;
-import com.caij.codehub.interactor.InteractorCallBack;
 import com.caij.codehub.utils.Base64;
+import com.caij.util.LogUtil;
 
+import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func0;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Caij on 2015/11/16.
  */
-public class UserLoginPresent extends Present<UserLoginUi>{
+public class UserLoginPresent {
 
-    private final AuthenticationInteractor authenticationInteractor;
+    private final Login loginApi;
 
-    public UserLoginPresent(UserLoginUi ui) {
-        super(ui);
-        authenticationInteractor = InteractorFactory.newInteractorInstance(AuthenticationInteractor.class);
+    public UserLoginPresent() {
+        loginApi = NetWork.getLoginApi();
     }
 
-    public void login(final String username, final String pwd) {
-        authenticationInteractor.login(username, pwd, this, new InteractorCallBack<Token>() {
+    public Observable<Token> login(final String username, final String pwd) {
+        final String authorization = "Basic " + Base64.encode(username +  ":" + pwd);
+        final AuthorizationParameters parameters = new AuthorizationParameters();
+        parameters.setScopes(Arrays.asList(API.SCOPES));
+        parameters.setNote(API.TOKEN_NOTE);
+        return loginApi.login(authorization , parameters).
+        flatMap(new Func1<Token, Observable<Token>>() {
             @Override
-            public void onSuccess(Token token) {
-                mUi.showProgressBarLoading(false);
-                mUi.onLoginSuccess(token);
+            public Observable<Token> call(Token token) {
+                return Observable.just(token);
             }
-
+        }, new Func1<Throwable, Observable<Token>>() {
             @Override
-            public void onLoading() {
-                mUi.showProgressBarLoading(true);
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-                handlerLoginError(error, username, pwd);
-            }
-        });
-    }
-
-    private void handlerLoginError(VolleyError error, String username, String pwd) {
-        if (error instanceof ServerError) {
-            NetworkResponse response = ((ServerError) error).networkResponse;
-            if (response != null) {
-                int statusCode = response.statusCode;
-                if (statusCode == 422) {
-                    removeTokenByLogin(username, pwd);
-                }else {
-                    mUi.showError(R.string.login_error);
-                    mUi.showProgressBarLoading(false);
-                }
-            }
-        }else if (error instanceof AuthFailureError) {
-            mUi.showError(R.string.password_error);
-            mUi.showProgressBarLoading(false);
-        } else {
-            mUi.showError(R.string.login_error);
-            mUi.showProgressBarLoading(false);
-        }
-    }
-
-    private void removeTokenByLogin(final String username, final String pwd) {
-        authenticationInteractor.getHaveTokens(username, pwd, this, new InteractorCallBack<List<Token>>() {
-            @Override
-            public void onSuccess(List<Token> tokens) {
-                for (Token token : tokens) {
-                    if (token != null && API.TOKEN_NOTE.equals(token.getNote())) {
-                        authenticationInteractor.logout(Base64.encode(username + ":" + pwd), String.valueOf(token.getId()), this, new InteractorCallBack<NetworkResponse>() {
-                            @Override
-                            public void onSuccess(NetworkResponse networkResponse) {
-                                login(username, pwd);
-                            }
-
-                            @Override
-                            public void onLoading() {
-                            }
-
-                            @Override
-                            public void onError(VolleyError error) {
-                                mUi.showError(R.string.login_error);
-                                mUi.showProgressBarLoading(false);
-                            }
-                        });
-                        break;
+            public Observable<Token> call(Throwable throwable) {
+                if (throwable instanceof HttpException) {
+                    HttpException exception = (HttpException) throwable;
+                    if (exception.response().code() == 422) {
+                        return getHasToken(authorization, parameters);
                     }
                 }
+                throw new RuntimeException(throwable);
             }
-
+        }, new Func0<Observable<Token>>() {
             @Override
-            public void onLoading() {
+            public Observable<Token> call() {
+                return Observable.never();
             }
+        })
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread());
+    }
 
-            @Override
-            public void onError(VolleyError error) {
-                mUi.showError(R.string.login_error);
-                mUi.showProgressBarLoading(false);
-            }
-        });
+    private Observable<Token> getHasToken(final String authorization, final AuthorizationParameters parameters){
+        return loginApi.getHadTokens(authorization)
+                .flatMap(new Func1<List<Token>, Observable<Token>>() {
+                    @Override
+                    public Observable<Token> call(List<Token> tokens) {
+                        return Observable.from(tokens);
+                    }
+                })
+                .first(new Func1<Token, Boolean>() {
+                    @Override
+                    public Boolean call(Token token) {
+                        return API.TOKEN_NOTE.equals(token.getNote());
+                    }
+                })
+                .flatMap(new Func1<Token, Observable<Object>>() {
+                    @Override
+                    public Observable<Object> call(Token token) {
+                        return loginApi.logout(authorization, String.valueOf(token.getId()));
+                    }
+                })
+                .flatMap(new Func1<Object, Observable<Token>>() {
+                    @Override
+                    public Observable<Token> call(Object response) {
+                        return loginApi.login(authorization, parameters);
+                    }
+                });
     }
 
 }

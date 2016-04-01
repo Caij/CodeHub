@@ -10,7 +10,7 @@ import com.caij.codehub.R;
 import com.caij.codehub.bean.Comment;
 import com.caij.codehub.present.CommentPresent;
 import com.caij.codehub.present.ui.CommentUi;
-import com.caij.lib.utils.ToastUtil;
+import com.caij.util.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;

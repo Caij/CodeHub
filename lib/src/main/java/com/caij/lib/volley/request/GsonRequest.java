@@ -4,8 +4,7 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.caij.lib.utils.GsonUtils;
-import com.caij.lib.utils.LogUtil;
-import com.google.gson.JsonSyntaxException;
+import com.caij.util.LogUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;

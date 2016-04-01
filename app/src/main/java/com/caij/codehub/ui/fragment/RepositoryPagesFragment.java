@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.lib.utils.SPUtils;
+import com.caij.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;

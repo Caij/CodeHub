@@ -23,8 +23,8 @@ import com.caij.codehub.present.ui.UserUi;
 import com.caij.codehub.utils.AvatarUrlUtil;
 import com.caij.codehub.utils.CropCircleTransformation;
 import com.caij.codehub.utils.TimeUtils;
-import com.caij.lib.utils.CheckValueUtil;
-import com.caij.lib.utils.ToastUtil;
+import com.caij.util.CheckValueUtil;
+import com.caij.util.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;

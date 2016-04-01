@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.caij.codehub.CodeHubPrefs;
-import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.lib.utils.SPUtils;
 
 public class InitActivity extends BaseCodeHubActivity {
 

@@ -2,7 +2,6 @@ package com.caij.codehub.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,8 +16,8 @@ import com.caij.codehub.bean.Repository;
 import com.caij.codehub.present.RepositoryInfoPresent;
 import com.caij.codehub.present.ui.RepositoryInfoUi;
 import com.caij.codehub.utils.TimeUtils;
-import com.caij.lib.utils.CheckValueUtil;
-import com.caij.lib.utils.ToastUtil;
+import com.caij.util.CheckValueUtil;
+import com.caij.util.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;

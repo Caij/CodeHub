@@ -9,7 +9,7 @@ import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.present.SettingPresent;
 import com.caij.codehub.present.ui.SettingUi;
-import com.caij.lib.utils.AppManager;
+import com.caij.util.AppManager;
 
 import butterknife.OnClick;
 

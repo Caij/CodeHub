@@ -1,4 +1,4 @@
-package com.caij.lib.utils;
+package com.caij.util;
 
 import android.content.Context;
 import android.widget.Toast;

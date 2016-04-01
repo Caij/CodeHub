@@ -21,7 +21,7 @@ import com.caij.codehub.ui.adapter.AvatarOnClickListener;
 import com.caij.codehub.ui.adapter.BaseAdapter;
 import com.caij.codehub.ui.adapter.EventsAdapter;
 import com.caij.codehub.widgets.recyclerview.LoadMoreRecyclerView;
-import com.caij.lib.utils.ToastUtil;
+import com.caij.util.ToastUtil;
 
 
 import java.util.List;

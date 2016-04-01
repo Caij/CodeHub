@@ -6,7 +6,7 @@ import com.caij.codehub.bean.Token;
 import com.caij.codehub.bean.User;
 import com.caij.codehub.utils.Base64;
 import com.caij.lib.utils.GsonUtils;
-import com.caij.lib.utils.SPUtils;
+import com.caij.util.SPUtils;
 
 /**
  * Created by Caij on 2015/11/7.

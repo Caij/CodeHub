@@ -9,8 +9,8 @@ import android.webkit.WebViewClient;
 
 import com.caij.codehub.Constant;
 import com.caij.codehub.R;
-import com.caij.lib.utils.CheckValueUtil;
-import com.caij.lib.utils.LogUtil;
+import com.caij.util.CheckValueUtil;
+import com.caij.util.LogUtil;
 
 import butterknife.Bind;
 

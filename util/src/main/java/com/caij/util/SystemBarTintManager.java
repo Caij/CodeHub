@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.caij.lib.utils;
+package com.caij.util;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

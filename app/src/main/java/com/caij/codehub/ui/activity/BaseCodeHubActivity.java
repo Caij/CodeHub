@@ -14,9 +14,8 @@ import android.widget.ProgressBar;
 import com.caij.codehub.CodeHubPrefs;
 import com.caij.codehub.R;
 import com.caij.codehub.present.ui.BaseUi;
-import com.caij.codehub.widgets.swipeback.app.SwipeBackActivity;
-import com.caij.lib.utils.AppManager;
-import com.caij.lib.utils.ToastUtil;
+import com.caij.util.AppManager;
+import com.caij.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;

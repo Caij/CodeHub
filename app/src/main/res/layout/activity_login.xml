@@ -9,8 +9,7 @@
         android:id="@+id/edit_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username"
-         />
+        android:hint="@string/username"/>
 
     <EditText
         android:id="@+id/edit_pwd"
